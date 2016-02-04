@@ -1,0 +1,26 @@
+<section id="registerNewAttendee">
+  <form name="register" ng-submit="saveAttendee()">
+    <h4>Contact Details</h4>
+    <label>First Name</label>
+    <input type="text" ng-model="newAttendeeData.firstName" name="firstName"></input>
+    <label>Last Name</label>
+    <input type="text" ng-model="newAttendeeData.lastName" name="lastName"></input>
+    <label>Email Address</label>
+    <input type="email" ng-model="newAttendeeData.email"></input>
+    <label>Password</label>
+    <input type="password"></input>
+    <label>Confirm Password</label>
+    <input type="password"></input>
+    <h4>Association with 5 Squadron</h4>
+    <label>Current Squadron Member</label>
+    <input type="radio"></input>
+    <label>Former Squadron Member</label>
+    <label>Contractor</label>
+    <input type="radio"></input>
+    <input type="submit" value="Register"></input>
+
+  </form>
+  <h3>{{ attendees.length }}</h3>
+  <h6 ng-repeat="attendee in attendees">{{ attendee.firstName }}</h6>
+
+</section>

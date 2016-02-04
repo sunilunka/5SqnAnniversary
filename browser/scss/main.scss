@@ -6,6 +6,10 @@ body {
   background: #fdfdfd;
 }
 
+@mixin clearHeader {
+  padding-top: 6em;
+}
+
 @mixin clearfix {
   &:after {
     content: "";
@@ -15,13 +19,22 @@ body {
 }
 
 #main {
-  padding-top: 60px;
-  width: 1200px;
+  display: flex;
+  justify-content: space-around;
   margin: 0 auto;
 }
+
+.flex-container-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 
 @import 'directives/main';
 @import 'home/main';
 @import 'about/main';
-@import 'tutorial/main';
 @import 'login/main';
+@import 'anniversary/main';
+@import 'new-attendee/main';

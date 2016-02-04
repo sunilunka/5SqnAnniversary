@@ -1,0 +1,38 @@
+@keyframes drop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-5em);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0em);
+  }
+}
+
+#header-bar {
+  position: fixed;
+  z-index: 1000;
+  background-color: none;
+  height: 5em;
+  width: 100%;
+  animation: drop-in 1s 1;
+
+  .header-item {
+    width: auto;
+    margin: auto;
+    padding: 0.2em;
+    text-align: center;
+    transition: all 0.25s ease-in-out;
+    -webkit-transition: all 0.25s ease-in-out;
+    h4 {
+      margin: 0px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+
+  }
+}

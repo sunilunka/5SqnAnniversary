@@ -7,7 +7,7 @@ var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var livereload = require('gulp-livereload');
-var minifyCSS = require('gulp-minify-css');
+var cssNano = require('gulp-cssnano');
 var ngAnnotate = require('gulp-ng-annotate');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
@@ -103,7 +103,7 @@ gulp.task('buildCSSProduction', function () {
     return gulp.src('./browser/scss/main.scss')
         .pipe(sass())
         .pipe(rename('style.css'))
-        .pipe(minifyCSS())
+        .pipe(cssNano())
         .pipe(gulp.dest('./public'))
 });
 
