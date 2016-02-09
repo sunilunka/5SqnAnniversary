@@ -1,7 +1,7 @@
 app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees){
   $scope.activeState = "newAttendee";
   $scope.saveAttendee = function(){
-    return AttendeeFactory.createOne($scope.newAttendeeData)
+    return AttendeeFactory.createOneAndLogin($scope.newAttendeeData)
   };
 
   $scope.attendees = attendees;

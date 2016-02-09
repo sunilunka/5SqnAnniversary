@@ -1,5 +1,6 @@
 app.factory('AttendeeFactory', function($http, $firebaseArray, $firebaseObject, $firebaseAuth){
   var appRef = new Firebase('https://5sqnrnzaf.firebaseio.com/');
+  var authRef = $firebaseAuth(appRef);
   var attendeesRef = new Firebase('https://5sqnrnzaf.firebaseio.com/attendees');
   var attendeeList = $firebaseArray(attendeesRef);
   return {
@@ -14,8 +15,13 @@ app.factory('AttendeeFactory', function($http, $firebaseArray, $firebaseObject, 
       // .catch(function(error){
       //   return error;
       // })
-      $createUser({
-
+      authRef.$createUser({
+        password: newAttendeeData.password,
+        email: newAttendeeData.email
+      })
+      .then(function(newUser){
+        console.log("NEW USER CREATED: ", newUser);
+        return newUser;
       })
     },
 
