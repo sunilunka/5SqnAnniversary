@@ -1,5 +1,5 @@
 <section id="header-bar" class="flex-container-row">
   <div ng-repeat="link in links" class="header-item">
-    <h4 class="header-link" ui-sref="{{link.state}}" >{{ link.title }}</h4>
+    <h4 ui-sref-active="headerStateActive" ui-sref="{{ link.state }}" >{{ link.title }}</h4>
   </div>
 </section>
