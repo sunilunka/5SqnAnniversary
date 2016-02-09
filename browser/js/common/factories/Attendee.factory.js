@@ -15,13 +15,17 @@ app.factory('AttendeeFactory', function($http, $firebaseArray, $firebaseObject, 
       // .catch(function(error){
       //   return error;
       // })
-      authRef.$createUser({
+      console.log("NEW ATTENDEE DATA: ", newAttendeeData)
+      return authRef.$createUser({
         password: newAttendeeData.password,
         email: newAttendeeData.email
       })
       .then(function(newUser){
         console.log("NEW USER CREATED: ", newUser);
         return newUser;
+      })
+      .catch(function(error){
+        console.warn("ERROR OCCURED: ", error);
       })
     },
 
