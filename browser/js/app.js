@@ -12,6 +12,8 @@ app.config(function ($urlRouterProvider, $locationProvider) {
 // This app.run is for controlling access to specific states.
 app.run(function ($rootScope, $state) {
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+    
+
     console.log({
       EVENT: event,
       TOSTATE: toState,
