@@ -8,21 +8,31 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('LoginCtrl', function ($scope, AuthService, $state) {
+app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory) {
+
+    var processError = function(errorMessage){
+      if((/email/).test(errorMessage)){
+        return "Might want to run the incorrect email checklist, doesn't look quite right..."
+      } else if ((/password/).test(errorMessage)){
+
+        return "Whoops, sorry, looks like the Incorrect Password Cauton light has illuminated...better try again."
+      }
+    }
 
     $scope.login = {};
     $scope.error = null;
 
-    $scope.sendLogin = function (loginInfo) {
-
-        $scope.error = null;
-
-        AuthService.login(loginInfo).then(function () {
-            $state.go('home');
-        }).catch(function () {
-            $scope.error = 'Invalid login credentials.';
-        });
-
-    };
+    $scope.sendLogin = function(loginData){
+      AttendeeFactory.loginAttendee(loginData)
+      .then(function(userData){
+        console.log("USER DATA: ", userData)
+        $scope.login = userData;
+        $state.go("home");
+      })
+      .catch(function(error){
+          console.log("ERROR: ", error.message);
+          $scope.error = processError(error.message);
+      })
+    }
 
 });

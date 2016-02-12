@@ -38,6 +38,13 @@ app.factory('AttendeeFactory', function($http, $firebaseArray, $firebaseObject, 
       .catch(function(error){
         console.log("SORRY AN ERROR OCCURED");
       })
+    },
+
+    loginAttendee: function(loginData){
+      return authRef.$authWithPassword({
+        password: loginData.password,
+        email: loginData.email
+      })
     }
   }
 })
