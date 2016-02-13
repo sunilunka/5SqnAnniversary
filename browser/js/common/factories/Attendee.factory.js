@@ -1,7 +1,5 @@
-app.factory('AttendeeFactory', function($http, $firebaseArray, $firebaseObject, $firebaseAuth){
-  var appRef = new Firebase('https://5sqnrnzaf.firebaseio.com/');
-  var authRef = $firebaseAuth(appRef);
-  var attendeesRef = new Firebase('https://5sqnrnzaf.firebaseio.com/attendees');
+app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory){
+  var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeList = $firebaseArray(attendeesRef);
   return {
     createOneAndLogin: function(newAttendeeData){
@@ -16,7 +14,7 @@ app.factory('AttendeeFactory', function($http, $firebaseArray, $firebaseObject, 
       //   return error;
       // })
       console.log("NEW ATTENDEE DATA: ", newAttendeeData)
-      return authRef.$createUser({
+      return UserAuthFactory.createNew({
         password: newAttendeeData.password,
         email: newAttendeeData.email
       })
@@ -41,7 +39,7 @@ app.factory('AttendeeFactory', function($http, $firebaseArray, $firebaseObject, 
     },
 
     loginAttendee: function(loginData){
-      return authRef.$authWithPassword({
+      return UserAuthFactory.loginByEmail({
         password: loginData.password,
         email: loginData.email
       })
