@@ -15,7 +15,7 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory) {
         return "Might want to run the incorrect email checklist, doesn't look quite right..."
       } else if ((/password/).test(errorMessage)){
 
-        return "Whoops, sorry, looks like the Incorrect Password Cauton light has illuminated...better try again."
+        return "Whoops, sorry, looks like the Incorrect Password Caution light has illuminated...better try again."
       }
     }
 

@@ -1,26 +1,38 @@
-<section id="registerNewAttendee">
+<section id="registerNewAttendee" class="container">
+  <div class="row">
+    <span ng-show="error" class="warn">{{ error }}</span>
+  </div>
   <h2 ng-show="processingData">Creating new user...</h2>
-  <form ng-hide="processingData" name="register" ng-submit="saveAttendee()">
-    <h4>Contact Details</h4>
-    <label>First Name</label>
-    <input type="text" ng-model="newAttendeeData.firstName" name="firstName"></input>
-    <label>Last Name</label>
-    <input type="text" ng-model="newAttendeeData.lastName" name="lastName"></input>
-    <label>Email Address</label>
-    <input type="email" ng-model="newAttendeeData.email"></input>
-    <label>Password</label>
-    <input type="password" ng-model="newAttendeeData.password"></input>
-    <label>Confirm Password</label>
-    <input type="password"></input>
-    <h4>Association with 5 Squadron</h4>
-    <label>Current Squadron Member</label>
-    <input type="radio"></input>
-    <label>Former Squadron Member</label>
-    <label>Contractor</label>
-    <input type="radio"></input>
-    <input type="submit" value="Register"></input>
+  <div class="row">
+    <form ng-hide="processingData" id="registerForm" name="register" ng-submit="saveAttendee()">
+      <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <h4>...your details to keep you up to date!</h4>
+        <label class="control-label">First Name</label>
+        <input class="form-control" type="text" ng-model="newAttendeeData.firstName" name="firstName"></input>
+        <label class="control-label">Last Name</label>
+        <input class="form-control" type="text" ng-model="newAttendeeData.lastName" name="lastName"></input>
+        <label class="control-label">Email Address</label>
+        <input class="form-control" type="email" name="attendeeEmail" ng-model="newAttendeeData.email"></input><span class="bg-danger" ng-show="!register.attendeeEmail.$valid">Whoops, that email doesn't look quite right?</span>
+        <label>Phone Number</label>
+        <input type="tel" class="form-control"></input>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
+        <h4>How are you associated with the squadorn these days?</h4>
+        <div class="radio">
+          <label class="control-label"> <input type="radio" name="association" ng-model="attendee.association" value="current">Current Squadron Member</label>
+        </div>
+        <div class="radio">
+          <label class="control-label"><input type="radio" ng-model="attendee.association" name="association" value="former">Former Squadron Member</label>
+        </div>
+        <div class="radio">
+          <label class="control-label"><input type="radio" name="association" ng-model="attendee.association">Contractor</label>
+        </div>
 
-  </form>
+        <input type="submit" value="Register"></input>
+      </div>
+
+    </form>
+  </div>
   <h3>{{ attendees.length }}</h3>
   <h6 ng-repeat="attendee in attendees">{{ attendee.firstName }}</h6>
 

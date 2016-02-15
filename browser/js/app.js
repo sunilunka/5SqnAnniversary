@@ -1,5 +1,5 @@
 'use strict';
-window.app = angular.module('FiveSquadronRNZAFApp', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'firebase', 'firebaseAuthHandler']);
+window.app = angular.module('FiveSquadronRNZAFApp', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngCookies', 'firebase', 'firebaseAuthHandler']);
 
 app.config(function ($urlRouterProvider, $locationProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
@@ -10,16 +10,24 @@ app.config(function ($urlRouterProvider, $locationProvider) {
 });
 
 // This app.run is for controlling access to specific states.
-app.run(function ($rootScope, $state, FIRE_PARAMS) {
+app.run(function ($rootScope, $state, FIRE_PARAMS, AuthService, SessionService) {
+
+  AuthService.reportAuthState();
+
+  var stateRequiresAuth = (state) => {
+    return state.data && state.data.authRequired;
+  }
+
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 
-    console.log('FIRE PARAMS: ', FIRE_PARAMS);
+    if(!(AuthService.getCurrentUser()) && stateRequiresAuth(toState)){
+      event.preventDefault();
+      $state.go('login')
+      return;
+    }
 
-    console.log({
-      EVENT: event,
-      TOSTATE: toState,
-      TOPARAMS: toParams,
-    });
+
+
   })
 
 });

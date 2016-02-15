@@ -34,34 +34,79 @@
 
   /* Factory for all user orientated methods. */
   app.factory('UserAuthFactory', function(DatabaseFactory){
-    var appRef = DatabaseFactory.dbConnection();
     var authRef = DatabaseFactory.authConnection();
     return {
-
+      /* Connect to firebase and create a new user using email and password as authentication basis. */
       createNew: userData => {
-        return authRef.$createuser(userData);
+        return authRef.$createUser(userData);
       },
 
+      /* Login in the user using password and email auth. */
       loginByEmail: data => {
         return authRef.$authWithPassword(data);
       },
 
+      /* Remove a user from firebase database */
       removeUser: userData => {
         return authRef.$removeUser(userData);
       }
     }
   })
 
-  app.service('AuthService', function($firebaseAuth){
-    var appRef = new Firebase(FIRE_PARAMS.ROOT_URL);
-    var authRef = $firebaseAuth(appRef);
+  app.service('AuthService', function($firebaseAuth, DatabaseFactory, SessionService, $rootScope){
+    var authRef = DatabaseFactory.authConnection();
+
+    this.getCurrentUser = () => {
+      if(SessionService.user) return SessionService.user;
+      return false
+    }
+
+    this.reportAuthState = () => {
+      authRef.$onAuth(authData => {
+        if((!SessionService.user) && authData) {
+          SessionService.createSession(authData);
+          console.log("LOGGED IN USER: ", SessionService.user);
+          $rootScope.$broadcast('loggedIn', SessionService.user)
+        } else if (SessionService.user) {
+          $rootScope.$broadcast('loggedIn', SessionService.user)
+          return /* No need to return anything, user is still signed in */
+        } else {
+          SessionService.destroySession()
+          $rootScope.$broadcast('loggedOut');
+          console.warn("Logged out!");
+          console.log("SESSION USER: ", SessionService.user)
+        }
+      })
+    }
+
+    this.logout = () => {
+      DatabaseFactory.authConnection().$unauth();
+      SessionService.destroySession();
+      return;
+    }
 
 
 
   })
 
-  app.service('SessionService', function($firebaseAuth, AuthService){
+  app.service('SessionService', function(){
+    var self = this;
+
+    this.createSession = data => {
+      this.user = data;
+      return;
+    },
+
+    this.destroySession = () => {
+      this.user = null;
+      return;
+    }
+
+    this.user = null;
+
+
 
   })
+
 
 })();
