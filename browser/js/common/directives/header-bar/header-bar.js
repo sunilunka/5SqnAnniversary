@@ -13,6 +13,7 @@ app.directive("headerBar", function($state, $rootScope, AuthService){
       }
 
       $rootScope.$on('loggedIn', function(event, authData){
+        
         scope.currentUser = authData;
       })
 

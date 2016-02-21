@@ -3,21 +3,36 @@
     <span ng-show="error" class="warn">{{ error }}</span>
   </div>
   <h2 ng-show="processingData">Creating new user...</h2>
+  <h3>It would be great to have you, let's get you registered!</h3>
+  <div class="button-holder flex-container-row">
+    <div ng-click="emailRegister()" class="button-panel">
+      @
+    </div>
+    <div class="button-panel">
+      Facebook
+    </div>
+    <div class="button-panel">
+      G+
+    </div>
+  </div>
   <div class="row">
-    <form ng-hide="processingData" id="registerForm" name="register" ng-submit="saveAttendee()">
+    <form ng-hide="!registerWithEmail" id="registerForm" name="register" ng-submit="saveAttendee()">
       <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
-        <h4>...your details to keep you up to date!</h4>
         <label class="control-label">First Name</label>
         <input class="form-control" type="text" ng-model="newAttendeeData.firstName" name="firstName"></input>
         <label class="control-label">Last Name</label>
         <input class="form-control" type="text" ng-model="newAttendeeData.lastName" name="lastName"></input>
         <label class="control-label">Email Address</label>
-        <input class="form-control" type="email" name="attendeeEmail" ng-model="newAttendeeData.email"></input><span class="bg-danger" ng-show="!register.attendeeEmail.$valid">Whoops, that email doesn't look quite right?</span>
+        <input class="form-control" type="email" name="attendeeEmail" ng-model="newAttendeeData.email"></input><span class="bg-danger" ng-show="!register.attendeeEmail.$valid && register.attendeeEmail.$dirty">Whoops, that email doesn't look quite right?</span>
         <label>Phone Number</label>
         <input type="tel" class="form-control"></input>
+        <label>Password</label>
+        <input type="password" name="passwordOne" class="form-control"></input>
+        <label>Confirm Password</label>
+        <input ng-model="newAttendeeData.password" type="password" class="form-control" name="passwordTwo"></input>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
-        <h4>How are you associated with the squadorn these days?</h4>
+        <h4>It'd be great to have you! How do you know us?</h4>
         <div class="radio">
           <label class="control-label"> <input type="radio" name="association" ng-model="attendee.association" value="current">Current Squadron Member</label>
         </div>

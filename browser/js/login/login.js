@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory) {
+app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionService) {
 
     var processError = function(errorMessage){
       if((/email/).test(errorMessage)){
@@ -26,7 +26,8 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory) {
       AttendeeFactory.loginAttendee(loginData)
       .then(function(userData){
         console.log("USER DATA: ", userData)
-        $scope.login = userData;
+        var userInfo = AttendeeFactory.getOne(userData.uid);
+        SessionService.createSession(userInfo);
         $state.go("home");
       })
       .catch(function(error){

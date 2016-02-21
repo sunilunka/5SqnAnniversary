@@ -1,4 +1,26 @@
 #registerNewAttendee {
   position: relative;
-  padding-top: 6em;
+  padding-top: 4em;
+  .button-holder {
+    .button-panel {
+      text-align: center;
+      box-shadow: 0px 0.5em 1em 0.25em grey;
+      padding: 1em;
+      margin: 0.5em;
+      min-width: 150px;
+      height: 150px;
+      cursor: pointer;
+      flex-grow: 1;
+      transition: 0.5s all;
+      -webkit-transition: 0.5s all;
+      &:active {
+        box-shadow: 0px 0.5em 1em 0.25em grey inset;
+      }
+    }
+  }
+  #registerForm {
+    height: auto;
+    input[type="email"] {
+    }
+  }
 }
