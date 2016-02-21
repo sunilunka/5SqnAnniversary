@@ -1,6 +1,13 @@
 #registerNewAttendee {
   position: relative;
   padding-top: 4em;
+  .register-option-complete {
+    background-color: lightgreen;
+    border: 1px solid green;
+    padding: 0.25em;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
   .button-holder {
     .button-panel {
       text-align: center;
