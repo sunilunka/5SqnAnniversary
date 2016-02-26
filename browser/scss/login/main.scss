@@ -1,5 +1,32 @@
-#login-form {
-  padding-top: 6em;
-  width: 60%;
+.login {
+  padding-top: 5em;
   margin: 0 auto;
+  width: 90%;
+  .login-selector {
+    .login-option {
+      min-width: 4em;
+      min-height: 8em;
+      flex-grow: 1;
+      text-align: center;
+      border: 1px dotted brightgreen;
+      margin: 0.25em;
+      cursor: pointer;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      &:hover {
+        box-shadow: 0px 7.5px 10px 1px rgba(0, 0, 0, 0.5);
+      }
+
+      &:active {
+        background-color: lightgreen;
+        color: black;
+        box-shadow: 0px 7.5px 10px 1px rgba(0, 0, 0, 0.5) inset;
+      }
+    }
+  }
+  #login-form {
+    padding-top: 6em;
+    width: 90%;
+    margin: 0 auto;
+  }
 }

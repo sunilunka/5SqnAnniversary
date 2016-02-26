@@ -1,8 +1,12 @@
-app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory){
+app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
   return {
-    createOneAndLogin: function(newAttendeeData){
+    /* Create a new user and log them in.
+      => registerMethod takes a string denoting the register method.
+      => newAttendeeData takes an object containing user data including password and email when registering with email.
+    */
+    createOneAndLogin: function(registerMethod, newAttendeeData){
       /* Need to instantiate a new $firebase array that is synchronised to the backend firebase application. Do not use the this.getAll, as the promise waits for resolution and then is further resolved in state, causing issues. $loaded only loads data on initial invocation and does not provide firebaseArray methods */
       // var attendeeList = $firebaseArray(attendeesRef);
       // attendeeList.$add(newAttendeeData)
@@ -13,31 +17,26 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       // .catch(function(error){
       //   return error;
       // })
+
+      /* First register the new user (if it does not exist), then once a unique ID has been generated, create an 'attendee' record for the person. */
       console.log("NEW ATTENDEE DATA: ", newAttendeeData)
-      return UserAuthFactory.createNew({
-        password: newAttendeeData.password,
-        email: newAttendeeData.email
-      })
+      return RegisterFactory.registerNewUser(registerMethod, newAttendeeData)
       .then(function(newUser){
         console.log("NEW USER CREATED: ", newUser);
-          let userId = newUser.uid;
-          console.log("UID: ", userId)
-          attendeeObject[userId] = {
-            firstName: newAttendeeData.firstName,
-            lastName: newAttendeeData.lastName,
-            email: newAttendeeData.email
-
-          }
-
-
+        let userId = newUser.uid;
+        /* Remove uid key and value from object so that it is not stored. It is used as they overall object key in the attendees schema.  */
+        delete newUser.uid;
+        attendeeObject[userId] = newUser;
         return attendeeObject.$save()
         .then(function(ref){
+          console.log("REF: ", ref);
           if(ref) return attendeeObject[userId];
           return false;
         });
       })
       .catch(function(error){
         console.warn("ERROR OCCURED: ", error);
+        return error;
       })
     },
 

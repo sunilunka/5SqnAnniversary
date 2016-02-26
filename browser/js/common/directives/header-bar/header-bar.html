@@ -3,6 +3,6 @@
     <h4 ui-sref-active="headerStateActive" ui-sref="{{ link.state }}" >{{ link.title }}</h4>
   </div>
   <div ng-show="currentUser" class="header-item">
-    <h4 ng-click="logoutUser()">{{ currentUser.password.email }}</h4>
+    <h4 ng-click="logoutUser()">Hi {{ currentUser.firstName }}!</h4>
   </div>
 </section>
