@@ -70,8 +70,24 @@
   })
 
   /* */
-  app.service('AuthService', function($firebaseAuth, $firebaseObject, DatabaseFactory, SessionService, $rootScope){
+  app.service('AuthService', function($firebaseAuth, $firebaseObject, DatabaseFactory, SessionService, $rootScope, SiteAuthFactory, $state){
     var authRef = DatabaseFactory.authConnection();
+
+    var userRegistered = function(data){
+      SessionService.createSession(data);
+      $rootScope.$broadcast("loggedIn", SessionService.user);
+      return;
+    }
+
+    var userNotRegistered = function(authData){
+      /* If user is trying to login with social media account, but have not registered, send them to newAttendee state */
+      console.log("AUTH SERVICE NOT REGISTERED AUTHDATA: ", authData)
+      if(authData.provider !== "email"){
+        $state.go("newAttendee", { provider: authData.provider });
+        return;
+      }
+    }
+
     this.getCurrentUser = () => {
       if(SessionService.user) return SessionService.user;
       return null
@@ -79,39 +95,27 @@
 
     this.reportAuthState = () => {
       authRef.$onAuth(authData => {
+
         if((!SessionService.user) && authData) {
-          var userRef = DatabaseFactory.dbConnection('attendees/' + authData.uid);
-          var userObj = $firebaseObject(userRef);
-          userObj.$loaded()
-            .then(function(data){
-              return data;
-            })
-            .then(function(data){
-              console.log("USER OBJECT: ", userObj)
-              SessionService.createSession(userObj);
-              console.log("LOGGED IN USER: ", SessionService.user);
-              $rootScope.$broadcast('loggedIn', SessionService.user)
-            })
-            .catch(function(error){
-              console.error("ERROR =>", error);
-            })
+            console.log("AUTH DATA: ", authData);
+            SiteAuthFactory.isRegisteredUser(authData, userRegistered, userNotRegistered);
+
+        } else if (SessionService.user && (!authData)){
+          /* If there is session user information, but no AuthData, log the user out. This is because the $onAuth callback is fired at an auth event (login, logout etc ) is detected by the firebase backend. This case covers the $unauth, when the user has initiaed logout, and no authdata is returned */
+          SessionService.destroySession()
+          $rootScope.$broadcast('loggedOut');
+          console.warn("Logged out!");
+          console.log("SESSION USER: ", SessionService.user);
 
         } else if (SessionService.user) {
           $rootScope.$broadcast('loggedIn', SessionService.user)
           return /* No need to return anything, user is still signed in */
-        } else {
-          SessionService.destroySession()
-          $rootScope.$broadcast('loggedOut');
-          console.warn("Logged out!");
-          console.log("SESSION USER: ", SessionService.user)
         }
       })
     }
 
     this.logout = () => {
       DatabaseFactory.authConnection().$unauth();
-      SessionService.destroySession();
-      return;
     }
 
 

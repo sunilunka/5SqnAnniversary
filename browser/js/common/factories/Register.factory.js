@@ -1,5 +1,6 @@
 app.factory("RegisterFactory", function($firebaseArray, $firebaseObject, UserAuthFactory){
   var parseFbData = (data) => {
+    console.log("FACEBOOK AUTH DATA: ", data);
     var dataPath = data.facebook.cachedUserProfile;
     return {
       uid: data.uid,

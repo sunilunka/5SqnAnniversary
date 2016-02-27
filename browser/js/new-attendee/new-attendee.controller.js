@@ -1,4 +1,4 @@
-app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees){
+app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, $stateParams){
   $scope.user = null;
   $scope.processingData = false;
   $scope.error = null;
@@ -8,8 +8,10 @@ app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees){
     $scope.registerMethodChosen = method;
     return method;
   }
+
   $scope.saveAttendee = function(){
     $scope.processingData = true;
+    console.log("STATE PARAMS: ", $stateParams)
     return AttendeeFactory.createOneAndLogin($scope.registerMethodChosen, $scope.newAttendeeData)
     .then(function(newUser){
       console.log("NEW USER", newUser);

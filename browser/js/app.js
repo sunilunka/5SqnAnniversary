@@ -18,6 +18,7 @@ app.run(function ($rootScope, $state, FIRE_PARAMS, AuthService, SessionService) 
     return state.data && state.data.authRequired;
   }
 
+  /* When ui-router initiates state change, check if the current user had permissions to access the next state. */
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 
     if(!(AuthService.getCurrentUser()) && stateRequiresAuth(toState)){
