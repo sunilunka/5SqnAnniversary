@@ -1,16 +1,32 @@
-app.factory("RegisterFactory", function(UserAuthFactory){
+app.factory("RegisterFactory", function(UserAuthFactory, EventFactory){
+
+  /* Object to save user to events object */
+  var addUserToEvents = (eventObj, guestId, callback) => {
+    /* For each object key, check it exists, if so, add to selected event*/
+    if(Object.keys(eventObj).length === 0) return callback();
+    for(var event in eventObj){
+      if(eventObj[event]){
+        return EventFactory.addAttendeeToEvent(event.toString(), guestId)
+        .then(function(ref){
+          return callback();
+        })
+      }
+    }
+  }
 
   var parseFbData = (authData, formData) => {
-    console.log("FACEBOOK AUTH DATA: ", authData);
     var dataPath = authData.facebook.cachedUserProfile;
-    return {
-      uid: authData.uid,
-      firstName: dataPath.first_name,
-      lastName: dataPath.last_name,
-      fbprofile: dataPath.link,
-      association: formData.association,
-      events: formData.events
-    }
+    if(!formData.events) formData.events = {};
+    return addUserToEvents(formData.events, authData.uid, function(){
+      return {
+        uid: authData.uid,
+        firstName: dataPath.first_name,
+        lastName: dataPath.last_name,
+        fbprofile: dataPath.link,
+        association: formData.association,
+        events: formData.events || null
+      }
+    })
   }
 
   var parseEmailData = (data) => {
@@ -51,6 +67,7 @@ app.factory("RegisterFactory", function(UserAuthFactory){
           /* If the user has already logged in, but has been referred due to not having registered, this will still take place. */
           return UserAuthFactory.loginWithExternalProvider(method)
             .then(function(data){
+              console.log("REGISTER FACTORY FB AUTH DATA:", data);
               return parseFbData(data, userData);
             })
           break;

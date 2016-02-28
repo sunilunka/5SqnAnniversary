@@ -23,6 +23,7 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       return RegisterFactory.registerNewUser(registerMethod, newAttendeeData)
       .then(function(newUser){
         console.log('NEW USER CREATED: ', newUser);
+        if(!newUser) return new Error("No user created!");
         let userId = newUser.uid;
         /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
         delete newUser.uid;

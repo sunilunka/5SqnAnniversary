@@ -6,6 +6,9 @@ app.config(function($stateProvider){
     resolve: {
       attendees: (AttendeeFactory) => {
         return AttendeeFactory.getAll();
+      },
+      dinnerAttendees: (EventFactory) => {
+        return EventFactory.getSingleEventAttendees("dinner");
       }
     }
   })

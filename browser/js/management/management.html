@@ -2,6 +2,15 @@
 
   <h2>What do you need to do today?</h2>
   <p>There are x amount of people attending...<p>
-  <div></div>
+
+  <div>
+    <form ng-submit="submitNewEvent()">
+      <input type="text" ng-model="eventName"></input>
+      <input type="submit" value="Add Event"></input>
+    </form>
+  </div>
+  <div>
+    <p ng-repeat="attendee in dinnerAttendees">{{ attendee }}</p>
+  </div>
 
 </section>
