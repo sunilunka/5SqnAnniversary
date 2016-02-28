@@ -71,6 +71,7 @@
 
   /* */
   app.service('AuthService', function($firebaseAuth, $firebaseObject, DatabaseFactory, SessionService, $rootScope, SiteAuthFactory, $state){
+    var self = this;
     var authRef = DatabaseFactory.authConnection();
 
     var userRegistered = function(data){
@@ -81,9 +82,8 @@
 
     var userNotRegistered = function(authData){
       /* If user is trying to login with social media account, but have not registered, send them to newAttendee state */
-      console.log("AUTH SERVICE NOT REGISTERED AUTHDATA: ", authData)
       if(authData.provider !== "email"){
-        $state.go("newAttendee", { provider: authData.provider });
+        $state.go("referredNewAttendee", { provider: authData.provider });
         return;
       }
     }
@@ -96,9 +96,21 @@
     this.reportAuthState = () => {
       authRef.$onAuth(authData => {
 
+        /* CASE: If authData is returned, but user data is available from SessionService
+          => Means that the user has logged in with an external media service, but has not registered data on the site.
+         */
         if((!SessionService.user) && authData) {
             console.log("AUTH DATA: ", authData);
-            SiteAuthFactory.isRegisteredUser(authData, userRegistered, userNotRegistered);
+            /* Find if user has registered data on the site or not and redirect as appropriate */
+            SiteAuthFactory.isRegisteredUser(authData)
+            .then(function(data){
+              /* If data is drawn from data base */
+              if(data.currentUser){
+                userRegistered(data.currentUser);
+              } else if(data.unregistered){
+                userNotRegistered(data.unregistered);
+              }
+            })
 
         } else if (SessionService.user && (!authData)){
           /* If there is session user information, but no AuthData, log the user out. This is because the $onAuth callback is fired at an auth event (login, logout etc ) is detected by the firebase backend. This case covers the $unauth, when the user has initiaed logout, and no authdata is returned */
@@ -127,18 +139,18 @@
   app.service('SessionService', function(){
     var self = this;
 
+    /* user data is data pulled from firebase, not the actual auth data passed from the server */
     this.createSession = data => {
-      this.user = data;
+      self.user = data;
       return;
     },
 
     this.destroySession = () => {
-      this.user = null;
+      self.user = null;
       return;
     }
 
     this.user = null;
-
 
 
   })

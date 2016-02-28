@@ -22,12 +22,10 @@ app.run(function ($rootScope, $state, FIRE_PARAMS, AuthService, SessionService) 
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 
     if(!(AuthService.getCurrentUser()) && stateRequiresAuth(toState)){
-      event.preventDefault();
+      event.preventDefault(); 
       $state.go('login')
       return;
     }
-
-
 
   })
 

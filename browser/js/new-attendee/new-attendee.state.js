@@ -1,6 +1,6 @@
 app.config(function($stateProvider){
   $stateProvider.state('newAttendee', {
-    url: '/attendees/register/:provider',
+    url: '/attendees/register',
     controller: 'NewAttendeeCtrl',
     templateUrl: 'js/new-attendee/new-attendee.html',
     resolve: {

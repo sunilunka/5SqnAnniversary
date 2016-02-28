@@ -20,15 +20,15 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
 
   return {
     /* Function to execute callbacks based on if the user has registered or not. Registered data is stored in the Firebase datastore, no data means the user is not registered */
-    isRegisteredUser: (authData, dataCallback, noDataCallback) => {
+    isRegisteredUser: (authData) => {
       return verifyUserDetails(authData.uid)
       .then(function(userData){
         if(userData) {
-          dataCallback(userData);
-          return true;
+          /* Append user id to the returned userData, so it can be used when any reference is made to the SessionService.user */
+          userData.id = authData.uid;
+          return { currentUser: userData };
         } else {
-          noDataCallback(authData);
-          return false;
+          return { unregistered: authData };
 
         }
       })

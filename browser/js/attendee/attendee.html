@@ -1,0 +1,22 @@
+<section id="user-profile">
+
+  <h2>Hi {{ user.firstName }}</h2>
+  <form>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
+      <div class="radio">
+        <label class="control-label"> <input type="radio" name="association" ng-model="newAttendeeData.association" value="current">Current Squadron Member</label>
+      </div>
+      <div class="radio">
+        <label class="control-label"><input type="radio" ng-model="newAttendeeData.association" name="association" value="former">Former Squadron Member</label>
+      </div>
+      <div class="radio">
+        <label class="control-label"><input type="radio" name="association" ng-model="newAttendeeData.association">Contractor</label>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
+      <h3>Events you are attending: </h3>
+    </div>
+  </form>
+
+</section>

@@ -17,6 +17,7 @@ app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, $
       console.log("NEW USER", newUser);
       $scope.user = newUser;
       $scope.processingData = false;
+      /* Take user to their personal state */
     })
     .catch(function(error){
       $scope.error = error;

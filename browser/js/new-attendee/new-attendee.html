@@ -44,6 +44,16 @@
         <div class="radio">
           <label class="control-label"><input type="radio" name="association" ng-model="newAttendeeData.association">Contractor</label>
         </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
+        <h3>What events are you planning to attend?</h3>
+        <div class="checkbox">
+          <label>
+          <input type="checkbox" ng-model="newAttendeeData.events" value="openDay"></input>Open Day</label>
+          <label>
+          <input type="checkbox" ng-model="newAttendeeData.events" value="dinner"></input>Dinner Function</label>
+        </div>
+      <div>
 
         <input type="submit" value="Register"></input>
       </div>

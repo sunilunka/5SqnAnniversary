@@ -1,4 +1,4 @@
-app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionService, UserAuthFactory, DatabaseFactory, AuthService) {
+app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionService, UserAuthFactory, DatabaseFactory, AuthService, SiteAuthFactory) {
 
     var processError = function(errorMessage){
       if((/email/).test(errorMessage)){
@@ -10,6 +10,7 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
         return errorMessage;
       }
     }
+
 
     $scope.login = {};
     $scope.error = null;
@@ -40,7 +41,7 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
           return AttendeeFactory.loginAttendee(loginData)
                 .then(function(userData){
                   console.log("USER DATA: ", userData)
-                  var userInfo = AttendeeFactory.getOne(userData.uid);
+                  var userInfo = AttendeeFactory.getOne();
                   SessionService.createSession(userInfo);
                   $state.go("home");
                 })
@@ -52,16 +53,8 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
         case "facebook":
           return UserAuthFactory.loginWithExternalProvider(method)
           .then(function(authData){
-            /* Function that takes user to the register state if they have not registered yet. */
-            // let userData = AttendeeFactory.getOne(authData.uid);
-            // if(!userData){
-            //   AuthService.logout();
-            //   console.log("Logged out!");
-            //   $state.go("newAttendee");
-            // } else {
-            //   SessionService.createSession(userData);
-            //   $state.go("home");
-            // }
+            console.log("GOING TO STATE WITH DATA: ", authData)
+            $state.go("attendee", { id: authData.uid})
           })
           .catch(function(error){
             $scope.error = error;

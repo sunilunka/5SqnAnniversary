@@ -1,4 +1,4 @@
-app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory){
+app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, AuthService){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
   return {
@@ -19,23 +19,23 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       // })
 
       /* First register the new user (if it does not exist), then once a unique ID has been generated, create an 'attendee' record for the person. */
-      console.log("NEW ATTENDEE DATA: ", newAttendeeData)
+      console.log('NEW ATTENDEE DATA: ', newAttendeeData)
       return RegisterFactory.registerNewUser(registerMethod, newAttendeeData)
       .then(function(newUser){
-        console.log("NEW USER CREATED: ", newUser);
+        console.log('NEW USER CREATED: ', newUser);
         let userId = newUser.uid;
-        /* Remove uid key and value from object so that it is not stored. It is used as they overall object key in the attendees schema.  */
+        /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
         delete newUser.uid;
         attendeeObject[userId] = newUser;
         return attendeeObject.$save()
         .then(function(ref){
-          console.log("REF: ", ref);
+          console.log('REF: ', ref);
           if(ref) return attendeeObject[userId];
           return false;
         });
       })
       .catch(function(error){
-        console.warn("ERROR OCCURED: ", error);
+        console.warn('ERROR OCCURED: ', error);
         return error;
       })
     },
@@ -47,7 +47,7 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
         return initialData;
       })
       .catch(function(error){
-        console.log("SORRY AN ERROR OCCURED");
+        console.log('SORRY AN ERROR OCCURED');
       })
     },
 
@@ -58,8 +58,13 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       })
     },
 
-    getOne: function(id){
-      return attendeeObject[id];
+    getOne: function(){
+      /* User the SessionService.getCurrentUser to get information*/
+      var currentUser = AuthService.getCurrentUser();
+      console.log("CURRENT USER: ", currentUser)
+      if(currentUser){
+        return attendeeObject[currentUser.id];
+      }
     }
   }
 })
