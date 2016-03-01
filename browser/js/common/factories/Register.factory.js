@@ -1,42 +1,49 @@
-app.factory("RegisterFactory", function(UserAuthFactory, EventFactory){
+app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, $q){
 
   /* Object to save user to events object */
-  var addUserToEvents = (eventObj, guestId, callback) => {
+  var addUserToEvents = (userData) => {
+    /* If no event has been selected (the fields have not been touched => 'pristine') then create a new empty object to continue. This is an isolated case, as there is validation on the form. */
+    var recordsToSave = [];
+    if(!userData.events) userData.events = {};
+    let eventObj = userData.events;
+    /* If object has no keys, return */
     /* For each object key, check it exists, if so, add to selected event*/
-    if(Object.keys(eventObj).length === 0) return callback();
-    for(var event in eventObj){
-      if(eventObj[event]){
-        return EventFactory.addAttendeeToEvent(event.toString(), guestId)
-        .then(function(ref){
-          return callback();
-        })
+    for(var eventName in eventObj){
+      /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
+      console.log("EVENT TO USE: ", event);
+      if(eventObj[eventName]){
+        recordsToSave.push(EventFactory.addAttendeeToEvent(eventName, userData.uid));
       }
     }
+    /* Return the result of all saved event records on resolution or rejection */
+    return $q.all(recordsToSave);
+
   }
 
   var parseFbData = (authData, formData) => {
     var dataPath = authData.facebook.cachedUserProfile;
-    if(!formData.events) formData.events = {};
-    return addUserToEvents(formData.events, authData.uid, function(){
-      return {
-        uid: authData.uid,
-        firstName: dataPath.first_name,
-        lastName: dataPath.last_name,
-        fbprofile: dataPath.link,
-        association: formData.association,
-        events: formData.events || null
-      }
-    })
-  }
-
-  var parseEmailData = (data) => {
     return {
-      uid: data.uid,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email
+      uid: authData.uid,
+      firstName: dataPath.first_name,
+      lastName: dataPath.last_name,
+      fbprofile: dataPath.link,
+      association: formData.association,
+      events: formData.events
     }
   }
+
+  var parseEmailData = (authData, formData) => {
+    return {
+      uid: authData.uid,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      association: formData.association,
+      events: formData.events
+  }
+}
+
+
   return {
     /* Function that takes a string describing a method as the first argument. the second argument is primarily for auth by email and password.
       => authData takes an object with the keys 'email' and 'password' and associated values.
@@ -49,26 +56,37 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory){
         case "email":
          /* Create new user in database based on provided email and password */
          return UserAuthFactory.createNew({
-           email: authData.email,
-           password: authData.password
+           email: userData.email,
+           password: userData.password
          })
           .then(function(data){
-            /* Once user id has been created and returned from firebase instance for email/password combination, then return uid and append all relevant data passed in with authData.
-            */
-            data.firstName = userData .firstName;
-            data.lastName = userData.lastName;
-            data.email = userData.email;
-            data.association =  userData.association;
-            data.events = userData.events;
-            return parseEmailData(data);
+          /* Data returned from creating a new user with email and password => just uid */
+            return parseEmailData(data, userData);
+          })
+          .then(function(userInfo){
+            return addUserToEvents(userInfo)
+              .then(function(savedEvents){
+                return userInfo;
+              })
+          })
+          .catch(function(error){
+            return error;
           })
         break;
         case "facebook":
           /* If the user has already logged in, but has been referred due to not having registered, this will still take place. */
           return UserAuthFactory.loginWithExternalProvider(method)
             .then(function(data){
-              console.log("REGISTER FACTORY FB AUTH DATA:", data);
               return parseFbData(data, userData);
+            })
+            .then(function(userInfo){
+              return addUserToEvents(userInfo)
+                .then(function(savedEvents){
+                  return userInfo;
+                })
+            })
+            .catch(function(error){
+              return error;
             })
           break;
         case "google":

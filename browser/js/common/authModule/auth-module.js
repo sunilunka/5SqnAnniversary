@@ -70,7 +70,7 @@
   })
 
   /* */
-  app.service('AuthService', function($firebaseAuth, $firebaseObject, DatabaseFactory, SessionService, $rootScope, SiteAuthFactory, $state){
+  app.service('AuthService', function(DatabaseFactory, SessionService, $rootScope, SiteAuthFactory, $state){
     var self = this;
     var authRef = DatabaseFactory.authConnection();
 
@@ -113,11 +113,11 @@
             })
 
         } else if (SessionService.user && (!authData)){
-          /* If there is session user information, but no AuthData, log the user out. This is because the $onAuth callback is fired at an auth event (login, logout etc ) is detected by the firebase backend. This case covers the $unauth, when the user has initiaed logout, and no authdata is returned */
+          /* If there is session user information, but no AuthData, log the user out. This is because the $onAuth callback is fired at an auth event (login, logout etc ) is detected by the firebase backend. This case covers the $unauth, when the user has initiated logout, and no authdata is returned */
           SessionService.destroySession()
           $rootScope.$broadcast('loggedOut');
           console.warn("Logged out!");
-          console.log("SESSION USER: ", SessionService.user);
+          // console.log("SESSION USER LOGGED OUT: ", SessionService.user);
 
         } else if (SessionService.user) {
           $rootScope.$broadcast('loggedIn', SessionService.user)

@@ -32,7 +32,6 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
         .then(function(ref){
           console.log('REF: ', ref);
           if(ref) return attendeeObject[userId];
-          return false;
         });
       })
       .catch(function(error){
@@ -64,7 +63,15 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       var currentUser = AuthService.getCurrentUser();
       console.log("CURRENT USER: ", currentUser)
       if(currentUser){
-        return attendeeObject[currentUser.id];
+        var userRef = DatabaseFactory.dbConnection('attendees/' + currentUser.uid);
+        var userObj = $firebaseObject(userRef);
+        return userObj.$loaded()
+        .then(function(ref){
+          console.log("CURRENT USER OBJECT: ", userObj)
+          return userObj;
+        })
+      } else {
+        return;
       }
     }
   }

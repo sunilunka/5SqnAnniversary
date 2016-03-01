@@ -1,6 +1,6 @@
 /* Factory for handling the Application specific authentication flow. */
 
-app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, SessionService){
+app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, SessionService, $state){
 
 
   /* Create a connection to the user identification key. If the key does not exist then no details will be returned. */
@@ -35,6 +35,15 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
       .catch(function(error){
         return error;
       })
+    },
+    /* On Login, create new session and reroute*/
+    setSessionAndReRoute: (sessionUserData, toState, params) => {
+      /* sessionUserData => Data to populate SessionService.user
+        toState => <String>The state that the user shoud be redirected to
+        params => An object with URL parameters, when setting session, usually { id: uniqueUserId (uid) }
+      */
+      SessionService.createSession(sessionUserData);
+      $state.go(toState, params)
     }
 
   }

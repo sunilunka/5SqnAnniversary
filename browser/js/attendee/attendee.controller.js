@@ -1,6 +1,6 @@
-app.controller("AttendeeCtrl", function($scope, AuthService, AttendeeFactory, $state){
+app.controller("AttendeeCtrl", function($scope, AuthService, AttendeeFactory, User, $state){
 
-  $scope.user = AttendeeFactory.getOne();
+  $scope.user = User;
 
   // $scope.details = AttendeeFactory.getOne();
 

@@ -39,11 +39,9 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
       switch(method){
         case "email":
           return AttendeeFactory.loginAttendee(loginData)
-                .then(function(userData){
-                  console.log("USER DATA: ", userData)
-                  var userInfo = AttendeeFactory.getOne();
-                  SessionService.createSession(userInfo);
-                  $state.go("home");
+                .then(function(authData){
+                  console.log("USER DATA: ", authData)
+                  SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid })
                 })
                 .catch(function(error){
                     console.log("ERROR: ", error.message);
@@ -53,8 +51,10 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
         case "facebook":
           return UserAuthFactory.loginWithExternalProvider(method)
           .then(function(authData){
-            console.log("GOING TO STATE WITH DATA: ", authData)
-            $state.go("attendee", { id: authData.uid})
+            // SessionService.createSession(authData);
+            // console.log("SESSION USER: ", SessionService.user);
+            // $state.go("attendee", { id: authData.uid})
+            SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid});
           })
           .catch(function(error){
             $scope.error = error;
