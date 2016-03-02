@@ -96,8 +96,7 @@
 
     this.reportAuthState = () => {
       authRef.$onAuth(authData => {
-        console.log("AUTH DATA FROM REDIRECT: ", authData)
-        /* CASE: If authData is returned, but user data is available from SessionService
+        /* CASE: If authData is returned, but user data is not available from SessionService
           => Means that the user has logged in with an external media service, but has not registered data on the site.
          */
         if((!SessionService.user) && authData) {
@@ -119,8 +118,6 @@
           $rootScope.$broadcast('loggedOut');
           console.warn("Logged out!");
           // console.log("SESSION USER LOGGED OUT: ", SessionService.user);
-        } else if(!SessionService.user && !authData){
-          console.log("AUTH DATA: ", authRef.$getAuth());
         } else if (SessionService.user) {
           $rootScope.$broadcast('loggedIn', SessionService.user)
           return /* No need to return anything, user is still signed in */

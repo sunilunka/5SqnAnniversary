@@ -1,10 +1,12 @@
 .login {
   padding-top: 5em;
   margin: 0 auto;
-  width: 90%;
+  width: 100vw;
   .login-selector {
+    margin: 0 auto;
+    width: 20em;
     .login-option {
-      min-width: 4em;
+      width: 10em;
       min-height: 8em;
       flex-grow: 1;
       text-align: center;

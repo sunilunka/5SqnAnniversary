@@ -1,23 +1,15 @@
-app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, $q){
+app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseFactory, $q){
 
-  /* Object to save user to events object */
-  var addUserToEvents = (userData) => {
-    /* If no event has been selected (the fields have not been touched => 'pristine') then create a new empty object to continue. This is an isolated case, as there is validation on the form. */
-    var recordsToSave = [];
-    if(!userData.events) userData.events = {};
-    let eventObj = userData.events;
-    /* If object has no keys, return */
-    /* For each object key, check it exists, if so, add to selected event*/
-    for(var eventName in eventObj){
-      /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
-      console.log("EVENT TO USE: ", event);
-      if(eventObj[eventName]){
-        recordsToSave.push(EventFactory.addAttendeeToEvent(eventName, userData.uid));
+  var promisifyAuthData = () => {
+    return $q(function(resolve, reject){
+      var serverAuthRef = DatabaseFactory.authConnection();
+      var serverAuthData = serverAuthRef.$getAuth();
+      if(serverAuthData){
+        resolve(serverAuthData);
+      } else {
+        reject(new Error({ Error: "No auth data returned from server!"}));
       }
-    }
-    /* Return the result of all saved event records on resolution or rejection */
-    return $q.all(recordsToSave);
-
+    })
   }
 
   var parseFbData = (authData, formData) => {
@@ -74,7 +66,6 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, $q){
           })
         break;
         case "facebook":
-          /* If the user has already logged in, but has been referred due to not having registered, this will still take place. */
           return UserAuthFactory.loginWithExternalProvider(method)
             .then(function(data){
               return parseFbData(data, userData);
@@ -96,6 +87,33 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, $q){
           return new Error("Sorry, a server error has occured!");
           break;
       }
+    },
+
+    registerReferredUser: (formData) => {
+      return promisifyAuthData()
+      .then(function(authData){
+        return parseFbData(authData, formData);
+      })
+    },
+
+    /* Object to save user to events object */
+    addUserToEvents: (userData) => {
+      /* If no event has been selected (the fields have not been touched => 'pristine') then create a new empty object to continue. This is an isolated case, as there is validation on the form. */
+      var recordsToSave = [];
+      if(!userData.events) userData.events = {};
+      let eventObj = userData.events;
+      /* If object has no keys, return */
+      /* For each object key, check it exists, if so, add to selected event*/
+      for(var eventName in eventObj){
+        /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
+        console.log("EVENT TO USE: ", event);
+        if(eventObj[eventName]){
+          recordsToSave.push(EventFactory.addAttendeeToEvent(eventName, userData.uid));
+        }
+      }
+      /* Return the result of all saved event records on resolution or rejection */
+      return $q.all(recordsToSave);
+
     }
   }
 
