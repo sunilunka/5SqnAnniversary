@@ -75,14 +75,22 @@
     var self = this;
     var authRef = DatabaseFactory.authConnection();
 
-    var userRegistered = function(data){
+    /* When a user is registering for the first time with external auth provider */
+    var userRegisterInProgress = (authData) => {
+      var newRegisterData = window.sessionStorage.getItem("registerData");
+      if(newRegisterData){
+        return JSON.parse(newRegisterData);
+      }
+    }
+
+    var userRegistered = (data) => {
       SessionService.createSession(data);
       $rootScope.$broadcast("loggedIn", SessionService.user);
       $state.go("attendee", {id: data.uid});
       return;
     }
 
-    var userNotRegistered = function(authData){
+    var userNotRegistered = (authData) => {
       /* If user is trying to login with social media account, but have not registered, send them to newAttendee state */
       if(authData.provider !== "email"){
         $state.go("referredNewAttendee", { provider: authData.provider });

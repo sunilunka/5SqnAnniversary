@@ -12,6 +12,18 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseF
     })
   }
 
+  var storeRegisterDataForRedirect = (method, registerData) => {
+
+    var toStore = {}
+    /* Primary key for register data is provider name to allow parsing by correct method */
+    toStore[method] = registerData;
+    var storePrepped = JSON.stringify(toStore);
+    if (window.sessionStorage){
+      window.sessionStorage.setItem("registerData", storePrepped);
+      console.log("DATA STORED: ", window.sessionStorage)
+    }
+  }
+
   var parseFbData = (authData, formData) => {
     var dataPath = authData.facebook.cachedUserProfile;
     return {
@@ -66,15 +78,10 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseF
           })
         break;
         case "facebook":
+          storeRegisterDataForRedirect(method, userData);
           return UserAuthFactory.loginWithExternalProvider(method)
-            .then(function(data){
-              return parseFbData(data, userData);
-            })
-            .then(function(userInfo){
-              return addUserToEvents(userInfo)
-                .then(function(savedEvents){
-                  return userInfo;
-                })
+            .then(function(){
+              /* Nothing will occur here as Firebase OAuthRedirect promise is negated by the site redirect. This is instead captured on when listening for the OAuth event once login is complete.*/
             })
             .catch(function(error){
               return error;
@@ -114,7 +121,20 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseF
       /* Return the result of all saved event records on resolution or rejection */
       return $q.all(recordsToSave);
 
+    },
+
+    /* Function to save user data to window.SessionStorage on redirect, as the resolved promise does not return any data due to OAuth Redirect */
+
+    newUserRegisterFromExternalLogin: (authData, registerFormData) => {
+      /* To do:
+        => Function to compare registerData[providerKey] with auth.provider to ensure they are the same.
+          -> If the same, them parse the data using appropriate method and save to database. CLEAR SESSION STORAGE ONCE SAVE COMPLETE
+          -> If different, throw new error and let user, go back to new attendee register state. CLEAR SESSION STORAGE PRIOR TO REDIRECT
+
+      */
     }
+
+
   }
 
 })
