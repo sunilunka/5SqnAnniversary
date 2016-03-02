@@ -45,9 +45,9 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
   /* If there are no event keys in the database, create them so there are records to use (FOR TESTING ONLY)*/
 
   var checkExistsOrCreate = (events) => {
-    events.forEach((event) => {
-      if(!eventsObject.hasOwnProperty(event)){
-        eventsObject[event] = { '01234567890': '0' };
+    events.forEach((eventName) => {
+      if(!eventsObject.hasOwnProperty(eventName)){
+        eventsObject[eventName] = { '01234567890': '0' };
         eventsObject.$save()
         .then(function(ref){
           console.log("NO EVENTS IN DB, CREATED NOW: ", eventsObject);

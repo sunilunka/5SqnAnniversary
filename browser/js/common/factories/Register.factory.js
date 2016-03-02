@@ -106,7 +106,7 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseF
       /* For each object key, check it exists, if so, add to selected event*/
       for(var eventName in eventObj){
         /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
-        console.log("EVENT TO USE: ", event);
+        console.log("EVENT TO USE: ", eventName);
         if(eventObj[eventName]){
           recordsToSave.push(EventFactory.addAttendeeToEvent(eventName, userData.uid));
         }

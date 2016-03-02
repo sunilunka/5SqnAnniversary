@@ -32,14 +32,17 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
     createReferredUser: (formData) => {
       return RegisterFactory.registerReferredUser(formData)
       .then(function(userDataToSave){
+        if(!userDataToSave.events) userDataToSave.events = false;
         let userId = userDataToSave.uid;
+        /* Remove the uid key, as this is the identifier key and there is no need to double up data */
+        delete userDataToSave.uid;
         /* Create user object locally in attendees tables */
         attendeeObject[userId] = userDataToSave;
-        /* Remove the uid key, as this is the identifier key, but we need it for reference when logging the user in after successfully saving. */
-        delete attendeeObject[userId].uid;
         return attendeeObject.$save()
         .then(function(ref){
-          RegisterFactory.addUserToEvents(userDataToSave)
+          /* Add user to events uses uid key to allocate user to event */
+          userDataToSave.uid = userId;
+          return RegisterFactory.addUserToEvents(userDataToSave)
           .then(function(savedEvents){
             console.log("SAVED EVENTS: ", savedEvents);
             console.log("USER DATA TO RETURN: ", userDataToSave);
