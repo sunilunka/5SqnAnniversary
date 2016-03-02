@@ -51,10 +51,7 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
         case "facebook":
           return UserAuthFactory.loginWithExternalProvider(method)
           .then(function(authData){
-            // SessionService.createSession(authData);
-            // console.log("SESSION USER: ", SessionService.user);
-            // $state.go("attendee", { id: authData.uid})
-            SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid});
+            /* Nothing will happen, no resolve is returned using OAuthRedirect. This is captured when listening for $onAuth events from the Firebase service */
           })
           .catch(function(error){
             $scope.error = error;

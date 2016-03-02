@@ -44,8 +44,6 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
           userDataToSave.uid = userId;
           return RegisterFactory.addUserToEvents(userDataToSave)
           .then(function(savedEvents){
-            console.log("SAVED EVENTS: ", savedEvents);
-            console.log("USER DATA TO RETURN: ", userDataToSave);
             return userDataToSave;
           })
         })
@@ -78,11 +76,10 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       var currentUser = AuthService.getCurrentUser();
       console.log("CURRENT USER: ", currentUser);
       if(currentUser){
-        var userRef = DatabaseFactory.dbConnection('attendees/' + currentUser.uid);
+        var userRef = DatabaseFactory.dbConnection('attendees/' + (currentUser.id || currentUser.uid));
         var userObj = $firebaseObject(userRef);
         return userObj.$loaded()
         .then(function(data){
-          console.log("CURRENT USER OBJECT: ", data)
           return data;
         })
       } else {

@@ -78,6 +78,7 @@
     var userRegistered = function(data){
       SessionService.createSession(data);
       $rootScope.$broadcast("loggedIn", SessionService.user);
+      $state.go("attendee", {id: data.uid});
       return;
     }
 
@@ -100,7 +101,6 @@
           => Means that the user has logged in with an external media service, but has not registered data on the site.
          */
         if((!SessionService.user) && authData) {
-            console.log("AUTH DATA: ", authData);
             /* Find if user has registered data on the site or not and redirect as appropriate */
             SiteAuthFactory.isRegisteredUser(authData)
             .then(function(data){
@@ -116,9 +116,10 @@
           /* If there is session user information, but no AuthData, log the user out. This is because the $onAuth callback is fired at an auth event (login, logout etc ) is detected by the firebase backend. This case covers the $unauth, when the user has initiated logout, and no authdata is returned */
           SessionService.destroySession()
           $rootScope.$broadcast('loggedOut');
+          $state.go("home");
           console.warn("Logged out!");
           // console.log("SESSION USER LOGGED OUT: ", SessionService.user);
-        } else if (SessionService.user) {
+        } else if (SessionService.user && authData) {
           $rootScope.$broadcast('loggedIn', SessionService.user)
           return /* No need to return anything, user is still signed in */
         }

@@ -42,6 +42,7 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
         toState => <String>The state that the user shoud be redirected to
         params => An object with URL parameters, when setting session, usually { id: uniqueUserId (uid) }
       */
+      console.log("SESSION USER DATA: ", sessionUserData);
       SessionService.createSession(sessionUserData);
       $state.go(toState, params)
     }
