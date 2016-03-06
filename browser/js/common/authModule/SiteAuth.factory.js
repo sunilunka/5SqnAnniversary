@@ -1,6 +1,6 @@
 /* Factory for handling the Application specific authentication flow. */
 
-app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, SessionService, $state){
+app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, SessionService, $state, $rootScope){
 
 
   /* Create a connection to the user identification key. If the key does not exist then no details will be returned. */
@@ -45,7 +45,39 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
       console.log("SESSION USER DATA: ", sessionUserData);
       SessionService.createSession(sessionUserData);
       $state.go(toState, params)
+    },
+
+    /* When a user is registering for the first time with external auth provider */
+
+    userRegisterInProgress: (authData) => {
+      /* Return register data if available */
+      var newRegisterData = JSON.parse(window.sessionStorage.getItem("registerData"));
+      /* If the key the data stored under matches the provider, then return the parsed data. */
+      if(newRegisterData.hasOwnProperty(authData.provider)){
+        console.log("REGISTERING WITH STORED DATA OBJECT: ", newRegisterData[authData.provider])
+        return newRegisterData[authData.provider];
+      } else {
+        /* Return null if key does not match. */
+        return null;
+      }
+    },
+
+    /* */
+    userIsRegistered: (data) => {
+      SessionService.createSession(data);
+      $rootScope.$broadcast("loggedIn", SessionService.user);
+      $state.go("attendee", {id: data.uid});
+      return;
+    },
+
+    userNotRegistered: (authData) => {
+      /* If user is trying to login with social media account, but have not registered, send them to referredNewAttendee state */
+      if(authData.provider !== "email"){
+        $state.go("referredNewAttendee", { provider: authData.provider });
+        return;
+      }
     }
+
 
   }
 

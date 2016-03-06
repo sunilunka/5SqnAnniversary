@@ -1,4 +1,7 @@
-app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseFactory, $q){
+app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, $q){
+  var attendeesRef = DatabaseFactory.dbConnection('attendees');
+  var attendeeObject = $firebaseObject(attendeesRef);
+
 
   var promisifyAuthData = () => {
     return $q(function(resolve, reject){
@@ -22,6 +25,24 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseF
       window.sessionStorage.setItem("registerData", storePrepped);
       console.log("DATA STORED: ", window.sessionStorage)
     }
+  }
+
+  /* attendeeObject is the firebaseObject of the attendee db table. newUser is the parsed data to be saved to the firebase backend */
+  var saveUserDetailsToDb = (attendeeObject, newUser) => {
+    console.log('NEW USER CREATED: ', newUser);
+    if(!newUser) return new Error("No user created!");
+    let userId = newUser.uid;
+    /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
+    delete newUser.uid;
+    attendeeObject[userId] = newUser;
+    return attendeeObject.$save()
+    .then(function(ref){
+      console.log("OBJECT SAVED");
+      /* return newUser object, with uid field as it is used for registering events */
+      newUser.uid = userId;
+      if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
+      if(ref) return newUser;
+    });
   }
 
   var parseFbData = (authData, formData) => {
@@ -68,16 +89,13 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseF
             return parseEmailData(data, userData);
           })
           .then(function(userInfo){
-            return addUserToEvents(userInfo)
-              .then(function(savedEvents){
-                return userInfo;
-              })
+            return saveUserDetailsToDb(attendeeObject, userInfo)
           })
           .catch(function(error){
             return error;
           })
         break;
-        case "facebook":
+         default:
           storeRegisterDataForRedirect(method, userData);
           return UserAuthFactory.loginWithExternalProvider(method)
             .then(function(){
@@ -87,23 +105,27 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseF
               return error;
             })
           break;
-        case "google":
-          return UserAuthFactory.loginWithExternalProvider(method);
-          break;
-        default:
-          return new Error("Sorry, a server error has occured!");
-          break;
       }
     },
-
+    /* If a user has tried to login, but has not registered, get their auth data with promisifyAuthData method (as their login details are stored in the firebase auth store.) */
     registerReferredUser: (formData) => {
       return promisifyAuthData()
       .then(function(authData){
-        return parseFbData(authData, formData);
+        /* Once firebase authentication has been returned, merge with formData for saving into firebase attendee store */
+        if(authData.provider === "facebook"){
+          return parseFbData(authData, formData);
+        } else if(authData.provider === "password"){
+          /* To be completed, full function flow not complete, referred attendee state needs firstName and lastName fields for email */
+          return parseEmailData(authData, formData);
+        } else {
+          return new Error("No provider data found!")
+        }
       })
     },
 
-    /* Object to save user to events object */
+    /* Function that parses and saves user to database. */
+
+    /* Function to save user to events object. Key is user uid, value is true */
     addUserToEvents: (userData) => {
       /* If no event has been selected (the fields have not been touched => 'pristine') then create a new empty object to continue. This is an isolated case, as there is validation on the form. */
       var recordsToSave = [];
@@ -125,13 +147,27 @@ app.factory("RegisterFactory", function(UserAuthFactory, EventFactory, DatabaseF
 
     /* Function to save user data to window.SessionStorage on redirect, as the resolved promise does not return any data due to OAuth Redirect */
 
-    newUserRegisterFromExternalLogin: (authData, registerFormData) => {
+    newUserRegisterFromExternalProvider: (authData, registerFormData) => {
       /* To do:
         => Function to compare registerData[providerKey] with auth.provider to ensure they are the same.
           -> If the same, them parse the data using appropriate method and save to database. CLEAR SESSION STORAGE ONCE SAVE COMPLETE
           -> If different, throw new error and let user, go back to new attendee register state. CLEAR SESSION STORAGE PRIOR TO REDIRECT
-
       */
+
+      switch(authData.provider){
+        case "facebook":
+          return parseFbData(authData, registerFormData);
+          // return saveUserDetailsToDb(attendeeObject, fbRegisterData);
+          break;
+        case "google":
+          console.log("GOOGLE AUTH HAS NOT BEEN SET UP.")
+          break;
+        default:
+          return new Error("NO AUTHDATA FOUND!");
+
+        break;
+      }
+
     }
 
 
