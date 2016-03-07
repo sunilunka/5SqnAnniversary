@@ -39,6 +39,10 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       })
       .then(function(ref){
         console.log("OBJECT SAVED");
+        /* If window.sessionStorage is still populated, remove it, as it is no longer needed. */
+        if(window.sessionStorage["registerData"]){
+          window.sessionStorage.removeItem("registerData");
+        }
         /* return newUser object, with uid field as it is used for registering events */
         userData.uid = userId;
         if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
