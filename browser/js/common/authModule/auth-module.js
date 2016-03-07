@@ -82,10 +82,16 @@
 
     this.reportAuthState = () => {
       authRef.$onAuth(authData => {
-        /* CASE: If authData is returned, but user data is not available from SessionService
-          => Means that the user has logged in with an external media service, but has not registered data on the site.
-         */
+        /* Parse colons out of uid field, and replace with hyphen */
+       if(authData) {
+         if(authData.provider === "facebook"){
+           authData.uid = authData.uid.replace(/\:/, "-");
+         }
+       }
         if((!SessionService.user) && authData) {
+          /* If authData is returned, but user data is not available from SessionService
+          => Means that the user has logged in with an external media service, but has not registered data on the site.
+          */
           if(window.sessionStorage.hasOwnProperty("registerData")){
             /* If the sessionStorage object has key registerData, then we are in the new user registration flow from the registration state. If key has data, then retrieve register form data to continue registration and login */
             var userData = SiteAuthFactory.userRegisterInProgress(authData);
