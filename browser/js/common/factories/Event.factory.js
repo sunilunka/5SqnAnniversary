@@ -64,7 +64,10 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
   });
 
   return {
+
+    /* Add an event to the database */
     addEvent: (name) => {
+      /* Need to prompt for event details */
       eventsObject[name] = {};
       eventsObject.$save()
       .then(function(ref){
@@ -74,6 +77,7 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
     },
 
     saveToEventDb: () => {
+      /* Save the eventsObject once a new event has been created */
       return eventsObject.$save();
     },
 
@@ -87,7 +91,8 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
     },
 
     removeAttendeeFromEvent: (eventName, userRef) => {
-      delete eventObject[eventName][userRef];
+      delete eventsObject[eventName]["guests"][userRef];
+      console.log("EVENTS OBJECT: ", eventsObject);
       eventsObject.$save()
       .then(function(ref){
         console.log("REMOVE SUCCESS!");
@@ -102,9 +107,9 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       var attendeesList = $firebaseArray(eventsRef.child(eventName).child("guests"));
 
       return attendeesList.$loaded()
-      .then(function(){
-        console.log("ATTENDEES: ", attendeesList);
-        return attendeesList;
+      .then(function(data){
+        console.log("ATTENDEES: ", data);
+        return data;
       });
     }
   }

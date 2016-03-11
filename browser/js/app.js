@@ -11,7 +11,6 @@ app.config(function ($urlRouterProvider, $locationProvider) {
 
 // This app.run is for controlling access to specific states.
 app.run(function ($rootScope, $state, FIRE_PARAMS, AuthService, SessionService) {
-
   AuthService.reportAuthState();
 
   var stateRequiresAuth = (state) => {
@@ -22,7 +21,7 @@ app.run(function ($rootScope, $state, FIRE_PARAMS, AuthService, SessionService) 
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 
     if(!(AuthService.getCurrentUser()) && stateRequiresAuth(toState)){
-      event.preventDefault(); 
+      event.preventDefault();
       $state.go('login')
       return;
     }

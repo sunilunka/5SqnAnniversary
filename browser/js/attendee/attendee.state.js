@@ -3,6 +3,9 @@ app.config(function($stateProvider){
     url: '/attendee/:id',
     controller: 'AttendeeCtrl',
     templateUrl: 'js/attendee/attendee.html',
+    data: {
+      authRequired: true
+    },
     resolve: {
       User: function(AttendeeFactory){
         console.log("CURRENT USER:", AttendeeFactory.getOne());

@@ -4,18 +4,13 @@
   <form>
 
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
-      <div class="radio">
-        <label class="control-label"> <input type="radio" name="association" ng-model="newAttendeeData.association" value="current">Current Squadron Member</label>
-      </div>
-      <div class="radio">
-        <label class="control-label"><input type="radio" ng-model="newAttendeeData.association" name="association" value="former">Former Squadron Member</label>
-      </div>
-      <div class="radio">
-        <label class="control-label"><input type="radio" name="association" ng-model="newAttendeeData.association">Contractor</label>
-      </div>
-    </div>
+      <p>{{ user.association }}</p>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
       <h3>Events you are attending: </h3>
+      <p ng-repeat="event in eventsAttending"><span>{{ event }}</span>
+        <button>Bringing guests?</button>
+        <button ng-click="removeFromEvent(event)">Cancel Attendance</button>
+      </p>
     </div>
   </form>
 

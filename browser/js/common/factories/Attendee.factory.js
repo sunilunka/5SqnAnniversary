@@ -106,6 +106,18 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       } else {
         return;
       }
+    },
+
+    removeEventFromAttendee: (event, user) => {
+      if(user.events[event]){
+        delete user.events[event];
+        user.$save()
+        .then(function(ref){
+          console.log("EVENT OBJECT UPDATED!")
+        })
+
+      }
     }
+
   }
 })

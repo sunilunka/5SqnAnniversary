@@ -44,6 +44,7 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
       */
       console.log("SESSION USER DATA: ", sessionUserData);
       SessionService.createSession(sessionUserData);
+      $rootScope.$broadcast("loggedIn", SessionService.user);
       $state.go(toState, params)
     },
 
@@ -66,7 +67,7 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
     userIsRegistered: (data) => {
       SessionService.createSession(data);
       $rootScope.$broadcast("loggedIn", SessionService.user);
-      $state.go("attendee", {id: data.uid});
+      $state.go("attendee", {id: data.id});
       return;
     },
 
