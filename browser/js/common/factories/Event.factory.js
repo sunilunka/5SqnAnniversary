@@ -1,10 +1,7 @@
-app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFactory, $q){
+app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFactory, $q, SessionService){
   var eventsRef = DatabaseFactory.dbConnection('events');
-  var eventsObject = $firebaseObject(eventsRef);
-
-  var eventGuestObjs = {};
-
-  var resolvedEventGuestObjs;
+  var eventsArray = $firebaseArray(eventsRef);
+  var eventsObj = $firebaseObject(eventsRef);
 
   /* Test whether there is a $ character in a string. */
   var isNotFireKey = (prop) => {
@@ -17,13 +14,17 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
   /* Initiate a new firebase connection to all events stored in the events object, specifically so the guests object can be updated */
   var initEventGuestDbConnection = (objData) => {
     for(var key in objData){
+      /* isNotFireKey returns a boolean to signal if a key is prefixed by $ or not. '$' denotes an AngularFire method key or property */
       if(objData.hasOwnProperty(key) && isNotFireKey(key)){
+        eventList.push(key);
         var ref = DatabaseFactory.dbConnection('events/' + key + '/guests')
         eventGuestObjs[key] = $firebaseObject(ref).$loaded();
       }
     }
     return eventGuestObjs;
   }
+
+  /* Ensure events array is loaded prior to loading events*/
 
   /* Resolve all promises before populating resolvedEventGuestObjs */
   var promisifyEventGuestObjects = (object) => {
@@ -40,78 +41,88 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
     });
   }
 
-  promisifyEventGuestObjects(eventsObject);
 
-  /* If there are no event keys in the database, create them so there are records to use (FOR TESTING ONLY)*/
 
-  var checkExistsOrCreate = (events) => {
-    events.forEach((eventName) => {
-      if(!eventsObject.hasOwnProperty(eventName)){
-        eventsObject[eventName] = { '01234567890': '0' };
-        eventsObject.$save()
-        .then(function(ref){
-          console.log("NO EVENTS IN DB, CREATED NOW: ", eventsObject);
-        })
-      } else {
-        return;
-      }
-    })
-  }
-
-  eventsObject.$loaded()
-  .then(function(){
-    checkExistsOrCreate(['openday', 'dinner']);
-  });
 
   return {
-
-    /* Add an event to the database */
-    addEvent: (name) => {
-      /* Need to prompt for event details */
-      eventsObject[name] = {};
-      eventsObject.$save()
-      .then(function(ref){
-        console.log('new event created!');
-        return true;
+    getEvents: () => {
+      return eventsArray.$loaded()
+      .then(function(array){
+        return array;
       })
     },
 
-    saveToEventDb: () => {
-      /* Save the eventsObject once a new event has been created */
-      return eventsObject.$save();
+    returnEventDetails: (evtObj) => {
+      for(var eventKey in evtObj){
+        console.log("EVENT OBJ", eventKey)
+      }
     },
+
+
+  /* Test whether there is a $ character in a string. */
+  // var isNotFireKey = (prop) => {
+  //   var propStr = prop.toString();
+  //   var dollarRegEx = /\$/
+  //   if(!dollarRegEx.test(propStr)){
+  //     return true;
+  //   }
+  // }
+  // /* Initiate a new firebase connection to all events stored in the events object, specifically so the guests object can be updated */
+  // var initEventGuestDbConnection = (objData) => {
+  //   for(var key in objData){
+  //     /* isNotFireKey returns a boolean to signal if a key is prefixed by $ or not. '$' denotes an AngularFire method key or property */
+  //     if(objData.hasOwnProperty(key) && isNotFireKey(key)){
+  //       eventList.push(key);
+  //       var ref = DatabaseFactory.dbConnection('events/' + key + '/guests')
+  //       eventGuestObjs[key] = $firebaseObject(ref).$loaded();
+  //     }
+  //   }
+  //   return eventGuestObjs;
+  // }
 
     /* Guests includes the attendee enrolling, default is 1 */
-    addAttendeeToEvent: (eventName, userRef, guests) => {
-      resolvedEventGuestObjs[eventName][userRef] = guests || 1;
-      return resolvedEventGuestObjs[eventName].$save()
-        .then(function(ref){
-            console.log("SAVED TO EVENT!");
-        });
-    },
+    addAttendeeToEvent: (eventKey, userRef, guests) => {
 
-    removeAttendeeFromEvent: (eventName, userRef) => {
-      delete eventsObject[eventName]["guests"][userRef];
-      console.log("EVENTS OBJECT: ", eventsObject);
-      eventsObject.$save()
-      .then(function(ref){
-        console.log("REMOVE SUCCESS!");
-        return ref;
-      })
-      .catch(function(error){
-        return error;
-      })
-    },
-
-    getSingleEventAttendees: (eventName) => {
-      var attendeesList = $firebaseArray(eventsRef.child(eventName).child("guests"));
-
-      return attendeesList.$loaded()
+      return eventsArray.$loaded()
       .then(function(data){
-        console.log("ATTENDEES: ", data);
-        return data;
-      });
-    }
+        var eventRecord = eventsArray.$getRecord(eventKey);
+        if(eventRecord["guests"]){
+          eventRecord["guests"][userRef] = guests || 1;
+        } else {
+          eventRecord["guests"] = {};
+          eventRecord["guests"][userRef] = guests || 1;
+        }
+        return eventsArray.$save(eventsArray.$getRecord(eventKey))
+      })
+      // resolvedEventGuestObjs[eventName][userRef] = guests || 1;
+      // return resolvedEventGuestObjs[eventName].$save()
+      //   .then(function(ref){
+      //       console.log("SAVED TO EVENT!");
+      //   });
+    },
+  //
+  //   removeAttendeeFromEvent: (eventName, userRef) => {
+  //     delete eventsObject[eventName]["guests"][userRef];
+  //     console.log("EVENTS OBJECT: ", eventsObject);
+  //     eventsObject.$save()
+  //     .then(function(ref){
+  //       console.log("REMOVE SUCCESS!");
+  //       return ref;
+  //     })
+  //     .catch(function(error){
+  //       return error;
+  //     })
+  //   },
+  //
+  //   getSingleEventAttendees: (eventName) => {
+  //     var attendeesList = $firebaseArray(eventsRef.child(eventName).child("guests"));
+  //
+  //     return attendeesList.$loaded()
+  //     .then(function(data){
+  //       console.log("ATTENDEES: ", data);
+  //       return data;
+  //     });
+  //   }
   }
 
 })

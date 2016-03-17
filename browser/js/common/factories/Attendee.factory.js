@@ -108,11 +108,12 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       }
     },
 
-    removeEventFromAttendee: (event, user) => {
-      if(user.events[event]){
-        delete user.events[event];
+    removeEventFromAttendee: (evt, user) => {
+      if(user.events[evt]){
+        delete user.events[evt];
         user.$save()
         .then(function(ref){
+          
           console.log("EVENT OBJECT UPDATED!")
         })
 

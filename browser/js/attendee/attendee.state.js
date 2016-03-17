@@ -10,6 +10,10 @@ app.config(function($stateProvider){
       User: function(AttendeeFactory){
         console.log("CURRENT USER:", AttendeeFactory.getOne());
         return AttendeeFactory.getOne();
+      },
+      Events: function(EventFactory){
+        console.log("EVENTS: ", EventFactory.getEvents())
+        return EventFactory.getEvents();
       }
       // UserDetails: function(AttendeeFactory){
       //   return AttendeeFactory.getOne();

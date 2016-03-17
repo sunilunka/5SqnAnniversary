@@ -75,6 +75,10 @@
     var self = this;
     var authRef = DatabaseFactory.authConnection();
 
+    this.getUserAuth = () => {
+      return authRef.$getAuth();
+    }
+
     this.getCurrentUser = () => {
       if(SessionService.user) return SessionService.user;
       return null

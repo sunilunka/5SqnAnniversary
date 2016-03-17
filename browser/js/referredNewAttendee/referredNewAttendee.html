@@ -16,10 +16,9 @@
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
         <h3>What events are you planning to attend?</h3>
         <div class="checkbox">
-          <label>
-          <input type="checkbox" ng-model="newAttendeeData.events.openday" value="openDay"></input>Open Day</label>
-          <label>
-          <input type="checkbox" ng-model="newAttendeeData.events.dinner" value="dinner"></input>Dinner Function</label>
+          <div ng-repeat="event in events">
+            <label>
+            <input type="checkbox" ng-model="newAttendeeData.events[event.$id]" value="{{ event.$id }}" ng-true-value="true"  ng-false-value="false"></input>{{ event.name }}</label>
         </div>
       <div>
 

@@ -1,4 +1,8 @@
-app.controller("referredNewAttendeeCtrl", function(AttendeeFactory, SiteAuthFactory, AuthService, $rootScope, $scope){
+app.controller("referredNewAttendeeCtrl", function(AttendeeFactory, SiteAuthFactory, AuthService, EventFactory, $rootScope, $scope, events){
+
+  $scope.events = events;
+
+  $scope.newAttendeeData = {};
 
   $scope.createNewUserFromReferral = () => {
     return AttendeeFactory.createReferredUser($scope.newAttendeeData)

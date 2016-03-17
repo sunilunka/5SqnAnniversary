@@ -7,7 +7,7 @@
       <p>{{ user.association }}</p>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
       <h3>Events you are attending: </h3>
-      <p ng-repeat="event in eventsAttending"><span>{{ event }}</span>
+      <p ng-repeat="event in events"><label><input type="checkbox" value="{{ event }}" checked="true"></input>{{ event.name }}</label>
         <button>Bringing guests?</button>
         <button ng-click="removeFromEvent(event)">Cancel Attendance</button>
       </p>
