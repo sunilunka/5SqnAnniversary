@@ -86,7 +86,7 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       return eventsArray.$loaded()
       .then(function(data){
         var eventRecord = eventsArray.$getRecord(eventKey);
-        if(eventRecord["guests"]){
+        if(eventRecord.hasOwnProperty("guests")){
           eventRecord["guests"][userRef] = guests || 1;
         } else {
           eventRecord["guests"] = {};
@@ -100,19 +100,17 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       //       console.log("SAVED TO EVENT!");
       //   });
     },
-  //
-  //   removeAttendeeFromEvent: (eventName, userRef) => {
-  //     delete eventsObject[eventName]["guests"][userRef];
-  //     console.log("EVENTS OBJECT: ", eventsObject);
-  //     eventsObject.$save()
-  //     .then(function(ref){
-  //       console.log("REMOVE SUCCESS!");
-  //       return ref;
-  //     })
-  //     .catch(function(error){
-  //       return error;
-  //     })
-  //   },
+
+    /* Remove user from the Event Guest object*/
+    removeAttendeeFromEvent: (eventKey, userRef) => {
+      return eventsArray.$loaded()
+      .then(function(data){
+          let eventToModify = eventsArray.$getRecord(eventKey);
+          delete eventToModify.guests[userRef];
+          delete eventToModify.attending;
+          return eventsArray.$save(eventToModify);
+      })
+    },
   //
   //   getSingleEventAttendees: (eventName) => {
   //     var attendeesList = $firebaseArray(eventsRef.child(eventName).child("guests"));

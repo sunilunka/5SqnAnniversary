@@ -1,4 +1,4 @@
-app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService){
+app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -108,16 +108,33 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       }
     },
 
-    removeEventFromAttendee: (evt, user) => {
-      if(user.events[evt]){
-        delete user.events[evt];
+    removeEventFromAttendee: (evtId, user) => {
+      console.log("REMOVING FROM USER: ", user);
+      if(user.events[evtId]){
+        delete user.events[evtId];
         user.$save()
         .then(function(ref){
-          
-          console.log("EVENT OBJECT UPDATED!")
+          return EventFactory.removeAttendeeFromEvent(evtId, user.$id);
         })
 
       }
+    },
+
+    addEventToAttendee: (evtId, user) => {
+      if(user.hasOwnProperty("events")){
+        user.events[evtId] = true;
+      } else {
+        user["events"] = {};
+        user.events[evtId] = true;
+      }
+      return user.$save()
+      .then(function(ref){
+        console.log("USER OBJECT: ", user)
+        return EventFactory.addAttendeeToEvent(evtId, user.$id)
+        .then(function(ref){
+          return ref;
+        })
+      })
     }
 
   }
