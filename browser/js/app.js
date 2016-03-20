@@ -25,6 +25,7 @@ app.run(function ($rootScope, $state, FIRE_PARAMS, AuthService, SessionService) 
       $state.go('login')
       return;
     }
+    /* Setup logic for administration (management) users access */
 
   })
 

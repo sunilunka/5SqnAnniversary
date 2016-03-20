@@ -84,6 +84,7 @@
       return null
     }
 
+    /* Setup a listener and report function for auth status. */
     this.reportAuthState = () => {
       authRef.$onAuth(authData => {
         if((!SessionService.user) && authData) {
