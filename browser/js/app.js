@@ -19,7 +19,7 @@ app.run(function ($rootScope, $state, FIRE_PARAMS, AuthService, SessionService) 
 
   /* When ui-router initiates state change, check if the current user had permissions to access the next state. */
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-
+    /* If there is no current user logged in and if the state requires authentication (which will be false if there is no current user) return user to the login page. */
     if(!(AuthService.getCurrentUser()) && stateRequiresAuth(toState)){
       event.preventDefault();
       $state.go('login')

@@ -1,4 +1,5 @@
-app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, $stateParams){
+app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, Events, $stateParams){
+  $scope.events = Events;
   $scope.user = null;
   $scope.processingData = false;
   $scope.error = null;
