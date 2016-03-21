@@ -1,4 +1,4 @@
-app.directive("attendeeEvent", function(AttendeeFactory){
+app.directive("attendeeEvent", function(AttendeeFactory, $rootScope){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/attendee-event/attendee-event.html",
@@ -14,7 +14,7 @@ app.directive("attendeeEvent", function(AttendeeFactory){
       scope.attendEvent = (evtId) => {
         AttendeeFactory.addEventToAttendee(evtId, scope.attendee)
         .then(function(ref){
-          console.log("USER ADDED TO EVENT")
+          
         })
       }
     }
