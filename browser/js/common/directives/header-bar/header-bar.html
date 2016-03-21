@@ -1,7 +1,4 @@
 <section id="header-bar" class="flex-container-row">
-  <div ng-repeat="link in links" class="header-item">
-    <h4 ui-sref-active="headerStateActive" ui-sref="{{ link.state }}" >{{ link.title }}</h4>
-  </div>
   <div ng-show="currentUser" class="header-item">
     <h4 ng-click="logoutUser()">Hi {{ currentUser.firstName }}!</h4>
   </div>

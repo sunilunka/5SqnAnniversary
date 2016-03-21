@@ -1,0 +1,10 @@
+<section>
+  <h3>{{ evt.name }}</h3>
+  <div class="attend-event" ng-hide="evt.attending">
+    <button ng-click="attendEvent(evt.$id)">Register for Event</button>
+  </div>
+  <div ng-show="evt.attending" class="attending-options">
+    <button>Bringing guests?</button>
+    <button ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
+  </div>
+</section>

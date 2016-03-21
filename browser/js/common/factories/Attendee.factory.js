@@ -124,12 +124,12 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       if(user.hasOwnProperty("events")){
         user.events[evtId] = true;
       } else {
+        /* If events object in local db does not exist, create it */
         user["events"] = {};
         user.events[evtId] = true;
       }
       return user.$save()
       .then(function(ref){
-        console.log("USER OBJECT: ", user)
         return EventFactory.addAttendeeToEvent(evtId, user.$id)
         .then(function(ref){
           return ref;

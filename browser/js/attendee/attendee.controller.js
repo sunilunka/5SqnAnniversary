@@ -20,18 +20,15 @@ app.controller("AttendeeCtrl", function($scope, AuthService, AttendeeFactory, Us
 
   $scope.events = userEventList(Events);
 
-  // $scope.details = AttendeeFactory.getOne();
-
-  // $scope.details = UserDetails;
-  $scope.removeFromEvent = (evtId) => {
-    AttendeeFactory.removeEventFromAttendee(evtId, $scope.user);
-  }
-
-  $scope.attendEvent = (evtId) => {
-    AttendeeFactory.addEventToAttendee(evtId, $scope.user)
-    .then(function(ref){
-      $scope.events = userEventList(Events)
-    })
-  }
+  // $scope.removeFromEvent = (evtId) => {
+  //   AttendeeFactory.removeEventFromAttendee(evtId, $scope.user);
+  // }
+  //
+  // $scope.attendEvent = (evtId) => {
+  //   AttendeeFactory.addEventToAttendee(evtId, $scope.user)
+  //   .then(function(ref){
+  //     $scope.events = userEventList(Events)
+  //   })
+  // }
 
 })
