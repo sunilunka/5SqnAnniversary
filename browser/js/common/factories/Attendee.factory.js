@@ -112,7 +112,7 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       console.log("REMOVING FROM USER: ", user);
       if(user.events[evtId]){
         delete user.events[evtId];
-        user.$save()
+        return user.$save()
         .then(function(ref){
           return EventFactory.removeAttendeeFromEvent(evtId, user.$id);
         })
