@@ -10,6 +10,11 @@ app.directive("attendeeEvent", function(AttendeeFactory, $rootScope){
       /* Value used to modify UI with respect to user attending an event or not. */
       scope.attending = false;
 
+
+      scope.guests = true;
+      scope.addingGuests = false;
+
+      /* Compare all events with events user has signed up with. This facilitates UI configuration and options for each event */
       scope.isUserAttending = (evt) => {
         let userEvents = Object.keys(scope.attendee.events);
         if(userEvents.indexOf(evt.$id) > -1){

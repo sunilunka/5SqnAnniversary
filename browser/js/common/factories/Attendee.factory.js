@@ -135,7 +135,9 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
           return ref;
         })
       })
-    }
+    },
+
+    /* Get any guests attendee is bringing to event (logged against the user)*/
 
   }
 })

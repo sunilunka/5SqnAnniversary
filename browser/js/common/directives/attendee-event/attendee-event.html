@@ -7,4 +7,12 @@
     <button>Bringing guests?</button>
     <button ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
   </div>
+  <div ng-show="guests || addingGuests" class="attending-guests">
+    <!--  If there are no guests, then show when 'bringing guests is clicked. Otherwise, if there are guests, ng-repeat of guests array'-->
+    <div ng-repeat="guest in guests" class="form-group">
+      <label>First Name</label><input type="text"></input>
+      <label>Last Name</label><input type="text"></input>
+      <button>Remove Guest</button>
+    </div>
+  </div>
 </section>
