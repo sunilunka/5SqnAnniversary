@@ -1,4 +1,4 @@
-app.directive("attendeeEvent", function(AttendeeFactory, $rootScope){
+app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/attendee-event/attendee-event.html",
@@ -11,8 +11,8 @@ app.directive("attendeeEvent", function(AttendeeFactory, $rootScope){
       scope.attending = false;
 
 
-      scope.guests = true;
-      scope.addingGuests = false;
+      scope.guests = false;
+      scope.addingGuests = true;
 
       /* Compare all events with events user has signed up with. This facilitates UI configuration and options for each event */
       scope.isUserAttending = (evt) => {
@@ -40,6 +40,12 @@ app.directive("attendeeEvent", function(AttendeeFactory, $rootScope){
         .then(function(ref){
           scope.isUserAttending(scope.evt);
         })
+      }
+
+      /* Function to run factory method */
+      scope.removeGuestFromEvent = (attendee, evtId) => {
+          AttendeeFactory.attendeeGetEventGuests(attendee, evtId);
+
       }
     }
   }

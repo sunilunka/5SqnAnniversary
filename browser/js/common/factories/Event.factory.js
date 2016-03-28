@@ -87,27 +87,24 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       .then(function(data){
         var eventRecord = eventsArray.$getRecord(eventKey);
         if(eventRecord.hasOwnProperty("guests")){
-          eventRecord["guests"][userRef] = guests || 1;
+          /* If the guests key and numeric value exists, add the new number of guests */
+          eventRecord["guests"] += guests || 1;
         } else {
-          eventRecord["guests"] = {};
-          eventRecord["guests"][userRef] = guests || 1;
+          /* If guests key does not exist, then create it. */
+          eventRecord["guests"] = guests || 1;
         }
         return eventsArray.$save(eventsArray.$getRecord(eventKey))
       })
-      // resolvedEventGuestObjs[eventName][userRef] = guests || 1;
-      // return resolvedEventGuestObjs[eventName].$save()
-      //   .then(function(ref){
-      //       console.log("SAVED TO EVENT!");
-      //   });
     },
 
     /* Remove user from the Event Guest object*/
-    removeAttendeeFromEvent: (eventKey, userRef) => {
+    removeAttendeeFromEvent: (eventKey, userRef, numGuestsToRemove) => {
       return eventsArray.$loaded()
       .then(function(data){
           let eventToModify = eventsArray.$getRecord(eventKey);
-          delete eventToModify.guests[userRef];
-          delete eventToModify.attending;
+          /* TO DO: Remove number of guests associated with attendee */
+          eventToModify.guests -= numGuestsToRemove;
+          /* TO DO: Save the events record */
           return eventsArray.$save(eventToModify);
       })
     },

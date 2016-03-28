@@ -3,7 +3,6 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
   var attendeeObject = $firebaseObject(attendeesRef);
 
 
-
   return {
     /* Create a new user and log them in.
       => registerMethod takes a string denoting the register method.
@@ -110,23 +109,31 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
 
     removeEventFromAttendee: (evtId, user) => {
       console.log("REMOVING FROM USER: ", user);
-      if(user.events[evtId]){
+      if(user.events.hasOwnProperty(evtId)){
+        let guestTotalToRemove = user.events[evtId]["guestCount"];
         delete user.events[evtId];
         return user.$save()
         .then(function(ref){
-          return EventFactory.removeAttendeeFromEvent(evtId, user.$id);
+          return EventFactory.removeAttendeeFromEvent(evtId, user.$id, guestTotalToRemove);
         })
 
       }
     },
 
     addEventToAttendee: (evtId, user) => {
+      console.log("ADDING EVENT TO USER")
       if(user.hasOwnProperty("events")){
-        user.events[evtId] = true;
+        user.events[evtId] = {
+          guestCount: 1,
+          1: user.firstName + " " + user.lastName
+        }
       } else {
         /* If events object in local db does not exist, create it */
         user["events"] = {};
-        user.events[evtId] = true;
+        user.events[evtId] = {
+          guestCount: 1,
+          1: user.firstName + " " + user.lastName
+        }
       }
       return user.$save()
       .then(function(ref){
@@ -135,9 +142,6 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
           return ref;
         })
       })
-    },
-
-    /* Get any guests attendee is bringing to event (logged against the user)*/
-
+    }
   }
 })

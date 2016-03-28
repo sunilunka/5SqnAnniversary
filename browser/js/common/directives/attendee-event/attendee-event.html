@@ -1,18 +1,19 @@
-<section>
-  <h3>{{ evt.name }}</h3>
-  <div class="attend-event" ng-hide="attending">
-    <button ng-click="attendEvent(evt.$id)">Register for Event</button>
-  </div>
-  <div ng-show="attending" class="attending-options">
-    <button>Bringing guests?</button>
-    <button ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
-  </div>
-  <div ng-show="guests || addingGuests" class="attending-guests">
-    <!--  If there are no guests, then show when 'bringing guests is clicked. Otherwise, if there are guests, ng-repeat of guests array'-->
-    <div ng-repeat="guest in guests" class="form-group">
+<h3>{{ evt.name }}</h3>
+<div class="attend-event" ng-hide="attending">
+  <button ng-click="attendEvent(evt.$id)">Register for Event</button>
+</div>
+<div ng-show="attending" class="attending-options">
+  <button>Bringing guests?</button>
+  <button ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
+  <section class="attendee-aeg">
+    <!-- <div> -->
+      <event-guest attendee="attendee"></event-guest>
+      <add-event-guest></add-event-guest>
+      <!-- <h4>Guest</h4>
       <label>First Name</label><input type="text"></input>
       <label>Last Name</label><input type="text"></input>
-      <button>Remove Guest</button>
-    </div>
-  </div>
-</section>
+      <button ng-click="removeGuestFromEvent(attendee, evt.$id)">Remove Guest</button> -->
+    <!-- </div> -->
+  </section>
+</div>
+  <!--  If there are no guests, then show when 'bringing guests is clicked. Otherwise, if there are guests, ng-repeat of guests array'-->

@@ -15,6 +15,22 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     })
   }
 
+  /* Change event data to what is required in the schema. Because a user cannot allocate guests until they have registered, the default guestCount will always be one. */
+  var modifyEventData = (userEventObj, firstName, lastName) => {
+    console.log("USER EVENT OBJECT: ", userEventObj);
+    for(var evt in userEventObj){
+      /* Covers both null, true and false values that may be returned from form */
+      if(userEventObj[evt]){
+        userEventObj[evt] = {
+          guestCount: 1,
+          1: firstName + " " + lastName
+        }
+      }
+    }
+    console.log("MODIFIED UEO: ", userEventObj);
+    return userEventObj;
+  }
+
   var storeRegisterDataForRedirect = (method, registerData) => {
 
     var toStore = {}
@@ -35,6 +51,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
     delete newUser.uid;
     attendeeObject[userId] = newUser;
+    attendeeObject[userId]["events"] = modifyEventData(newUser.events);
     return attendeeObject.$save()
     .then(function(ref){
       console.log("OBJECT SAVED");
@@ -47,13 +64,14 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
   var parseFbData = (authData, formData) => {
     var dataPath = authData.facebook.cachedUserProfile;
+
     return {
       uid: authData.uid,
       firstName: dataPath.first_name,
       lastName: dataPath.last_name,
       fbprofile: dataPath.link,
       association: formData.association,
-      events: formData.events
+      events: modifyEventData(formData.events, dataPath.first_name, dataPath.last_name)
     }
   }
 
@@ -64,7 +82,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       lastName: formData.lastName,
       email: formData.email,
       association: formData.association,
-      events: formData.events
+      events: modifyEventData(formData.events, formData.firstName, formData.lastName)
   }
 }
 
@@ -132,11 +150,11 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       if(!userData.events) userData.events = {};
       let eventObj = userData.events;
       /* For each object key, check it exists, if so, add to selected event*/
-      for(var eventName in eventObj){
+      for(var eventId in eventObj){
         /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
-        console.log("EVENT TO USE: ", eventName);
-        if(eventObj[eventName]){
-          recordsToSave.push(EventFactory.addAttendeeToEvent(eventName, userData.uid));
+        console.log("EVENT TO USE: ", eventId);
+        if(eventObj.hasOwnProperty(eventId)){
+          recordsToSave.push(EventFactory.addAttendeeToEvent(eventId, userData.uid));
         }
       }
       /* Return the result of all saved event records on resolution or rejection */
