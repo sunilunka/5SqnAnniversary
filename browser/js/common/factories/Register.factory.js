@@ -51,7 +51,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
     delete newUser.uid;
     attendeeObject[userId] = newUser;
-    attendeeObject[userId]["events"] = modifyEventData(newUser.events);
     return attendeeObject.$save()
     .then(function(ref){
       console.log("OBJECT SAVED");

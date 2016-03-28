@@ -16,8 +16,13 @@ app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory){
 
       /* Compare all events with events user has signed up with. This facilitates UI configuration and options for each event */
       scope.isUserAttending = (evt) => {
+        if(!scope.attendee.hasOwnProperty("events")){
+          scope.attending = false;
+          return;
+        }
         let userEvents = Object.keys(scope.attendee.events);
-        if(userEvents.indexOf(evt.$id) > -1){
+        /* If user has toggled the initial login form checkbox, the event key will be added to the event list. However, the value will be false. Hence, the && requirement, facilitate correct UI rendering. */
+        if(userEvents.indexOf(evt.$id) > -1 && scope.attendee.events[evt.$id]){
           scope.attending = true;
         } else {
           scope.attending = false;

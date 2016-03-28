@@ -1,4 +1,4 @@
-app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory){
+app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -116,12 +116,14 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
         .then(function(ref){
           return EventFactory.removeAttendeeFromEvent(evtId, user.$id, guestTotalToRemove);
         })
+        .then(function(ref){
+          return EventGuestFactory.removeAttendeeFromEventList(evtId, user);
+        })
 
       }
     },
 
     addEventToAttendee: (evtId, user) => {
-      console.log("ADDING EVENT TO USER")
       if(user.hasOwnProperty("events")){
         user.events[evtId] = {
           guestCount: 1,
@@ -141,6 +143,9 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
         .then(function(ref){
           return ref;
         })
+      })
+      .then(function(ref){
+        return EventGuestFactory.addAttendeeToEventList(evtId, user);
       })
     }
   }
