@@ -7,7 +7,9 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
     addAttendeeToEventList: (eventId, attendee) => {
       console.log("EVENT GUEST REFERENCE: ", attendee);
       eventGuestRef.child(eventId).update({
-          [attendee.$id]: attendee.events[eventId]
+          [attendee.$id]: {
+            0: attendee.firstName + " " + attendee.lastName
+          }
       })
       .then(function(data){
         console.log("DATA WRITTEN: ", data);

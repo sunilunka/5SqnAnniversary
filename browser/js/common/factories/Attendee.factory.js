@@ -125,17 +125,11 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
 
     addEventToAttendee: (evtId, user) => {
       if(user.hasOwnProperty("events")){
-        user.events[evtId] = {
-          guestCount: 1,
-          1: user.firstName + " " + user.lastName
-        }
+        user.events[evtId] = "No guests";
       } else {
         /* If events object in local db does not exist, create it */
         user["events"] = {};
-        user.events[evtId] = {
-          guestCount: 1,
-          1: user.firstName + " " + user.lastName
-        }
+        user.events[evtId] = "No guests";
       }
       return user.$save()
       .then(function(ref){

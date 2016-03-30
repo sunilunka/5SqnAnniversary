@@ -82,31 +82,52 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
 
     /* Guests includes the attendee enrolling, default is 1 */
     addAttendeeToEvent: (eventKey, userRef, guests) => {
-
-      return eventsArray.$loaded()
-      .then(function(data){
-        var eventRecord = eventsArray.$getRecord(eventKey);
-        if(eventRecord.hasOwnProperty("guests")){
-          /* If the guests key and numeric value exists, add the new number of guests */
-          eventRecord["guests"] += guests || 1;
-        } else {
-          /* If guests key does not exist, then create it. */
-          eventRecord["guests"] = guests || 1;
-        }
-        return eventsArray.$save(eventsArray.$getRecord(eventKey))
+      return eventsRef.child(eventKey)
+      .child("guests").transaction(function(currentVal){
+        return currentVal += 1;
       })
+      .then(function(transactionObj){
+        console.log("VALUE RETURNED IN PROMISE: ", transactionObj);
+      })
+      .catch(function(error){
+        console.error("SORRY, AN ERROR OCCURED!", error);
+      })
+
+      // return eventsArray.$loaded()
+      // .then(function(data){
+      //   var eventRecord = eventsArray.$getRecord(eventKey);
+      //   if(eventRecord.hasOwnProperty("guests")){
+      //     /* If the guests key and numeric value exists, add the new number of guests */
+      //     eventRecord["guests"] += guests || 1;
+      //   } else {
+      //     /* If guests key does not exist, then create it. */
+      //     eventRecord["guests"] = guests || 1;
+      //   }
+      //   return eventsArray.$save(eventsArray.$getRecord(eventKey))
+      // })
     },
 
     /* Remove user from the Event Guest object*/
     removeAttendeeFromEvent: (eventKey, userRef, numGuestsToRemove) => {
-      return eventsArray.$loaded()
-      .then(function(data){
-          let eventToModify = eventsArray.$getRecord(eventKey);
-          /* TO DO: Remove number of guests associated with attendee */
-          eventToModify.guests -= numGuestsToRemove;
-          /* TO DO: Save the events record */
-          return eventsArray.$save(eventToModify);
+      return eventsRef
+      .child(eventKey)
+      .child("guests")
+      .transaction(function(currentVal){
+        return (currentVal -= 1 ? currentVal -= 1 : 0);
       })
+      .then(function(transactionObj){
+        console.log("COMMITED: ", transactionObj);
+      })
+      .catch(function(error){
+        console.log("SORRY AN ERROR HAS OCCURED: ", error);
+      })
+      // .then(function(data){
+      //     let eventToModify = eventsArray.$getRecord(eventKey);
+      //     /* TO DO: Remove number of guests associated with attendee */
+      //     eventToModify.guests -= numGuestsToRemove;
+      //     /* TO DO: Save the events record */
+      //     return eventsArray.$save(eventToModify);
+      // })
     },
   //
   //   getSingleEventAttendees: (eventName) => {
