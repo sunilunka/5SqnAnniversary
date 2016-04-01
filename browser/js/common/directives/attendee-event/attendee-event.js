@@ -1,4 +1,4 @@
-app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory){
+app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory, $firebaseArray){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/attendee-event/attendee-event.html",
@@ -7,12 +7,29 @@ app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory){
       attendee: "="
     },
     link: function(scope, element, attrs){
+
+      /* Get array of guests who the attendee intends to bring. */
+      let attendeeEventRef = DatabaseFactory.dbConnection("attendees/" + scope.attendee.$id + "/events");
+      attendeeEventRef.on("value", function(snapshot){
+        console.log("DATA FOUND: ", snapshot.child(scope.evt.$id))
+        if(snapshot.hasChild(scope.evt.$id)){
+          let guests = $firebaseArray(attendeeEventRef.child(scope.evt.$id));
+          guests.$loaded()
+          .then(function(data){
+            scope.guests = data;
+          })
+        }
+      });
       /* Value used to modify UI with respect to user attending an event or not. */
       scope.attending = false;
 
+      scope.guests;
 
-      scope.guests = false;
-      scope.addingGuests = true;
+      // if(){
+      //   console.log("USER IS ATTENDING EVENT: ", guestArray)
+      // }
+
+      // scope.guests = attendee.events[evt.$id] || [];
 
       /* Compare all events with events user has signed up with. This facilitates UI configuration and options for each event */
       scope.isUserAttending = (evt) => {

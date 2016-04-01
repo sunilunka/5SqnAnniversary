@@ -7,8 +7,9 @@
   <button ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
   <section class="attendee-aeg">
     <!-- <div> -->
-      <event-guest attendee="attendee"></event-guest>
-      <add-event-guest></add-event-guest>
+
+      <event-guest ng-repeat="guest in guests" attendee="attendee" guest="guest"></event-guest>
+      <add-event-guest attendee="attendee" evt="evt"></add-event-guest>
       <!-- <h4>Guest</h4>
       <label>First Name</label><input type="text"></input>
       <label>Last Name</label><input type="text"></input>

@@ -113,7 +113,7 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       .child(eventKey)
       .child("guests")
       .transaction(function(currentVal){
-        return (currentVal -= 1 ? currentVal -= 1 : 0);
+        return (currentVal > 0 ? currentVal -= 1 : 0);
       })
       .then(function(transactionObj){
         console.log("COMMITED: ", transactionObj);
