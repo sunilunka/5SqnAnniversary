@@ -9,8 +9,6 @@ app.directive("eventGuest", function(AttendeeEventFactory){
     },
     link: function(scope, element, attrs){
       scope.removeGuest = () => {
-        console.log("ATTENDEE ID: ", scope.attendeeid)
-        console.log("EVENT ID: ", scope.evtid);
         let attendeeGuestObj = AttendeeEventFactory.objectToModify("attendees/" + scope.attendeeid + "/events/" + scope.evtid);
         let guestId = scope.guest.$id;
         return attendeeGuestObj.$loaded()

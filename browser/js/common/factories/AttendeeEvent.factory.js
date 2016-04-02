@@ -1,4 +1,4 @@
-app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, DatabaseFactory){
+app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, DatabaseFactory, EventFactory){
 
   var eventGuestLists = DatabaseFactory.dbConnection("eventGuests");
 
@@ -22,36 +22,22 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
           return eventList.update({
             [guestKey]: guestName
           })
+          .then(function(data){
+            EventFactory.addAttendeeToEvent(evtId, attendeeId);
+          })
         },
 
         removeGuest: (guestId) => {
           var guestEventRef = DatabaseFactory.dbConnection("eventGuests/" + evtId + "/" + attendeeId + "/" + guestId);
           guestEventRef.remove()
           .then(function(data){
-            console.log("USER REMOVED FROM GUEST LIST: ", data);
+            EventFactory.removeAttendeeFromEvent(evtId, attendeeId);
           })
           .catch(function(error){
             console.error("Sorry an error occured: ", error)
           })
         }
       }
-    },
-
-    addGuestToEventGuestList: (evtId, attendeeId, guest) => {
-      eventGuestLists
-      .child(evtId)
-      .child(attendeeId)
-      .update({
-        [guest.$id]: guest.$value
-      })
-      .then(function(data){
-        console.log("USER ADDED TO EVENT GUEST LIST: ", data);
-
-      })
-    },
-
-    removeGuestFromEventGuestList: (evtId, attendId, guestId) => {
-      eventGuestLists.child(evtId)
     }
   }
 
