@@ -3,7 +3,11 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
   var eventGuestLists = DatabaseFactory.dbConnection("eventGuests");
 
   return {
-    /* path takes a string denoting the path of the firebase record to use */
+    /* For all methods use path argument, it takes a string denoting the path of the firebase record to use to modify a record*/
+
+    guestEventRef: (path) => {
+      return DatabaseFactory.dbConnection(path);
+    },
     arrayToModify: (path) => {
       let guestEventRef = DatabaseFactory.dbConnection(path);
       return $firebaseArray(guestEventRef);
@@ -23,12 +27,13 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
             [guestKey]: guestName
           })
           .then(function(data){
-            EventFactory.addAttendeeToEvent(evtId, attendeeId);
+            return EventFactory.addAttendeeToEvent(evtId, attendeeId);
           })
         },
 
         removeGuest: (guestId) => {
           var guestEventRef = DatabaseFactory.dbConnection("eventGuests/" + evtId + "/" + attendeeId + "/" + guestId);
+
           guestEventRef.remove()
           .then(function(data){
             EventFactory.removeAttendeeFromEvent(evtId, attendeeId);

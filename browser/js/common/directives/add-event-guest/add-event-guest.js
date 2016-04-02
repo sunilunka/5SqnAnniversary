@@ -12,7 +12,6 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray){
       let guestArray = AttendeeEventFactory.arrayToModify("attendees/" + scope.attendee.$id + "/events/" + scope.evt.$id)
 
       scope.addNewGuest = () => {
-        console.log("GUEST DETAILS: ", scope.guestDetails);
         if(!scope.guestDetails){
           console.error("NO PLEASE FILL IN THE FORM!")
 
@@ -20,7 +19,6 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray){
           let guestName = scope.guestDetails.firstName + " " + scope.guestDetails.lastName;
           return guestArray.$add(guestName)
           .then(function(ref){
-            console.log("REFERENCE KEY OF SAVED VALUE: ", ref.key());
             AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, scope.attendee.$id).addGuest(ref.key(), guestName);
           })
         }

@@ -11,7 +11,6 @@ app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory, $fireb
       /* Get array of guests who the attendee intends to bring. */
       let attendeeEventRef = DatabaseFactory.dbConnection("attendees/" + scope.attendee.$id + "/events");
       attendeeEventRef.on("value", function(snapshot){
-        console.log("DATA FOUND: ", snapshot.child(scope.evt.$id))
         if(snapshot.hasChild(scope.evt.$id)){
           let guests = $firebaseArray(attendeeEventRef.child(scope.evt.$id));
           guests.$loaded()

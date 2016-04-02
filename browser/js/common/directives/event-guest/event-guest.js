@@ -9,17 +9,33 @@ app.directive("eventGuest", function(AttendeeEventFactory){
     },
     link: function(scope, element, attrs){
       scope.removeGuest = () => {
-        let attendeeGuestObj = AttendeeEventFactory.objectToModify("attendees/" + scope.attendeeid + "/events/" + scope.evtid);
+
+        let attendeeGuestArray = AttendeeEventFactory.arrayToModify("attendees/" + scope.attendeeid + "/events/" + scope.evtid);
         let guestId = scope.guest.$id;
-        return attendeeGuestObj.$loaded()
+        return attendeeGuestArray.$loaded()
         .then(function(data){
-          if(attendeeGuestObj.hasOwnProperty(scope.guest.$id)){
-            delete attendeeGuestObj[scope.guest.$id];
-            return attendeeGuestObj.$save()
+          console.log("DATA LENGTH", data.length)
+          if(data.length <= 1){
+            data.$ref().set("No guests")
+            .then(function(data){
+                console.log("NO GUESTS ASSIGNED: ", data);
+            })
+          } else if(data.length > 1){
+            console.log("DATA: ", data)
+            return data.$ref().child(guestId)
+            .remove()
             .then(function(ref){
-              AttendeeEventFactory.modifyEventGuestList(scope.evtid, scope.attendeeid).removeGuest(scope.guest.$id);
+              console.log("GUEST REMOVED: ", ref);
+              return AttendeeEventFactory.modifyEventGuestList(scope.evtid, scope.attendeeid).removeGuest(guestId);
             })
           }
+          // if(attendeeGuestObj.hasOwnProperty(scope.guest.$id)){
+          //   delete attendeeGuestObj[scope.guest.$id];
+          //   return attendeeGuestObj.$save()
+          //   .then(function(ref){
+          //     AttendeeEventFactory.modifyEventGuestList(scope.evtid, scope.attendeeid).removeGuest(scope.guest.$id);
+          //   })
+          // }
         });
       }
     }
