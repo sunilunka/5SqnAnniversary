@@ -24,12 +24,6 @@ app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory, $fireb
 
       scope.guests;
 
-      // if(){
-      //   console.log("USER IS ATTENDING EVENT: ", guestArray)
-      // }
-
-      // scope.guests = attendee.events[evt.$id] || [];
-
       /* Compare all events with events user has signed up with. This facilitates UI configuration and options for each event */
       scope.isUserAttending = (evt) => {
         if(!scope.attendee.hasOwnProperty("events")){
@@ -56,17 +50,12 @@ app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory, $fireb
         })
       }
 
+      /* Add attendee to event guestList, and also add entry to attendee datastore */
       scope.attendEvent = (evtId) => {
         AttendeeFactory.addEventToAttendee(evtId, scope.attendee)
         .then(function(ref){
           scope.isUserAttending(scope.evt);
         })
-      }
-
-      /* Function to run factory method */
-      scope.removeGuestFromEvent = (attendee, evtId) => {
-          AttendeeFactory.attendeeGetEventGuests(attendee, evtId);
-
       }
     }
   }

@@ -110,7 +110,8 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
     removeEventFromAttendee: (evtId, user) => {
       console.log("REMOVING FROM USER: ", user);
       if(user.events.hasOwnProperty(evtId)){
-        let guestTotalToRemove = user.events[evtId]["guestCount"];
+        let guestTotalToRemove = $firebaseArray(user.$ref().child("events").child(evtId)).length;
+        console.log("NUMBER OF GUESTS: ", guestTotalToRemove)
         delete user.events[evtId];
         return user.$save()
         .then(function(ref){
