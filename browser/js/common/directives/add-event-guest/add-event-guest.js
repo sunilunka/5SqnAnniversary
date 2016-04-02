@@ -1,4 +1,4 @@
-app.directive("addEventGuest", function(DatabaseFactory, $firebaseArray){
+app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/add-event-guest/add-event-guest.html",
@@ -8,10 +8,8 @@ app.directive("addEventGuest", function(DatabaseFactory, $firebaseArray){
       guestDetails: "@"
     },
     link: function(scope, element, attrs){
-
-      let attendeeEventRef = DatabaseFactory.dbConnection("attendees/" + scope.attendee.$id + "/events/" + scope.evt.$id);
-
-      let guestArray = $firebaseArray(attendeeEventRef);
+      /* Using firebase array to generate unique key for each guest. */
+      let guestArray = AttendeeEventFactory.arrayToModify("attendees/" + scope.attendee.$id + "/events/" + scope.evt.$id)
 
       scope.addNewGuest = () => {
         console.log("GUEST DETAILS: ", scope.guestDetails);
@@ -19,11 +17,11 @@ app.directive("addEventGuest", function(DatabaseFactory, $firebaseArray){
           console.error("NO PLEASE FILL IN THE FORM!")
 
         } else {
-
-          return guestArray.$add(scope.guestDetails.firstName + " " + scope.guestDetails.lastName)
+          let guestName = scope.guestDetails.firstName + " " + scope.guestDetails.lastName;
+          return guestArray.$add(guestName)
           .then(function(ref){
-            console.log("REFERNCE KEY: ", ref.key())
-            console.log("REFERENCE VALUE: ", guestArray.$value(ref.key()));
+            console.log("REFERENCE KEY OF SAVED VALUE: ", ref.key());
+            AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, scope.attendee.$id).addGuest(ref.key(), guestName);
           })
         }
 

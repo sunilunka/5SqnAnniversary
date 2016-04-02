@@ -8,13 +8,7 @@
   <section class="attendee-aeg">
     <!-- <div> -->
 
-      <event-guest ng-repeat="guest in guests" attendee="attendee" guest="guest"></event-guest>
+      <event-guest ng-repeat="guest in guests" attendeeid="{{attendee.$id}}" guest="guest" evtid="{{evt.$id}}"></event-guest>
       <add-event-guest attendee="attendee" evt="evt"></add-event-guest>
-      <!-- <h4>Guest</h4>
-      <label>First Name</label><input type="text"></input>
-      <label>Last Name</label><input type="text"></input>
-      <button ng-click="removeGuestFromEvent(attendee, evt.$id)">Remove Guest</button> -->
-    <!-- </div> -->
   </section>
 </div>
-  <!--  If there are no guests, then show when 'bringing guests is clicked. Otherwise, if there are guests, ng-repeat of guests array'-->
