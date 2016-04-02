@@ -24,9 +24,11 @@ app.directive("eventGuest", function(AttendeeEventFactory){
             console.log("DATA: ", data)
             return data.$ref().child(guestId)
             .remove()
-            .then(function(ref){
-              console.log("GUEST REMOVED: ", ref);
+            .then(function(){
               return AttendeeEventFactory.modifyEventGuestList(scope.evtid, scope.attendeeid).removeGuest(guestId);
+            })
+            .catch(function(error){
+              console.log("SORRY AN ERROR OCCURED: ", error);
             })
           }
           // if(attendeeGuestObj.hasOwnProperty(scope.guest.$id)){
