@@ -18,10 +18,11 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
         console.log("SORRY, AN ERROR OCCURED!");
       })
     },
-
+    /* Remove an attendee from the eventGuests list. */
     removeAttendeeFromEventList: (eventId, attendee) => {
       eventGuestRef.child(eventId).child(attendee.$id).remove()
       .then(function(data){
+        /* No data is returned on successful (resolved promise) removal using standard Firebase Javscript API methods. */
         console.log("DATA REMOVED!", data);
       })
       .catch(function(error){

@@ -113,7 +113,9 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       .child(eventKey)
       .child("guests")
       .transaction(function(currentVal){
-        return (currentVal > 0 ? currentVal -= 1 : 0);
+        let guestDecrement = numGuestsToRemove ? numGuestsToRemove : 1;
+        console.log("GUEST DECREMENT: ", guestDecrement);
+        return (currentVal > 0 ? currentVal -= guestDecrement : 0);
       })
       .then(function(transactionObj){
         console.log("COMMITED: ", transactionObj);
@@ -121,24 +123,7 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       .catch(function(error){
         console.log("SORRY AN ERROR HAS OCCURED: ", error);
       })
-      // .then(function(data){
-      //     let eventToModify = eventsArray.$getRecord(eventKey);
-      //     /* TO DO: Remove number of guests associated with attendee */
-      //     eventToModify.guests -= numGuestsToRemove;
-      //     /* TO DO: Save the events record */
-      //     return eventsArray.$save(eventToModify);
-      // })
-    },
-  //
-  //   getSingleEventAttendees: (eventName) => {
-  //     var attendeesList = $firebaseArray(eventsRef.child(eventName).child("guests"));
-  //
-  //     return attendeesList.$loaded()
-  //     .then(function(data){
-  //       console.log("ATTENDEES: ", data);
-  //       return data;
-  //     });
-  //   }
+    }
   }
 
 })

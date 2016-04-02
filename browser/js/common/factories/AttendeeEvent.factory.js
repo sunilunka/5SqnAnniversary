@@ -43,6 +43,15 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
           })
         }
       }
+    },
+
+    getAttendeeGuestCount: (evtId, attendeeId) => {
+      let guestEventRef = DatabaseFactory.dbConnection("eventGuests/" + evtId + "/" + attendeeId);
+      return $firebaseArray(guestEventRef)
+      .$loaded()
+      .then(function(data){
+        return data.length;
+      })
     }
   }
 

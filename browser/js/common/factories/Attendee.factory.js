@@ -1,4 +1,4 @@
-app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory){
+app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -110,17 +110,18 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
     removeEventFromAttendee: (evtId, user) => {
       console.log("REMOVING FROM USER: ", user);
       if(user.events.hasOwnProperty(evtId)){
-        let guestTotalToRemove = $firebaseArray(user.$ref().child("events").child(evtId)).length;
-        console.log("NUMBER OF GUESTS: ", guestTotalToRemove)
-        delete user.events[evtId];
-        return user.$save()
-        .then(function(ref){
-          return EventFactory.removeAttendeeFromEvent(evtId, user.$id, guestTotalToRemove);
+        return AttendeeEventFactory.getAttendeeGuestCount(evtId, user.$id)
+         .then(function(count){
+           /* Get count of current guests */
+          delete user.events[evtId];
+          return user.$save()
+          .then(function(ref){
+            return EventFactory.removeAttendeeFromEvent(evtId, user.$id, count);
+          })
+          .then(function(ref){
+            return EventGuestFactory.removeAttendeeFromEventList(evtId, user);
+          })
         })
-        .then(function(ref){
-          return EventGuestFactory.removeAttendeeFromEventList(evtId, user);
-        })
-
       }
     },
 
