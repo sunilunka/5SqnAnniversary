@@ -4,10 +4,7 @@
   <p ng-repeat="evt in allEvents">There are {{ evt.guests }} amount of people attending {{ evt.name }}<p>
   <button ng-repeat="managementView in areasToManage" ui-sref="{{ managementView.state }}">{{ managementView.title }}</button>
   <div ui-view>
-    <!-- <form ng-submit="submitNewEvent()">
-      <input type="text" ng-model="eventName"></input>
-      <input type="submit" value="Add Event"></input>
-    </form> -->
+    <!--  ui-view will render substates in here. Negates requirement for reloading the page. -->
   </div>
   <div>
     <p></p>

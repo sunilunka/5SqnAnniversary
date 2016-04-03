@@ -1,7 +1,6 @@
 <section id="management-announcements">
-  <div ng-repeat="announcement in announcements">
-    <h4>{{ announcement.title }}</h4>
-    <p>{{ announcement.content }}</p>
+  <div>
+    <announcement-removal ng-repeat="announcement in announcements" announcement="announcement"></announcement-removal>
   </div>
   <form ng-submit="addNew()">
     <label>Title</label>

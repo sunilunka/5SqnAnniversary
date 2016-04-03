@@ -4,16 +4,16 @@ app.factory("AnnouncementsFactory", function($firebaseArray, DatabaseFactory){
   return {
     addNewAnnouncement: (formData) => {
       return announcementList.$add(formData)
-      .then(function(data){
-        console.log("NEW ANNOUNCEMENT ADDED: ", data)
-        return data;
+      .then(function(ref){
+        console.log("NEW ANNOUNCEMENT ADDED: ", ref)
+        return ref;
       })
     },
 
-    removeAnnouncement: (announcementId) => {
-      return announcementList.$remove(announcementId)
+    removeAnnouncement: (announcement) => {
+      return announcementList.$remove(announcement)
       .then(function(ref){
-        console.log("ANNOUNCEMENT REMOVED!")
+        console.log("ANNOUNCEMENT REMOVED: ", ref)
         return ref;
       })
     },
