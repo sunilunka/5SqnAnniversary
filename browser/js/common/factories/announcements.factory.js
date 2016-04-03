@@ -3,6 +3,7 @@ app.factory("AnnouncementsFactory", function($firebaseArray, DatabaseFactory){
   var announcementList = $firebaseArray(announcementsRef);
   return {
     addNewAnnouncement: (formData) => {
+      console.log("CAN WE PARSE FOR JSON TO PRESERVE TYPING: ", JSON.stringify(formData.content.replace(/\\/, "\\")));
       return announcementList.$add(formData)
       .then(function(ref){
         console.log("NEW ANNOUNCEMENT ADDED: ", ref)
