@@ -13,6 +13,10 @@ app.config(function($stateProvider){
       },
       allEvents: (EventFactory) => {
         return EventFactory.getEvents();
+      },
+
+      allAnnouncements: (AnnouncementsFactory) => {
+        return AnnouncementsFactory.getAllAnnouncements();
       }
     }
   })

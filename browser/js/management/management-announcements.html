@@ -1,6 +1,13 @@
 <section id="management-announcements">
-  <form>
+  <div ng-repeat="announcement in announcements">
+    <h4>{{ announcement.title }}</h4>
+    <p>{{ announcement.content }}</p>
+  </div>
+  <form ng-submit="addNew()">
     <label>Title</label>
-    <input type="text"></input>
+    <input type="text" ng-model="newAnnouncement.title"></input>
+    <label>Content</label>
+    <textarea ng-model="newAnnouncement.content"></textarea>
+    <input type="submit" value="Add Announcement">
   </form>
 </section>
