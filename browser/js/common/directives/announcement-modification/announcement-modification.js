@@ -1,7 +1,7 @@
-app.directive("announcementRemoval", function(AnnouncementsFactory){
+app.directive("announcementModification", function(AnnouncementsFactory){
   return {
     restrict: "E",
-    templateUrl: "js/common/directives/announcement-removal/announcement-removal.html",
+    templateUrl: "js/common/directives/announcement-modification/announcement-modification.html",
     scope: {
       announcement: "="
     },
