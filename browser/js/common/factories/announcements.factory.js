@@ -27,7 +27,8 @@ app.factory("AnnouncementsFactory", function($firebaseArray, DatabaseFactory){
     },
 
     saveAnnouncement: (announcementData) => {
-      return announcementList.$save(announcementData.$id)
+      console.log("ANNOUNCEMENT UPDATED DATA: ", announcementData)
+      return announcementList.$save(announcementData)
       .then(function(ref){
         console.log("ANNOUNCEMENT MODIFIED: ", ref);
         return ref;
