@@ -13,10 +13,11 @@ app.directive("announcementModification", function(AnnouncementsFactory){
       scope.editMode = false;
 
       scope.editOption = "Edit";
+
+      
       /* Method to remove announcement from Firebase DB */
-      scope.removeAnnouncement = (announcement) => {
-        AnnouncementsFactory.removeAnnouncement(announcement);
-      }
+      scope.removeAnnouncement = AnnouncementsFactory.removeAnnouncement;
+
 
 
       scope.updateAnnouncement = () => {
