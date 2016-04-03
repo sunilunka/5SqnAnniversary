@@ -1,16 +1,16 @@
 <section id="management-panel">
 
   <h2>What do you need to do today?</h2>
-  <p>There are x amount of people attending...<p>
-
-  <div>
-    <form ng-submit="submitNewEvent()">
+  <p ng-repeat="evt in allEvents">There are {{ evt.guests }} amount of people attending {{ evt.name }}<p>
+  <button ng-repeat="managementView in areasToManage" ui-sref="{{ managementView.state }}">{{ managementView.title }}</button>
+  <div ui-view>
+    <!-- <form ng-submit="submitNewEvent()">
       <input type="text" ng-model="eventName"></input>
       <input type="submit" value="Add Event"></input>
-    </form>
+    </form> -->
   </div>
   <div>
-    <p>DINNER RSVP: {{ dinnerAttendees.length }}</p>
+    <p></p>
   </div>
 
 </section>

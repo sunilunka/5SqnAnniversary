@@ -67,7 +67,11 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
     userIsRegistered: (data) => {
       SessionService.createSession(data);
       $rootScope.$broadcast("loggedIn", SessionService.user);
-      $state.go("attendee", {id: data.id});
+      if(data.hasOwnProperty("manager")){
+        $state.go("management")
+      } else {
+        $state.go("attendee", {id: data.id});
+      }
       return;
     },
 

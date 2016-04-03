@@ -110,6 +110,7 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
     removeEventFromAttendee: (evtId, user) => {
       console.log("REMOVING FROM USER: ", user);
       if(user.events.hasOwnProperty(evtId)){
+        /* Need to get count of all current attendee guests + attendee themselves to event. That way, on removal, the correct number of persons are deducted from the event guest count. */
         return AttendeeEventFactory.getAttendeeGuestCount(evtId, user.$id)
          .then(function(count){
            /* Get count of current guests */

@@ -17,15 +17,28 @@ app.run(function ($rootScope, $state, FIRE_PARAMS, AuthService, SessionService) 
     return state.data && state.data.authRequired;
   }
 
+  var stateRequiresAdmin = (state) => {
+    return state.data && state.data.authRequired && state.data.adminRequired;
+  }
+
   /* When ui-router initiates state change, check if the current user had permissions to access the next state. */
   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
     /* If there is no current user logged in and if the state requires authentication (which will be false if there is no current user) return user to the login page. */
-    if(!(AuthService.getCurrentUser()) && stateRequiresAuth(toState)){
+
+    let currentUser = AuthService.getCurrentUser();
+
+    if(!(currentUser) && stateRequiresAuth(toState)){
       event.preventDefault();
       $state.go('login')
       return;
     }
-    /* Setup logic for administration (management) users access */
+
+    /* To complete, if the user has the property manager, and the is their user id is also annotated against the 'manager' entry in the Firebase Database (FBDB) then allow access to management state. */
+
+    // if(currentUser && stateRequiresAdmin(toState)){
+    //   if(currentUser.hasOwnProperty("manager"))
+    // }
+
 
   })
 
