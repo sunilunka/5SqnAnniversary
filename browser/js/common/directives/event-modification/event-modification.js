@@ -19,22 +19,53 @@ app.directive("eventModification", function(EventFactory){
       /* Method to remove announcement from Firebase DB */
       scope.removeEvent = EventFactory.removeEvent;
 
-      var convertDateForStorageAndDisplay = (dateObj, timeObj) => {
-        console.log("DATE AND TIME OBJECTS: ", dateObj, timeObj)
-        dateObj.setHours(timeObj.getHours(), timeObj.getMinutes());
-        console.log("MERGED TIME: ", dateObj);
+      var convertToTimeString = (timeObj) => {
+
       }
 
-      scope.updateEvent = () => {
-        convertDateForStorageAndDisplay(scope.modifiedEntry.date, scope.modifiedEntry.startTime);
+      var convertDateForStorage = (dateObj, timeObj) => {
+        return {
+          stringDate: dateObj.toString(),
+          stringTime: timeObj.toString()
+        }
+      }
 
-        // _.assign(scope.evt, scope.modifiedEntry);
-        // console.log(scope.evt);
-        // EventFactory.saveEvent(scope.evt)
-        // .then(function(ref){
-        //   scope.toggleEditMode();
-        //   return;
-        // })
+      var convertDateForModification = (objToMod, dateString, timeString) => {
+          objToMod.date = new Date(dateString);
+          objToMod.startTime = new Date(timeString);
+      }
+
+      var convertDateForDisplay = (dateString) => {
+        let splitTime = dateString.split(" ");
+        splitTime = splitTime[0] + " " + splitTime[2] + " " + splitTime[1] + " " + splitTime[3];
+        scope.displayDate = splitTime;
+        return;
+      }
+
+      var convertTimeForDisplay = (timeString) => {
+        scope.displayTime = new Date(timeString).toTimeString();
+        return;
+      }
+
+      convertDateForDisplay(scope.evt.date);
+      convertTimeForDisplay(scope.evt.startTime)
+
+      scope.displayDate;
+
+      scope.displayTime;
+
+      scope.updateEvent = () => {
+        _.assign(scope.evt, scope.modifiedEntry);
+        let dtg = convertDateForStorage(scope.modifiedEntry.date, scope.modifiedEntry.startTime);
+        scope.evt.date = dtg.stringDate;
+        scope.evt.startTime = dtg.stringTime;
+        EventFactory.saveEvent(scope.evt)
+        .then(function(ref){
+          scope.toggleEditMode();
+          convertDateForDisplay(scope.evt.date);
+          convertTimeForDisplay(scope.evt.startTime);
+          return;
+        })
       }
 
       scope.toggleEditMode = () => {
@@ -42,6 +73,7 @@ app.directive("eventModification", function(EventFactory){
         scope.editOption = (scope.editOption === "Edit" ? "Cancel Edit" : "Edit")
         /* scope.editMode will be toggled to false if the use has cancelled the edit. So revert the scope.announcement object to the original version. */
         if(scope.editMode) {
+          convertDateForModification(scope.evt, scope.evt.date, scope.evt.startTime)
           _.assign(scope.modifiedEntry, scope.evt);
         }
         return;

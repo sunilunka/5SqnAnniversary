@@ -5,7 +5,7 @@
     <button ng-click="toggleEditMode()">{{ editOption }}</button>
   </header>
   <div>
-    <p>{{ evt.date }} | {{ evt.startTime}}</p>
+    <p> {{ displayDate }} | {{ displayTime }}</p>
     <p>{{ evt.location }}</p>
   </div>
   <footer ng-show="editMode">
