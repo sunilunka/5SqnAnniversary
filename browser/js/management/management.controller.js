@@ -13,7 +13,4 @@ app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEv
       state: "management.announcements"
     }
   ]
-  $scope.submitNewEvent = () => {
-    return EventFactory.addEvent($scope.eventName);
-  }
 })

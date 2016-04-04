@@ -50,10 +50,36 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       })
     },
 
-    returnEventDetails: (evtObj) => {
-      for(var eventKey in evtObj){
-        console.log("EVENT OBJ", eventKey)
-      }
+    returnEventDetails: (evtObjId) => {
+      return eventsArray.$loaded()
+      .then(function(data){
+        return data.$getRecord(evtObjId)
+      });
+    },
+
+    removeEvent: (evtObjId) => {
+      return eventsArray.$remove(evtObjId)
+      .then(function(ref){
+        console.log("EVENT REMOVED: ", ref);
+        return ref;
+      })
+    },
+
+    addEvent: (eventData) => {
+      return eventsArray.$add(eventData)
+      .then(function(ref){
+        console.log("EVENT ADDED: ", ref)
+        return ref;
+      })
+    },
+
+    saveEvent: (eventData) => {
+      return eventsArray.$save(eventData)
+      .then(function(ref){
+        console.log("UPDATE SAVED: ", ref);
+        return ref;
+      })
+
     },
 
     /* Guests includes the attendee enrolling, default is 1 */

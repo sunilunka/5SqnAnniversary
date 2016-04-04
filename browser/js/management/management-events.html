@@ -1,6 +1,5 @@
 <section id="management-events">
-  <div ng-repeat="evt in allEvents">
-    <h3>{{ evt.name }}</h3>
-    <span>{{ evt.date }}</span>
-  </div>
+  <event-modification ng-repeat="evt in allEvents" evt="evt">
+  </event-modification>
+  
 </section>
