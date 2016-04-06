@@ -16,7 +16,7 @@ app.directive("eventModification", function(EventFactory){
       scope.editOption = "Edit";
 
 
-      /* Method to remove announcement from Firebase DB */
+      /* Method to remove event from Firebase DB */
       scope.removeEvent = EventFactory.removeEvent;
 
       var convertToTimeString = (timeObj) => {
