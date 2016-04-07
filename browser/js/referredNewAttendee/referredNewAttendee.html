@@ -2,16 +2,28 @@
     <h3>Sorry, looks like you haven't registered yet, get started below.</h3>
     <form id="referredRegisterForm" name="referredRegister" ng-submit="createNewUserFromReferral()">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
-        <h4>It'd be great to have you! Are you a ...</h4>
+        <h4>It'd be great to have you! How do you know us?</h4>
         <div class="radio">
-          <label class="control-label"> <input type="radio" name="association" ng-model="newAttendeeData.association" value="current">Current Squadron Member</label>
+          <label class="control-label"> <input type="radio" name="association" ng-model="newAttendeeData.association" value="current">Currently Posted to Squadron</label>
         </div>
         <div class="radio">
-          <label class="control-label"><input type="radio" ng-model="newAttendeeData.association" name="association" value="former">Former Squadron Member</label>
+          <label class="control-label"><input type="radio" ng-model="newAttendeeData.association" name="association" value="airforce">Posted Off Squadron</label>
         </div>
         <div class="radio">
-          <label class="control-label"><input type="radio" name="association" ng-model="newAttendeeData.association">Contractor</label>
+          <label class="control-label"><input type="radio" ng-model="newAttendeeData.association" name="association" value="former">Retired Squadron Member or current 5 Sqn Association Member</label>
         </div>
+        <div class="radio">
+          <label class="control-label"><input type="radio" name="association" value="vip-contractor" ng-model="newAttendeeData.association">Contractor or Sponsor</label>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
+        <h3>Are you travelling from overseas to attend?</h3>
+          <div class="radio">
+            <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true"></input> Yes I am!</label>
+          </div>
+          <div class="radio">
+            <label class="control-label" ng-model="overseas" value="false"><input name="overseas" type="radio"></input>No, I live in New Zealand</label>
+          </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
         <h3>What events are you planning to attend?</h3>

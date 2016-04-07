@@ -1,4 +1,4 @@
-app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, $q){
+app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, $q, GuestOriginFactory, GuestCategoryFactory){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -20,14 +20,10 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     console.log("USER EVENT OBJECT: ", userEventObj);
     for(var evt in userEventObj){
       /* Covers both null, true and false values that may be returned from form */
-      if(userEventObj[evt]){
-        userEventObj[evt] = {
-          guestCount: 1,
-          1: firstName + " " + lastName
-        }
+      if(userEventObj.hasOwnPropert(evt)){
+        userEventObj[evt] = "No guests"
       }
     }
-    console.log("MODIFIED UEO: ", userEventObj);
     return userEventObj;
   }
 
@@ -50,8 +46,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     let userId = newUser.uid;
     /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
     delete newUser.uid;
-    attendeeObject[userId] = newUser;
-    return attendeeObject.$save()
+    attendeesRef.update({
+      [userId]: newUser
+    })
     .then(function(ref){
       console.log("OBJECT SAVED");
       /* return newUser object, with uid field as it is used for registering events */

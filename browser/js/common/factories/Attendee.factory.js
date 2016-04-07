@@ -1,5 +1,5 @@
-app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory){
-  var attendeesRef = DatabaseFactory.dbConnection('attendees');
+app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory, GuestCategoryFactory){
+  var attendeesRef = DatabaseFactory.dbConnection("attendees");
   var attendeeObject = $firebaseObject(attendeesRef);
 
 
@@ -9,8 +9,8 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       => newAttendeeData takes an object containing user data including password and email when registering with email.
     */
     createOneAndLogin: function(registerMethod, newAttendeeData){
-      /* First register the new user (if it does not exist), then once a unique ID has been generated, create an 'attendee' record for the person. */
-      console.log('NEW ATTENDEE DATA: ', newAttendeeData)
+      /* First register the new user (if it does not exist), then once a unique ID has been generated, create an "attendee" record for the person. */
+      console.log("NEW ATTENDEE DATA: ", newAttendeeData)
       return RegisterFactory.registerNewUser(registerMethod, newAttendeeData)
       .then(function(newUser){
         return RegisterFactory.addUserToEvents(newUser)
@@ -19,7 +19,7 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
         })
       })
       .catch(function(error){
-        console.warn('ERROR OCCURED: ', error);
+        console.warn("ERROR OCCURED: ", error);
         return error;
       })
     },
@@ -31,10 +31,8 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
       delete userData.uid;
       /* On Auth will trigger on referral back to 5sqnrnzaf domain. AttendeeObject will not repopulate from server as fast as code execution happens (asynchronous), so ensure attendee Object is loaded prior to performing operations on the db object */
-      return attendeeObject.$loaded()
-      .then(function(serverData){
-        attendeeObject[userId] = userData;
-        return attendeeObject.$save()
+      return attendeesRef.update({
+        [userId]: userData
       })
       .then(function(ref){
         console.log("OBJECT SAVED");
@@ -54,15 +52,22 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
         let userId = userDataToSave.uid;
         /* Remove the uid key, as this is the identifier key and there is no need to double up data */
         delete userDataToSave.uid;
-        /* Create user object locally in attendees tables */
-        attendeeObject[userId] = userDataToSave;
-        return attendeeObject.$save()
+        /* Create user object locally in attendees tables and send to server */
+        return attendeesRef.update({
+          [userId]: userDataToSave
+        })
         .then(function(ref){
           /* Add user to events uses uid key to allocate user to event, by adding it as a key to the eventGuests -> [eventKey] store */
           userDataToSave.uid = userId;
           return RegisterFactory.addUserToEvents(userDataToSave)
           .then(function(savedEvents){
-            return userDataToSave;
+            return GuestCategoryFactory.addOrRemoveGuestToCategory("add", userDataToSave.association, userId)
+            .then(function(ref){
+              return userDataToSave;
+            })
+          })
+          .then(function(userDataToSave){
+            
           })
         })
       })
@@ -78,7 +83,7 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
         return initialData;
       })
       .catch(function(error){
-        console.log('SORRY AN ERROR OCCURED');
+        console.log("SORRY AN ERROR OCCURED");
       })
     },
 
@@ -94,7 +99,7 @@ app.factory('AttendeeFactory', function($firebaseArray, $firebaseObject, UserAut
       var currentUser = SessionService.user;
       console.log("CURRENT USER: ", currentUser);
       if(currentUser){
-        var userRef = DatabaseFactory.dbConnection('attendees/' + (currentUser.id || currentUser.uid));
+        var userRef = DatabaseFactory.dbConnection("attendees/" + (currentUser.id || currentUser.uid));
         var userObj = $firebaseObject(userRef);
         return userObj.$loaded()
         .then(function(data){
