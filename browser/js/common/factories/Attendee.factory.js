@@ -35,13 +35,14 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
         [userId]: userData
       })
       .then(function(ref){
-        console.log("OBJECT SAVED");
+        /* No data is returned from the resolved update promise when using native javascript function API, ref will be undefined */
+
         /* If window.sessionStorage is still populated, remove it, as it is no longer needed. */
         if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
         /* return newUser object, with uid field as it is used for registering events */
         userData.uid = userId;
 
-        if(ref) return userData;
+        return userData;
       })
     },
     /* If a user tries to login and has no matching attendee key, redirect to register referred user state. */

@@ -21,7 +21,12 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     for(var evt in userEventObj){
       /* Covers both null, true and false values that may be returned from form */
       if(userEventObj.hasOwnProperty(evt)){
-        userEventObj[evt] = "No guests"
+        /* If user has selected and then deselected check box, remove event from event list. */
+        if(!userEventObj[evt]){
+          delete userEventObj[evt];
+        } else {
+          userEventObj[evt] = "No guests"
+        }
       }
     }
     return userEventObj;
@@ -150,10 +155,10 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
         console.log("EVENT TO USE: ", eventId, userData);
         if(eventObj.hasOwnProperty(eventId)){
-          /* Push unresolved adding attendee to event promise to array*/
-          recordsToSave.push(EventFactory.addAttendeeToEvent(eventId, userData.uid));
-          /* Push unresolved adding attendee name to event guest list to array */
-          recordsToSave.push(EventGuestFactory.addAttendeeToEventList(eventId, userData))
+            /* Push unresolved adding attendee to event promise to array*/
+            recordsToSave.push(EventFactory.addAttendeeToEvent(eventId, userData.uid));
+            /* Push unresolved adding attendee name to event guest list to array */
+            recordsToSave.push(EventGuestFactory.addAttendeeToEventList(eventId, userData))
         }
       }
       /* Return the result of all reolved promises in array saved event records on resolution or rejection. Using this method means if one promise fails, then all promises will be rejected.  */
@@ -164,16 +169,10 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     /* Function to save user data to window.SessionStorage on redirect, as the resolved promise does not return any data due to OAuth Redirect */
 
     newUserRegisterFromExternalProvider: (authData, registerFormData) => {
-      /* To do:
-        => Function to compare registerData[providerKey] with auth.provider to ensure they are the same.
-          -> If the same, them parse the data using appropriate method and save to database. CLEAR SESSION STORAGE ONCE SAVE COMPLETE
-          -> If different, throw new error and let user, go back to new attendee register state. CLEAR SESSION STORAGE PRIOR TO REDIRECT
-      */
 
       switch(authData.provider){
         case "facebook":
           return parseFbData(authData, registerFormData);
-          // return saveUserDetailsToDb(attendeeObject, fbRegisterData);
           break;
         case "google":
           console.log("GOOGLE AUTH HAS NOT BEEN SET UP.")

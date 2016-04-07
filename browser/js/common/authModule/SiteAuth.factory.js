@@ -63,7 +63,7 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
       }
     },
 
-    /* */
+    /* If user is registered then re-route to required state depending on if user is a manager or not. */
     userIsRegistered: (data) => {
       SessionService.createSession(data);
       $rootScope.$broadcast("loggedIn", SessionService.user);
