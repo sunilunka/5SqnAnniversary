@@ -6,16 +6,19 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
     /* When adding an attendee or guest to event, the attendee id is used as the marker */
     addAttendeeToEventList: (eventId, attendee) => {
       console.log("EVENT GUEST REFERENCE: ", attendee);
+      let attendeeIdent = (attendee.uid || attendee.$id || attendee.id);
       eventGuestRef.child(eventId).update({
-          [attendee.$id]: {
+          [attendeeIdent]: {
             0: attendee.firstName + " " + attendee.lastName
           }
       })
-      .then(function(data){
-        console.log("DATA WRITTEN: ", data);
+      .then(function(ref){
+        console.log("DATA WRITTEN: ", ref);
+        return ref;
       })
       .catch(function(error){
         console.log("SORRY, AN ERROR OCCURED!");
+        return error;
       })
     },
     /* Remove an attendee from the eventGuests list. */

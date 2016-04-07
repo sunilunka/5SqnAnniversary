@@ -90,6 +90,7 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       })
       .then(function(transactionObj){
         console.log("VALUE RETURNED IN PROMISE: ", transactionObj);
+        return transactionObj;
       })
       .catch(function(error){
         console.error("SORRY, AN ERROR OCCURED!", error);

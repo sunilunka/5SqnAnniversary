@@ -1,4 +1,4 @@
-app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, $q, GuestOriginFactory, GuestCategoryFactory){
+app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, $q, EventGuestFactory, GuestOriginFactory, GuestCategoryFactory){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -20,7 +20,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     console.log("USER EVENT OBJECT: ", userEventObj);
     for(var evt in userEventObj){
       /* Covers both null, true and false values that may be returned from form */
-      if(userEventObj.hasOwnPropert(evt)){
+      if(userEventObj.hasOwnProperty(evt)){
         userEventObj[evt] = "No guests"
       }
     }
@@ -148,12 +148,15 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       /* For each object key, check it exists, if so, add to selected event*/
       for(var eventId in eventObj){
         /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
-        console.log("EVENT TO USE: ", eventId);
+        console.log("EVENT TO USE: ", eventId, userData);
         if(eventObj.hasOwnProperty(eventId)){
+          /* Push unresolved adding attendee to event promise to array*/
           recordsToSave.push(EventFactory.addAttendeeToEvent(eventId, userData.uid));
+          /* Push unresolved adding attendee name to event guest list to array */
+          recordsToSave.push(EventGuestFactory.addAttendeeToEventList(eventId, userData))
         }
       }
-      /* Return the result of all saved event records on resolution or rejection */
+      /* Return the result of all reolved promises in array saved event records on resolution or rejection. Using this method means if one promise fails, then all promises will be rejected.  */
       return $q.all(recordsToSave);
 
     },

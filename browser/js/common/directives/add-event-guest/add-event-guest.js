@@ -13,7 +13,7 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray){
 
       scope.addNewGuest = () => {
         if(!scope.guestDetails){
-          console.error("NO PLEASE FILL IN THE FORM!")
+          console.error("PLEASE FILL IN THE FORM!")
 
         } else {
           let guestName = scope.guestDetails.firstName + " " + scope.guestDetails.lastName;

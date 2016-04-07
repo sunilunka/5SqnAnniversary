@@ -61,13 +61,10 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
           userDataToSave.uid = userId;
           return RegisterFactory.addUserToEvents(userDataToSave)
           .then(function(savedEvents){
-            return GuestCategoryFactory.addOrRemoveGuestToCategory("add", userDataToSave.association, userId)
+            /* Once promise is successfully resolved, add user to Guest Category. */ return GuestCategoryFactory.addOrRemoveGuestToCategory("add", userDataToSave.association, userId)
             .then(function(ref){
               return userDataToSave;
             })
-          })
-          .then(function(userDataToSave){
-            
           })
         })
       })
