@@ -13,8 +13,10 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       console.log("NEW ATTENDEE DATA: ", newAttendeeData)
       return RegisterFactory.registerNewUser(registerMethod, newAttendeeData)
       .then(function(newUser){
+        /* This callback will only be called when registering with email. */
         return RegisterFactory.addUserToEvents(newUser)
         .then(function(savedEvents){
+          return GuestCategoryFactory.addOrRemoveGuestToCategory("add", newUser.association, newUser)
           return newUser;
         })
       })
@@ -35,14 +37,20 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
         [userId]: userData
       })
       .then(function(ref){
-        /* No data is returned from the resolved update promise when using native javascript function API, ref will be undefined */
+        /* No data is returned from the resolved update promise when using native javascript API methods, ref will be undefined */
+        return RegisterFactory.addUserToEvents(userData)
+        .then(function(savedEvents){
+          return  GuestCategoryFactory.addOrRemoveGuestToCategory("add", userDataToSave.association, userId)
 
+        })
+        .then(function(ref){
         /* If window.sessionStorage is still populated, remove it, as it is no longer needed. */
-        if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
-        /* return newUser object, with uid field as it is used for registering events */
-        userData.uid = userId;
+          if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
+          /* return newUser object, with uid field as it is used for registering events */
+          userData.uid = userId;
 
-        return userData;
+          return userData;
+        })
       })
     },
     /* If a user tries to login and has no matching attendee key, redirect to register referred user state. */
@@ -53,7 +61,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
         let userId = userDataToSave.uid;
         /* Remove the uid key, as this is the identifier key and there is no need to double up data */
         delete userDataToSave.uid;
-        /* Create user object locally in attendees tables and send to server */
+        /* Create user object locally in attendees table locally and on server */
         return attendeesRef.update({
           [userId]: userDataToSave
         })

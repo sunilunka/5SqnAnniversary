@@ -51,7 +51,7 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
         case "facebook":
           return UserAuthFactory.loginWithExternalProvider(method)
           .then(function(authData){
-            /* Nothing will happen, no resolve is returned using OAuthRedirect. This is captured when listening for $onAuth events from the Firebase service */
+            /* Nothing will happen, no resolve is returned using OAuthRedirect. A user logging in with an external provider is captured when listening for $onAuth events from the Firebase service */
           })
           .catch(function(error){
             $scope.error = error;

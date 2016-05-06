@@ -9,7 +9,7 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
       let attendeeIdent = (attendee.uid || attendee.$id || attendee.id);
       eventGuestRef.child(eventId).update({
           [attendeeIdent]: {
-            0: attendee.firstName + " " + attendee.lastName
+            registeredAttendee: attendee.firstName + " " + attendee.lastName
           }
       })
       .then(function(ref){
