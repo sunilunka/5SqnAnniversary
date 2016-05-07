@@ -156,7 +156,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         console.log("EVENT TO USE: ", eventId, userData);
         if(eventObj.hasOwnProperty(eventId)){
             /* Push unresolved adding attendee to event promise to array*/
-            recordsToSave.push(EventFactory.addAttendeeToEvent(eventId, userData.uid));
+            recordsToSave.push(EventFactory.addAttendeeToEvent(eventId, userData));
             /* Push unresolved adding attendee name to event guest list to array */
             recordsToSave.push(EventGuestFactory.addAttendeeToEventList(eventId, userData))
         }

@@ -82,10 +82,10 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
 
     },
 
-    /* Guests includes the attendee enrolling, default is 1 */
-    addAttendeeToEvent: (eventKey, userRef, guests) => {
+    /* Guests includes the attendee enrolling, default is 1. Transaction is required to ensure data is written to database in the event multiple writes are being attempted to this guests key */
+    addAttendeeToEvent: (eventKey, userData, guests) => {
       return eventsRef.child(eventKey)
-      .child("guests").transaction(function(currentVal){
+      .child("guests").child(userData.association).transaction(function(currentVal){
         return currentVal += 1;
       })
       .then(function(transactionObj){

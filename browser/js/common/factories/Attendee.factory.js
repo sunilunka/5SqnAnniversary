@@ -40,7 +40,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
         /* No data is returned from the resolved update promise when using native javascript API methods, ref will be undefined */
         return RegisterFactory.addUserToEvents(userData)
         .then(function(savedEvents){
-          return  GuestCategoryFactory.addOrRemoveGuestToCategory("add", userDataToSave.association, userId)
+          return  GuestCategoryFactory.addOrRemoveGuestToCategory("add", userData.association, userId)
 
         })
         .then(function(ref){
@@ -145,7 +145,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       }
       return user.$save()
       .then(function(ref){
-        return EventFactory.addAttendeeToEvent(evtId, user.$id)
+        return EventFactory.addAttendeeToEvent(evtId, user)
         .then(function(ref){
           return ref;
         })
