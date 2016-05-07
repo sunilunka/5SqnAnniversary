@@ -3,45 +3,6 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
   var eventsArray = $firebaseArray(eventsRef);
   var eventsObj = $firebaseObject(eventsRef);
 
-  // /* Test whether there is a $ character in a string. */
-  // var isNotFireKey = (prop) => {
-  //   var propStr = prop.toString();
-  //   var dollarRegEx = /\$/
-  //   if(!dollarRegEx.test(propStr)){
-  //     return true;
-  //   }
-  // }
-  // /* Initiate a new firebase connection to all events stored in the events object, specifically so the guests object can be updated */
-  // var initEventGuestDbConnection = (objData) => {
-  //   for(var key in objData){
-  //     /* isNotFireKey returns a boolean to signal if a key is prefixed by $ or not. '$' denotes an AngularFire method key or property */
-  //     if(objData.hasOwnProperty(key) && isNotFireKey(key)){
-  //       eventList.push(key);
-  //       var ref = DatabaseFactory.dbConnection('events/' + key + '/guests')
-  //       eventGuestObjs[key] = $firebaseObject(ref).$loaded();
-  //     }
-  //   }
-  //   return eventGuestObjs;
-  // }
-  //
-  // /* Ensure events array is loaded prior to loading events*/
-  //
-  // /* Resolve all promises before populating resolvedEventGuestObjs */
-  // var promisifyEventGuestObjects = (object) => {
-  //   object.$loaded()
-  //   .then(function(data){
-  //     /* Only populate resolved dbroutes when all promises have resolved*/
-  //     var stuff = $q.all(initEventGuestDbConnection(data))
-  //     .then(function(data){
-  //         resolvedEventGuestObjs = data;
-  //     })
-  //     .catch(function(error){
-  //       return error;
-  //     })
-  //   });
-  // }
-
-
   return {
     getEvents: () => {
       return eventsArray.$loaded()

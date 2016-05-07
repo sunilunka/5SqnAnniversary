@@ -162,6 +162,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         }
       }
       /* Return the result of all reolved promises in array saved event records on resolution or rejection. Using this method means if one promise fails, then all promises will be rejected.  */
+      console.log("EVENTS TO SAVE TO DB: ", recordsToSave);
       return $q.all(recordsToSave);
 
     },
