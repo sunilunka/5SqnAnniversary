@@ -97,10 +97,7 @@
             if(userData){
               return AttendeeFactory.createNewUserFromExternalProvider(authData, userData)
               .then(function(userData){
-                return RegisterFactory.addUserToEvents(userData)
-                .then(function(savedToEvents){
-                  return userData;
-                })
+                return userData;
               })
               .then(function(userData){
                 SiteAuthFactory.setSessionAndReRoute(userData, "attendee", {id: userData.uid });

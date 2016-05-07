@@ -38,6 +38,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       })
       .then(function(ref){
         /* No data is returned from the resolved update promise when using native javascript API methods, ref will be undefined */
+        userData.uid = userId; /* Add id key back to user object, as is required for further registery actions. */
         return RegisterFactory.addUserToEvents(userData)
         .then(function(savedEvents){
           return  GuestCategoryFactory.addOrRemoveGuestToCategory("add", userData.association, userId)

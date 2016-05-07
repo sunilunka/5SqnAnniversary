@@ -3,12 +3,12 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
   var eventGuestObj = $firebaseObject(eventGuestRef);
 
   return {
-    /* When adding an attendee or guest to event, the attendee id is used as the marker */
+    /* When adding an attendee or guest to event, the attendee id is used as the key */
     addAttendeeToEventList: (eventId, attendee) => {
       console.log("EVENT GUEST REFERENCE: ", attendee);
       /* Multiple options for attendee Ident based on register method */
       let attendeeIdent = (attendee.uid || attendee.$id || attendee.id);
-      eventGuestRef.child(eventId).update({
+      return eventGuestRef.child(eventId).update({
           [attendeeIdent]: {
             registeredAttendee: attendee.firstName + " " + attendee.lastName
           }
@@ -24,7 +24,7 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
     },
     /* Remove an attendee from the eventGuests list. */
     removeAttendeeFromEventList: (eventId, attendee) => {
-      eventGuestRef.child(eventId).child(attendee.$id).remove()
+      return eventGuestRef.child(eventId).child(attendee.$id).remove()
       .then(function(data){
         /* No data is returned on successful (resolved promise) removal using standard Firebase Javscript API methods. */
         console.log("DATA REMOVED!", data);

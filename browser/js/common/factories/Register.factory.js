@@ -58,6 +58,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       console.log("OBJECT SAVED");
       /* return newUser object, with uid field as it is used for registering events */
       newUser.uid = userId;
+      /* Remvoe sessionStorage data as a resolved promise means data has been written to the database. */
       if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
       if(ref) return newUser;
     });
@@ -147,6 +148,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     /* Function to save user to events object. Key is user uid, value is true */
     addUserToEvents: (userData) => {
       /* If no event has been selected (the fields have not been touched => 'pristine') then create a new empty object to continue. This is an isolated case, as there is validation on the form. */
+      console.log("USER DATA FOR USE: ", userData);
       var recordsToSave = [];
       if(!userData.events) userData.events = {};
       let eventObj = userData.events;

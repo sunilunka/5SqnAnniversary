@@ -55,6 +55,7 @@ app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory, $fireb
         AttendeeFactory.addEventToAttendee(evtId, scope.attendee)
         .then(function(ref){
           scope.isUserAttending(scope.evt);
+          return;
         })
       }
     }
