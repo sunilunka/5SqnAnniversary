@@ -84,8 +84,10 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
 
     /* Guests includes the attendee enrolling, default is 1. Transaction is required to ensure data is written to database in the event multiple writes are being attempted to this guests key */
     addAttendeeToEvent: (eventKey, userData, guests) => {
+      /* Cannot use object dot or bracket notation in paths for Firebase db. */
+      let userAssociation = userData.association;
       return eventsRef.child(eventKey)
-      .child("guests").child(userData.association).transaction(function(currentVal){
+      .child("guests").child(userAssociation).transaction(function(currentVal){
         return currentVal += 1;
       })
       .then(function(transactionObj){
@@ -98,13 +100,18 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
     },
 
     /* Remove user from the Event Guest object*/
-    removeAttendeeFromEvent: (eventKey, userRef, numGuestsToRemove) => {
+    removeAttendeeFromEvent: (eventKey, userData, numGuestsToRemove) => {
+      /* Cannot use object dot or bracket notation in paths for Firebase db. */
+      let userAssociation = userData.association;
       return eventsRef
       .child(eventKey)
       .child("guests")
+      .child(userAssociation)
       .transaction(function(currentVal){
+        /* If the number of guests to remove is not specified assume only one guest is being removed. */
         let guestDecrement = numGuestsToRemove ? numGuestsToRemove : 1;
         console.log("GUEST DECREMENT: ", guestDecrement);
+        /* If current value is above 0, then decrement by 1, otherwise, return 0 */
         return (currentVal > 0 ? currentVal -= guestDecrement : 0);
       })
       .then(function(transactionObj){

@@ -70,7 +70,8 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
           userDataToSave.uid = userId;
           return RegisterFactory.addUserToEvents(userDataToSave)
           .then(function(savedEvents){
-            /* Once promise is successfully resolved, add user to Guest Category. */ return GuestCategoryFactory.addOrRemoveGuestToCategory("add", userDataToSave.association, userId)
+            /* Once promise is successfully resolved, add user to Guest Category. */
+            return GuestCategoryFactory.addOrRemoveGuestToCategory("add", userDataToSave.association, userId)
             .then(function(ref){
               return userDataToSave;
             })
@@ -126,7 +127,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
           delete user.events[evtId];
           return user.$save()
           .then(function(ref){
-            return EventFactory.removeAttendeeFromEvent(evtId, user.$id, count);
+            return EventFactory.removeAttendeeFromEvent(evtId, user, count);
           })
           .then(function(ref){
             return EventGuestFactory.removeAttendeeFromEventList(evtId, user);

@@ -70,6 +70,7 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
       if(data.hasOwnProperty("manager")){
         $state.go("management")
       } else {
+        /* User is registered, go to the appropriate URL, where the id is the url identifier i.e. attendee/{{data.id}}*/
         $state.go("attendee", {id: data.id});
       }
       return;

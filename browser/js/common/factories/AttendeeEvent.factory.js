@@ -19,7 +19,10 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
       return $firebaseObject(guestEventRef);
     },
 
-    modifyEventGuestList: (evtId, attendeeId) => {
+    modifyEventGuestList: (evtId, attendeeData) => {
+      /* Capture attendee id in a variable, as firebase does not allow object referencng when finding a route to a db key */
+      console.log("ATTENDEE DATA: ", attendeeData)
+      let attendeeId = attendeeData.$id || attendeeData.uid;
       let eventList = eventGuestLists.child(evtId).child(attendeeId);
       return {
         addGuest: (guestKey, guestName) => {
@@ -27,7 +30,7 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
             [guestKey]: guestName
           })
           .then(function(data){
-            return EventFactory.addAttendeeToEvent(evtId, attendeeId);
+            return EventFactory.addAttendeeToEvent(evtId, attendeeData);
           })
         },
 
@@ -36,7 +39,7 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
 
           guestEventRef.remove()
           .then(function(data){
-            EventFactory.removeAttendeeFromEvent(evtId, attendeeId);
+            EventFactory.removeAttendeeFromEvent(evtId, attendeeData);
           })
           .catch(function(error){
             console.error("Sorry an error occured: ", error)

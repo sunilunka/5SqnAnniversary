@@ -3,14 +3,14 @@ app.directive("eventGuest", function(AttendeeEventFactory){
     restrict: "E",
     templateUrl: "/js/common/directives/event-guest/event-guest.html",
     scope: {
-      attendeeid: "@",
+      attendee: "=",
       evtid: "@",
       guest: "="
     },
     link: function(scope, element, attrs){
       scope.removeGuest = () => {
 
-        let attendeeGuestArray = AttendeeEventFactory.arrayToModify("attendees/" + scope.attendeeid + "/events/" + scope.evtid);
+        let attendeeGuestArray = AttendeeEventFactory.arrayToModify("attendees/" + scope.attendee.$id + "/events/" + scope.evtid);
         let guestId = scope.guest.$id;
         return attendeeGuestArray.$loaded()
         .then(function(data){
@@ -18,7 +18,7 @@ app.directive("eventGuest", function(AttendeeEventFactory){
           if(data.length <= 1){
             data.$ref().set("No guests")
             .then(function(data){
-              return AttendeeEventFactory.modifyEventGuestList(scope.evtid, scope.attendeeid).removeGuest(guestId);
+              return AttendeeEventFactory.modifyEventGuestList(scope.evtid, scope.attendee).removeGuest(guestId);
             })
           } else if(data.length > 1){
             return data.$ref().child(guestId)
