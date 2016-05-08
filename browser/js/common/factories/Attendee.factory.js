@@ -13,12 +13,21 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       console.log("NEW ATTENDEE DATA: ", newAttendeeData)
       return RegisterFactory.registerNewUser(registerMethod, newAttendeeData)
       .then(function(newUser){
-        /* This callback will only be called when registering with email. */
+        /* This promise will only be called when registering with email. */
         return RegisterFactory.addUserToEvents(newUser)
         .then(function(savedEvents){
-          return GuestCategoryFactory.addOrRemoveGuestToCategory("add", newUser.association, newUser)
-          return newUser;
+          return GuestCategoryFactory.addOrRemoveGuestToCategory("add", newUser.association, newUser.uid)
         })
+      })
+      .then(function(ref){
+        /* Ref will be undefined, as nothing is returned froma standard Firebase JS API update method call. */
+        return UserAuthFactory.loginByEmail({
+          email: newAttendeeData.email,
+          password: newAttendeeData.password
+        })
+      })
+      .then(function(authData){
+        SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid });
       })
       .catch(function(error){
         console.warn("ERROR OCCURED: ", error);

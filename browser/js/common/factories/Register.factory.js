@@ -51,7 +51,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     let userId = newUser.uid;
     /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
     delete newUser.uid;
-    attendeesRef.update({
+    return attendeesRef.update({
       [userId]: newUser
     })
     .then(function(ref){
@@ -60,7 +60,8 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       newUser.uid = userId;
       /* Remvoe sessionStorage data as a resolved promise means data has been written to the database. */
       if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
-      if(ref) return newUser;
+      /* No 'ref' value is returned when using the .update method of the Firebase API. Entering this resolved stage means update was successful, return the newUser object. */
+      return newUser;
     });
   }
 
