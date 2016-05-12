@@ -1,8 +1,7 @@
-app.factory("GuestCategoryFactory", function(DatabaseFactory){
-  var currentSqnRef = DatabaseFactory.dbConnection("current");
-  var airforceRef = DatabaseFactory.dbConnection("airforce");
-  var formerRef = DatabaseFactory.dbConnection("retired");
-  var vipContractorRef = DatabaseFactory.dbConnection("vip-contractor");
+app.factory("GuestCategoryFactory", function(DatabaseFactory, $firebaseArray){
+
+  var guestCategoriesRef = DatabaseFactory.dbConnection("guestCategories");
+  var guestCatArray = $firebaseArray(guestCategoriesRef);
 
   return {
     addOrRemoveGuestToCategory: (option, category, guestIdent) => {
@@ -27,6 +26,36 @@ app.factory("GuestCategoryFactory", function(DatabaseFactory){
             return ref;
         })
       }
+    },
+
+    getGuestCategories: () => {
+      return guestCatArray.$loaded()
+      .then(function(arr){
+        console.log("ARRAY FOUND AND POPULATED: ", arr)
+        if(arr.length > 1){
+          return "No Categories";
+        } else {
+          return arr;
+        }
+      })
+    },
+
+    addGuestCategory: (guestCatName) => {
+      return guestCatArray.$add(guestCatName)
+      .then(function(ref){
+        return ref;
+      })
+    },
+
+    removeGuestCategory: () => {
+
+    },
+
+    updateGuestCategory: (id, catName) => {
+      var catUpdateObj = {};
+      catUpdateObj[id] = catName
+      return guestCategoriesRef.update(catUpdateObj);
+
     }
   }
 })

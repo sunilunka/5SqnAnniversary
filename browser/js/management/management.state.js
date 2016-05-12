@@ -17,6 +17,10 @@ app.config(function($stateProvider){
 
       allAnnouncements: (AnnouncementsFactory) => {
         return AnnouncementsFactory.getAllAnnouncements();
+      },
+
+      allCategories: (GuestCategoryFactory) => {
+        return GuestCategoryFactory.getGuestCategories();
       }
     }
   })
@@ -29,5 +33,10 @@ app.config(function($stateProvider){
     url: '/announcements',
     controller: 'ManagementAnnouncementsCtrl',
     templateUrl: 'js/management/management-announcements.html'
+  })
+  .state('management.guestCategories', {
+    url: '/guestCategories',
+    controller: 'GuestCategoryCtrl',
+    templateUrl: 'js/management/management-guestCategories.html'
   })
 })

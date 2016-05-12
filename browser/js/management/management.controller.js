@@ -11,6 +11,10 @@ app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEv
     {
       title: "Manage Announcements",
       state: "management.announcements"
+    },
+    {
+      title: "Manage Categories",
+      state: "management.guestCategories"
     }
   ]
 })

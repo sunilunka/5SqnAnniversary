@@ -32,7 +32,7 @@ app.directive("announcementModification", function(AnnouncementsFactory){
       scope.toggleEditMode = () => {
         scope.editMode = !scope.editMode;
         scope.editOption = (scope.editOption === "Edit" ? "Cancel Edit" : "Edit")
-        /* scope.editMode will be toggled to false if the use has cancelled the edit. So revert the scope.announcement object to the original version. */
+        /* scope.editMode will be toggled to false if the user has cancelled the edit. So revert the scope.announcement object to the original version. */
         if(scope.editMode) {
           _.assign(scope.modifiedEntry, scope.announcement);
         }
