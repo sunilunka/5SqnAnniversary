@@ -4,10 +4,10 @@
   </header>
   <form ng-submit="addNewCategory()">
     <label>New Category Name: </label>
-    <input class="input-sqn" type="text" ng-model="guestCategoryName"></input>
+    <input class="sqnInput sqnInputActive" type="text" ng-model="guestCategoryName"></input>
     <input class="sqn-btn" type="submit" value="Add Category"></button>
   </form>
-  <div>
-    <modify-guest-category ng-repeat="guestCategory in guestCategories" cat=guestCategory></modify-guest-category>
+  <div class="guest-category-list">
+    <modify-guest-category ng-repeat="guestCategory in guestCategories track by $index" cat=guestCategory></modify-guest-category>
   </div>
 </section>

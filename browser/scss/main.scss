@@ -34,19 +34,28 @@ body {
 
 .input-form {
   position: relative;
-  display: inline-block;
+  display: block;
 }
 
-.input-sqn {
+.sqnInput {
   border: none;
   outline: none;
   padding: 3px;
+  text-align: left;
+  width: 200px;
+  /*transition: 0.5s all ease-in-out;
+  -webkit-tranisiton: 0.5 s all ease-in-out;*/
+}
+
+.sqnInputReadonly {
+  border: none;
+  color: grey;
+}
+
+.sqnInputActive {
   border-bottom-color: grey;
   border-bottom-width: 3px;
   border-bottom-style: solid;
-  text-align: left;
-  transition: 0.25s all ease-in-out;
-  -webkit-tranisiton: 0.25 s all ease-in-out;
   &:focus {
     border-top-color: grey;
     border-top-width: 3px;

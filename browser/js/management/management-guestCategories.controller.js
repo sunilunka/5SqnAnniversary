@@ -1,6 +1,8 @@
-app.controller("GuestCategoryCtrl", function($scope, allCategories){
+app.controller("GuestCategoryCtrl", function($scope, GuestCategoryFactory, allCategories){
 
   $scope.guestCategories =  allCategories;
+
+  console.log("GUEST CATEGORIES RESOLVED: ", allCategories)
 
   $scope.addNewCategory = () => {
     console.log("CATEGORY TO SAVE: ", $scope.guestCategoryName)

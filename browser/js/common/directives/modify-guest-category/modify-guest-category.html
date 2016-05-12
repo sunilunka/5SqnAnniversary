@@ -1,14 +1,6 @@
-<div>
-  <form ng-submit="updateCatName()">
-    <div class="input-form">
-      <input class="input-sqn" type="text" ng-model="modifiableCatObj.$value">
-      </input>
-      <!-- <div class="user-form-message">
-        <h4>Updated</h4>
-      </div> -->
-    </div>
+<input class="sqnInput" type="text" ng-model="modifiableCatObj.$value" ng-readonly="!isEditing" ng-class="{sqnInputActive: isEditing, sqnInputReadonly: !isEditing}">
+</input>
 
-    <button class="sqn-btn" ng-click="toggleEdit()"><span ng-show="!isEditing">Edit</span><span ng-show="isEditing">Cancel</span></button>
-    <input class="sqn-btn" type="submit" value="Update"></input>
-  </form>
-</div>
+<button class="sqn-btn" ng-click="toggleEdit()"><span ng-show="!isEditing">Edit</span><span ng-show="isEditing">Cancel</span></button>
+<button ng-cloak ng-hide="!isEditing" class="sqn-btn" ng-click="updateCatName()">Save</button>
+<button class="sqn-btn" ng-show="isEditing">Remove</button>

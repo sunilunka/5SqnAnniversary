@@ -3,5 +3,11 @@
 }
 
 modify-guest-category {
+  position: relative;
   margin: 10px;
+  display: block;
+}
+
+.guest-category-list {
+  margin-top: 20px;
 }
