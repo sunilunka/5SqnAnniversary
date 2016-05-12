@@ -7,15 +7,16 @@ app.directive("modifyGuestCategory", function(GuestCategoryFactory){
     },
     link: function(scope, element, attrs){
 
-      scope.isEditing = false;
+      scope.modifiableCatObj = {};
 
-      scope.toggleEdit = () => {
-        console.log("ELEMENT SIBLINGS: ", element.find("input"))
-        scope.isEditing = !scope.isEditing;
-      }
+      angular.copy(scope.cat, scope.modifiableCatObj)
 
       scope.updateCatName = () => {
-        GuestCategoryFactory.updateGuestCategory(scope.cat.$id, scope.cat.$value);
+        GuestCategoryFactory.updateGuestCategory(scope.cat.$id, scope.modifiableCatObj.$value)
+        .then(function(data){
+          /* No data is returned from Firebase update. */
+          console.log("UPDATED: ", scope.cat.$value);
+        })
       }
     }
   }

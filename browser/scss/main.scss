@@ -4,6 +4,7 @@
 
 body {
   background: #fdfdfd;
+  font-family: 'Roboto', 'Arial';
 }
 
 @mixin clearHeader {
@@ -31,9 +32,56 @@ body {
   justify-content: space-around;
 }
 
+.input-form {
+  position: relative;
+  display: inline-block;
+}
+
 .input-sqn {
   border: none;
   outline: none;
+  padding: 3px;
+  border-bottom-color: grey;
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
+  text-align: left;
+  transition: 0.25s all ease-in-out;
+  -webkit-tranisiton: 0.25 s all ease-in-out;
+  &:focus {
+    border-top-color: grey;
+    border-top-width: 3px;
+    border-top-style: solid;
+    background-color: grey;
+    color: white;
+  }
+}
+
+.sqn-btn {
+  border: 3px solid grey;
+  background: white;
+  color: grey;
+  outline: none;
+  transition: 0.25s all ease-in-out;
+  -webkit-tranisiton: 0.25 s all ease-in-out;
+  &:hover {
+    border-color: white;
+    background: grey;
+    color: white;
+  }
+}
+
+.user-form-message {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  background-color: green;
+  color: white;
+  h4 {
+    margin: 0;
+  }
 }
 
 
