@@ -17,17 +17,16 @@ app.directive("modifyGuestCategory", function(GuestCategoryFactory){
         scope.isEditing = !scope.isEditing;
         if(!scope.isEditing){
           /* If user cancels editing, revert object to original. */
-          console.log("ORIGINAL: ", scope.cat)
           angular.copy(scope.cat, scope.modifiableCatObj)
         }
       }
 
       scope.updateCatName = () => {
+        /* Come out of editing mode prior to promise resolving to stop further button pushes. */
+        scope.isEditing = !scope.isEditing;
         GuestCategoryFactory.updateGuestCategory(scope.cat.$id, scope.modifiableCatObj.$value)
         .then(function(data){
           /* No data is returned from Firebase update. */
-          console.log("UPDATED: ", scope.cat.$value);
-          scope.isEditing = false;
         })
       }
     }

@@ -1,8 +1,8 @@
 <article>
   <header>
     <h4>{{ evt.name }}</h4>
-    <button ng-click="removeEvent(evt)">Delete</button>
-    <button ng-click="toggleEditMode()">{{ editOption }}</button>
+    <button class="sqn-btn-danger" ng-click="removeEvent(evt)">Delete</button>
+    <button class="sqn-btn" ng-click="toggleEditMode()">{{ editOption }}</button>
   </header>
   <div>
     <p> {{ displayDate }} | {{ displayTime }}</p>

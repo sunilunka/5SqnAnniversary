@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+$theme-grey: #808080;
+$theme-blue: #45CDF3;
+$theme-red: #D66464;
+$theme-green: #88BD91;
 body {
   background: #fdfdfd;
   font-family: 'Roboto', 'Arial';
@@ -65,19 +69,44 @@ body {
   }
 }
 
-.sqn-btn {
-  border: 3px solid grey;
-  background: white;
-  color: grey;
+@mixin base-button($pri-color, $sec-color){
+  border: 3px solid $pri-color;
+  background: $sec-color;
+  color: $pri-color;
   outline: none;
-  transition: 0.25s all ease-in-out;
-  -webkit-tranisiton: 0.25 s all ease-in-out;
+  /*transition: 0.25s all ease-in-out;
+  -webkit-tranisiton: 0.25 s all ease-in-out;*/
   &:hover {
-    border-color: white;
-    background: grey;
-    color: white;
+    border-color: $sec-color;
+    background: $pri-color;
+    color: $sec-color;
+  }
+  &:active {
+    border-color: $pri-color;
   }
 }
+
+.sqn-btn {
+  @include base-button($theme-grey, white);
+}
+
+.sqn-btn-danger {
+  @include base-button($theme-red, white);
+}
+
+.sqn-btn-positive {
+  @include base-button($theme-green, white);
+}
+
+.sqn-btn-flex {
+  flex-grow: 1;
+  margin: 10px;
+}
+
+.sqn-btn-default {
+
+}
+
 
 .user-form-message {
   position: absolute;
