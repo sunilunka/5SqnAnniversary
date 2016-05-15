@@ -8,6 +8,10 @@ app.directive("headerBar", function($state, $rootScope, AuthService){
 
       scope.currentUser = null;
 
+      scope.goToUserProfile = () => {
+        $state.go("attendee", {id: scope.currentUser.uid})
+      }
+
       scope.logoutUser = () => {
         console.log("LOGGING OUT NOW!!!")
         AuthService.logout();

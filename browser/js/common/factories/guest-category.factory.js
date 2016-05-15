@@ -32,11 +32,7 @@ app.factory("GuestCategoryFactory", function(DatabaseFactory, $firebaseArray){
       return guestCatArray.$loaded()
       .then(function(arr){
         console.log("ARRAY FOUND AND POPULATED: ", arr)
-        if(arr.length === 0){
-          return "No Categories";
-        } else {
-          return arr;
-        }
+        return arr;
       })
     },
 

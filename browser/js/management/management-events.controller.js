@@ -1,3 +1,5 @@
-app.controller("ManagementEventsCtrl", function($scope, allEvents){
+app.controller("ManagementEventsCtrl", function($scope, allEvents, allCategories){
+
+  $scope.cats = allCategories;
 
 })

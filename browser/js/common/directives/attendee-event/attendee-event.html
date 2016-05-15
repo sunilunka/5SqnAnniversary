@@ -1,10 +1,10 @@
 <h3>{{ evt.name }}</h3>
 <div class="attend-event" ng-hide="attending">
-  <button ng-click="attendEvent(evt.$id)">Register for Event</button>
+  <button class="sqn-btn-positive" ng-click="attendEvent(evt.$id)">Register for Event</button>
 </div>
 <div ng-show="attending" class="attending-options">
-  <button>Bringing guests?</button>
-  <button ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
+  <button class="sqn-btn">Bringing guests?</button>
+  <button class="sqn-btn-danger" ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
   <section class="attendee-aeg">
     <!-- <div> -->
 

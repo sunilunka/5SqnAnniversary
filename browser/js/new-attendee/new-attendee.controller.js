@@ -1,9 +1,12 @@
-app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, Events, $stateParams, $state){
-  /* Events is a promise resolved in the ui-router state. Is an array of all events. Allows ng-repeat to be used to present all events. To user. */
+app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, Events, categories, $stateParams, $state){
+  /* Events, and categories are promises resolved in the ui-router state. Is an array of all entries.  Allows ng-repeat to be used to present all entries */
+
   $scope.events = Events;
+  $scope.categories = categories;
   $scope.processingData = false;
   $scope.error = null;
   $scope.registerMethodChosen = null;
+  $scope.newAttendeeData = {};
 
   $scope.registerMethod = (method) => {
     $scope.registerMethodChosen = method;

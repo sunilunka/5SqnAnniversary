@@ -3,9 +3,10 @@
 }
 
 $theme-grey: #808080;
-$theme-blue: #45CDF3;
+$theme-blue: #68AFC3;
 $theme-red: #D66464;
 $theme-green: #88BD91;
+
 body {
   background: #fdfdfd;
   font-family: 'Roboto', 'Arial';
@@ -57,16 +58,25 @@ body {
 }
 
 .sqnInputActive {
+  @extend .sqnInput;
+  border-top-width: 3px;
+  border-top-color: white;
+  border-top-style: solid;
   border-bottom-color: grey;
   border-bottom-width: 3px;
   border-bottom-style: solid;
   &:focus {
     border-top-color: grey;
-    border-top-width: 3px;
     border-top-style: solid;
     background-color: grey;
     color: white;
   }
+}
+
+.sqnInputNumber {
+  @extend .sqnInputActive;
+  width: 40px;
+  text-align: center;
 }
 
 @mixin base-button($pri-color, $sec-color){
@@ -90,12 +100,31 @@ body {
   @include base-button($theme-grey, white);
 }
 
+.sqn-btn-active {
+  border-color: $theme-blue;
+  color: $theme-blue;
+  background: white;
+  &:hover {
+    border-color: white;
+    color: white;
+    background: $theme-blue;
+  }
+}
+
+.sqn-btn-header {
+  @include base-button(white, black);
+}
+
 .sqn-btn-danger {
   @include base-button($theme-red, white);
 }
 
 .sqn-btn-positive {
-  @include base-button($theme-green, white);
+  @include base-button($theme-blue, white);
+}
+
+.sqn-btn-homepage {
+  @include base-button(rgba(0, 0, 0, 0.75), rgba(255, 255, 255, 0.5));
 }
 
 .sqn-btn-flex {

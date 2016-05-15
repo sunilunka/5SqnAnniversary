@@ -2,10 +2,24 @@
   padding-top: 4em;
 }
 
+.management-sub-menu {
+  margin: 10px auto;
+}
+
 modify-guest-category {
   position: relative;
   margin: 10px;
   display: block;
+}
+
+event-guest-limit {
+  position: relative;
+  display: block;
+  margin: 5px auto;
+  .category-field {
+    display: block;
+    margin: 5px auto;
+  }
 }
 
 .guest-category-list {

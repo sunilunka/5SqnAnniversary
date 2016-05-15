@@ -9,6 +9,9 @@ app.config(function($stateProvider){
       },
       Events: function(EventFactory){
         return EventFactory.getEvents();
+      },
+      categories: function(GuestCategoryFactory){
+        return GuestCategoryFactory.getGuestCategories();
       }
     }
   })

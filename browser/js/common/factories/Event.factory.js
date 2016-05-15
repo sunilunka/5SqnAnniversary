@@ -1,7 +1,8 @@
-app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFactory, SessionService, EventGuestFactory){
-  var eventsRef = DatabaseFactory.dbConnection('events');
+app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFactory, SessionService, EventGuestFactory){
+  var eventsRef = DatabaseFactory.dbConnection("events");
   var eventsArray = $firebaseArray(eventsRef);
   var eventsObj = $firebaseObject(eventsRef);
+
 
   return {
     getEvents: () => {
@@ -72,7 +73,7 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
         /* If the number of guests to remove is not specified assume only one guest is being removed. */
         let guestDecrement = numGuestsToRemove ? numGuestsToRemove : 1;
         console.log("GUEST DECREMENT: ", guestDecrement);
-        /* If current value is above 0, then decrement by 1, otherwise, return 0 */
+        /* If current value is above 0, then decrement by the number of guests to remove, otherwise, return 0 */
         return (currentVal > 0 ? currentVal -= guestDecrement : 0);
       })
       .then(function(transactionObj){
@@ -80,6 +81,39 @@ app.factory('EventFactory', function($firebaseArray, $firebaseObject, DatabaseFa
       })
       .catch(function(error){
         console.log("SORRY AN ERROR HAS OCCURED: ", error);
+      })
+    },
+
+    addLimitsToEvent: (eventId, limitObj) => {
+      /* Reference to the event guestLimits key. Will be established if it does not exist. */
+      var individualEventRef = DatabaseFactory.dbConnection("events/" + eventId + "/guestLimits")
+
+
+      /* For a user to remove a limit, they just have to remove all values from the nominated form field. */
+
+      return individualEventRef.update(limitObj)
+      .then(function(){
+        return limitObj;
+      })
+
+    },
+    /* Depending on user association, check limits of events if any and mark/label as appropriate if no space. */
+    checkLimits: (evtsArray, associationKey) => {
+      return evtsArray.map((evt) => {
+        if(evt.hasOwnProperty("guestLimits")){
+          if(evt.guestLimits[associationKey] > evt.guests[associationKey]){
+            console.log("EVENT HAS SPACE LEFT: ", evt)
+            evt["available"] = true;
+            return evt;
+          } else {
+            console.log("NO SPACE LEFT: ", evt)
+            evt["available"] = false;
+            return evt;
+          }
+        } else {
+          console.log("EVENT HAS NO LIMIT")
+          return evt;
+        }
       })
     }
   }

@@ -3,7 +3,7 @@
   <h2>What do you need to do today?</h2>
   <p ng-repeat="evt in allEvents">There are {{ evt.guests }} amount of people attending {{ evt.name }}<p>
   <div class="flex-container-row">
-    <button class="sqn-btn sqn-btn-flex" ng-repeat="managementView in areasToManage" ui-sref="{{ managementView.state }}">{{ managementView.title }}</button>
+    <button class="sqn-btn sqn-btn-flex" ui-sref-active="sqn-btn-active" ng-repeat="managementView in areasToManage" ui-sref="{{ managementView.state }}">{{ managementView.title }}</button>
   </div>
   <div ui-view>
     <!--  ui-view will render substates in here. Negates requirement for reloading the page. -->

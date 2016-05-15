@@ -3,7 +3,8 @@ app.directive("eventModification", function(EventFactory){
     restrict: "E",
     templateUrl: "js/common/directives/event-modification/event-modification.html",
     scope: {
-      evt: "="
+      evt: "=",
+      categories: "="
     },
 
     link: function(scope, element, attrs){
@@ -14,6 +15,20 @@ app.directive("eventModification", function(EventFactory){
       scope.editMode = false;
 
       scope.editOption = "Edit";
+
+      scope.guestLimits = {
+        displayMenu: false,
+        buttonText: "Add"
+      }
+
+      scope.toggleGuestLimits = () => {
+        scope.guestLimits.displayMenu = !scope.guestLimits.displayMenu;
+        if(scope.guestLimits.displayMenu){
+          scope.guestLimits.buttonText = "Cancel";
+        } else {
+          scope.guestLimits.buttonText = "Add";
+        }
+      }
 
 
       /* Method to remove event from Firebase DB */

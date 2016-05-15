@@ -10,6 +10,25 @@
   }
 }
 
+@mixin header-item {
+  width: auto;
+  padding: 0.2em;
+  text-align: center;
+  color: #fff;
+  transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  h4 {
+    display: inline-block;
+    font-size: 1.5em;
+    margin: 0px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: #45CDF3;
+  }
+}
+
 #header-bar {
   position: fixed;
   z-index: 1000;
@@ -18,24 +37,14 @@
   width: 100%;
   animation: drop-in 1s 1;
 
-  .header-item {
-    width: auto;
-    margin: auto;
-    padding: 0.2em;
-    text-align: center;
-    color: #fff;
-    transition: all 0.25s ease-in-out;
-    -webkit-transition: all 0.25s ease-in-out;
-    h4 {
-      font-size: 1.5em;
-      margin: 0px;
-    }
+  .header-item-user {
+    @include header-item;
+    margin: auto 0.15em auto auto;
+  }
 
-    &:hover {
-      cursor: pointer;
-      color: #45CDF3;
-    }
-
+  .header-item-menu {
+    @include header-item;
+    margin: auto auto auto 0.15em;
   }
 
   .headerStateActive {
