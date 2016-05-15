@@ -99,22 +99,33 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
     },
     /* Depending on user association, check limits of events if any and mark/label as appropriate if no space. */
     checkLimits: (evtsArray, associationKey) => {
-      return evtsArray.map((evt) => {
+      let availableEvents = evtsArray.map((evt) => {
+        /* Are using same array of objects so need to strip the available each time to reset. */
+        if(evt.hasOwnProperty("available")){
+          delete evt["available"];
+        }
         if(evt.hasOwnProperty("guestLimits")){
-          if(evt.guestLimits[associationKey] > evt.guests[associationKey]){
-            console.log("EVENT HAS SPACE LEFT: ", evt)
-            evt["available"] = true;
-            return evt;
+          if(evt.guestLimits.hasOwnProperty(associationKey) && evt.guests.hasOwnProperty(associationKey)) {
+            let limit = evt.guestLimits[associationKey];
+            if(evt.guests[associationKey] < limit){
+              console.log("EVENT HAS SPACE LEFT: ", evt)
+              evt["available"] = true;
+              return evt;
+            } else {
+              console.log("NO SPACE LEFT: ", evt)
+              evt["available"] = false;
+              return evt;
+            }
           } else {
-            console.log("NO SPACE LEFT: ", evt)
-            evt["available"] = false;
             return evt;
           }
+
         } else {
           console.log("EVENT HAS NO LIMIT")
           return evt;
         }
       })
+      return availableEvents;
     }
   }
 

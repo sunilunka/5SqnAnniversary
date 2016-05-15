@@ -53,7 +53,7 @@
         <div class="checkbox">
           <div ng-repeat="evt in events">
             <label>
-            <input type="checkbox" ng-model="newAttendeeData.events[evt.$id]" value="{{ evt.$id }}" ng-true-value="true"  ng-false-value="false" ng-readonly="!evt.available"></input>{{ evt.name }}</label>
+            <input type="checkbox" ng-model="newAttendeeData.events[evt.$id]" value="{{ evt.$id }}" ng-true-value="true"  ng-false-value="false" ng-disabled="evt['available'] === false"></input>{{ evt.name }}</label><span ng-show="evt['available'] === false">No more tickets</span>
         </div>
 
         <input type="submit" value="Register"></input>
