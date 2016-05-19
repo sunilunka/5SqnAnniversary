@@ -3,7 +3,7 @@
   <h2>Hi {{ user.firstName }}</h2>
 
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
-      <p>{{ user.association }}</p>
+      <p>{{ userCat }}</p>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
       <h3>Events you are attending: </h3>
       <attendee-event ng-repeat="event in events" evt="event" attendee="user"></attendee-event>

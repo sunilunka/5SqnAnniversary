@@ -1,7 +1,8 @@
-app.factory("GuestCategoryFactory", function(DatabaseFactory, $firebaseArray){
+app.factory("GuestCategoryFactory", function(DatabaseFactory, $firebaseArray, $firebaseObject){
 
   var guestCategoriesRef = DatabaseFactory.dbConnection("guestCategories");
   var guestCatArray = $firebaseArray(guestCategoriesRef);
+  var guestCatObject = $firebaseObject(guestCategoriesRef);
 
   return {
     addOrRemoveGuestToCategory: (option, category, guestIdent) => {
@@ -33,6 +34,13 @@ app.factory("GuestCategoryFactory", function(DatabaseFactory, $firebaseArray){
       .then(function(arr){
         console.log("ARRAY FOUND AND POPULATED: ", arr)
         return arr;
+      })
+    },
+
+    getGuestCategoriesObject: () => {
+      return guestCatObject.$loaded()
+      .then(function(obj){
+        return obj;
       })
     },
 

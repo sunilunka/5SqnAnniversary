@@ -6,6 +6,10 @@ app.config(function($stateProvider){
     resolve: {
       events: (EventFactory) => {
         return EventFactory.getEvents();
+      },
+
+      categories: (GuestCategoryFactory) => {
+        return GuestCategoryFactory.getGuestCategories();
       }
     }
   })

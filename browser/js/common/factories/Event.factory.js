@@ -127,6 +127,20 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
       })
       return availableEvents;
     }
+
+    /* Check limit on event in attendee view.*/
+    // checkEventAvailable: (attendeeAssoc, evt) => {
+    //   if(!evt.hasOwnProperty("guestLimits")){
+    //     evt['available'] = true;
+    //   } else {
+    //     if(evt.guestLimits[attendeeAssoc]){
+    //
+    //     }
+    //   } else {
+    //     evt['available']
+    //   }
+    // }
+
   }
 
 })

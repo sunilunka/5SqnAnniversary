@@ -15,7 +15,6 @@ app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, E
 
   $scope.saveAttendee = function(){
     $scope.processingData = true;
-    console.log("STATE PARAMS: ", $stateParams)
     return AttendeeFactory.createOneAndLogin($scope.registerMethodChosen, $scope.newAttendeeData)
     .then(function(newUser){
       $scope.processingData = false;

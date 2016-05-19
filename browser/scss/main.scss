@@ -57,6 +57,10 @@ body {
   color: grey;
 }
 
+.sqnInputNoTickets {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
 .sqnInputActive {
   @extend .sqnInput;
   border-top-width: 3px;

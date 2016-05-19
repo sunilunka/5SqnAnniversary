@@ -1,7 +1,10 @@
-app.controller("AttendeeCtrl", function($scope, AuthService, AttendeeFactory, User, Events, EventFactory, $state){
+app.controller("AttendeeCtrl", function($scope, AuthService, AttendeeFactory, User, Events, EventFactory, Categories, $state){
 
   $scope.user = User;
 
-  $scope.events = Events;
+  $scope.events = EventFactory.checkLimits(Events, User.association);
+
+  $scope.userCat = Categories[User.association];
+
 
 })

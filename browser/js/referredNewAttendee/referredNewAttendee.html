@@ -3,17 +3,8 @@
     <form id="referredRegisterForm" name="referredRegister" ng-submit="createNewUserFromReferral()">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
         <h4>It'd be great to have you! How do you know us?</h4>
-        <div class="radio">
-          <label class="control-label"> <input event-limit-check type="radio" name="association" ng-model="newAttendeeData.association" value="current">Currently Posted to Squadron</label>
-        </div>
-        <div class="radio">
-          <label class="control-label"><input type="radio" ng-model="newAttendeeData.association" name="association" value="airforce">Posted Off Squadron</label>
-        </div>
-        <div class="radio">
-          <label class="control-label"><input type="radio" ng-model="newAttendeeData.association" name="association" value="former">Retired Squadron Member or current 5 Sqn Association Member</label>
-        </div>
-        <div class="radio">
-          <label class="control-label"><input type="radio" name="association" value="vip-contractor" ng-model="newAttendeeData.association">Contractor or Sponsor</label>
+        <div ng-repeat="cat in categories" class="radio">
+          <label class="control-label"> <input event-limit-check type="radio" name="association" ng-model="newAttendeeData.association" value="{{ cat.$id }}">{{ cat.$value }}</label>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
@@ -28,9 +19,9 @@
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
         <h3>What events are you planning to attend?</h3>
         <div class="checkbox">
-          <div ng-repeat="event in events">
+          <div ng-repeat="evt in events">
             <label>
-            <input type="checkbox" ng-model="newAttendeeData.events[event.$id]" value="{{ event.$id }}" ng-true-value="true"  ng-false-value="false"></input>{{ event.name }}</label>
+            <input type="checkbox" ng-model="newAttendeeData.events[evt.$id]" value="{{ evt.$id }}" ng-true-value="true"  ng-false-value="false" ng-disabled="evt['available'] === false"></input>{{ evt.name }}</label><span ng-show="evt['available'] === false">No more tickets</span>
         </div>
       <div>
 
