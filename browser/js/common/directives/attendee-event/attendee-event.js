@@ -1,4 +1,4 @@
-app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory, $firebaseArray){
+app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, DatabaseFactory, $firebaseArray, $rootScope){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/attendee-event/attendee-event.html",
@@ -7,6 +7,26 @@ app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory, $fireb
       attendee: "="
     },
     link: function(scope, element, attrs){
+
+
+      AttendeeEventFactory.checkSeatsAvailable(scope.evt.$id, scope.attendee.association, function(refValue){
+        console.log("REF VALUE: ", refValue)
+        if(scope.evt.hasOwnProperty("guestLimits")){
+          let guestLims = scope.evt["guestLimits"];
+          console.log("GUEST LIMITS: ", refValue < guestLims[scope.attendee.association])
+          if(guestLims.hasOwnProperty(scope.attendee.association)){
+            if(refValue < guestLims[scope.attendee.association]){
+              scope.available = true;
+            } else {
+              scope.available = false;
+            }
+          } else {
+            scope.available = true;
+          }
+        } else {
+          scope.available = true;
+        }
+      });
 
       /* Get array of guests who the attendee intends to bring. */
       let attendeeEventRef = DatabaseFactory.dbConnection("attendees/" + scope.attendee.$id + "/events");
@@ -19,10 +39,15 @@ app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory, $fireb
           })
         }
       });
+
+      /* Value used to modify UI if there are no more seats available for an event. */
+      scope.available;
+
       /* Value used to modify UI with respect to user attending an event or not. */
       scope.attending = false;
 
       scope.guests;
+      /* If a value on the number of the guests changes and there is a limit applied to the users chosen category, change the scope.available value as appropriate. */
 
       /* Compare all events with events user has signed up with. This facilitates UI configuration and options for each event */
       scope.isUserAttending = (evt) => {
@@ -58,6 +83,9 @@ app.directive("attendeeEvent", function(AttendeeFactory, DatabaseFactory, $fireb
           return;
         })
       }
+      console.log("SCOPE AVAILABLE: ", scope.available)
     }
   }
+
+
 })

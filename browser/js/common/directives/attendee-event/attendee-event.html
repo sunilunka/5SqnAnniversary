@@ -1,14 +1,14 @@
 <h3>{{ evt.name }}</h3>
-<div class="attend-event" ng-hide="attending">
-  <button class="sqn-btn-positive" ng-click="attendEvent(evt.$id)" ng-show="evt['available']">Register for Event</button>
+<div class="attend-event" ng-show="!attending">
+  <button class="sqn-btn-positive" ng-disabled="!available" ng-click="attendEvent(evt.$id)"> Register for Event</button>
 </div>
 <div ng-show="attending" class="attending-options">
-  <button class="sqn-btn" ng-show="evt['available']">Bringing guests?</button>
+  <button class="sqn-btn" ng-show="available">Bringing guests?</button>
   <button class="sqn-btn-danger" ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
   <section class="attendee-aeg">
     <!-- <div> -->
 
       <event-guest ng-repeat="guest in guests" attendee="attendee" guest="guest" evtid="{{evt.$id}}"></event-guest>
-      <add-event-guest attendee="attendee" evt="evt"></add-event-guest>
+      <add-event-guest attendee="attendee" evt="evt" available="available"></add-event-guest>
   </section>
 </div>

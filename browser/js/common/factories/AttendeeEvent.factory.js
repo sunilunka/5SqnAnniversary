@@ -55,7 +55,17 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
       .then(function(data){
         return data.length;
       })
+    },
+    /* This method is used in the attendee state events options and does not act specifically on the attendee -> events db fields. */
+    checkSeatsAvailable: (evtId, association, callback) => {
+      let evtGuestsRef = DatabaseFactory.dbConnection("events/" + evtId + "/guests/" + association);
+      evtGuestsRef.on("value", function(snapshot){
+        let refValue = snapshot.val();
+        /* refValue is the value of the event guests for the users association in a key value object. Callback is a function that acts on the returned value. */
+        callback(refValue)
+      })
     }
+
   }
 
 

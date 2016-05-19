@@ -97,7 +97,7 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
       })
 
     },
-    /* Depending on user association, check limits of events if any and mark/label as appropriate if no space. */
+    /* Depending on user association, check limits of events if any and mark/label as appropriate if no space. Used in referred and new-attendee states. */
     checkLimits: (evtsArray, associationKey) => {
       let availableEvents = evtsArray.map((evt) => {
         /* Are using same array of objects so need to strip the available each time to reset. */
@@ -127,19 +127,6 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
       })
       return availableEvents;
     }
-
-    /* Check limit on event in attendee view.*/
-    // checkEventAvailable: (attendeeAssoc, evt) => {
-    //   if(!evt.hasOwnProperty("guestLimits")){
-    //     evt['available'] = true;
-    //   } else {
-    //     if(evt.guestLimits[attendeeAssoc]){
-    //
-    //     }
-    //   } else {
-    //     evt['available']
-    //   }
-    // }
 
   }
 

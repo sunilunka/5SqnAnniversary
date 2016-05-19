@@ -2,7 +2,7 @@ app.controller("AttendeeCtrl", function($scope, AuthService, AttendeeFactory, Us
 
   $scope.user = User;
 
-  $scope.events = EventFactory.checkLimits(Events, User.association);
+  $scope.events = Events;
 
   $scope.userCat = Categories[User.association];
 

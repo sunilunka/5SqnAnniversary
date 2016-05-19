@@ -5,9 +5,11 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray){
     scope: {
       attendee: "=",
       evt: "=",
-      guestDetails: "@"
+      guestDetails: "@",
+      available: "="
     },
     link: function(scope, element, attrs){
+      console.log("SEATS AVAILABLE: ", scope.available)
       /* Using firebase array to generate unique key for each guest. */
       let guestArray = AttendeeEventFactory.arrayToModify("attendees/" + scope.attendee.$id + "/events/" + scope.evt.$id)
 
