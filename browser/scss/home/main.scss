@@ -10,37 +10,76 @@
   }
 }
 
+@mixin tile-display-none {
+  .tile-spanning-oceans {
+    display: none;
+  }
+  .tile-orions {
+    display: none;
+  }
+}
+
+@mixin tile-shadow-display {
+  .tile-spanning-oceans {
+    @include theme-shadow-default;
+  }
+  .tile-orions {
+    @include theme-shadow-default;
+  }
+}
+
+
+
 @media screen and (max-width: $screen-xs-max) {
   #main-title {
     max-height: 25em;
-    .tile-spanning-oceans {
-      display: none;
-    }
-    .tile-orions {
-      display: none;
-    }
+    @include tile-display-none;
   }
+
 }
 
 @media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max){
   #main-title {
     min-height: 30em;
+    @include tile-shadow-display;
+
+  }
+
+  .home-description {
+    @include tile-display-none;
   }
 }
 
 
 @media screen and (min-width: $screen-md-min) and (max-width: $screen-md-max){
   #main-title {
-    min-height: 40em;
+    min-height: 35em;
+    @include tile-shadow-display;
+  }
+
+  .home-description {
+    @include tile-display-none;
   }
 }
 
 @media screen and (min-width: $screen-lg-min){
   #main-title {
-    min-height: 50em;
+    min-height: 35em;
+    @include tile-shadow-display;
+  }
+  .home-description {
+    @include tile-display-none;
   }
 }
 
+@mixin background-img-settings($default-color, $img-url, $position){
+  background: $default-color;
+  background-image: url($img-url);
+  background-origin: border-box;
+  background-position: $position;
+  background-size: cover;
+  background-clip: border-box;
+}
 
 
 #home {
@@ -57,12 +96,7 @@
     position: relative;
     padding: 5em 0 0 0;
     animation: fade-in 1s 1;
-    background: white;
-    background-image: url("/images/home/crest-overalls-002.jpg");
-    background-origin: border-box;
-    background-position: left;
-    background-size: cover;
-    background-clip: border-box;
+    @include background-img-settings($theme-tacgrey,"/images/home/crest-overalls-002.jpg", left);
 
     .home-side-panel {
       background-color: transparent;
@@ -72,86 +106,75 @@
       .home-title {
         margin-bottom: 1em;
       }
-      .tile {
-        margin-bottom: 1em;
-        padding: 2em 1em 2em 1em;
-        min-height: 10em;
-        max-height: 20em;
-        .tile-caption {
-          position: absolute;
-          bottom: 0px;
-          left: 0px;
-          width: 100%;
-          padding: 0 1em 1em 1em;
-          background-color: rgba(0,0,0,0.75);
-          color: white;
-        }
+    }
+  }
 
+  .anniversary {
+    position: absolute;
+    display: block;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    background-color: rgba(0,0,0,0.75);
+    padding: 1em 1em 0 1em;
+    p {
+      color: white;
+    }
+  }
+
+  .anniversary-year {
+    left: 0px;
+    font-size: 3em;
+    color: $theme-blue;
+  }
+
+  .anniversary-caption {
+    position: absolute;
+    padding: 0 1em 0 0;
+    right: 0px;
+    bottom: 0px;
+    font-size: 1em;
+    height: 3em;
+    color: white;
+  }
+
+  .anniversary-caption-dark {
+    @extend .anniversary-caption;
+    color: $theme-grey;
+  }
+
+  .tile {
+    margin-bottom: 1em;
+    padding: 2em 1em 0em 1em;
+    min-height: 10em;
+    .tile-caption {
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      width: 100%;
+      padding: 0 1em 1em 1em;
+      background-color: rgba(0,0,0,0.75);
+      color: white;
     }
   }
 
   .tile-spanning-oceans {
     @extend .tile;
-    background: inherit;
-    background-image: url("/images/home/bg-spanning-oceans.jpg");
-    background-origin: border-box;
-    background-position: left;
-    background-size: cover;
-    background-clip: border-box;
+    @include background-img-settings($theme-tacgrey, "/images/home/serve-nz.jpg", left);
   }
   .tile-orions {
     @extend .tile;
-    background: inherit;
     background-image: url("/images/home/NZP3K2002.jpg");
-    background-origin: border-box;
-    background-position: left;
-    background-size: cover;
-    background-clip: border-box;
+    @include background-img-settings(inherit, "/images/home/NZP3K2002.jpg", left);
+  }
+
+  .tile-non-side {
+    margin-left: 1em;
   }
 
   .home-description {
     padding: 1em;
     color: $theme-grey;
     background-color: inherit;
-    /*.tile {
-      margin-bottom: 1em;
-      padding: 2em 1em 2em 1em;
-      min-height: 10em;
-      max-height: 20em;
-      .tile-caption {
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        width: 100%;
-        padding: 0 1em 1em 1em;
-        background-color: rgba(0,0,0,0.75);
-        color: white;
-      }*/
-    }
-    article {
-      position: relative;
-      text-align: center;
-      header {
-        margin: 0px auto;
-        padding: 1em;
-        p {
-          text-align: left;
-        }
-      }
-    }
   }
-  .occasion-title {
-    display: flex;
-    flex-direction: row;
-  }
-
-
-
-  .title-img {
-    width: 100%;
-    height: auto;
-  }
-
-
-
 }

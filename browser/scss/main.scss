@@ -20,6 +20,10 @@ body {
   font-family: 'Roboto', 'Arial';
 }
 
+@mixin theme-shadow-default {
+  box-shadow: 0px 5px 10px rgba(0,0,0,0.75);
+}
+
 @mixin clearHeader {
   padding-top: 6em;
 }
