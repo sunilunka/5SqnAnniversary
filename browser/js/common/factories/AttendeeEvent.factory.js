@@ -64,6 +64,10 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
         /* refValue is the value of the event guests for the users association in a key value object. Callback is a function that acts on the returned value. */
         callback(refValue)
       })
+    },
+    /* May not require this, will look at it when testing user data flows. */
+    checkSeatsOnLimitChange: (evtId, association, callback) => {
+      let limitRef = DatabaseFactory.dbConnection("events/" + evtId);
     }
 
   }

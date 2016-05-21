@@ -2,13 +2,21 @@
   box-sizing: border-box;
 }
 
+$screen-xs-max: 767px;
+$screen-sm-min: 768px;
+$screen-sm-max: 991px;
+$screen-md-min: 992px;
+$screen-md-max: 1199px;
+$screen-lg-min: 1200px;
+
 $theme-grey: #808080;
 $theme-blue: #68AFC3;
 $theme-red: #D66464;
 $theme-green: #88BD91;
+$theme-tacgrey: #EFEFEF;
 
 body {
-  background: #fdfdfd;
+  background: $theme-tacgrey;
   font-family: 'Roboto', 'Arial';
 }
 
@@ -48,6 +56,7 @@ body {
   padding: 3px;
   text-align: left;
   width: 200px;
+  background-color: $theme-tacgrey;
   /*transition: 0.5s all ease-in-out;
   -webkit-tranisiton: 0.5 s all ease-in-out;*/
 }
@@ -64,7 +73,7 @@ body {
 .sqnInputActive {
   @extend .sqnInput;
   border-top-width: 3px;
-  border-top-color: white;
+  border-top-color: $theme-tacgrey;
   border-top-style: solid;
   border-bottom-color: grey;
   border-bottom-width: 3px;
@@ -73,7 +82,7 @@ body {
     border-top-color: grey;
     border-top-style: solid;
     background-color: grey;
-    color: white;
+    color: $theme-tacgrey;
   }
 }
 
@@ -101,16 +110,16 @@ body {
 }
 
 .sqn-btn {
-  @include base-button($theme-grey, white);
+  @include base-button($theme-grey, $theme-tacgrey);
 }
 
 .sqn-btn-active {
   border-color: $theme-blue;
   color: $theme-blue;
-  background: white;
+  background: $theme-tacgrey;
   &:hover {
-    border-color: white;
-    color: white;
+    border-color: $theme-tacgrey;
+    color: $theme-tacgrey;
     background: $theme-blue;
   }
 }
@@ -120,15 +129,15 @@ body {
 }
 
 .sqn-btn-danger {
-  @include base-button($theme-red, white);
+  @include base-button($theme-red, $theme-tacgrey);
 }
 
 .sqn-btn-positive {
-  @include base-button($theme-blue, white);
+  @include base-button($theme-blue, $theme-tacgrey);
 }
 
 .sqn-btn-homepage {
-  @include base-button(rgba(0, 0, 0, 0.75), rgba(255, 255, 255, 0.5));
+  border: 3px solid white;
 }
 
 .sqn-btn-flex {

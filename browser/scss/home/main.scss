@@ -10,24 +10,148 @@
   }
 }
 
+@media screen and (max-width: $screen-xs-max) {
+  #main-title {
+    max-height: 25em;
+    .tile-spanning-oceans {
+      display: none;
+    }
+    .tile-orions {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max){
+  #main-title {
+    min-height: 30em;
+  }
+}
+
+
+@media screen and (min-width: $screen-md-min) and (max-width: $screen-md-max){
+  #main-title {
+    min-height: 40em;
+  }
+}
+
+@media screen and (min-width: $screen-lg-min){
+  #main-title {
+    min-height: 50em;
+  }
+}
+
+
+
 #home {
   position: relative;
-  background-image: url("/images/home/NZP3K022.jpg");
-  background-origin: center;
-  background-position: center;
-  background-size: cover;
-  background-clip: padding-box;
-  min-height: 40em;
   min-width: 100%;
   text-align: center;
+  /*background: white;
+  background-image: url("/images/home/crest-overalls-002.jpg");
+  background-origin: border-box;
+  background-position: left;
+  background-size: cover;
+  background-clip: border-box;*/
   #main-title {
-    margin: 0px auto;
     position: relative;
-    padding: 10em 0 0 0;
+    padding: 5em 0 0 0;
     animation: fade-in 1s 1;
+    background: white;
+    background-image: url("/images/home/crest-overalls-002.jpg");
+    background-origin: border-box;
+    background-position: left;
+    background-size: cover;
+    background-clip: border-box;
+
+    .home-side-panel {
+      background-color: transparent;
+      color: white;
+      margin-bottom: 1em;
+      padding: 0 0.5em 2em 0.5em;
+      .home-title {
+        margin-bottom: 1em;
+      }
+      .tile {
+        margin-bottom: 1em;
+        padding: 2em 1em 2em 1em;
+        min-height: 10em;
+        max-height: 20em;
+        .tile-caption {
+          position: absolute;
+          bottom: 0px;
+          left: 0px;
+          width: 100%;
+          padding: 0 1em 1em 1em;
+          background-color: rgba(0,0,0,0.75);
+          color: white;
+        }
+
+    }
+  }
+
+  .tile-spanning-oceans {
+    @extend .tile;
+    background: inherit;
+    background-image: url("/images/home/bg-spanning-oceans.jpg");
+    background-origin: border-box;
+    background-position: left;
+    background-size: cover;
+    background-clip: border-box;
+  }
+  .tile-orions {
+    @extend .tile;
+    background: inherit;
+    background-image: url("/images/home/NZP3K2002.jpg");
+    background-origin: border-box;
+    background-position: left;
+    background-size: cover;
+    background-clip: border-box;
+  }
+
+  .home-description {
+    padding: 1em;
+    color: $theme-grey;
+    background-color: inherit;
+    /*.tile {
+      margin-bottom: 1em;
+      padding: 2em 1em 2em 1em;
+      min-height: 10em;
+      max-height: 20em;
+      .tile-caption {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        padding: 0 1em 1em 1em;
+        background-color: rgba(0,0,0,0.75);
+        color: white;
+      }*/
+    }
+    article {
+      position: relative;
+      text-align: center;
+      header {
+        margin: 0px auto;
+        padding: 1em;
+        p {
+          text-align: left;
+        }
+      }
+    }
   }
   .occasion-title {
     display: flex;
     flex-direction: row;
   }
+
+
+
+  .title-img {
+    width: 100%;
+    height: auto;
+  }
+
+
+
 }
