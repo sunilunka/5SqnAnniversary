@@ -15,6 +15,8 @@ $theme-blue: #68AFC3;
 $theme-red: #D66464;
 $theme-green: #88BD91;
 $theme-tacgrey: #EFEFEF;
+$fb-blue: #3B5998;
+$gg-red: rgba(218, 79, 70, 1);
 
 body {
   background: $theme-tacgrey;
@@ -157,6 +159,22 @@ body {
 
 .sqn-btn-default {
 
+}
+
+.email-btn {
+  background-color: $theme-grey;
+}
+
+.facebook-btn {
+  background-color: $fb-blue;
+  img {
+    margin: auto;
+    height: 7.5em;
+    width: 7.5em;
+  }
+}
+.google-btn {
+  background-color: $gg-red;
 }
 
 

@@ -3,19 +3,19 @@
     <span ng-show="error" class="warn">{{ error }}</span>
   </div>
   <h2 ng-show="processingData">Creating new user...</h2>
-  <h3>It would be great to have you, register below...</h3>
-  <div ng-show="registerMethodChosen" class=" register-option-complete flex-container-row">
+  <h3>How would you like to register?</h3>
+  <div ng-show="registerMethodChosen" class="register-option-complete flex-container-row">
     <h4>Great you are registering using {{ registerMethodChosen }}</h4>
     <button class="btn btn-default" ng-click="registerMethod(null)">Change</button>
 </div>
   <div ng-hide="registerMethodChosen !== null" class="button-holder flex-container-row">
-    <div ng-click="registerMethod('email')" class="button-panel">
+    <div ng-click="registerMethod('email')" class="button-panel email-btn">
       @
     </div>
-    <div ng-click="registerMethod('facebook')" class="button-panel">
-      Facebook
+    <div ng-click="registerMethod('facebook')" class="button-panel facebook-btn" title="Register using Facebook">
+      <img src="/images/newAttendee/fb-logo.png" alt="Register using Facebook"></img>
     </div>
-    <div ng-click="registerMethod('google')" class="button-panel">
+    <div ng-click="registerMethod('google')" class="button-panel google-btn">
       G+
     </div>
   </div>
@@ -61,7 +61,4 @@
 
     </form>
   </div>
-  <h3>{{ attendees.length }}</h3>
-  <h6 ng-repeat="attendee in attendees">{{ attendee.firstName }}</h6>
-
 </section>
