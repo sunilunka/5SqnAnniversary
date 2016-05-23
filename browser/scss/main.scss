@@ -1,7 +1,8 @@
 * {
   box-sizing: border-box;
 }
-
+$screen-xxs-max: 479px;
+$screen-xs-min: 480px;
 $screen-xs-max: 767px;
 $screen-sm-min: 768px;
 $screen-sm-max: 991px;
@@ -20,6 +21,10 @@ body {
   font-family: 'Roboto', 'Arial';
 }
 
+@mixin text-align-left {
+  text-align: left;
+}
+
 @mixin theme-shadow-default {
   box-shadow: 0px 5px 10px rgba(0,0,0,0.75);
 }
@@ -35,6 +40,7 @@ body {
     clear: both;
   }
 }
+
 
 #main {
   display: flex;

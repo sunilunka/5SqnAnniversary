@@ -10,6 +10,25 @@
   }
 }
 
+@mixin background-img-settings($default-color, $img-url, $position){
+  background: $default-color;
+  background-image: url($img-url);
+  background-origin: border-box;
+  background-position: $position;
+  background-size: cover;
+  background-clip: border-box;
+}
+
+@mixin small-screen-date-settings {
+  .home-description {
+    .anniversary-date-banner {
+      @include background-img-settings($theme-transparent-black, "/images/home/bg-date-dark.jpg", center)
+    }
+  }
+}
+
+$theme-transparent-black: rgba(0,0,0,0.75);
+
 @mixin tile-display-none {
   .tile-spanning-oceans {
     display: none;
@@ -28,14 +47,39 @@
   }
 }
 
-
-
-@media screen and (max-width: $screen-xs-max) {
+@media screen and (max-width: $screen-xxs-max){
   #main-title {
-    max-height: 25em;
     @include tile-display-none;
+    .home-side-panel {
+      .home-title {
+        background-color: $theme-transparent-black;
+      }
+      .tile-blurb {
+        .anniversary-date-banner {
+          display: none;
+        }
+      }
+    }
   }
+  @include small-screen-date-settings;
+}
 
+@media screen and (min-width: $screen-xs-min) and (max-width: $screen-xs-max) {
+  #main-title {
+    max-height: 30em;
+    @include tile-display-none;
+    .home-side-panel {
+      .home-title {
+        background-color: $theme-transparent-black;
+      }
+      .tile-blurb {
+        .anniversary-date-banner {
+          display: none;
+        }
+      }
+    }
+  }
+  @include small-screen-date-settings;
 }
 
 @media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max){
@@ -47,6 +91,9 @@
 
   .home-description {
     @include tile-display-none;
+    .anniversary-date-banner {
+      display: none;
+    }
   }
 }
 
@@ -59,6 +106,9 @@
 
   .home-description {
     @include tile-display-none;
+    .anniversary-date-banner {
+      display: none;
+    }
   }
 }
 
@@ -69,16 +119,10 @@
   }
   .home-description {
     @include tile-display-none;
-  }
-}
+    .anniversary-date-banner {
 
-@mixin background-img-settings($default-color, $img-url, $position){
-  background: $default-color;
-  background-image: url($img-url);
-  background-origin: border-box;
-  background-position: $position;
-  background-size: cover;
-  background-clip: border-box;
+    }
+  }
 }
 
 
@@ -104,7 +148,10 @@
       margin-bottom: 1em;
       padding: 0 0.5em 2em 0.5em;
       .home-title {
-        margin-bottom: 1em;
+        padding-bottom: 1em;
+        h3 {
+          margin: 0.5em 0;
+        }
       }
     }
   }
@@ -128,19 +175,51 @@
     color: $theme-blue;
   }
 
-  .anniversary-caption {
+  .anniversary-tag {
     position: absolute;
     padding: 0 1em 0 0;
-    right: 0px;
-    bottom: 0px;
     font-size: 1em;
     height: 3em;
     color: white;
+    right: 0px;
+    font-weight: bold;
+  }
+
+  .anniversary-caption {
+    @extend .anniversary-tag;
+    right: 0px;
+    bottom: 0px;
+    color: white;
+  }
+
+  .anniversary-date-top {
+    @extend .anniversary-tag;
+    padding-top: 1.5em;
+    top: 0px;
+  }
+
+  .anniversary-date-offset {
+    @extend .anniversary-tag;
+    bottom: 2em;
+    color: $theme-grey;
   }
 
   .anniversary-caption-dark {
     @extend .anniversary-caption;
     color: $theme-grey;
+  }
+
+  .anniversary-date-banner {
+    position: relative;
+    color: $theme-blue;
+    text-align: center;
+    margin: 0 0 1em 0;
+    h3 {
+      margin: 0.5em 0em;
+    }
+    p {
+      font-size: 1.5em;
+    }
   }
 
   .tile {
@@ -158,6 +237,7 @@
     }
   }
 
+
   .tile-spanning-oceans {
     @extend .tile;
     @include background-img-settings($theme-tacgrey, "/images/home/serve-nz.jpg", left);
@@ -168,13 +248,25 @@
     @include background-img-settings(inherit, "/images/home/NZP3K2002.jpg", left);
   }
 
+  .tile-blurb {
+    @include text-align-left;
+    min-height: 5em;
+    padding: 1.5em 1.5em 0.75em 1.5em;
+    background-color: $theme-transparent-black;
+    @include background-img-settings($theme-transparent-black, "/images/home/those-before.jpg", center);
+    height: auto;
+  }
+
   .tile-non-side {
     margin-left: 1em;
   }
 
   .home-description {
-    padding: 1em;
+    padding: 0.5em 1em 1em 1em;
     color: $theme-grey;
     background-color: inherit;
+    .anniversary-date-banner {
+      padding: 1em;
+    }
   }
 }

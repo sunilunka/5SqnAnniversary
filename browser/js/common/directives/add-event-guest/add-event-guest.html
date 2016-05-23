@@ -1,5 +1,5 @@
 <form ng-submit="addNewGuest()">
   <input type="text" ng-model="guestDetails.firstName"></input>
   <input type="text" ng-model="guestDetails.lastName"></input>
-  <input type="submit" value="Add Guest" ng-disabled="!available"></input>
+  <input class="sqn-btn" type="submit" ng-disabled="!available"><span class="glyphicon glyphicon-plus"></span>Add Guest</input>
 </form>
