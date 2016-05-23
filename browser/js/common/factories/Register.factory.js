@@ -72,10 +72,17 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       uid: authData.uid,
       firstName: dataPath.first_name,
       lastName: dataPath.last_name,
+      email: formData.email,
       fbprofile: dataPath.link,
       association: formData.association,
       events: modifyEventData(formData.events, dataPath.first_name, dataPath.last_name)
     }
+  }
+
+  var parseGoogleData = (authData, formData) => {
+    var dataPath;
+    console.log("AUTHDATA: ", authData)
+    return null;
   }
 
   var parseEmailData = (authData, formData) => {
@@ -135,6 +142,8 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         /* Once firebase authentication has been returned, merge with formData for saving into firebase attendee store */
         if(authData.provider === "facebook"){
           return parseFbData(authData, formData);
+        } else if(authData.provider === "google"){
+          console.log("GOOGLE AUTH DATA: ", authData);
         } else if(authData.provider === "password"){
           /* To be completed, full function flow not complete, referred attendee state needs firstName and lastName fields for email */
           return parseEmailData(authData, formData);
@@ -179,7 +188,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
           return parseFbData(authData, registerFormData);
           break;
         case "google":
-          console.log("GOOGLE AUTH HAS NOT BEEN SET UP.")
+          return parseGoogleData(authData, registerFormData);
           break;
         default:
           return new Error("NO AUTHDATA FOUND!");
