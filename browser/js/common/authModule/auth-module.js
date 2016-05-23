@@ -53,6 +53,7 @@
 
       loginWithExternalProvider: provider => {
         return authRef.$authWithOAuthRedirect(provider, function(error, authData){
+          console.log("METHOD AUTH DATA: ", authData)
           console.log("REDIRECTING...")
           if(error) {
             console.warn("Sorry an error occured: ", error);

@@ -161,20 +161,27 @@ body {
 
 }
 
-.email-btn {
-  background-color: $theme-grey;
-}
-
-.facebook-btn {
-  background-color: $fb-blue;
+@mixin login-btn-config-settings($bg-color){
+  background-color: $bg-color;
   img {
     margin: auto;
     height: 7.5em;
     width: 7.5em;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
+
+.email-btn {
+  @include login-btn-config-settings($theme-blue);
+}
+
+.facebook-btn {
+  @include login-btn-config-settings($fb-blue);
+}
 .google-btn {
-  background-color: $gg-red;
+  @include login-btn-config-settings($gg-red);
 }
 
 

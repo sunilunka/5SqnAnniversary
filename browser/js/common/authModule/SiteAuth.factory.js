@@ -52,6 +52,8 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
 
     userRegisterInProgress: (authData) => {
       /* Return register data if available */
+      console.log("USER REGISTER IN PROGRESS AUTH DATA: ", authData);
+      debugger;
       var newRegisterData = JSON.parse(window.sessionStorage.getItem("registerData"));
       /* If the key the data stored under matches the provider, then return the parsed data. */
       if(newRegisterData.hasOwnProperty(authData.provider)){

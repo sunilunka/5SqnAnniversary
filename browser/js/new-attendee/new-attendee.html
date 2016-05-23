@@ -3,7 +3,7 @@
     <span ng-show="error" class="warn">{{ error }}</span>
   </div>
   <h2 ng-show="processingData">Creating new user...</h2>
-  <h3>How would you like to register?</h3>
+  <h3 ng-hide="registerMethodChosen !== null">How would you like to register?</h3>
   <div ng-show="registerMethodChosen" class="register-option-complete flex-container-row">
     <h4>Great you are registering using {{ registerMethodChosen }}</h4>
     <button class="btn btn-default" ng-click="registerMethod(null)">Change</button>
@@ -21,19 +21,24 @@
   </div>
   <div class="row">
     <form ng-hide="registerMethodChosen === null" id="registerForm" name="register" ng-submit="saveAttendee()">
-      <div ng-show="registerMethodChosen === 'email'" class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
-        <label class="control-label">First Name</label>
-        <input class="form-control" type="text" ng-model="newAttendeeData.firstName" name="firstName"></input>
+      <div ng-show="registerMethodChosen === 'email'" class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="input-group">
+          <label class="control-label" for="firstName">First Name</label>
+          <input class="form-control" type="text" ng-model="newAttendeeData.firstName" name="firstName"></input>
+        </div>
+
         <label class="control-label">Last Name</label>
         <input class="form-control" type="text" ng-model="newAttendeeData.lastName" name="lastName"></input>
-        <label class="control-label">Email Address</label>
-        <input class="form-control" type="email" name="attendeeEmail" ng-model="newAttendeeData.email"></input><span class="bg-danger" ng-show="!register.attendeeEmail.$valid && register.attendeeEmail.$dirty">Whoops, that email doesn't look quite right?</span>
         <label>Password</label>
         <input type="password" name="passwordOne" class="form-control"></input>
         <label>Confirm Password</label>
         <input ng-model="newAttendeeData.password" type="password" class="form-control" name="passwordTwo"></input>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="form-group">
+          <label class="control-label">Email Address</label>
+          <input class="form-control" type="email" name="attendeeEmail" ng-model="newAttendeeData.email"></input><span class="bg-danger" ng-show="!register.attendeeEmail.$valid && register.attendeeEmail.$dirty">Whoops, that email doesn't look quite right?</span>
+        </div>
         <h4>It'd be great to have you! How do you know us?</h4>
         <div class="radio" ng-repeat="category in categories">
           <label class="control-label"> <input event-limit-check type="radio" name="association" ng-model="newAttendeeData.association" value="{{ category.$id }}">{{ category.$value }}</label>
