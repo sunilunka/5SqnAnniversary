@@ -123,7 +123,7 @@ $theme-transparent-black: rgba(0,0,0,0.75);
   .home-description {
     @include tile-display-none;
     .anniversary-date-banner {
-
+      display: none;
     }
   }
 }

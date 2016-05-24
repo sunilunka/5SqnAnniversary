@@ -10,60 +10,69 @@
 </div>
   <div ng-hide="registerMethodChosen !== null" class="button-holder flex-container-row">
     <div ng-click="registerMethod('email')" class="button-panel email-btn">
-      @
+      <img src="/images/newAttendee/mail-logo.png" alt="Register using your email address." title="Register using your email address."></img>
+      <span>Email</span>
     </div>
     <div ng-click="registerMethod('facebook')" class="button-panel facebook-btn" title="Register using Facebook">
       <img src="/images/newAttendee/fb-logo.png" alt="Register using Facebook"></img>
+      <span>Facebook</span>
     </div>
-    <div ng-click="registerMethod('google')" class="button-panel google-btn">
+    <!-- <div ng-click="registerMethod('google')" class="button-panel google-btn">
       G+
-    </div>
+    </div> -->
   </div>
   <div class="row">
     <form ng-hide="registerMethodChosen === null" id="registerForm" name="register" ng-submit="saveAttendee()">
       <div ng-show="registerMethodChosen === 'email'" class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-        <div class="input-group">
+        <div class="form-group">
           <label class="control-label" for="firstName">First Name</label>
-          <input class="form-control" type="text" ng-model="newAttendeeData.firstName" name="firstName"></input>
+          <input class="sqnInputActive form-group" type="text" ng-model="newAttendeeData.firstName" placeholder="First Name" name="firstName" required></input>
         </div>
-
-        <label class="control-label">Last Name</label>
-        <input class="form-control" type="text" ng-model="newAttendeeData.lastName" name="lastName"></input>
-        <label>Password</label>
-        <input type="password" name="passwordOne" class="form-control"></input>
-        <label>Confirm Password</label>
-        <input ng-model="newAttendeeData.password" type="password" class="form-control" name="passwordTwo"></input>
+        <div class="form-group">
+          <label class="control-label" for="lastName">Last Name</label>
+          <input class="sqnInputActive" type="text" ng-model="newAttendeeData.lastName" placeholder="Last Name" name="lastName" required></input>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" ng-model="passwordOne" name="passwordOne" class="sqnInputActive" placeholder="Password" required></input>
+        </div>
+        <div class="form-group">
+          <label>Confirm</label>
+          <input ng-model="newAttendeeData.password" type="password" class="sqnInputActive" placeholder="Confirm Password" name="passwordTwo" ng-blur="passwordsMatch()" required></input>
+          <span ng-show="(register.passwordOne.$error.required || register.passwordTwo.$error.required || !passwordsMatch())">Those passwords do not match</span>
+        </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
         <div class="form-group">
           <label class="control-label">Email Address</label>
-          <input class="form-control" type="email" name="attendeeEmail" ng-model="newAttendeeData.email"></input><span class="bg-danger" ng-show="!register.attendeeEmail.$valid && register.attendeeEmail.$dirty">Whoops, that email doesn't look quite right?</span>
+          <input class="sqnInputEmail" type="email" name="attendeeEmail" ng-model="newAttendeeData.email" required></input><span class="bg-danger" ng-show="!register.attendeeEmail.$valid && register.attendeeEmail.$dirty">Whoops, that email doesn't look quite right?</span>
         </div>
-        <h4>It'd be great to have you! How do you know us?</h4>
-        <div class="radio" ng-repeat="category in categories">
+        <h4>What is your association with the squadron?</h4>
+        <div class="radio sqnInput" ng-repeat="category in categories">
           <label class="control-label"> <input event-limit-check type="radio" name="association" ng-model="newAttendeeData.association" value="{{ category.$id }}">{{ category.$value }}</label>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
-        <h3>Are you travelling from overseas to attend?</h3>
-          <div class="radio">
-            <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true"></input> Yes I am!</label>
-          </div>
-          <div class="radio">
-            <label class="control-label" ng-model="overseas" value="false"><input name="overseas" type="radio"></input>No, I live in New Zealand</label>
-          </div>
+        <h4>Are you travelling from overseas to attend?</h3>
+        <div class="radio sqnInput">
+          <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true"></input> Yes I am!</label>
+        </div>
+        <div class="radio sqnInput">
+          <label class="control-label" ng-model="overseas" value="false"><input name="overseas" type="radio"></input>No, I live in New Zealand</label>
+        </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 form-group">
-        <h3>What events are you planning to attend?</h3>
+        <h4>What events are you planning to attend?</h3>
         <div class="checkbox">
-          <div ng-repeat="evt in events">
+          <div class="sqnInput" ng-repeat="evt in events">
             <label>
             <input type="checkbox" ng-model="newAttendeeData.events[evt.$id]" value="{{ evt.$id }}" ng-true-value="true"  ng-false-value="false" ng-disabled="evt['available'] === false"></input>{{ evt.name }}</label><span ng-show="evt['available'] === false">No more tickets</span>
+          </div>
         </div>
-
-        <input type="submit" value="Register"></input>
       </div>
-
+      <div class="col-xxs-12 col-xs-12 col-md-12 col-lg-12">
+        <input class="sqn-btn-positive sqn-btn-large" type="submit" value="Register"></input>
+      </div>
     </form>
   </div>
 </section>

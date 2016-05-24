@@ -79,11 +79,12 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     }
   }
 
-  var parseGoogleData = (authData, formData) => {
-    var dataPath;
-    console.log("AUTHDATA: ", authData)
-    return null;
-  }
+  /* Will update with when AngularFire 2.x.x is released. */
+  // var parseGoogleData = (authData, formData) => {
+  //   var dataPath;
+  //   console.log("AUTHDATA: ", authData)
+  //   return null;
+  // }
 
   var parseEmailData = (authData, formData) => {
     return {
@@ -142,8 +143,8 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         /* Once firebase authentication has been returned, merge with formData for saving into firebase attendee store */
         if(authData.provider === "facebook"){
           return parseFbData(authData, formData);
-        } else if(authData.provider === "google"){
-          console.log("GOOGLE AUTH DATA: ", authData);
+        // } else if(authData.provider === "google"){
+        //   console.log("GOOGLE AUTH DATA: ", authData);
         } else if(authData.provider === "password"){
           /* To be completed, full function flow not complete, referred attendee state needs firstName and lastName fields for email */
           return parseEmailData(authData, formData);
@@ -187,9 +188,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         case "facebook":
           return parseFbData(authData, registerFormData);
           break;
-        case "google":
-          return parseGoogleData(authData, registerFormData);
-          break;
+        // case "google":
+        //   return parseGoogleData(authData, registerFormData);
+        //   break;
         default:
           return new Error("NO AUTHDATA FOUND!");
 

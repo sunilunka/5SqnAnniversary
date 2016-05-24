@@ -1,4 +1,4 @@
-app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, Events, categories, $stateParams, $state){
+app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, Events, categories, $stateParams, $state, FormValidityFactory){
   /* Events, and categories are promises resolved in the ui-router state. Is an array of all entries.  Allows ng-repeat to be used to present all entries */
 
   $scope.events = Events;
@@ -7,6 +7,16 @@ app.controller('NewAttendeeCtrl', function($scope, AttendeeFactory, attendees, E
   $scope.error = null;
   $scope.registerMethodChosen = null;
   $scope.newAttendeeData = {};
+  $scope.passwordsNotValid = false;
+
+  $scope.passwordsMatch = () => {
+    console.log("FORM VALIDITY: ", $scope.register);
+    let pOne = $scope.passwordOne || false;
+    let pTwo = $scope.newAttendeeData.password || false;
+    console.log("P1: ", $scope.register.passwordOne.$pristine)
+    console.log("P2: ", pTwo)
+    return pOne ? (pTwo ? (pOne === pTwo) : false) : false;
+ }
 
   $scope.registerMethod = (method) => {
     $scope.registerMethodChosen = method;

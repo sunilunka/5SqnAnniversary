@@ -65,17 +65,20 @@ body {
 .sqnInput {
   border: none;
   outline: none;
-  padding: 3px;
+  padding: 0.25em;
   text-align: left;
-  width: 200px;
   background-color: $theme-tacgrey;
-  /*transition: 0.5s all ease-in-out;
-  -webkit-tranisiton: 0.5 s all ease-in-out;*/
+  transition: border 0.5s, background-color 0.5s, ease-in-out;
+  -webkit-tranisiton: border 0.5s background-color 0.5, ease-in-out;
 }
 
 .sqnInputReadonly {
   border: none;
   color: grey;
+}
+
+.sqnInputError {
+  background-color: $theme-red;
 }
 
 .sqnInputNoTickets {
@@ -98,9 +101,14 @@ body {
   }
 }
 
+.sqnInputEmail {
+  @extend .sqnInputActive;
+  min-width: 20em;
+}
+
 .sqnInputNumber {
   @extend .sqnInputActive;
-  width: 40px;
+  width: 2.5em;
   text-align: center;
 }
 
@@ -152,6 +160,11 @@ body {
   border: 3px solid white;
 }
 
+.sqn-btn-large {
+  font-size: 1.5em;
+  margin: 0.5em 0.5em 1em 0.5em;
+}
+
 .sqn-btn-flex {
   flex-grow: 1;
   margin: 10px;
@@ -168,8 +181,14 @@ body {
     height: 7.5em;
     width: 7.5em;
     position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    /*top: 50%;
+    transform: translateY(-50%);*/
+  }
+
+  span {
+    background-color: transparent;
+    color: white;
+    display: block;
   }
 }
 
