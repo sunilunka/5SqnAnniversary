@@ -4,11 +4,11 @@
   text-align: center;
   color: $theme-grey;
   .register-option-complete {
-    background-color: lightgreen;
-    border: 1px solid green;
+    background-color: $theme-green;
+    border: 3px solid $theme-green;
     padding: 0.25em;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 1em;
+    color: $theme-tacgrey;
   }
   .button-holder {
     .button-panel {

@@ -66,10 +66,17 @@ body {
   border: none;
   outline: none;
   padding: 0.25em;
+  box-shadow: none;
+  border-radius: 0;
   text-align: left;
   background-color: $theme-tacgrey;
   transition: border 0.5s, background-color 0.5s, ease-in-out;
   -webkit-tranisiton: border 0.5s background-color 0.5, ease-in-out;
+  &:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
 }
 
 .sqnInputReadonly {
@@ -79,7 +86,9 @@ body {
 
 .sqnInputError {
   background-color: $theme-red;
+  color: $theme-tacgrey;
 }
+
 
 .sqnInputNoTickets {
   background-color: rgba(255, 0, 0, 0.5);
@@ -98,18 +107,28 @@ body {
     border-top-style: solid;
     background-color: grey;
     color: $theme-tacgrey;
+    border-bottom-color: grey;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
   }
 }
 
 .sqnInputEmail {
   @extend .sqnInputActive;
   min-width: 20em;
+  text-align: center;
 }
 
 .sqnInputNumber {
   @extend .sqnInputActive;
   width: 2.5em;
   text-align: center;
+}
+
+.sqn-not-available-label {
+  @extend .sqnInputError;
+  border: 3px solid $theme-red;
+  margin: 0em 0em 0em 2em;
 }
 
 @mixin base-button($pri-color, $sec-color){
