@@ -49,7 +49,7 @@
         <div class="form-group">
           <label for="passwordTwo">Confirm Password</label>
           <input ng-model="newAttendeeData.password" type="password" class="form-control sqnInputActive" placeholder="Confirm Password" name="passwordTwo" ng-change="passwordsMatch()" required></input>
-          <p ng-show="(register.passwordOne.$touched || register.passwordTwo.$touched) && (!passwordsMatch())">Those passwords do not match</p>
+          <p class="sqnInputError" ng-show="(register.passwordOne.$touched || register.passwordTwo.$touched) && (!passwordsMatch())">Those passwords do not match</p>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -67,10 +67,10 @@
           <label class="control-label"><input   ng-model="overseas" value="false" name="overseas" type="radio"></input>No, I live in New Zealand</label>
         </div>
       </div>
-      <div ng-show="showEvents" class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div ng-show="showEvents" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <h4>What events are you planning to attend?</h4>
-        <div class="checkbox">
-          <div class="sqnInput" ng-repeat="evt in events">
+        <div class="checkbox col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3"  ng-repeat="evt in events">
+          <div class="sqnInput">
             <label>
             <input type="checkbox" ng-model="newAttendeeData.events[evt.$id]" value="{{ evt.$id }}" ng-true-value="true"  ng-false-value="false" ng-disabled="evt['available'] === false"></input>{{ evt.name }}</label><span class="sqn-not-available-label" ng-show="evt['available'] === false">No seats available</span>
           </div>
