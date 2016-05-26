@@ -36,11 +36,13 @@
       <div ng-show="registerMethodChosen === 'email'" class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
         <div class="form-group">
           <label for="firstName">First Name</label>
-          <input class="sqnInputActive form-control" type="text" ng-model="newAttendeeData.firstName" placeholder="First Name" name="firstName" required></input>
+          <input text-field-check class="sqnInputActive form-control" type="text" ng-model="newAttendeeData.firstName" placeholder="First Name" name="firstName" required></input>
+          <p class="sqnInputError" ng-show="register.firstName.$touched && register.firstName.$invalid">Sorry that name is not valid</p>
         </div>
         <div class="form-group">
           <label for="lastName">Last Name</label>
-          <input class="form-control sqnInputActive test-input" type="text" ng-model="newAttendeeData.lastName" placeholder="Last Name" name="lastName" required></input>
+          <input text-field-check class="form-control sqnInputActive test-input" type="text" ng-model="newAttendeeData.lastName" placeholder="Last Name" name="lastName" required></input>
+          <p class="sqnInputError" ng-show="register.lastName.$touched && register.lastName.$invalid">Sorry that name is not valid</p>
         </div>
         <div class="form-group">
           <label for="passwordOne">Password</label>
