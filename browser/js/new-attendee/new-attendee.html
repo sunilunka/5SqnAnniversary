@@ -59,7 +59,7 @@
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <h4>Are you travelling from overseas to attend?</h3>
+        <h4>Are you travelling from overseas to attend?</h4>
         <div class="radio sqnInput">
           <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true"></input> Yes I am!</label>
         </div>
@@ -67,8 +67,8 @@
           <label class="control-label"><input   ng-model="overseas" value="false" name="overseas" type="radio"></input>No, I live in New Zealand</label>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <h4>What events are you planning to attend?</h3>
+      <div ng-show="showEvents" class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <h4>What events are you planning to attend?</h4>
         <div class="checkbox">
           <div class="sqnInput" ng-repeat="evt in events">
             <label>

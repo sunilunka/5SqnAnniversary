@@ -8,6 +8,7 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
   $scope.registerMethodChosen = null;
   $scope.newAttendeeData;
   $scope.passwordsNotValid;
+  $scope.showEvents = false;
 
   $scope.passwordsMatch = () => {
     console.log("FORM VALIDITY: ", $scope.register);
@@ -21,6 +22,7 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
   $scope.registerMethod = (method) => {
     $scope.registerMethodChosen = method;
     /* If user changes method, remove all keys from form object, and reset the available display key on events. */
+    $scope.showEvents = false;
     $scope.newAttendeeData = {};
     $scope.events = EventFactory.resetLimitIndicator($scope.events)
     return method;
