@@ -25,9 +25,9 @@
     <form ng-hide="registerMethodChosen === null" id="registerForm" name="register" ng-submit="saveAttendee()">
       <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
         <div class="form-group">
-          <label for="attendeeEmail">Email Address</label>
-          <input class=" form-control sqnInputEmail" type="email" name="attendeeEmail" ng-model="newAttendeeData.email" placeholder="your_email@here.com" required></input>
-          <p class="sqnInputError" ng-show="!register.attendeeEmail.$valid && register.attendeeEmail.$dirty">Whoops, that email doesn't look quite right?</p>
+          <label for="email">Email Address</label>
+          <input class=" form-control sqnInputEmail" type="email" name="email" ng-model="newAttendeeData.email" placeholder="your_email@here.com" required></input>
+          <p class="sqnInputError" ng-show="!register.email.$valid && register.email.$dirty">Whoops, that email doesn't look quite right?</p>
         </div>
       </div>
       <!-- <div ng-show="registerMethodChosen === 'facebook' || registerMethodChosen === 'google'">
@@ -40,15 +40,15 @@
         </div>
         <div class="form-group">
           <label for="lastName">Last Name</label>
-          <input class="form-control sqnInputActive" type="text" ng-model="newAttendeeData.lastName" placeholder="Last Name" name="lastName" required></input>
+          <input class="form-control sqnInputActive test-input" type="text" ng-model="newAttendeeData.lastName" placeholder="Last Name" name="lastName" required></input>
         </div>
         <div class="form-group">
           <label for="passwordOne">Password</label>
           <input type="password" ng-model="passwordOne" name="passwordOne" class="form-control sqnInputActive" placeholder="Password" required></input>
         </div>
         <div class="form-group">
-          <label for="passwordTwo">Confirm Password</label>
-          <input ng-model="newAttendeeData.password" type="password" class="form-control sqnInputActive" placeholder="Confirm Password" name="passwordTwo" ng-change="passwordsMatch()" required></input>
+          <label for="password">Confirm Password</label>
+          <input ng-model="newAttendeeData.password" type="password" class="form-control sqnInputActive" placeholder="Confirm Password" name="password" ng-change="passwordsMatch()" required></input>
           <p class="sqnInputError" ng-show="(register.passwordOne.$touched || register.passwordTwo.$touched) && (!passwordsMatch())">Those passwords do not match</p>
         </div>
       </div>

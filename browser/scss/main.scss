@@ -222,6 +222,18 @@ body {
   @include login-btn-config-settings($gg-red);
 }
 
+.form-group > input, .sqnInput > label {
+  transition: transform 0.5s;
+  -webkit-transition: -webkit-transform 0.5s;
+  &:focus {
+   transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+  }
+  &:hover {
+    transform: scale(1.1, 1.1);
+     -webkit-transform: scale(1.1, 1.1);
+  }
+}
 
 .user-form-message {
   position: absolute;

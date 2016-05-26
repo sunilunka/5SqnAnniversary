@@ -4,23 +4,23 @@ app.factory("FormValidityFactory", function(){
 
   /* Method to check passwords match on registration. Returns Boolean */
   FormValidityFactory.checkPasswordsMatch = (pwOne, pwTwo) => {
-    console.log("FORM VALIDITY: ", $scope.register);
-    let pOne = $scope.passwordOne || false;
-    let pTwo = $scope.newAttendeeData.password || false;
-    console.log("P1: ", $scope.register.passwordOne.$dirty);
-    console.log("P2: ", $scope.register.passwordTwo.$dirty);
+    let pOne = pwOne|| false; // If no password given, return false.
+    let pTwo = pwTwo || false;
     return pOne ? (pTwo ? (pOne === pTwo) : false) : false;
   }
 
-  /* Dictates when to run a password check for both passwords*/
-  FormValidityFactory.passwordFormCheck = () => {
+  FormValidityFactory.checkEvents = () => {
+    
+  }
+
+  /* Checks form for all data, and throws error if values are missing. */
+  FormValidityFactory.submitFormCheck = (formData, formValid) => {
+    console.log("FORM DATA OBJECT: ", formData);
+    console.log("FORM VALIDITY DATA: ", formValid);
 
   }
 
   /* Checks if check boxes and radio button fields have been employed. If not, form is not submitted. */
-  FormValidityFactory.registrationFormCheck = () => {
-
-  }
 
 
   return FormValidityFactory;
