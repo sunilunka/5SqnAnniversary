@@ -197,9 +197,11 @@ body {
   margin: 10px;
 }
 
-.sqn-btn-default {
-
+.sqnBtnDisabled {
+  color: $theme-red;
+  border-color: $theme-red;
 }
+
 
 @mixin login-btn-config-settings($bg-color){
   background-color: $bg-color;

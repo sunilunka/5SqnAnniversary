@@ -9,6 +9,7 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
   $scope.newAttendeeData;
   $scope.passwordsNotValid;
   $scope.showEvents = false;
+  $scope.eventError = false;
 
  //  $scope.passwordsMatch = function() {
  //    FormValidityFactory.submitFormCheck($scope.newAttendeeData, $scope.register)
@@ -26,7 +27,7 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
 
   $scope.saveAttendee = function(){
     // FormValidityFactory.submitFormCheck()
-    
+    console.log("REGISTER: ", $scope.register)
     console.log("EVENTS VALID: ", FormValidityFactory.checkEvents($scope.newAttendeeData.events))
     console.log("NEW DATA FOR SUBMISSION: ",
      $scope.newAttendeeData);
