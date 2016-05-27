@@ -1,8 +1,8 @@
 app.config(function($stateProvider){
-  $stateProvider.state('newAttendee', {
-    url: '/attendees/register',
-    controller: 'NewAttendeeCtrl',
-    templateUrl: 'js/new-attendee/new-attendee.html',
+  $stateProvider.state("newAttendee", {
+    url: "/attendees/register",
+    controller: "NewAttendeeCtrl",
+    templateUrl: "js/new-attendee/new-attendee.html",
     resolve: {
       attendees: function(AttendeeFactory){
         return AttendeeFactory.getAll();
@@ -14,5 +14,15 @@ app.config(function($stateProvider){
         return GuestCategoryFactory.getGuestCategories();
       }
     }
+  })
+  .state("newAttendee.email", {
+    url: "/email",
+    controller: "NewAttendeeEmailCtrl",
+    templateUrl: "js/new-attendee/new-attendee-email.html"
+  })
+  .state("newAttendee.facebook", {
+    url: "/facebook",
+    controller: "NewAttendeeFbCtrl",
+    templateUrl: "js/new-attendee/new-attendee-fb.html"
   })
 })

@@ -1,0 +1,62 @@
+<div class="row">
+  <form class="registerForm" name="register" ng-submit="saveAttendee()">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input class=" form-control sqnInputEmail" type="email" name="email" ng-model="newAttendeeData.email" placeholder="your_email@here.com" ng-required="true"></input>
+        <p class="sqnInputError" ng-show="!register.email.$valid && register.email.$dirty">Whoops, that email doesn't look quite right?</p>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input text-field-check class="sqnInputActive form-control" type="text" ng-model="newAttendeeData.firstName" placeholder="First Name" name="firstName" ng-required="true"></input>
+        <p class="sqnInputError" ng-show="register.firstName.$touched && register.firstName.$invalid">Sorry that name is not valid</p>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input text-field-check class="form-control sqnInputActive test-input" type="text" ng-model="newAttendeeData.lastName" placeholder="Last Name" name="lastName" required></input>
+        <p class="sqnInputError" ng-show="register.lastName.$touched && register.lastName.$invalid" ng-required="true">Sorry that name is not valid</p>
+      </div>
+      <div class="form-group">
+        <label for="passwordOne">Password</label>
+        <input type="password" ng-model="passwordOne" name="passwordOne" class="form-control sqnInputActive" placeholder="Password" ng-required="true"></input>
+        <p class="sqnInputError" ng-show="register.password.$dirty && register.passwordOne.$invalid">Those passwords do not match</p>
+      </div>
+      <div class="form-group">
+        <label for="password">Confirm Password</label>
+        <input password-match-check="passwordOne" ng-model="newAttendeeData.password" type="password" class="form-control sqnInputActive" placeholder="Confirm Password" name="password" ng-required="true" match-field="passwordOne"></input>
+        <p class="sqnInputError" ng-show="(register.password.$touched || register.passwordOne.$touched) && (register.password.$invalid || register.passwordOne.$invalid)">Those passwords do not match</p>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <h4>What is your association with the squadron?</h4>
+      <p class="sqnInputError" ng-show="register.association.$invalid && register.firstName.$valid && register.lastName.$valid && register.password.$valid && register.email.$valid && register.overseas.$valid">Just like a junior Nav, looks like you missed something...</p>
+      <div class="radio sqnInput" ng-repeat="category in categories">
+        <label class="control-label"> <input event-limit-check type="radio" name="association" ng-model="newAttendeeData.association" value="{{ category.$id }}" ng-required="true">{{ category.$value }}</label>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <h4>Are you travelling from overseas to attend?</h4>
+
+      <div class="radio sqnInput">
+        <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true"></input> Yes I am!</label>
+      </div>
+      <div class="radio sqnInput">
+        <label class="control-label"><input ng-model="newAttendeeData.overseas" value="false" name="overseas" type="radio" ng-required="true"></input>No, I live in New Zealand</label>
+      </div>
+    </div>
+    <div ng-show="showEvents" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h4>What events are you planning to attend?</h4>
+      <div class="checkbox col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3"  ng-repeat="evt in events">
+        <div class="sqnInput">
+          <label>
+          <input type="checkbox" ng-model="newAttendeeData.events[evt.$id]" value="{{ evt.$id }}" ng-true-value="true"  ng-false-value="false" ng-disabled="evt['available'] === false"></input>{{ evt.name }}</label><span class="sqn-not-available-label" ng-show="evt['available'] === false">No seats available</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxs-12 col-xs-12 col-md-12 col-lg-12">
+      <input class="sqn-btn-positive sqn-btn-large" type="submit" value="Register" ng-show="register.$valid" ng-disabled="register.$invalid"></input>
+    </div>
+  </form>
+</div>
