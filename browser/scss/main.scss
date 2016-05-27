@@ -71,7 +71,7 @@ body {
   text-align: left;
   background-color: $theme-tacgrey;
   transition: border 0.5s, background-color 0.5s, ease-in-out;
-  -webkit-tranisiton: border 0.5s background-color 0.5, ease-in-out;
+  -webkit-tranisiton: border 0.5s background-color 0.5s, ease-in-out;
   &:focus {
     outline: none;
     border: none;
@@ -129,7 +129,15 @@ body {
   @extend .sqnInputError;
   border: 3px solid $theme-red;
   margin: 0em 0em 0em 2em;
+  opacity: 1;
+  transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
 }
+
+.sqn-not-available-label.ng-hide {
+  opacity: 0;
+}
+
 
 @mixin base-button($pri-color, $sec-color){
   border: 3px solid $pri-color;

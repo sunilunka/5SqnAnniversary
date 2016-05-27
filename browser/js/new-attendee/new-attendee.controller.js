@@ -10,10 +10,10 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
   $scope.passwordsNotValid;
   $scope.showEvents = false;
 
-  $scope.passwordsMatch = function() {
-    FormValidityFactory.submitFormCheck($scope.newAttendeeData, $scope.register)
-    return FormValidityFactory.checkPasswordsMatch($scope.newAttendeeData.password, $scope.passwordOne);
- }
+ //  $scope.passwordsMatch = function() {
+ //    FormValidityFactory.submitFormCheck($scope.newAttendeeData, $scope.register)
+ //    return FormValidityFactory.checkPasswordsMatch($scope.newAttendeeData.password, $scope.passwordOne);
+ // }
 
   $scope.registerMethod = (method) => {
     $scope.registerMethodChosen = method;
@@ -27,8 +27,8 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
   $scope.saveAttendee = function(){
     // FormValidityFactory.submitFormCheck()
     console.log("EVENTS VALID: ", FormValidityFactory.checkEvents($scope.newAttendeeData.events))
-    $scope.processingData = true;
-
+    console.log("NEW DATA FOR SUBMISSION: ",
+     $scope.newAttendeeData);
     // return AttendeeFactory.createOneAndLogin($scope.registerMethodChosen, $scope.newAttendeeData)
     // .then(function(newUser){
     //   $scope.processingData = false;

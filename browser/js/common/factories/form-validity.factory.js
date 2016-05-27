@@ -10,6 +10,7 @@ app.factory("FormValidityFactory", function(){
   }
 
   FormValidityFactory.checkEvents = (evtObj) => {
+    if(!evtObj) return false;
     let evtKeys = Object.keys(evtObj);
     var attendingCount = 0;
     if(evtKeys.length > 0){
@@ -31,7 +32,7 @@ app.factory("FormValidityFactory", function(){
     console.log("FORM VALIDITY DATA: ", formValid);
     if(formData.hasOwnProperty("events")){
       if(FormValidityFactory.checkEvents(formData.events)){
-        
+
       }
     }
     return false;
