@@ -4,10 +4,6 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
   $scope.processingData = false;
   $scope.error = null;
   $scope.registerMethodChosen = null;
- //  $scope.passwordsMatch = function() {
- //    FormValidityFactory.submitFormCheck($scope.newAttendeeData, $scope.register)
- //    return FormValidityFactory.checkPasswordsMatch($scope.newAttendeeData.password, $scope.passwordOne);
- // }
 
   $scope.registerMethod = (method) => {
     $scope.registerMethodChosen = method;
