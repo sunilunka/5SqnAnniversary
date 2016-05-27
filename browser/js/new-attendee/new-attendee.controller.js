@@ -26,6 +26,7 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
 
   $scope.saveAttendee = function(){
     // FormValidityFactory.submitFormCheck()
+    
     console.log("EVENTS VALID: ", FormValidityFactory.checkEvents($scope.newAttendeeData.events))
     console.log("NEW DATA FOR SUBMISSION: ",
      $scope.newAttendeeData);
