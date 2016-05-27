@@ -47,6 +47,7 @@
         <div class="form-group">
           <label for="passwordOne">Password</label>
           <input type="password" ng-model="passwordOne" name="passwordOne" class="form-control sqnInputActive" placeholder="Password" ng-required="true"></input>
+          <p class="sqnInputError" ng-show="register.password.$dirty && register.passwordOne.$invalid">Those passwords do not match</p>
         </div>
         <div class="form-group">
           <label for="password">Confirm Password</label>

@@ -2,13 +2,6 @@ app.factory("FormValidityFactory", function(){
 
   var FormValidityFactory = {};
 
-  /* Method to check passwords match on registration. Returns Boolean */
-  FormValidityFactory.checkPasswordsMatch = (pwOne, pwTwo) => {
-    let pOne = pwOne|| false; // If no password given, return false.
-    let pTwo = pwTwo || false;
-    return pOne ? (pTwo ? (pOne === pTwo) : false) : false;
-  }
-
   FormValidityFactory.checkEvents = (evtObj) => {
     if(!evtObj) return false;
     let evtKeys = Object.keys(evtObj);
