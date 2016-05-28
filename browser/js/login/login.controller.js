@@ -15,9 +15,22 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
     $scope.login = {};
     $scope.error = null;
     $scope.loginOpts = [
-      { method: "email" },
-      { method: "facebook" },
-      { method: "google" }];
+      { method: "email",
+        styleName: "email-btn",
+        imgLink: "/images/newAttendee/mail-logo.png",
+        imgAlt: "Login with email address"
+      },
+      { method: "facebook",
+        styleName: "facebook-btn",
+        imgLink: "/images/newAttendee/fb-logo.png",
+        imgAlt: "Login with Facebook"
+      }
+    //   { method: "google",
+    //     styleName: "google-btn",
+    //     imgLink: "/images/newAttendee/gg-logo.png",
+    //     imgAlt: "Login with Google"
+    // }
+    ];
 
     $scope.loginMethodName = null;
 
@@ -26,8 +39,15 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
     $scope.setLoginMethod = (method) => {
       $scope.loginMethodName = method;
       /* If using social media account plugin, then execute login immediately. */
+      console.log("SCOPE LOGIN FORM: ", $scope.loginForm);
       if((method === "facebook") || (method === "google")) return $scope.executeLogin(method);
       return; /* If using email, return, as the user has to fill out the required form fields. */
+    }
+
+    $scope.cancelEmailLogin = () => {
+      $scope.login = {};
+      $scope.loginMethodName = null;
+      $scope.error = null;
     }
 
     $scope.executeLogin = (method) => {
