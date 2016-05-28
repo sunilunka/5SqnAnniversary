@@ -21,21 +21,6 @@ app.factory("FormValidityFactory", function(){
     return false;
   }
 
-  /* Checks form for all data, and throws error if values are missing. Matches fields in the angular form validation object with those of the inputs.  */
-  FormValidityFactory.submitFormCheck = (formData, formValid, exemptFields) => {
-    console.log("FORM DATA OBJECT: ", formData);
-    console.log("FORM VALIDITY DATA: ", formValid);
-    if(formData.hasOwnProperty("events")){
-      if(FormValidityFactory.checkEvents(formData.events)){
-
-      }
-    }
-    return false;
-  }
-
-  /* Checks if check boxes and radio button fields have been employed. If not, form is not submitted. */
-
-
   return FormValidityFactory;
 
 })

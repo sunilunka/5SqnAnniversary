@@ -1,6 +1,24 @@
 * {
   box-sizing: border-box;
 }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-1em);
+  }
+
+  100% {
+    transform: translateY(0em);
+    opacity: 1;
+  }
+}
+
+@mixin transition-mixin($params...){
+  transition: $params;
+  -webkit-transition: $params;
+}
+
 $screen-xxs-max: 479px;
 $screen-xs-min: 480px;
 $screen-xs-max: 767px;
@@ -87,6 +105,13 @@ body {
 .sqnInputError {
   background-color: $theme-red;
   color: $theme-tacgrey;
+  transform: translateY(0em);
+  @include transition-mixin(all 0.5s ease-in-out);
+}
+
+.sqnInputError.ng-hide {
+  transform: translateY(-1em);
+  opacity: 0;
 }
 
 
@@ -130,8 +155,7 @@ body {
   border: 3px solid $theme-red;
   margin: 0em 0em 0em 2em;
   opacity: 1;
-  transition: all 0.25s ease-in-out;
-  -webkit-transition: all 0.25s ease-in-out;
+  @include transition-mixin(all 0.25s ease-in-out);
 }
 
 .sqn-not-available-label.ng-hide {
@@ -197,10 +221,6 @@ body {
   margin: 10px;
 }
 
-.sqnBtnDisabled {
-  color: $theme-red;
-  border-color: $theme-red;
-}
 
 
 @mixin login-btn-config-settings($bg-color){
@@ -245,19 +265,6 @@ body {
   }
 }
 
-.user-form-message {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  z-index: 100;
-  height: 100%;
-  width: 100%;
-  background-color: green;
-  color: white;
-  h4 {
-    margin: 0;
-  }
-}
 
 
 @import 'directives/main';

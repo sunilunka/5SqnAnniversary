@@ -16,21 +16,4 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
     return;
   }
 
-  $scope.saveAttendee = function(){
-    // FormValidityFactory.submitFormCheck()
-    console.log("REGISTER: ", $scope.register)
-    console.log("EVENTS VALID: ", FormValidityFactory.checkEvents($scope.newAttendeeData.events))
-    console.log("NEW DATA FOR SUBMISSION: ",
-     $scope.newAttendeeData);
-    // return AttendeeFactory.createOneAndLogin($scope.registerMethodChosen, $scope.newAttendeeData)
-    // .then(function(newUser){
-    //   $scope.processingData = false;
-    // })
-    // .catch(function(error){
-    //   $scope.error = error;
-    // })
-  };
-
-  $scope.attendees = attendees;
-
 })

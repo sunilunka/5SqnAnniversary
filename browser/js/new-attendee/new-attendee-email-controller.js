@@ -11,6 +11,7 @@ app.controller("NewAttendeeEmailCtrl", function($scope, AttendeeFactory, Events,
       $scope.eventsError = false;
     } else {
       $scope.eventsError = true;
+      /* Will implement registering with email once new SDK becomes available. */
     }
   }
 

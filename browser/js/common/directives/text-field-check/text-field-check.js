@@ -19,14 +19,6 @@ app.directive("textFieldCheck", function($rootScope){
         return value;
       })
 
-      console.log("NG_MODEL: ", ngModel);
-
-      // element.on("blur", function(e){
-      //   console.log("TEXT VALUE: ", textRegex.test(ngModel.$viewValue), ngModel.$viewValue)
-      //   ngModel.$setValidity("invalidText", textRegex.test(ngModel.$viewValue));
-      //   console.log("FORM CONTROLLER: ", ngModel);
-      // })
-
     }
   }
 })
