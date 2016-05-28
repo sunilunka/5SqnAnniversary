@@ -85,7 +85,9 @@ $theme-transparent-black: rgba(0,0,0,0.75);
   #main-title {
     min-height: 30em;
     @include tile-shadow-display;
-
+    .tile-blurb {
+      @include tile-blurb-md-lg-animation;
+    }
   }
 
   .home-description {
