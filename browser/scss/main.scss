@@ -128,11 +128,11 @@ body {
   border-bottom-width: 3px;
   border-bottom-style: solid;
   &:focus {
-    border-top-color: grey;
+    border-top-color: $theme-blue;
     border-top-style: solid;
-    background-color: grey;
+    background-color: $theme-blue;
     color: $theme-tacgrey;
-    border-bottom-color: grey;
+    border-bottom-color: $theme-grey;
     border-bottom-width: 3px;
     border-bottom-style: solid;
   }
@@ -250,6 +250,13 @@ body {
 }
 .google-btn {
   @include login-btn-config-settings($gg-red);
+}
+
+.sqn-label-emphasis {
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
+  padding: 0.2em 2em;
+  width: 100%;
 }
 
 .form-group > input, .sqnInput > label {

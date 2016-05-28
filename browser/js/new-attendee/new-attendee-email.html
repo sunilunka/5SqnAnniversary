@@ -2,29 +2,29 @@
   <form class="registerForm" name="register" ng-submit="saveAttendee()">
     <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
       <div class="form-group">
-        <label for="email">Email Address</label>
+        <label for="email" class="sqn-label-emphasis">Email Address</label>
         <input class=" form-control sqnInputEmail" type="email" name="email" ng-model="newAttendeeData.email" placeholder="your_email@here.com" ng-required="true"></input>
         <p class="sqnInputError" ng-show="!register.email.$valid && register.email.$dirty">Whoops, that email doesn't look quite right?</p>
       </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
       <div class="form-group">
-        <label for="firstName">First Name</label>
+        <label for="firstName" class="sqn-label-emphasis">First Name</label>
         <input text-field-check class="sqnInputActive form-control" type="text" ng-model="newAttendeeData.firstName" placeholder="First Name" name="firstName" ng-required="true"></input>
         <p class="sqnInputError" ng-show="register.firstName.$touched && register.firstName.$invalid">Sorry that name is not valid</p>
       </div>
       <div class="form-group">
-        <label for="lastName">Last Name</label>
+        <label for="lastName" class="sqn-label-emphasis">Last Name</label>
         <input text-field-check class="form-control sqnInputActive test-input" type="text" ng-model="newAttendeeData.lastName" placeholder="Last Name" name="lastName" required></input>
         <p class="sqnInputError" ng-show="register.lastName.$touched && register.lastName.$invalid" ng-required="true">Sorry that name is not valid</p>
       </div>
       <div class="form-group">
-        <label for="passwordOne">Password</label>
+        <label for="passwordOne" class="sqn-label-emphasis">Password</label>
         <input type="password" ng-model="passwordOne" name="passwordOne" class="form-control sqnInputActive" placeholder="Password" ng-required="true"></input>
         <p class="sqnInputError" ng-show="register.password.$dirty && register.passwordOne.$invalid">Those passwords do not match</p>
       </div>
       <div class="form-group">
-        <label for="password">Confirm Password</label>
+        <label for="password" class="sqn-label-emphasis">Confirm Password</label>
         <input password-match-check="passwordOne" ng-model="newAttendeeData.password" type="password" class="form-control sqnInputActive" placeholder="Confirm Password" name="password" ng-required="true" match-field="passwordOne"></input>
         <p class="sqnInputError" ng-show="(register.password.$touched || register.passwordOne.$touched) && (register.password.$invalid || register.passwordOne.$invalid)">Those passwords do not match</p>
       </div>

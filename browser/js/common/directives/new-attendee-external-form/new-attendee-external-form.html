@@ -1,7 +1,7 @@
 <form class="registerForm" name="register" ng-submit="saveAttendee()">
   <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
     <div class="form-group">
-      <label for="email">Email Address</label>
+      <label for="email" class="sqn-label-emphasis">Email Address</label>
       <input class=" form-control sqnInputEmail" type="email" name="email" ng-model="newAttendeeData.email" placeholder="your_email@here.com" ng-required="true"></input>
       <p class="sqnInputError" ng-show="!register.email.$valid && register.email.$dirty">Whoops, that email doesn't look quite right?</p>
     </div>
