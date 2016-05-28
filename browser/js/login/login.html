@@ -1,26 +1,30 @@
 <section class="login">
-  <div class="login-selector flex-container-row">
-    <div ng-repeat="option in loginOpts" class="login-option" ng-click="setLoginMethod(option.method)">
-      Login with {{ option.method }}
+  <form class="row email-login-form" ng-show="loginMethodName === 'email'" name="loginForm" ng-submit="loginForm.$valid && executeLogin('email')">
+
+    <alert class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4 sqnInputError" type="danger" ng-show="error">
+        {{ error }}
+    </alert>
+
+    <div class="form-group col-xs-10 col-xs-offset-1 col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+        <label for="email" class="sqn-label-emphasis">Email address</label>
+        <input type="email" ng-model="login.email" class="form-control sqnInputEmail" placeholder="Enter email" name="email">
+        <p class="sqnInputError" ng-show="(loginForm.email.$dirty && loginForm.email.$invalid)">Sorry, that email doesn't look correct</p>
+    </div>
+    <div class="form-group col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+        <label for="login-password" class="sqn-label-emphasis">Password</label>
+        <input type="password" ng-model="login.password" class="form-control sqnInputEmail" placeholder="Password">
+    </div>
+    <div class="form-group col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+      <button type="submit" class="sqn-btn-positive">Submit</button>
+      <button class="sqn-btn" type="reset" ng-click="cancelEmailLogin()">Cancel</button>
+    </div>
+  </form>
+  <div id="login-selector" ng-hide="loginMethodName === 'email'" class="flex-container-row">
+    <div ng-repeat="option in loginOpts" class="button-flex-login-register {{ option.styleName }}" ng-click="setLoginMethod(option.method)">
+      <img src="{{ option.imgLink }}" alt="{{option.imgAlt}}" title="Register using your email address."></img>
+      <span>Login with {{ option.method }}</span>
     </div>
   </div>
   <div class="flex-container-row">
   </div>
-
-  <form ng-show="loginMethodName === 'email'" id="login-form" name="loginForm" ng-submit="loginForm.$valid && executeLogin('email')">
-
-      <alert type="danger" ng-show="error">
-          {{ error }}
-      </alert>
-
-      <div class="form-group">
-          <label for="email">Email address</label>
-          <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
-      </div>
-      <div class="form-group">
-          <label for="login-password">Password</label>
-          <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-  </form>
 </section>
