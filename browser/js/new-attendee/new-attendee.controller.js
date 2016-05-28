@@ -5,6 +5,7 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
   $scope.error = null;
   $scope.registerMethodChosen = null;
 
+  /* When clicked, go to sub state that is specified as the argument.*/
   $scope.registerMethod = (method) => {
     $scope.registerMethodChosen = method;
     if(method){
@@ -12,12 +13,7 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
     } else {
       $state.go("newAttendee");
     }
-    /* If user changes method, remove all keys from form object, and reset the available display key on events. */
-
-    // $scope.showEvents = false;
-    // $scope.newAttendeeData = {};
-    // $scope.events = EventFactory.resetLimitIndicator($scope.events)
-    return method;
+    return;
   }
 
   $scope.saveAttendee = function(){

@@ -17,8 +17,13 @@ app.directive("newAttendeeExternalForm", function(FormValidityFactory){
         console.log("NEW-ATTENDEE-DATA: ", scope.newAttendeeData)
         if(FormValidityFactory.checkEvents(scope.newAttendeeData)){
           scope.eventsError = false;
+          /*
+            => To Implement, is the save portion. Will be done once the updated SDK is implemented.
+          */
         } else {
+          /* If the check for events is false, then return, as the user has not entered in any events to attend. */
           scope.eventsError = true;
+          return;
         }
       }
     }
