@@ -143,7 +143,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         /* Once firebase authentication has been returned, merge with formData for saving into firebase attendee store */
         if(authData.provider === "facebook"){
           return parseFbData(authData, formData);
+
         /* Unable to use Google as auth provider due to Firebase code base change to 3.x.x and changing to the new console. Will resolve once new firebase version of angularFire is released. */
+
         // } else if(authData.provider === "google"){
         //   console.log("GOOGLE AUTH DATA: ", authData);
         } else if(authData.provider === "password"){
@@ -189,7 +191,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         case "facebook":
           return parseFbData(authData, registerFormData);
           break;
+
         /* Unable to use google authentication due to Firebase code change, will attempt later and update total platform. */
+
         // case "google":
         //   return parseGoogleData(authData, registerFormData);
         //   break;

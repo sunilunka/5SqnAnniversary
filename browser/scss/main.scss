@@ -1,6 +1,24 @@
 * {
   box-sizing: border-box;
 }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-1em);
+  }
+
+  100% {
+    transform: translateY(0em);
+    opacity: 1;
+  }
+}
+
+@mixin transition-mixin($params...){
+  transition: $params;
+  -webkit-transition: $params;
+}
+
 $screen-xxs-max: 479px;
 $screen-xs-min: 480px;
 $screen-xs-max: 767px;
@@ -65,18 +83,37 @@ body {
 .sqnInput {
   border: none;
   outline: none;
-  padding: 3px;
+  padding: 0.25em;
+  box-shadow: none;
+  border-radius: 0;
   text-align: left;
-  width: 200px;
   background-color: $theme-tacgrey;
-  /*transition: 0.5s all ease-in-out;
-  -webkit-tranisiton: 0.5 s all ease-in-out;*/
+  transition: border 0.5s, background-color 0.5s, ease-in-out;
+  -webkit-tranisiton: border 0.5s background-color 0.5s, ease-in-out;
+  &:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
 }
 
 .sqnInputReadonly {
   border: none;
   color: grey;
 }
+
+.sqnInputError {
+  background-color: $theme-red;
+  color: $theme-tacgrey;
+  transform: translateY(0em);
+  @include transition-mixin(all 0.5s ease-in-out);
+}
+
+.sqnInputError.ng-hide {
+  transform: translateY(-1em);
+  opacity: 0;
+}
+
 
 .sqnInputNoTickets {
   background-color: rgba(255, 0, 0, 0.5);
@@ -95,14 +132,36 @@ body {
     border-top-style: solid;
     background-color: grey;
     color: $theme-tacgrey;
+    border-bottom-color: grey;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
   }
+}
+
+.sqnInputEmail {
+  @extend .sqnInputActive;
+  min-width: 20em;
+  text-align: center;
 }
 
 .sqnInputNumber {
   @extend .sqnInputActive;
-  width: 40px;
+  width: 2.5em;
   text-align: center;
 }
+
+.sqn-not-available-label {
+  @extend .sqnInputError;
+  border: 3px solid $theme-red;
+  margin: 0em 0em 0em 2em;
+  opacity: 1;
+  @include transition-mixin(all 0.25s ease-in-out);
+}
+
+.sqn-not-available-label.ng-hide {
+  opacity: 0;
+}
+
 
 @mixin base-button($pri-color, $sec-color){
   border: 3px solid $pri-color;
@@ -152,14 +211,17 @@ body {
   border: 3px solid white;
 }
 
+.sqn-btn-large {
+  font-size: 1.5em;
+  margin: 0.5em 0.5em 1em 0.5em;
+}
+
 .sqn-btn-flex {
   flex-grow: 1;
   margin: 10px;
 }
 
-.sqn-btn-default {
 
-}
 
 @mixin login-btn-config-settings($bg-color){
   background-color: $bg-color;
@@ -168,8 +230,14 @@ body {
     height: 7.5em;
     width: 7.5em;
     position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    /*top: 50%;
+    transform: translateY(-50%);*/
+  }
+
+  span {
+    background-color: transparent;
+    color: white;
+    display: block;
   }
 }
 
@@ -184,20 +252,19 @@ body {
   @include login-btn-config-settings($gg-red);
 }
 
-
-.user-form-message {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  z-index: 100;
-  height: 100%;
-  width: 100%;
-  background-color: green;
-  color: white;
-  h4 {
-    margin: 0;
+.form-group > input, .sqnInput > label {
+  transition: transform 0.5s;
+  -webkit-transition: -webkit-transform 0.5s;
+  &:focus {
+   transform: scale(1.1, 1.1);
+    -webkit-transform: scale(1.1, 1.1);
+  }
+  &:hover {
+    transform: scale(1.1, 1.1);
+     -webkit-transform: scale(1.1, 1.1);
   }
 }
+
 
 
 @import 'directives/main';

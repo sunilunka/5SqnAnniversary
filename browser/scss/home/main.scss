@@ -1,15 +1,3 @@
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(-1em);
-  }
-
-  100% {
-    transform: translateY(0em);
-    opacity: 1;
-  }
-}
-
 @mixin background-img-settings($default-color, $img-url, $position){
   background: $default-color;
   background-image: url($img-url);
@@ -25,6 +13,13 @@
       @include background-img-settings($theme-transparent-black, "/images/home/bg-date-dark.jpg", center)
     }
   }
+}
+
+@mixin tile-blurb-md-lg-animation {
+  animation: fade-in 2s 1;
+  animation-delay: 2s;
+  animation-fill-mode: forwards;
+  opacity: 0;
 }
 
 $theme-transparent-black: rgba(0,0,0,0.75);
@@ -76,6 +71,7 @@ $theme-transparent-black: rgba(0,0,0,0.75);
         background-color: $theme-transparent-black;
       }
       .tile-blurb {
+
         .anniversary-date-banner {
           display: none;
         }
@@ -105,6 +101,9 @@ $theme-transparent-black: rgba(0,0,0,0.75);
   #main-title {
     min-height: 35em;
     @include tile-shadow-display;
+    .tile-blurb {
+      @include tile-blurb-md-lg-animation;
+    }
   }
 
   .home-description {
@@ -119,11 +118,15 @@ $theme-transparent-black: rgba(0,0,0,0.75);
   #main-title {
     min-height: 35em;
     @include tile-shadow-display;
+    .tile-blurb {
+      @include tile-blurb-md-lg-animation;
+    }
   }
+
   .home-description {
     @include tile-display-none;
     .anniversary-date-banner {
-
+      display: none
     }
   }
 }
@@ -244,11 +247,19 @@ $theme-transparent-black: rgba(0,0,0,0.75);
   .tile-spanning-oceans {
     @extend .tile;
     @include background-img-settings($theme-tacgrey, "/images/home/serve-nz.jpg", left);
+    animation: fade-in 2s 1;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
+    opacity: 0;
   }
   .tile-orions {
     @extend .tile;
     background-image: url("/images/home/NZP3K2002.jpg");
     @include background-img-settings(inherit, "/images/home/NZP3K2002.jpg", left);
+    animation: fade-in 3s 1;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
+    opacity: 0;
   }
 
   .tile-blurb {

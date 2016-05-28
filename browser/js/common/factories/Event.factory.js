@@ -100,7 +100,7 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
     /* Depending on user association, check limits of events if any and mark/label as appropriate if no space. Used in referred and new-attendee states. */
     checkLimits: (evtsArray, associationKey) => {
       let availableEvents = evtsArray.map((evt) => {
-        /* Are using same array of objects so need to strip the available each time to reset. */
+        /* Are using same array of objects so need to strip the 'available' property each time to reset. */
         if(evt.hasOwnProperty("available")){
           delete evt["available"];
         }
@@ -126,6 +126,17 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
         }
       })
       return availableEvents;
+    },
+
+    /* Method to remove the 'available' key from any events, to facilitate UI continuity if login register option is changed.*/
+    resetLimitIndicator: (evtArray) => {
+      let eventsToReset = evtArray;
+      return eventsToReset.map((evt) => {
+        if(evt.hasOwnProperty("available")){
+          delete evt["available"];
+        }
+        return evt;
+      })
     }
 
   }
