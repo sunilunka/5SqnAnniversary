@@ -8,6 +8,12 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
     },
     link: function(scope, element, attrs){
 
+      scope.viewAddGuestForm = false;
+
+      scope.addGuest = () => {
+        scope.viewAddGuestForm = true;
+      }
+
 
       AttendeeEventFactory.checkSeatsAvailable(scope.evt.$id, scope.attendee.association, function(refValue){
         console.log("REF VALUE: ", refValue)
@@ -83,7 +89,6 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
           return;
         })
       }
-      console.log("SCOPE AVAILABLE: ", scope.available)
     }
   }
 

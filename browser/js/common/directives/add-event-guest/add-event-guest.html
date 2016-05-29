@@ -1,5 +1,5 @@
-<form ng-submit="addNewGuest()">
-  <input type="text" ng-model="guestDetails.firstName"></input>
-  <input type="text" ng-model="guestDetails.lastName"></input>
-  <input class="sqn-btn" type="submit" ng-disabled="!available"><span class="glyphicon glyphicon-plus"></span>Add Guest</input>
+<form class="add-guest-event" ng-submit="addNewGuest()">
+  <input type="text" class="sqnInputActive col-xs-12 col-sm-6 col-md-4 col-lg 4" ng-model="guestDetails.firstName" placeholder="First Name"></input>
+  <input type="text" class="sqnInputActive col-xs-12 col-sm-6 col-md-4 col-lg 4" ng-model="guestDetails.lastName" placeholder="Last Name"></input>
+  <input class="sqn-btn col-xs-12 col-sm-6 col-md-4 col-lg 4" type="submit" ng-disabled="!available" value="Add Guest"></input>
 </form>

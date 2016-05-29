@@ -1,6 +1,39 @@
+.status-attending {
+ background-color: $theme-blue;
+ color: $theme-tacgrey;
+}
+
+.status-not-attending {
+ background-color: $theme-grey;
+ color: $theme-tacgrey;
+}
+
+@mixin attend-event-flex-options {
+  display: inline-block;
+  flex: 1;
+}
+
 attendee-event {
-  position: relative;
-  height: 100px;
-  width: 90%;
-  background-color: red;
+  display: block;
+  margin: 0.5em 0em;
+  padding: 1em;
+  .flex-container-row {
+    padding: 1em;
+    h3 {
+     margin: 0;
+     display: inline-block;
+     flex: 1;
+    }
+    .attend-event {
+      @include attend-event-flex-options;
+    }
+
+    .attending-options {
+      @include attend-event-flex-options;
+    }
+
+    .attendee-flex-item {
+      @include attend-event-flex-options;
+    }
+  }
 }
