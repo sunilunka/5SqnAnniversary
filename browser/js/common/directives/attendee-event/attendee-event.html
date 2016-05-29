@@ -1,13 +1,16 @@
-<div class="flex-container-row"  ng-class="{'status-attending': attending, 'status-not-attending': !attending }">
-  <h3>{{ evt.name }}</h3>
-  <div class="attend-event" ng-show="!attending">
+<section class="flex-container-row"  ng-class="{'status-attending': attending, 'status-not-attending': !attending }">
+  <header>
+    <h4>{{ evt.name }}</h4>
+    <h5>23 Sep 2016 | 7.00pm</h5>
+  </header>
+  <div class="attend-event-options" ng-show="!attending">
     <button class="sqn-btn-positive" ng-disabled="!available" ng-click="attendEvent(evt.$id)"> Register for Event</button>
   </div>
-  <div ng-show="attending" class="attending-options">
-    <button class="sqn-btn" ng-show="available" ng-click="addGuest()">Bring guest</button>
+  <div ng-show="attending" class="attend-event-options">
+    <button class="sqn-btn" ng-show="available" ng-click="addGuest()">{{ guestLabel }}</button>
     <button class="sqn-btn-danger" ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
   </div>
-</div>
+</section>
 <section class="attendee-aeg">
     <event-guest ng-repeat="guest in guests" attendee="attendee" guest="guest" evtid="{{evt.$id}}"></event-guest>
     <add-event-guest ng-show="viewAddGuestForm" attendee="attendee" evt="evt" available="available"></add-event-guest>

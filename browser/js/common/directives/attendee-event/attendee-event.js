@@ -8,13 +8,6 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
     },
     link: function(scope, element, attrs){
 
-      scope.viewAddGuestForm = false;
-
-      scope.addGuest = () => {
-        scope.viewAddGuestForm = true;
-      }
-
-
       AttendeeEventFactory.checkSeatsAvailable(scope.evt.$id, scope.attendee.association, function(refValue){
         console.log("REF VALUE: ", refValue)
         if(scope.evt.hasOwnProperty("guestLimits")){
@@ -89,6 +82,30 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
           return;
         })
       }
+
+      scope.viewAddGuestForm = false;
+
+      scope.guestLabel = "Add Guest"
+
+      var generateGuestLabel = function(labelState){
+        if(labelState){
+          return "Cancel"
+        } else {
+          return "Add Guest"
+        }
+      }
+
+
+      scope.addGuest = () => {
+        if(!scope.viewAddGuestForm) {
+          scope.viewAddGuestForm = true;
+          scope.guestLabel = generateGuestLabel(scope.viewAddGuestForm);
+        } else {
+          scope.viewAddGuestForm = false;
+          scope.guestLabel = generateGuestLabel(scope.viewAddGuestForm);
+        }
+      }
+
     }
   }
 

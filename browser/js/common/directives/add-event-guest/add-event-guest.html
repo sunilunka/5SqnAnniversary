@@ -1,5 +1,7 @@
-<form class="add-guest-event" ng-submit="addNewGuest()">
-  <input type="text" class="sqnInputActive col-xs-12 col-sm-6 col-md-4 col-lg 4" ng-model="guestDetails.firstName" placeholder="First Name"></input>
-  <input type="text" class="sqnInputActive col-xs-12 col-sm-6 col-md-4 col-lg 4" ng-model="guestDetails.lastName" placeholder="Last Name"></input>
-  <input class="sqn-btn col-xs-12 col-sm-6 col-md-4 col-lg 4" type="submit" ng-disabled="!available" value="Add Guest"></input>
+<form class="add-guest-event" ng-submit="addNewGuest()" name="guestEventForm">
+  <input text-field-check type="text" name="firstName" class="sqnInputActive col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-model="guestDetails.firstName" placeholder="First Name" ng-required="true"></input>
+  <p class="sqnInputError col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-show="guestEventForm.firstName.$touched && guestEventForm.firstName.$invalid">Hmm, that name doesn't look quite right.</p>
+  <input text-field-check type="text" name="lastName" class="sqnInputActive col-xs-12 col-sm-6 col-md-6 col-lg 4" ng-model="guestDetails.lastName" placeholder="Last Name" ng-required="true"></input>
+  <p class="sqnInputError col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-show="guestEventForm.lastName.$touched && guestEventForm.lastName.$invalid">Uh oh, the error light has illuminated...</p>
+  <input class="sqn-btn col-xs-12 col-sm-6 col-md-6 col-lg-6" type="submit" ng-disabled="!available || (guestEventForm.firstName.$touched && guestEventForm.firstName.$invalid) || (guestEventForm.lastName.$touched && guestEventForm.lastName.$invalid)" value="Save Guest"></input>
 </form>

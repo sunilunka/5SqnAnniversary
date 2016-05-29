@@ -9,6 +9,8 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray){
       available: "="
     },
     link: function(scope, element, attrs){
+
+
       console.log("SEATS AVAILABLE: ", scope.available)
       /* Using firebase array to generate unique key for each guest. */
       let guestArray = AttendeeEventFactory.arrayToModify("attendees/" + scope.attendee.$id + "/events/" + scope.evt.$id)
@@ -21,12 +23,16 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray){
           let guestName = scope.guestDetails.firstName + " " + scope.guestDetails.lastName;
           return guestArray.$add(guestName)
           .then(function(ref){
-            AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, scope.attendee).addGuest(ref.key(), guestName);
+            return AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, scope.attendee).addGuest(ref.key(), guestName);
+          })
+          .then(function(data){
+            scope.guestDetails = {};
           })
         }
 
 
       }
+      console.log("REGISTER FORM: ", scope.guestEvent);
     }
   }
 })

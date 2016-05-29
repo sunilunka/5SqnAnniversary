@@ -5,7 +5,7 @@ app.directive("textFieldCheck", function($rootScope){
     link: function(scope, element, attrs, ngModel){
       if(!ngModel) return;
 
-      var textRegex = /\W|_|\d/g;
+      var textRegex = /\W|_|\d/;
 
       ngModel.$parsers.unshift(function(value){
         var fieldIsValid = !textRegex.test(value);
