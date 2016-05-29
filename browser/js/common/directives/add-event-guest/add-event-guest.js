@@ -5,7 +5,6 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray){
     scope: {
       attendee: "=",
       evt: "=",
-      guestDetails: "@",
       available: "="
     },
     link: function(scope, element, attrs){
@@ -26,13 +25,16 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray){
             return AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, scope.attendee).addGuest(ref.key(), guestName);
           })
           .then(function(data){
+            // scope.guestDetails = {};
+            scope.guestEventForm.$setUntouched();
+            scope.guestEventForm.$setPristine();
             scope.guestDetails = {};
           })
         }
 
 
       }
-      console.log("REGISTER FORM: ", scope.guestEvent);
+      console.log("REGISTER FORM: ", scope.guestEventForm);
     }
   }
 })
