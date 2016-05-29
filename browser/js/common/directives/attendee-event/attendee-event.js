@@ -89,7 +89,7 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
 
       var generateGuestLabel = function(labelState){
         if(labelState){
-          return "Cancel"
+          return "Close"
         } else {
           return "Add Guest"
         }
