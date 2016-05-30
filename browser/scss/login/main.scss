@@ -2,6 +2,7 @@
   padding-top: 5em;
   margin: 0 auto;
   width: 100vw;
+  @include background-img-settings($theme-tacgrey, "/images/login/P3KFade.jpg", bottom);
   #login-selector {
     /*transform: translateY(0em);*/
     margin: 0 auto;
