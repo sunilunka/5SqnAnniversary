@@ -13,5 +13,5 @@
 </section>
 <section class="attendee-aeg">
     <event-guest ng-repeat="guest in guests" attendee="attendee" guest="guest" evtid="{{evt.$id}}"></event-guest>
-    <add-event-guest ng-show="viewAddGuestForm" attendee="attendee" evt="evt" available="available"></add-event-guest>
+    <add-event-guest ng-show="viewAddGuestForm" attendee="attendee" evt="evt" available="available" formreset="viewAddGuestForm" ng-cloak></add-event-guest>
 </section>
