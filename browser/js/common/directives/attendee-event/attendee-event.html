@@ -11,7 +11,8 @@
     <button class="sqn-btn-danger" ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
   </div>
 </section>
-<section class="attendee-aeg">
+<hr>
+<section class="attendee-aeg" ng-class="{'status-attending': attending, 'status-not-attending': !attending }">
     <event-guest ng-repeat="guest in guests" attendee="attendee" guest="guest" evtid="{{evt.$id}}"></event-guest>
     <add-event-guest ng-show="viewAddGuestForm" attendee="attendee" evt="evt" available="available" formreset="viewAddGuestForm" ng-cloak></add-event-guest>
 </section>

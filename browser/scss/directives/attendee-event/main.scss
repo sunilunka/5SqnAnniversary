@@ -1,3 +1,7 @@
+hr {
+  margin: 0;
+}
+
 .status-attending {
  background-color: $theme-blue;
  color: $theme-tacgrey;
@@ -45,4 +49,5 @@ attendee-event {
       @include event-button-containers;
     }
   }
+
 }

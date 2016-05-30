@@ -6,7 +6,7 @@
     <button class="sqn-btn-header" ui-sref="newAttendee">Register</button>
     <button class="sqn-btn-header" ui-sref="login">Login</button>
   </div>
-  <div ng-show="currentUser" class="header-item-user">
+  <div ng-show="currentUser" class="header-item-user" ng-cloak>
     <button ng-click="goToUserProfile()" class="sqn-btn-header">Profile</button>
     <button ng-show="currentUser.manager" class="sqn-btn-header" ui-sref="management">Site Management</button>
     <button ng-click="logoutUser()" class="sqn-btn-header">Logout</button>

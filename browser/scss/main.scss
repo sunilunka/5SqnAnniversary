@@ -18,6 +18,20 @@
   display: none !important;
 }
 
+@mixin placeholder-styling($color){
+  ::-webkit-input-placeholder {
+    color: $color;
+  }
+
+  ::-moz-placeholder {
+    color: $color;
+  }
+
+  ::-ms-input-placeholder {
+    color: $color;
+  }
+}
+
 @mixin transition-mixin($params...){
   transition: $params;
   -webkit-transition: $params;
@@ -39,6 +53,7 @@ $theme-green: #88BD91;
 $theme-tacgrey: #EFEFEF;
 $fb-blue: #3B5998;
 $gg-red: rgba(218, 79, 70, 1);
+$theme-placeholder-inverse: rgba(236,237,238,0.5);
 
 body {
   background: $theme-tacgrey;
@@ -70,6 +85,7 @@ alert {
 }
 
 
+
 #main {
 
 }
@@ -93,7 +109,6 @@ alert {
   box-shadow: none;
   border-radius: 0;
   text-align: left;
-  background-color: $theme-tacgrey;
   transition: border 0.5s, background-color 0.5s, ease-in-out;
   -webkit-tranisiton: border 0.5s background-color 0.5s, ease-in-out;
   &:focus {
@@ -105,7 +120,9 @@ alert {
 
 .sqnInputReadonly {
   border: none;
-  color: grey;
+  color: $theme-grey;
+  background-color: $theme-tacgrey;
+
 }
 
 .sqnInputError {
@@ -130,9 +147,11 @@ alert {
   border-top-width: 3px;
   border-top-color: $theme-tacgrey;
   border-top-style: solid;
-  border-bottom-color: grey;
+  border-bottom-color: $theme-grey;
   border-bottom-width: 3px;
   border-bottom-style: solid;
+  background-color: $theme-tacgrey;
+  @include placeholder-styling($theme-tacgrey);
   &:focus {
     border-top-color: $theme-blue;
     border-top-style: solid;
@@ -143,6 +162,27 @@ alert {
     border-bottom-style: solid;
   }
 }
+
+.sqnInputActive-inverse {
+  @extend .sqnInput;
+  border-top-width: 3px;
+  border-top-color: $theme-blue;
+  border-top-style: solid;
+  border-bottom-color: $theme-tacgrey;
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
+  background-color: $theme-blue;
+  &:focus {
+    border-top-color: $theme-tacgrey;
+    border-top-style: solid;
+    background-color: $theme-tacgrey;
+    color: $theme-blue;
+    border-bottom-color: $theme-tacgrey;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+  }
+}
+
 
 .sqnInputEmail {
   @extend .sqnInputActive;

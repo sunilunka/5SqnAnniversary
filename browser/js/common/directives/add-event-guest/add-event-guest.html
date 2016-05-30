@@ -1,7 +1,12 @@
 <form class="add-guest-event" ng-submit="addNewGuest()" name="guestEventForm">
-  <input text-field-check type="text" name="firstName" class="sqnInputActive col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-model="guestDetails.firstName" placeholder="First Name" ng-required="true"></input>
-  <p class="sqnInputError col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-show="guestEventForm.firstName.$touched && guestEventForm.firstName.$invalid">Hmm, that name doesn't look quite right.</p>
-  <input text-field-check type="text" name="lastName" class="sqnInputActive col-xs-12 col-sm-6 col-md-6 col-lg 4" ng-model="guestDetails.lastName" placeholder="Last Name" ng-required="true"></input>
-  <p class="sqnInputError col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-show="guestEventForm.lastName.$touched && guestEventForm.lastName.$invalid">Uh oh, the error light has illuminated...</p>
-  <input class="sqn-btn col-xs-12 col-sm-6 col-md-6 col-lg-6" type="submit" ng-show="available && guestEventForm.$valid" ng-disabled="!available || (guestEventForm.firstName.$touched && guestEventForm.firstName.$invalid) || (guestEventForm.lastName.$touched && guestEventForm.lastName.$invalid)" value="Save Guest" ng-cloak></input>
+  <h4>Add a guest</h4>
+  <div>
+    <input ng-cloak text-field-check type="text" name="firstName" class="sqnInputActive-inverse" ng-model="guestDetails.firstName" placeholder="First Name" ng-required="true"></input>
+    <p ng-cloak class="sqnInputError" ng-show="guestEventForm.firstName.$touched && guestEventForm.firstName.$invalid">Hmmm, that first name doesn't look quite right.</p>
+  </div>
+  <div>
+    <input ng-cloak text-field-check type="text" name="lastName" class="sqnInputActive-inverse " ng-model="guestDetails.lastName" placeholder="Last Name" ng-required="true"></input>
+    <p ng-cloak class="sqnInputError" ng-show="guestEventForm.lastName.$touched && guestEventForm.lastName.$invalid">Sorry, there's a problem with the last name.</p>
+  </div>
+  <input class="sqn-btn-positive" type="submit" ng-show="available && guestEventForm.$valid" ng-disabled="!available || (guestEventForm.firstName.$touched && guestEventForm.firstName.$invalid) || (guestEventForm.lastName.$touched && guestEventForm.lastName.$invalid)" value="Save Guest" ng-cloak></input>
 </form>
