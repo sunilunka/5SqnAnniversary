@@ -2,16 +2,26 @@
   padding-top: 4em;
   color: $theme-grey;
 
+  h2 {
+    font-weight: 900;
+  }
+
+  h3 {
+    @include theme-shadow-default;
+    padding: 0.33em;
+    font-weight: 600;
+    margin-bottom: 0.1em;
+  }
+
   .attendee-event-viewer {
-    @include scrollable-content-viewer;
-    height: 66vh;
+    overflow-y: auto;
+    height: auto;
   }
 
   .attendee-announcements {
-
     .announcement-viewer{
+      overflow-y: auto;
       height: 66vh;
-      @include scrollable-content-viewer;
       article {
         border: 3px solid $theme-blue;
         margin: 0.25em 0.25em 0.5em 0.25em;
