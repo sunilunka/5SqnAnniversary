@@ -2,6 +2,7 @@
   padding-top: 5em;
   margin: 0 auto;
   width: 100vw;
+  height: calc(100vh + 2.5em) ; /* For background image display */
   @include background-img-settings($theme-tacgrey, "/images/login/P3KFade.jpg", bottom);
   #login-selector {
     /*transform: translateY(0em);*/
@@ -15,10 +16,19 @@
   }
 
   .email-login-form {
-    padding-top: 6em;
+    padding-top: 3em;
     width: 90%;
     margin: 0 auto;
     @include transition-mixin(all 0.5s ease-in-out);
+
+    .sqnInputEmail {
+      background-color: $theme-tacgrey-transparent;
+      border-top-color: transparent;
+      &:focus {
+        background-color: $theme-blue-transparent;
+        border-top-color: transparent;
+      }
+    }
 
     .sqnInputError {
       border: none;

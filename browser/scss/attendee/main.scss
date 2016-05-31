@@ -2,14 +2,20 @@
   padding-top: 4em;
   color: $theme-grey;
 
+  .attendee-event-viewer {
+    @include scrollable-content-viewer;
+    height: 66vh;
+  }
+
   .attendee-announcements {
 
     .announcement-viewer{
       height: 66vh;
-      overflow-y: auto;
+      @include scrollable-content-viewer;
       article {
         border: 3px solid $theme-blue;
-        margin-bottom: 0.5em;
+        margin: 0.25em 0.25em 0.5em 0.25em;
+
         header {
           align-items: center;
           color: $theme-blue;
