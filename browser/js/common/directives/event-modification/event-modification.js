@@ -9,6 +9,7 @@ app.directive("eventModification", function(EventFactory){
 
     link: function(scope, element, attrs){
       console.log("EVENT: ", scope.evt);
+      console.log("MOMENT NOW: ", new Date(scope.evt.date))
       scope.modifiedEntry = {};
 
       /* Boolean to show or hide edit mode form for specific announcement */

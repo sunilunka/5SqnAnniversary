@@ -1,6 +1,8 @@
 <form ng-submit="saveGuestLimits()">
-  <label class="category-field" ng-repeat="cat in cats">{{ cat.$value }}
+  <div class="event-guest-limit-holder" ng-repeat="cat in cats">
+    <label class="category-field">{{ cat.$value }}
+    </label>
     <input class="sqnInputNumber" type="number" placeholder="00" ng-model="limits[cat.$id]"></input>
-  </label>
+  </div>
   <input type="submit" class="sqn-btn-positive" value="Update"></input>
 </form>

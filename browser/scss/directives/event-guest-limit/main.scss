@@ -1,3 +1,38 @@
+@mixin responsive-number-input-settings($category-field-margin, $number-margin) {
+  event-guest-limit {
+    .event-guest-limit-holder {
+      .sqnInputNumber {
+        margin: $number-margin;
+      }
+      .category-field {
+        margin: $category-field-margin;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $screen-xxs-max) {
+  @include responsive-number-input-settings(0rem 0.25rem 0rem 0.25rem, 0);
+}
+
+@media screen and (min-width: $screen-xs-min) and (max-width: $screen-xs-max){
+  @include responsive-number-input-settings(0rem 2rem 0rem 2rem, 0rem 3rem 0rem 2rem);
+}
+
 event-guest-limit {
+  display: block;
   padding: 0.25rem;
+
+  .event-guest-limit-holder {
+    padding: 0.25rem;
+    @extend .flex-container-row;
+
+    align-items: center;
+    .category-field {
+      flex-grow: 1;
+      display: inline-block;
+      color: $theme-grey;
+    }
+  }
+
 }
