@@ -1,4 +1,17 @@
 'use strict';
+
+window.initializeApp = function(){
+  var config = {
+    apiKey: "AIzaSyAH5WAOikyWrfcVJgqWR9r_FnUxuvVBQww",
+    authDomain: "5sqnrnzaf.firebaseapp.com",
+    databaseURL: "https://5sqnrnzaf.firebaseio.com",
+    storageBucket: "sqnrnzaf.appspot.com",
+  };
+  firebase.initializeApp(config);
+}
+
+window.initializeApp();
+
 window.app = angular.module('FiveSquadronRNZAFApp', ['ui.router', 'ui.bootstrap', 'ngAnimate','firebase', 'firebaseAuthHandler']);
 
 app.config(function ($urlRouterProvider, $locationProvider) {
