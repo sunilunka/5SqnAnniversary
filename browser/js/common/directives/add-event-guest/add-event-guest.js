@@ -27,7 +27,7 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray, $r
         let guestName = scope.guestDetails.firstName + " " + scope.guestDetails.lastName;
         return guestArray.$add(guestName)
         .then(function(ref){
-          return AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, scope.attendee).addGuest(ref.key(), guestName);
+          return AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, scope.attendee).addGuest(ref.key, guestName);
         })
         .then(function(data){
           resetForm();

@@ -81,8 +81,6 @@
     /* Setup a listener and report function for auth status. */
     this.reportAuthState = () => {
       authRef.$onAuthStateChanged(function(authData){
-        console.log("AUTHDATA: ", authData);
-        console.log("AUTHDATA.id: ", authData.providerData[0].providerId)
         if((!SessionService.user) && authData) {
           /* If authData is returned, but user data is not available from SessionService
           => Check if the user has logged in with an external media service, but has not registered data on the site. Look for key 'registerData'

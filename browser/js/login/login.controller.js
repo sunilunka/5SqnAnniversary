@@ -75,7 +75,7 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
       $scope.loginMethodName = method;
       /* If using social media account plugin, then execute login immediately. */
       console.log("SCOPE LOGIN FORM: ", $scope.loginForm);
-      if((method === "facebook") || (method === "google")) return $scope.executeLogin(method);
+      if((method === "facebook") || (method === "google")) return executeLogin(method);
       return; /* If using email, return, as the user has to fill out the required form fields. */
     }
 
