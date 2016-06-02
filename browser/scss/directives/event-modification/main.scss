@@ -1,0 +1,42 @@
+event-modification {
+  display: block;
+  article {
+    margin: 1em;
+    border: 3px solid $theme-blue;
+    header {
+      @extend .flex-container-row;
+      background-color: $theme-blue;
+      padding: 0.5em;
+      color: $theme-tacgrey;
+      h4 {
+        flex-grow: 1;
+      }
+      .event-option-container {
+        text-align: right;
+        flex-grow: 1;
+      }
+    }
+    .event-details-container {
+      color: $theme-grey;
+      p {
+        padding: 0.25em;
+      }
+    }
+
+    footer {
+      .flex-container-row {
+        align-items: baseline;
+        .sqnInputActive {
+          width: 200px;
+          /*flex-grow: 1;*/
+        }
+        .sqnInputNumber {
+          width: 2.7em;
+        }
+      }
+
+    }
+
+
+  }
+}

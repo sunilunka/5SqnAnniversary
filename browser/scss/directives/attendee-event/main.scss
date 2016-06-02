@@ -1,6 +1,69 @@
+hr {
+  margin: 0;
+}
+
+.status-attending {
+ background-color: $theme-blue;
+ color: $theme-tacgrey;
+}
+
+.status-not-attending {
+ background-color: $theme-grey;
+ color: $theme-tacgrey;
+}
+
+@mixin attend-event-flex-options {
+  display: inline-block;
+  flex: 1;
+}
+
+@mixin event-button-containers {
+  @extend .flex-container-row;
+  align-items: stretch;
+  padding: 0;
+  button {
+    @include attend-event-flex-options;
+  }
+}
+
+.flex-container-row.attendee-header {
+  align-items: center;
+  h2 {
+    @include attend-event-flex-options;
+    margin: 0.5em 1em 0.25em 1em;
+
+  }
+  span {
+    @include attend-event-flex-options;
+    margin: 0.5em 2em 0.25em 1.5em;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 0.25em;
+  }
+}
+
 attendee-event {
-  position: relative;
-  height: 100px;
-  width: 90%;
-  background-color: red;
+  display: block;
+  margin: 0.5em;
+  .flex-container-row {
+    padding: 1em;
+    h3 {
+     margin: 0em 0em 0.2em 0em;
+     flex: 1;
+    }
+
+    button {
+      margin: 0em 0.2em 0.2em 0.2em;
+    }
+
+    header {
+      @include attend-event-flex-options;
+    }
+
+
+    .attend-event-options {
+      @include event-button-containers;
+    }
+  }
 }

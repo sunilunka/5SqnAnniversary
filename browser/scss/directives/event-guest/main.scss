@@ -1,0 +1,8 @@
+event-guest {
+  h5 {
+    @include attend-event-flex-options;
+  }
+  button {
+    @include attend-event-flex-options;
+  }
+}

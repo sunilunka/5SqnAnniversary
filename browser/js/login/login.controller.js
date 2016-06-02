@@ -45,9 +45,12 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
     }
 
     $scope.cancelEmailLogin = () => {
+      $scope.loginForm.$setUntouched()
+      $scope.loginForm.$setPristine();
       $scope.login = {};
       $scope.loginMethodName = null;
       $scope.error = null;
+
     }
 
     $scope.executeLogin = (method) => {

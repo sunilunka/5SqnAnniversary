@@ -1,3 +1,50 @@
 #user-profile {
   padding-top: 4em;
+  color: $theme-grey;
+
+  h2 {
+    font-weight: 900;
+  }
+
+  h3 {
+    @include theme-shadow-default;
+    padding: 0.33em;
+    font-weight: 600;
+    margin-bottom: 0.1em;
+  }
+
+  .attendee-event-viewer {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .attendee-announcements {
+    .announcement-viewer{
+      overflow-y: auto;
+      height: 66vh;
+      article {
+        border: 3px solid $theme-blue;
+        margin: 0.25em 0.25em 0.5em 0.25em;
+
+        header {
+          align-items: center;
+          color: $theme-blue;
+          h4 {
+            font-weight: 900;
+            margin: 0.5em 0.5em 0.25em 0.5em;
+            flex: 1;
+          }
+
+          span {
+            flex: 1;
+          }
+        }
+
+        p {
+          padding: 0.5em;
+        }
+
+      }
+    }
+  }
 }

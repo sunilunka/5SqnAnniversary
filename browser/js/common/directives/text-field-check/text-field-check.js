@@ -5,7 +5,8 @@ app.directive("textFieldCheck", function($rootScope){
     link: function(scope, element, attrs, ngModel){
       if(!ngModel) return;
 
-      var textRegex = /\W|_|\d/g;
+      /* Do not use global as this causes issues as each ngModel validation fires, causing alternate passing/failing of validation.*/
+      var textRegex = /\W|_|\d/;
 
       ngModel.$parsers.unshift(function(value){
         var fieldIsValid = !textRegex.test(value);

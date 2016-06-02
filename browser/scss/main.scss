@@ -14,6 +14,24 @@
   }
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+@mixin placeholder-styling($color){
+  ::-webkit-input-placeholder {
+    color: $color;
+  }
+
+  ::-moz-placeholder {
+    color: $color;
+  }
+
+  ::-ms-input-placeholder {
+    color: $color;
+  }
+}
+
 @mixin transition-mixin($params...){
   transition: $params;
   -webkit-transition: $params;
@@ -35,6 +53,9 @@ $theme-green: #88BD91;
 $theme-tacgrey: #EFEFEF;
 $fb-blue: #3B5998;
 $gg-red: rgba(218, 79, 70, 1);
+$theme-placeholder-inverse: rgba(236,237,238,0.5);
+$theme-tacgrey-transparent: rgba(239,239,239,0.75);
+$theme-blue-transparent: rgba(104,175,195,0.75);
 
 body {
   background: $theme-tacgrey;
@@ -53,6 +74,10 @@ alert {
   box-shadow: 0px 5px 10px rgba(0,0,0,0.75);
 }
 
+@mixin scrollable-content-viewer {
+  overflow-y: auto;
+}
+
 @mixin clearHeader {
   padding-top: 6em;
 }
@@ -66,10 +91,9 @@ alert {
 }
 
 
+
 #main {
-  display: flex;
-  justify-content: space-around;
-  margin: 0 auto;
+
 }
 
 .flex-container-row {
@@ -91,9 +115,8 @@ alert {
   box-shadow: none;
   border-radius: 0;
   text-align: left;
-  background-color: $theme-tacgrey;
   transition: border 0.5s, background-color 0.5s, ease-in-out;
-  -webkit-tranisiton: border 0.5s background-color 0.5s, ease-in-out;
+  -webkit-transition: border 0.5s background-color 0.5s, ease-in-out;
   &:focus {
     outline: none;
     border: none;
@@ -103,7 +126,9 @@ alert {
 
 .sqnInputReadonly {
   border: none;
-  color: grey;
+  color: $theme-grey;
+  background-color: $theme-tacgrey;
+
 }
 
 .sqnInputError {
@@ -128,9 +153,11 @@ alert {
   border-top-width: 3px;
   border-top-color: $theme-tacgrey;
   border-top-style: solid;
-  border-bottom-color: grey;
+  border-bottom-color: $theme-grey;
   border-bottom-width: 3px;
   border-bottom-style: solid;
+  background-color: $theme-tacgrey;
+  @include placeholder-styling($theme-tacgrey);
   &:focus {
     border-top-color: $theme-blue;
     border-top-style: solid;
@@ -142,6 +169,27 @@ alert {
   }
 }
 
+.sqnInputActive-inverse {
+  @extend .sqnInput;
+  border-top-width: 3px;
+  border-top-color: $theme-blue;
+  border-top-style: solid;
+  border-bottom-color: $theme-tacgrey;
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
+  background-color: $theme-blue;
+  &:focus {
+    border-top-color: $theme-tacgrey;
+    border-top-style: solid;
+    background-color: $theme-tacgrey;
+    color: $theme-blue;
+    border-bottom-color: $theme-tacgrey;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+  }
+}
+
+
 .sqnInputEmail {
   @extend .sqnInputActive;
   min-width: 15em;
@@ -150,7 +198,7 @@ alert {
 
 .sqnInputNumber {
   @extend .sqnInputActive;
-  width: 2.5em;
+  width: 2.7em;
   text-align: center;
 }
 

@@ -1,14 +1,18 @@
-<h3>{{ evt.name }}</h3>
-<div class="attend-event" ng-show="!attending">
-  <button class="sqn-btn-positive" ng-disabled="!available" ng-click="attendEvent(evt.$id)"> Register for Event</button>
-</div>
-<div ng-show="attending" class="attending-options">
-  <button class="sqn-btn" ng-show="available">Bringing guests?</button>
-  <button class="sqn-btn-danger" ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
-  <section class="attendee-aeg">
-    <!-- <div> -->
-
-      <event-guest ng-repeat="guest in guests" attendee="attendee" guest="guest" evtid="{{evt.$id}}"></event-guest>
-      <add-event-guest attendee="attendee" evt="evt" available="available"></add-event-guest>
-  </section>
-</div>
+<section class="flex-container-row"  ng-class="{'status-attending': attending, 'status-not-attending': !attending }">
+  <header>
+    <h4>{{ evt.name }}</h4>
+    <h5>23 Sep 2016 | 7.00pm</h5>
+  </header>
+  <div class="attend-event-options" ng-show="!attending">
+    <button class="sqn-btn-positive" ng-disabled="!available" ng-click="attendEvent(evt.$id)"> Register for Event</button>
+  </div>
+  <div ng-show="attending" class="attend-event-options">
+    <button class="sqn-btn" ng-show="available" ng-click="addGuest()">{{ guestLabel }}</button>
+    <button class="sqn-btn-danger" ng-click="removeFromEvent(evt.$id)">Cancel Attendance</button>
+  </div>
+</section>
+<hr>
+<section class="attendee-aeg" ng-class="{'status-attending': attending, 'status-not-attending': !attending }">
+    <event-guest ng-repeat="guest in guests" attendee="attendee" guest="guest" evtid="{{evt.$id}}"></event-guest>
+    <add-event-guest ng-show="viewAddGuestForm" attendee="attendee" evt="evt" available="available" formreset="viewAddGuestForm" ng-cloak></add-event-guest>
+</section>
