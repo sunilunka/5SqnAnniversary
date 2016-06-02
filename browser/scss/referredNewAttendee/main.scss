@@ -1,3 +1,8 @@
-#referredNewAttendee {
+.referred-attendee-container {
   padding-top: 4em;
+  margin: 1em;
+  color: $theme-grey;
+  h3 {
+    margin: 0.5em;
+  }
 }

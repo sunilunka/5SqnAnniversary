@@ -66,16 +66,25 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
   }
 
   var parseFbData = (authData, formData) => {
-    var dataPath = authData.facebook.cachedUserProfile;
+    var dataPath = authData.providerData[0];
+
+    var splitName = function(nameString){
+       var nameArray = nameString.split(" ");
+       return {
+         first_name: nameArray[0],
+         last_name: nameArray[1]
+       }
+    }
+
+    var nameObj = splitName(authData.displayName);
 
     return {
       uid: authData.uid,
-      firstName: dataPath.first_name,
-      lastName: dataPath.last_name,
+      firstName: nameObj.first_name,
+      lastName: nameObj.last_name,
       email: formData.email,
-      fbprofile: dataPath.link,
       association: formData.association,
-      events: modifyEventData(formData.events, dataPath.first_name, dataPath.last_name)
+      events: modifyEventData(formData.events, nameObj.first_name, nameObj.last_name)
     }
   }
 
@@ -141,7 +150,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       return promisifyAuthData()
       .then(function(authData){
         /* Once firebase authentication has been returned, merge with formData for saving into firebase attendee store */
-        if(authData.provider === "facebook"){
+        if(authData.providerData[0].providerId === "facebook.com"){
           return parseFbData(authData, formData);
 
         /* Unable to use Google as auth provider due to Firebase code base change to 3.x.x and changing to the new console. Will resolve once new firebase version of angularFire is released. */

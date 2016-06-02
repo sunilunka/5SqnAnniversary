@@ -11,6 +11,41 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
       }
     }
 
+    var executeLogin = (method) => {
+      var loginData = {
+        password: $scope.login.password,
+        email: $scope.login.email
+      }
+
+      switch(method){
+        case "email":
+          return AttendeeFactory.loginAttendee(loginData)
+                .then(function(authData){
+                  console.log("USER DATA: ", authData)
+                  SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid })
+                })
+                .catch(function(error){
+                    console.log("ERROR: ", error.message);
+                    $scope.error = processError(error.message);
+                })
+        break;
+        case "facebook":
+          return UserAuthFactory.loginWithExternalProvider(method)
+          .then(function(authData){
+            /* Nothing will happen, no resolve is returned using OAuthRedirect. A user logging in with an external provider is captured when listening for $onAuth events from the Firebase service */
+          })
+          .catch(function(error){
+            $scope.error = error;
+          })
+        break;
+        case "google":
+          console.info("Sweet, we better get google login setup!");
+        break;
+        default:
+          return new Error("Sorry, a server error has occured, try again.")
+        break;
+      }
+    }
 
     $scope.login = {};
     $scope.error = null;
@@ -51,42 +86,6 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
       $scope.loginMethodName = null;
       $scope.error = null;
 
-    }
-
-    $scope.executeLogin = (method) => {
-      var loginData = {
-        password: $scope.login.password,
-        email: $scope.login.email
-      }
-
-      switch(method){
-        case "email":
-          return AttendeeFactory.loginAttendee(loginData)
-                .then(function(authData){
-                  console.log("USER DATA: ", authData)
-                  SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid })
-                })
-                .catch(function(error){
-                    console.log("ERROR: ", error.message);
-                    $scope.error = processError(error.message);
-                })
-        break;
-        case "facebook":
-          return UserAuthFactory.loginWithExternalProvider(method)
-          .then(function(authData){
-            /* Nothing will happen, no resolve is returned using OAuthRedirect. A user logging in with an external provider is captured when listening for $onAuth events from the Firebase service */
-          })
-          .catch(function(error){
-            $scope.error = error;
-          })
-        break;
-        case "google":
-          console.info("Sweet, we better get google login setup!");
-        break;
-        default:
-          return new Error("Sorry, a server error has occured, try again.")
-        break;
-      }
     }
 
     /* */

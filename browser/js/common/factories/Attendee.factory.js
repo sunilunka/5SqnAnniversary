@@ -67,6 +67,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
     createReferredUser: (formData) => {
       return RegisterFactory.registerReferredUser(formData)
       .then(function(userDataToSave){
+        console.log("USERDATA TO SAVE: ", userDataToSave)
         if(!userDataToSave.events) userDataToSave.events = false;
         let userId = userDataToSave.uid;
         /* Remove the uid key, as this is the identifier key and there is no need to double up data */
@@ -83,7 +84,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
             /* Once promise is successfully resolved, add user to Guest Category. */
             return GuestCategoryFactory.addOrRemoveGuestToCategory("add", userDataToSave.association, userId)
             .then(function(ref){
-              return userDataToSave;
+              return ref;
             })
           })
         })

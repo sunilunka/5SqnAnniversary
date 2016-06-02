@@ -1,4 +1,4 @@
-app.directive("newAttendeeExternalForm", function(FormValidityFactory){
+app.directive("newAttendeeExternalForm", function(AttendeeFactory, FormValidityFactory){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/new-attendee-external-form/new-attendee-external-form.html",
@@ -17,9 +17,11 @@ app.directive("newAttendeeExternalForm", function(FormValidityFactory){
         console.log("NEW-ATTENDEE-DATA: ", scope.newAttendeeData)
         if(FormValidityFactory.checkEvents(scope.newAttendeeData)){
           scope.eventsError = false;
-          /*
-            => To Implement, is the save portion. Will be done once the updated SDK is implemented.
-          */
+          /* If events object is populated then continue the registration and login process. */
+          return AttendeeFactory.createReferredUser(scope.newAttendeeData)
+          .then(function(attendeeKey){
+            console.log("ATTENDEE KEY: ", attendeeKey)
+          })
         } else {
           /* If the check for events is false, then return, as the user has not entered in any events to attend. */
           scope.eventsError = true;
