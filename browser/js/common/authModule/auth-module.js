@@ -7,27 +7,20 @@
   var app = angular.module('firebaseAuthHandler', ['firebase']);
 
 
-  /* Define application constants, those used frequently */
-  app.constant('FIRE_PARAMS', {
-    'ROOT_URL': 'https://5sqnrnzaf.firebaseio.com'
-    // 'ATTENDEE_URL': ROOT_URL + '/attendees'
-  })
-
-
   /* Factory that returns the most commonly used functions for interacting with the Firebase database. */
-  app.factory('DatabaseFactory', function($firebaseAuth, FIRE_PARAMS){
-    var fireInstance = new Firebase(FIRE_PARAMS.ROOT_URL);
+  app.factory('DatabaseFactory', function($firebaseAuth){
+    var fireInstance = firebase.database().ref();
     return {
       dbConnection: (routing) => {
         if(routing){
-          return new Firebase(FIRE_PARAMS.ROOT_URL + '/' + routing)
+          return firebase.database().ref(routing)
         } else {
           return fireInstance;
         }
       },
 
       authConnection: () => {
-        return $firebaseAuth(fireInstance);
+        return $firebaseAuth();
       }
     }
   })
@@ -38,12 +31,12 @@
     return {
       /* Connect to firebase instance and create a new user using email and password as authentication basis. */
       createNew: userData => {
-        return authRef.$createUser(userData);
+        return authRef.$createUserWithEmailAndPassword(userData);
       },
 
       /* Login in the user using password and email auth. */
       loginByEmail: data => {
-        return authRef.$authWithPassword(data);
+        return authRef.$signInWithEmailAndPassword(data.email, data.password);
       },
 
       /* Login with an external Firebase Provider.
@@ -52,27 +45,28 @@
        */
 
       loginWithExternalProvider: provider => {
-        return authRef.$authWithOAuthRedirect(provider, function(error, authData){
-          console.log("REDIRECTING...")
-          if(error) {
-            console.warn("Sorry an error occured: ", error);
-            return error;
-          } else {
-            return authData;
-          }
+        return authRef.$signInWithRedirect(provider)
+        .then(function(authData){
+          return authData;
+        })
+        .then(function(){
+          /* Nothing returned here due to redirect */
+        })
+        .catch(function(error){
+          console.log("SORRY WE COULDN'T SIGN YOU IN AT THIS TIME")
         })
       },
 
       /* Remove a user from firebase user database */
-      removeUser: userData => {
-        return authRef.$removeUser(userData);
+      removeCurrentUser: userData => {
+        return authRef.$deleteUser();
       }
     }
   })
 
   /* */
   app.service('AuthService', function(DatabaseFactory, SessionService, $rootScope, SiteAuthFactory, AttendeeFactory, RegisterFactory, $state, $firebaseObject){
-    var self = this;
+
     var authRef = DatabaseFactory.authConnection();
 
     this.getUserAuth = () => {
@@ -86,7 +80,8 @@
 
     /* Setup a listener and report function for auth status. */
     this.reportAuthState = () => {
-      authRef.$onAuth(authData => {
+      console.log("SESSION USER: ", authRef)
+      authRef.$onAuthStateChanged(function(authData){
         if((!SessionService.user) && authData) {
           /* If authData is returned, but user data is not available from SessionService
           => Check if the user has logged in with an external media service, but has not registered data on the site. Look for key 'registerData'
@@ -137,7 +132,7 @@
     }
 
     this.logout = () => {
-      DatabaseFactory.authConnection().$unauth();
+      DatabaseFactory.authConnection().$signOut();
     }
   })
 

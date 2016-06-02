@@ -7,7 +7,7 @@ window.initializeApp = function(){
     databaseURL: "https://5sqnrnzaf.firebaseio.com",
     storageBucket: "sqnrnzaf.appspot.com",
   };
-  firebase.initializeApp(config);
+  return firebase.initializeApp(config);
 }
 
 window.initializeApp();
@@ -23,7 +23,7 @@ app.config(function ($urlRouterProvider, $locationProvider) {
 });
 
 // This app.run is for controlling access to specific states.
-app.run(function ($rootScope, $state, FIRE_PARAMS, AuthService, SessionService) {
+app.run(function ($rootScope, $state, AuthService, SessionService) {
   AuthService.reportAuthState();
 
   var stateRequiresAuth = (state) => {
