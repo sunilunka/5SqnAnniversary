@@ -36,7 +36,13 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
     },
 
     saveEvent: (eventData) => {
-      return eventsArray.$save(eventData)
+      var eventSerial = eventData.$id;
+      delete eventData.$id;
+      delete eventData.$priority;
+      console.log("SAVING EVENT: ", eventData)
+      console.log("EVENT ARRAY: ", eventsArray)
+      return DatabaseFactory.dbConnection("events/" + eventSerial)
+      .update(eventData)
       .then(function(ref){
         console.log("UPDATE SAVED: ", ref);
         return ref;
