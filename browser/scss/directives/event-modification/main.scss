@@ -22,5 +22,21 @@ event-modification {
         padding: 0.25em;
       }
     }
+
+    footer {
+      .flex-container-row {
+        align-items: baseline;
+        .sqnInputActive {
+          width: 200px;
+          /*flex-grow: 1;*/
+        }
+        .sqnInputNumber {
+          width: 2.7em;
+        }
+      }
+
+    }
+
+
   }
 }

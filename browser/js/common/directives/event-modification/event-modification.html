@@ -8,7 +8,7 @@
       </div>
   </header>
   <div class="event-details-container">
-    <p> {{ displayDate }} | Start Time:  {{ displayTime }}</p>
+    <p> {{ displayDate }} | Start Time:  {{ evt.startTime.hours }}{{ evt.startTime.minutes }}</p>
     <p>{{ evt.location }}</p>
     <p>Event Details...</p>
   </div>
@@ -16,16 +16,6 @@
     <event-guest-limit ng-show="guestLimits.displayMenu" evt=evt cats="categories"></event-guest-limit>
   </div>
   <footer ng-show="editMode">
-    <form  name="eventEditForm" ng-submit="updateEvent()">
-      <label>Name</label>
-      <input class="sqnInput sqnInputActive" type="text" ng-model="modifiedEntry.name"></input>
-      <label>Date</label>
-      <input class="sqnInputActive" type="date" ng-model="modifiedEntry.date"></label>
-      <label>Time</label>
-      <input type="time" ng-model="modifiedEntry.startTime"></input>
-      <label>Location</label>
-      <input class="sqnInputActive" type="text" ng-model="modifiedEntry.location"></input>
-      <input class="sqn-btn-positive" type="submit" value="Update Event"></input>
-    </form>
+    <event-creation evt="evt"></event-creation>
   </footer>
 </article>
