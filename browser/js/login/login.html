@@ -1,5 +1,5 @@
 <section class="login">
-  <form class="row email-login-form" ng-show="loginMethodName === 'email'" name="loginForm" ng-submit="loginForm.$valid && executeLogin('email')">
+  <form class="row email-login-form" ng-show="loginMethodName === 'email'" name="loginForm" ng-submit="loginWithEmail()">
 
     <alert class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4 sqnInputError" type="danger" ng-show="error">
         {{ error }}

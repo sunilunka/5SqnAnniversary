@@ -30,13 +30,15 @@
     var authRef = DatabaseFactory.authConnection();
     return {
       /* Connect to firebase instance and create a new user using email and password as authentication basis. */
-      createNew: userData => {
-        return authRef.$createUserWithEmailAndPassword(userData);
+      createNew: (email, password) => {
+        console.log("EMAIL: ", email);
+        console.log("PASSWORD ", password );
+        return authRef.$createUserWithEmailAndPassword(email, password);
       },
 
       /* Login in the user using password and email auth. */
-      loginByEmail: data => {
-        return authRef.$signInWithEmailAndPassword(data.email, data.password);
+      loginByEmail: (email, password) => {
+        return authRef.$signInWithEmailAndPassword(email, password);
       },
 
       /* Login with an external Firebase Provider.

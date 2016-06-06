@@ -1,4 +1,4 @@
-app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory, GuestCategoryFactory){
+app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory, GuestCategoryFactory, SiteAuthFactory){
   var attendeesRef = DatabaseFactory.dbConnection("attendees");
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -14,6 +14,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       return RegisterFactory.registerNewUser(registerMethod, newAttendeeData)
       .then(function(newUser){
         /* This promise will only be called when registering with email. */
+        console.log("NEW USER: ", newUser)
         return RegisterFactory.addUserToEvents(newUser)
         .then(function(savedEvents){
           return GuestCategoryFactory.addOrRemoveGuestToCategory("add", newUser.association, newUser.uid)
@@ -21,17 +22,11 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       })
       .then(function(ref){
         /* Ref will be undefined, as nothing is returned froma standard Firebase JS API update method call. */
-        return UserAuthFactory.loginByEmail({
-          email: newAttendeeData.email,
-          password: newAttendeeData.password
-        })
+        return UserAuthFactory.loginByEmail(newAttendeeData.email, newAttendeeData.password)
       })
       .then(function(authData){
         SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid });
-      })
-      .catch(function(error){
-        console.warn("ERROR OCCURED: ", error);
-        return error;
+        return authData;
       })
     },
 
@@ -105,11 +100,8 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       })
     },
 
-    loginAttendee: function(loginData){
-      return UserAuthFactory.loginByEmail({
-        password: loginData.password,
-        email: loginData.email
-      })
+    loginAttendee: function(email, password){
+      return UserAuthFactory.loginByEmail(email, password);
     },
 
     getOne: function(){

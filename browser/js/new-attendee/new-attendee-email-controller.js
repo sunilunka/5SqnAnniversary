@@ -6,9 +6,17 @@ app.controller("NewAttendeeEmailCtrl", function($scope, AttendeeFactory, Events,
   $scope.newAttendeeData = {};
 
   $scope.saveAttendee = function(){
-    console.log("FORM DATA: ", $scope.newAttendeeData);
     if(FormValidityFactory.checkEvents($scope.newAttendeeData)){
       $scope.eventsError = false;
+      console.log("FORM DATA: ", $scope.newAttendeeData);
+      return AttendeeFactory.createOneAndLogin("email", $scope.newAttendeeData)
+      .then(function(authData){
+        return authData;
+      })
+      .catch(function(error){
+        $scope.eventsError = true;
+        return error;
+      })
     } else {
       $scope.eventsError = true;
       /* Will implement registering with email once new SDK becomes available. */

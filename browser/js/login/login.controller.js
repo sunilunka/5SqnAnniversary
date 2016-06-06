@@ -12,6 +12,7 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
     }
 
     var executeLogin = (method) => {
+      console.log("LOGGING IN: ", method)
       var loginData = {
         password: $scope.login.password,
         email: $scope.login.email
@@ -19,15 +20,15 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
 
       switch(method){
         case "email":
-          return AttendeeFactory.loginAttendee(loginData)
-                .then(function(authData){
-                  console.log("USER DATA: ", authData)
-                  SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid })
-                })
-                .catch(function(error){
-                    console.log("ERROR: ", error.message);
-                    $scope.error = processError(error.message);
-                })
+          return AttendeeFactory.loginAttendee(loginData.email, loginData.password)
+            .then(function(authData){
+              console.log("USER DATA: ", authData)
+              SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid })
+            })
+            .catch(function(error){
+                console.log("ERROR: ", error.message);
+                $scope.error = processError(error.message);
+            })
         break;
         case "facebook":
           return UserAuthFactory.loginWithExternalProvider(method)
@@ -86,6 +87,10 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
       $scope.loginMethodName = null;
       $scope.error = null;
 
+    }
+
+    $scope.loginWithEmail = function(){
+      return executeLogin("email");
     }
 
     /* */

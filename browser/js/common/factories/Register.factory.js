@@ -118,20 +118,19 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       switch(method){
         case "email":
          /* Create new user in database based on provided email and password */
-         return UserAuthFactory.createNew({
-           email: userData.email,
-           password: userData.password
-         })
-          .then(function(data){
+         return UserAuthFactory.createNew(userData.email, userData.password)
+        .then(function(data){
           /* Data returned from creating a new user with email and password => just uid */
-            return parseEmailData(data, userData);
-          })
-          .then(function(userInfo){
-            return saveUserDetailsToDb(attendeeObject, userInfo)
-          })
-          .catch(function(error){
-            return error;
-          })
+          console.log("EMAIL AUTH DATA: ", data);
+          debugger;
+          return parseEmailData(data, userData);
+        })
+        .then(function(userInfo){
+          return saveUserDetailsToDb(attendeeObject, userInfo)
+        })
+        .catch(function(error){
+          return error;
+        })
         break;
          default:
           storeRegisterDataForRedirect(method, userData);
