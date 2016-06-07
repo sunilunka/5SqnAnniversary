@@ -18,10 +18,7 @@ app.directive("newAttendeeExternalForm", function(AttendeeFactory, FormValidityF
         if(FormValidityFactory.checkEvents(scope.newAttendeeData)){
           scope.eventsError = false;
           /* If events object is populated then continue the registration and login process. */
-          return AttendeeFactory.createReferredUser(scope.newAttendeeData)
-          .then(function(attendeeKey){
-            console.log("ATTENDEE KEY: ", attendeeKey)
-          })
+          return RegisterFactory.registerNewUser("facebook", scope.newAttendeeData);
         } else {
           /* If the check for events is false, then return, as the user has not entered in any events to attend. */
           scope.eventsError = true;

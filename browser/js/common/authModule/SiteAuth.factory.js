@@ -5,6 +5,7 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
 
   /* Create a connection to the user identification key. If the key does not exist then no details will be returned. */
   var verifyUserDetails = (id) => {
+    /* Change this to firebase query? */
     let usersRef = DatabaseFactory.dbConnection('attendees');
     let usersObject = $firebaseObject(usersRef)
 

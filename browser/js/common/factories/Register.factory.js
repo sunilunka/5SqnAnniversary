@@ -7,6 +7,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     return $q(function(resolve, reject){
       var serverAuthRef = DatabaseFactory.authConnection();
       var serverAuthData = serverAuthRef.$getAuth();
+      console.log("SERVER AUTH DATA: ", serverAuthRef);
       if(serverAuthData){
         resolve(serverAuthData);
       } else {
