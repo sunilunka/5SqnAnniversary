@@ -12,7 +12,6 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
     }
 
     var executeLogin = (method) => {
-      console.log("LOGGING IN: ", method)
       var loginData = {
         password: $scope.login.password,
         email: $scope.login.email
@@ -21,9 +20,6 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
       switch(method){
         case "email":
           return AttendeeFactory.loginAttendee(loginData.email, loginData.password)
-          .then(function(authData){
-            
-          })
         break;
         case "facebook":
           return UserAuthFactory.loginWithExternalProvider(method)
@@ -35,7 +31,13 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
           })
         break;
         case "google":
-          console.info("Sweet, we better get google login setup!");
+          return UserAuthFactory.loginWithExternalProvider(method)
+          .then(function(authData){
+
+          })
+          .catch(function(error){
+            $scope.error = error;
+          })
         break;
         default:
           return new Error("Sorry, a server error has occured, try again.")
@@ -55,12 +57,12 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
         styleName: "facebook-btn",
         imgLink: "/images/newAttendee/fb-logo.png",
         imgAlt: "Login with Facebook"
-      }
-    //   { method: "google",
-    //     styleName: "google-btn",
-    //     imgLink: "/images/newAttendee/gg-logo.png",
-    //     imgAlt: "Login with Google"
-    // }
+      },
+      { method: "google",
+        styleName: "google-btn",
+        imgLink: "/images/newAttendee/gg-logo.svg",
+        imgAlt: "Login with Google"
+    }
     ];
 
     $scope.loginMethodName = null;

@@ -74,15 +74,15 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     });
   }
 
-  var parseFbData = (authData, formData) => {
-    var splitName = function(nameString){
-       var nameArray = nameString.split(" ");
-       return {
-         first_name: nameArray[0],
-         last_name: nameArray[1]
-       }
-    }
+  var splitName = function(nameString){
+     var nameArray = nameString.split(" ");
+     return {
+       first_name: nameArray[0],
+       last_name: nameArray[1]
+     }
+  }
 
+  var parseFbData = (authData, formData) => {
     var nameObj = splitName(authData.displayName);
 
     return {
@@ -96,11 +96,18 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
   }
 
   /* Will be created once Firebase 3.x.x and AngularFire 2.x.x is released. */
-  // var parseGoogleData = (authData, formData) => {
-  //   var dataPath;
-  //   console.log("AUTHDATA: ", authData)
-  //   return null;
-  // }
+  var parseGoogleData = (authData, formData) => {
+    var nameObj = splitName(authData.displayName);
+
+    return {
+      uid: authData.uid,
+      firstName: nameObj.first_name,
+      lastName: nameObj.last_name,
+      email: formData.email,
+      association: formData.association,
+      events: modifyEventData(formData.events, nameObj.first_name, nameObj.last_name)
+    }
+  }
 
   var parseEmailData = (authData, formData) => {
     return {
@@ -161,10 +168,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         if(providerIdent === "facebook.com"){
           return parseFbData(authData, formData);
 
-        /* Unable to use Google as auth provider due to Firebase code base change to 3.x.x and changing to the new console. Will resolve once new firebase version of angularFire is released. */
+      } else if(providerIdent === "google.com"){
+          return parseGoogleData(authData, formData);
 
-        // } else if(authData.provider === "google"){
-        //   console.log("GOOGLE AUTH DATA: ", authData);
       } else if(providerIdent === "password"){
           /* To be completed, full function flow not complete, referred attendee state needs firstName and lastName fields for email */
           return parseEmailData(authData, formData);
@@ -207,11 +213,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
           return parseFbData(authData, registerFormData);
           break;
 
-        /* Unable to use google authentication due to Firebase code change, will attempt later and update total platform. */
-
-        // case "google":
-        //   return parseGoogleData(authData, registerFormData);
-        //   break;
+        case "google.com":
+          return parseGoogleData(authData, registerFormData);
+          break;
         default:
           return new Error("NO AUTHDATA FOUND!");
 
