@@ -20,9 +20,9 @@ app.config(function($stateProvider){
     controller: "NewAttendeeEmailCtrl",
     templateUrl: "js/new-attendee/new-attendee-email.html"
   })
-  .state("newAttendee.facebook", {
-    url: "/facebook",
-    controller: "NewAttendeeFbCtrl",
-    templateUrl: "js/new-attendee/new-attendee-fb.html"
+  .state("newAttendee.externalProvider", {
+    url: "/:provider",
+    controller: "NewAttendeeExternalCtrl",
+    templateUrl: "js/new-attendee/new-attendee-external.html"
   })
 })

@@ -9,7 +9,12 @@ app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, 
   $scope.registerMethod = (method) => {
     $scope.registerMethodChosen = method;
     if(method){
-      $state.go("newAttendee." + method);
+      switch(method){
+        case "email":
+          $state.go("newAttendee.email")
+        break;
+        default: $state.go("newAttendee.externalProvider", {provider: method})
+      }
     } else {
       $state.go("newAttendee");
     }

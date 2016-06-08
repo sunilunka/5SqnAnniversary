@@ -16,6 +16,14 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     })
   }
 
+  /* Parse the new providerData array for authentication objects */
+
+  var getProviderData = (authData) => {
+    /* Returns first element in the providerData array which is an object providing the provider Identification tag. */
+    return authData.providerData[0];
+
+  }
+
   /* Change event data to what is required in the schema. Because a user cannot allocate guests until they have registered, the default guestCount will always be one. */
   var modifyEventData = (userEventObj, firstName, lastName) => {
     console.log("USER EVENT OBJECT: ", userEventObj);
@@ -67,8 +75,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
   }
 
   var parseFbData = (authData, formData) => {
-    var dataPath = authData.providerData[0];
-
     var splitName = function(nameString){
        var nameArray = nameString.split(" ");
        return {
@@ -149,15 +155,17 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     registerReferredUser: (formData) => {
       return promisifyAuthData()
       .then(function(authData){
+        let providerInfo = getProviderData(authData);
+        let providerIdent = providerInfo.providerId;
         /* Once firebase authentication has been returned, merge with formData for saving into firebase attendee store */
-        if(authData.providerData[0].providerId === "facebook.com"){
+        if(providerIdent === "facebook.com"){
           return parseFbData(authData, formData);
 
         /* Unable to use Google as auth provider due to Firebase code base change to 3.x.x and changing to the new console. Will resolve once new firebase version of angularFire is released. */
 
         // } else if(authData.provider === "google"){
         //   console.log("GOOGLE AUTH DATA: ", authData);
-        } else if(authData.provider === "password"){
+      } else if(providerIdent === "password"){
           /* To be completed, full function flow not complete, referred attendee state needs firstName and lastName fields for email */
           return parseEmailData(authData, formData);
         } else {
@@ -165,8 +173,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         }
       })
     },
-
-    /* Function that parses and saves user to database. */
 
     /* Function to save user to events object. Key is user uid, value is true */
     addUserToEvents: (userData) => {
@@ -180,10 +186,10 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
         /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
         console.log("EVENT TO USE: ", eventId, userData);
         if(eventObj.hasOwnProperty(eventId) && eventObj[eventId]){
-            /* Push unresolved adding attendee to event promise to array*/
-            recordsToSave.push(EventFactory.addAttendeeToEvent(eventId, userData));
-            /* Push unresolved adding attendee name to event guest list to array */
-            recordsToSave.push(EventGuestFactory.addAttendeeToEventList(eventId, userData))
+          /* Push unresolved adding attendee to event promise to array*/
+          recordsToSave.push(EventFactory.addAttendeeToEvent(eventId, userData));
+          /* Push unresolved adding attendee name to event guest list to array */
+          recordsToSave.push(EventGuestFactory.addAttendeeToEventList(eventId, userData))
         }
       }
       /* Return the result of all resolved promises in array saved event records on resolution or rejection. Using this method means if one promise fails, then all promises will be rejected.  */
@@ -196,8 +202,8 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
     newUserRegisterFromExternalProvider: (authData, registerFormData) => {
 
-      switch(authData.provider){
-        case "facebook":
+      switch(getProviderData(authData).providerId){
+        case "facebook.com":
           return parseFbData(authData, registerFormData);
           break;
 

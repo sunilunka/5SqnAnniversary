@@ -7,23 +7,22 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
   var verifyUserDetails = (id) => {
     /* Change this to firebase query? */
     let usersRef = DatabaseFactory.dbConnection('attendees');
-    let usersObject = $firebaseObject(usersRef)
+    let usersObject = $firebaseObject(usersRef);
 
     return usersObject.$loaded()
       .then(function(data){
-        let userData = data[id];
+        var userData = data[id];
+        console.log("USER DATA: ", data[id]);
         return userData;
-      })
-      .catch(function(error){
-        return error;
       })
   }
 
   return {
     /* Function to execute callbacks based on if the user has registered or not. Registered data is stored in the Firebase datastore, no data means the user is not registered */
-    isRegisteredUser: (authData) => {
+    isUserRegistered: (authData) => {
       return verifyUserDetails(authData.uid)
       .then(function(userData){
+        console.log("USER DATA ", userData)
         if(userData) {
           /* Append user id to the returned userData, so it can be used when any reference is made to the SessionService.user */
           userData.id = authData.uid;
@@ -57,7 +56,10 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
       debugger;
       var newRegisterData = JSON.parse(window.sessionStorage.getItem("registerData"));
       /* If the key the data stored under matches the provider, then return the parsed data. */
-      if(newRegisterData.hasOwnProperty(authData.provider)){
+      var authProvider = authdata.providerData[0].providerId;
+      var storedAuthProvider = Object.keys(newRegisterData)[0];
+      var providerRegEx = new RegExp(storedAuthProvider);
+      if(providerRegEx.textauthProvider){
         console.log("REGISTERING WITH STORED DATA OBJECT: ", newRegisterData[authData.provider])
         return newRegisterData[authData.provider];
       } else {
@@ -81,9 +83,11 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
 
     userNotRegistered: (authData) => {
       /* If user is trying to login with social media account, but have not registered, send them to referredNewAttendee state */
-      if(authData.provider !== "email"){
-        $state.go("referredNewAttendee", { provider: authData.provider });
+      if(authData.providerData[0].providerId !== "password"){
+        $state.go("referredNewAttendee", { provider: authData.providerData[0].providerId });
         return;
+      } else {
+        $state.go("newAttendee.email");
       }
     }
 

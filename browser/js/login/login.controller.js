@@ -21,14 +21,9 @@ app.controller('LoginCtrl', function ($scope, $state, AttendeeFactory, SessionSe
       switch(method){
         case "email":
           return AttendeeFactory.loginAttendee(loginData.email, loginData.password)
-            .then(function(authData){
-              console.log("USER DATA: ", authData)
-              SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid })
-            })
-            .catch(function(error){
-                console.log("ERROR: ", error.message);
-                $scope.error = processError(error.message);
-            })
+          .then(function(authData){
+            
+          })
         break;
         case "facebook":
           return UserAuthFactory.loginWithExternalProvider(method)

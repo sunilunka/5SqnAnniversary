@@ -1,10 +1,11 @@
-app.directive("newAttendeeExternalForm", function(AttendeeFactory, FormValidityFactory){
+app.directive("newAttendeeExternalForm", function(RegisterFactory, FormValidityFactory){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/new-attendee-external-form/new-attendee-external-form.html",
     scope: {
       events: "=",
-      categories: "="
+      categories: "=",
+      method: "="
     },
     link: function(scope, element, attrs){
 ;
@@ -18,7 +19,7 @@ app.directive("newAttendeeExternalForm", function(AttendeeFactory, FormValidityF
         if(FormValidityFactory.checkEvents(scope.newAttendeeData)){
           scope.eventsError = false;
           /* If events object is populated then continue the registration and login process. */
-          return RegisterFactory.registerNewUser("facebook", scope.newAttendeeData);
+          return RegisterFactory.registerNewUser(scope.method, scope.newAttendeeData);
         } else {
           /* If the check for events is false, then return, as the user has not entered in any events to attend. */
           scope.eventsError = true;

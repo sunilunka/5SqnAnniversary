@@ -6,25 +6,6 @@
   /* Instantiate a new module for user creation and auth handling */
   var app = angular.module('firebaseAuthHandler', ['firebase']);
 
-
-  /* Factory that returns the most commonly used functions for interacting with the Firebase database. */
-  app.factory('DatabaseFactory', function($firebaseAuth){
-    var fireInstance = firebase.database().ref();
-    return {
-      dbConnection: (routing) => {
-        if(routing){
-          return firebase.database().ref(routing)
-        } else {
-          return fireInstance;
-        }
-      },
-
-      authConnection: () => {
-        return $firebaseAuth();
-      }
-    }
-  })
-
   /* Factory for all user orientated methods. */
   app.factory('UserAuthFactory', function(DatabaseFactory){
     var authRef = DatabaseFactory.authConnection();
@@ -101,7 +82,7 @@
 
           }  else {
             /* Find if user has registered data on the site or not and redirect as appropriate */
-            SiteAuthFactory.isRegisteredUser(authData)
+            SiteAuthFactory.isUserRegistered(authData)
             .then(function(data){
               /* Promise resolve if user data is returned from firebase instance. Will have key currentUser */
               if(data.currentUser){

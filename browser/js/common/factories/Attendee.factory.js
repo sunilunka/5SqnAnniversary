@@ -105,7 +105,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
     },
 
     getOne: function(){
-      /* User the SessionService.getCurrentUser to get information*/
+      /* Look at session service user to get current user */
       var currentUser = SessionService.user;
       console.log("CURRENT USER: ", currentUser);
       if(currentUser){
