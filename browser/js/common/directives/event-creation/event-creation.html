@@ -1,16 +1,16 @@
 <form  name="eventEditForm" ng-submit="updateEvent()">
-  <div class="flex-container-row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <label>Name</label>
     <input class="sqnInput sqnInputActive" type="text" ng-model="modifiedEntry.name"></input>
   </div>
-  <div class="flex-container-row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <label>Date</label>
     <div class="date-selector">
       <button class="sqn-btn" ng-class="{'sqn-btn-positive': activeDate === date }"ng-repeat="date in validDates" ng-click="modifyDate(date)" >{{ date }}</button>
     </div>
   </div>
-  <div class="flex-container-row">
-    <label>Start Time</label>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <label>Event Starts</label>
     <div class="edit-time-container">
       <input class="sqnInputNumber" type="number" ng-model="modifiedEntry.startTime.hours" placeholder="00" min="00" max="23" name="startTimeHours"></input>
       <span>:</span>
@@ -18,9 +18,11 @@
       <span>24HR Time</span>
     </div>
   </div>
-  <div class="flex-container-row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <label>Location</label>
     <input class="sqnInputActive" type="text" ng-model="modifiedEntry.location"></input>
   </div>
-  <input class="sqn-btn-positive" type="submit" value="Update Event"></input>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <input class="sqn-btn-positive" type="submit" value="Update Event"></input>
+  </div>
 </form>

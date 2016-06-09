@@ -8,7 +8,7 @@
       </div>
   </header>
   <div class="event-details-container">
-    <p> {{ evt.date }}| Start Time:  {{ evt.startTime.hours }}{{ evt.startTime.minutes }}</p>
+    <p> <strong>{{ evt.date }}</strong> | Start Time:  {{ evt.startTime.hours }}{{ evt.startTime.minutes }}</p>
     <p>{{ evt.location }}</p>
     <p>Event Details...</p>
   </div>
@@ -16,6 +16,6 @@
     <event-guest-limit ng-show="guestLimits.displayMenu" evt=evt cats="categories"></event-guest-limit>
   </div>
   <footer ng-show="editMode">
-    <event-creation evt="evt"></event-creation>
+    <event-creation evt="evt" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></event-creation>
   </footer>
 </article>

@@ -40,10 +40,6 @@ app.directive("eventModification", function(EventFactory, $rootScope){
         /* scope.editMode will be toggled to false if the use has cancelled the edit. So revert the scope.announcement object to the original version. */
         return;
       }
-
-      $rootScope.$watch(function(){
-        
-      })
     }
   }
 })

@@ -1,4 +1,4 @@
-app.directive("eventCreation", function(EventFactory){
+app.directive("eventCreation", function($rootScope, EventFactory){
  return {
    restrict: "E",
    templateUrl: "js/common/directives/event-creation/event-creation.html",
@@ -36,8 +36,9 @@ app.directive("eventCreation", function(EventFactory){
        .then(function(ref){
          console.log("SAVE COMPLETE: ", scope.$parent);
          angular.copy(scope.evt, scope.modifiedEntry);
-         scope.$parent.editMode = false;
          console.log("SCOPE PARENT EDIT MODE: ", scope.$parent)
+         scope.$parent.toggleEditMode();
+         $rootScope.$digest();
        })
      }
 

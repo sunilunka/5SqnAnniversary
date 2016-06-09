@@ -25,19 +25,14 @@ event-modification {
 
     footer {
       border-top: 3px solid $theme-grey;
-      .flex-container-row {
-        align-items: baseline;
+      display: inline-block;
+      height: auto;
+
+      event-creation {
         .date-selector {
           button {
             margin: 0.25em;
           }
-        }
-        .sqnInputActive {
-          flex-basis: 5em;
-          /*flex-grow: 1;*/
-        }
-        .sqnInputNumber {
-          width: 2.7em;
         }
       }
 
