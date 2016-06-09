@@ -31,12 +31,9 @@ app.directive("eventCreation", function($rootScope, EventFactory){
 
 
      scope.updateEvent = function(){
-      console.log("MODIFIED ENTRY: ", scope.modifiedEntry)
        EventFactory.saveEvent(scope.modifiedEntry)
        .then(function(ref){
-         console.log("SAVE COMPLETE: ", scope.$parent);
          angular.copy(scope.evt, scope.modifiedEntry);
-         console.log("SCOPE PARENT EDIT MODE: ", scope.$parent)
          scope.$parent.toggleEditMode();
          $rootScope.$digest();
        })

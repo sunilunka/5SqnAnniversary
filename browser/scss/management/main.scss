@@ -4,6 +4,14 @@
 
 .management-sub-menu {
   margin: 10px auto;
+
+  .new-event-creation {
+    event-creation {
+      display: inline-block;
+      margin: 2em;
+      border: 3px solid $theme-grey;
+    }
+  }
 }
 
 modify-guest-category {
