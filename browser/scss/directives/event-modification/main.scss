@@ -24,10 +24,16 @@ event-modification {
     }
 
     footer {
+      border-top: 3px solid $theme-grey;
       .flex-container-row {
         align-items: baseline;
+        .date-selector {
+          button {
+            margin: 0.25em;
+          }
+        }
         .sqnInputActive {
-          width: 200px;
+          flex-basis: 5em;
           /*flex-grow: 1;*/
         }
         .sqnInputNumber {
