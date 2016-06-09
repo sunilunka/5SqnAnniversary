@@ -7,7 +7,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     return $q(function(resolve, reject){
       var serverAuthRef = DatabaseFactory.authConnection();
       var serverAuthData = serverAuthRef.$getAuth();
-      console.log("SERVER AUTH DATA: ", serverAuthRef);
+      console.log("SERVER AUTH DATA: ", serverAuthData);
       if(serverAuthData){
         resolve(serverAuthData);
       } else {
@@ -159,23 +159,29 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       }
     },
     /* If a user has tried to login, but has not registered, get their auth data with promisifyAuthData method (as their login details are stored in the firebase auth store.) */
-    registerReferredUser: (formData) => {
+    registerReferredUser: (referredProvider, referredUid, formData) => {
       return promisifyAuthData()
       .then(function(authData){
         let providerInfo = getProviderData(authData);
         let providerIdent = providerInfo.providerId;
+
+        if((authData.uid === referredUid) && (providerIdent === referredProvider)){
+
         /* Once firebase authentication has been returned, merge with formData for saving into firebase attendee store */
-        if(providerIdent === "facebook.com"){
-          return parseFbData(authData, formData);
+          if(providerIdent === "facebook.com"){
+            return parseFbData(authData, formData);
 
-      } else if(providerIdent === "google.com"){
-          return parseGoogleData(authData, formData);
+          } else if(providerIdent === "google.com"){
+              return parseGoogleData(authData, formData);
 
-      } else if(providerIdent === "password"){
-          /* To be completed, full function flow not complete, referred attendee state needs firstName and lastName fields for email */
-          return parseEmailData(authData, formData);
+          } else if(providerIdent === "password"){
+              /* To be completed, full function flow not complete, referred attendee state needs firstName and lastName fields for email */
+            return parseEmailData(authData, formData);
+          } else {
+            return new Error("No provider data found!");
+          }
         } else {
-          return new Error("No provider data found!")
+          return new Error("No matching authentication credentials found!");
         }
       })
     },

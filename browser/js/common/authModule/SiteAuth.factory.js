@@ -84,7 +84,10 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
     userNotRegistered: (authData) => {
       /* If user is trying to login with social media account, but have not registered, send them to referredNewAttendee state */
       if(authData.providerData[0].providerId !== "password"){
-        $state.go("referredNewAttendee", { provider: authData.providerData[0].providerId });
+        $state.go("referredNewAttendee", {
+          provider: authData.providerData[0].providerId,
+          referredUid: authData.uid
+        });
         return;
       } else {
         $state.go("newAttendee.email");

@@ -1,6 +1,6 @@
 app.config(function($stateProvider){
   $stateProvider.state('referredNewAttendee', {
-    url: '/attendees/referred-register/:provider',
+    url: '/attendees/referred-register/:provider/:referredUid',
     controller: 'referredNewAttendeeCtrl',
     templateUrl: 'js/referredNewAttendee/referredNewAttendee.html',
     resolve: {

@@ -58,9 +58,9 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
         })
       })
     },
-    /* If a user tries to login and has no matching attendee key, redirect to register referred user state. */
-    createReferredUser: (formData) => {
-      return RegisterFactory.registerReferredUser(formData)
+    /* If a user tries to login and has no matching attendee key, execute the following function to register from the new-attendee-external form on the referredNewAttendee state. */
+    createReferredUser: (referredProvider, referredUid, formData) => {
+      return RegisterFactory.registerReferredUser(referredProvider, referredUid, formData)
       .then(function(userDataToSave){
         console.log("USERDATA TO SAVE: ", userDataToSave)
         if(!userDataToSave.events) userDataToSave.events = false;
@@ -79,7 +79,8 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
             /* Once promise is successfully resolved, add user to Guest Category. */
             return GuestCategoryFactory.addOrRemoveGuestToCategory("add", userDataToSave.association, userId)
             .then(function(ref){
-              return ref;
+              /* Return the userDataToSave as this is the data the will be used to create the first session on redirect. */
+              return userDataToSave;
             })
           })
         })
