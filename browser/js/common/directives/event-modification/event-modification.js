@@ -34,10 +34,9 @@ app.directive("eventModification", function(EventFactory, $rootScope){
       /* Method to remove event from Firebase DB */
       scope.removeEvent = EventFactory.removeEvent;
 
+      /* Toggles edit mode value, which dictates UI configuration for the event-modification directive. */
       scope.toggleEditMode = () => {
         scope.editMode = !scope.editMode;
-        // scope.editOption = (scope.editOption === "Edit" ? "Cancel Edit" : "Edit")
-        /* scope.editMode will be toggled to false if the use has cancelled the edit. So revert the scope.announcement object to the original version. */
         return;
       }
     }

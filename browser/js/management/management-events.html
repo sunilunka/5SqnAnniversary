@@ -1,6 +1,6 @@
 <section id="management-events" class="management-sub-menu">
   <div class="flex-container-row">
-    <button class="sqn-btn" ng-click="toggleEventCreation()">{{ eventCreationLabel }}</button>
+    <button class="sqn-btn" ng-click="toggleEventCreation()" ng-class="{'sqn-btn-disabled': eventCreationActive}" ng-disabled="eventCreationActive">Create Event</button>
     <button class="sqn-btn">Event Guest List</button>
   </div>
   <div class="new-event-creation" ng-show="eventCreationActive">

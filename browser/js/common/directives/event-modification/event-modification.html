@@ -3,7 +3,7 @@
     <h4>{{ evt.name }}</h4>
       <div class="event-option-container">
         <button class="sqn-btn-danger" ng-click="removeEvent(evt)">Delete</button>
-        <button class="sqn-btn" ng-click="toggleEditMode()" ng-disabled="editMode">Edit</button>
+        <button class="sqn-btn" ng-click="toggleEditMode()" ng-disabled="editMode" ng-class="{'sqn-btn-disabled': editMode }">Edit</button>
         <button class="sqn-btn" ng-click="toggleGuestLimits()">{{ guestLimits.buttonText }} Guest Limits</button>
       </div>
   </header>

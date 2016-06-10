@@ -7,6 +7,48 @@ app.directive("eventCreation", function($rootScope, EventFactory){
    },
    link: function(scope, element, attrs){
 
+     scope.updateMethods = {
+       updateEvent: function(){
+         EventFactory.saveEvent(scope.modifiedEntry)
+         .then(function(ref){
+           angular.copy(scope.evt, scope.modifiedEntry);
+           scope.$parent.toggleEditMode();
+           $rootScope.$digest();
+           return;
+         })
+       },
+
+       cancelEdit: function() {
+         event.preventDefault();
+         angular.copy(scope.evt, scope.modifiedEntry);
+         scope.activeDate = scope.modifiedEntry.date;
+         scope.$parent.toggleEditMode();
+       }
+
+     };
+
+     scope.newEventMethods = {
+       saveEvent: function(){
+         return EventFactory.addEvent(scope.modifiedEntry)
+         .then(function(ref){
+           scope.modifiedEntry = {};
+           scope.activeDate = null;
+           scope.$parent.toggleEventCreation();
+         })
+       },
+
+       cancelEdit: function(){
+         event.preventDefault();
+         scope.modifiedEntry = {};
+         scope.activeDate = null;
+         scope.$parent.toggleEventCreation();
+       }
+
+     }
+
+     scope.updateLabel;
+     scope.updateEvent;
+     scope.cancelEdit;
      scope.modifiedEntry = {};
      scope.activeDate;
 
@@ -18,35 +60,23 @@ app.directive("eventCreation", function($rootScope, EventFactory){
        scope.activeDate = value;
      }
 
+     /* On loading directive, if scope.evt does not exist, then the user must be creating a new event. Load the method objects accordingly */
      if(!scope.evt) {
-       /* No event to render, so return */
+       /* */
+       scope.updateLabel = "Save Event";
+       scope.cancelEdit = scope.newEventMethods.cancelEdit;
+       scope.updateEvent = scope.newEventMethods.saveEvent;
        return;
      } else {
+       scope.updateLabel = "Update Event"
+       scope.updateEvent = scope.updateMethods.updateEvent;
+       scope.cancelEdit = scope.updateMethods.cancelEdit;
        angular.copy(scope.evt, scope.modifiedEntry);
        scope.activeDate = scope.modifiedEntry.date;
-
-       console.log("EVENT FOUND!")
-       console.log(scope.modifiedEntry)
      }
 
 
-     scope.updateEvent = function(){
-       EventFactory.saveEvent(scope.modifiedEntry)
-       .then(function(ref){
-         angular.copy(scope.evt, scope.modifiedEntry);
-         scope.$parent.toggleEditMode();
-         $rootScope.$digest();
-       })
-     }
 
-     scope.cancelEdit = () => {
-       event.preventDefault();
-       angular.copy(scope.evt, scope.modifiedEntry);
-       scope.activeDate = scope.modifiedEntry.date;
-       console.log("SCOPE MODIFIED: ", scope.modifiedEntry);
-       scope.$parent.toggleEditMode();
-
-     }
 
 
 

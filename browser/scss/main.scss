@@ -255,6 +255,10 @@ alert {
   @include base-button($theme-grey, $theme-tacgrey);
 }
 
+.sqn-btn-inverse {
+  @include base-button($theme-tacgrey, $theme-grey);
+}
+
 .sqn-btn-active {
   border-color: $theme-blue;
   color: $theme-blue;
@@ -292,6 +296,9 @@ alert {
   margin: 10px;
 }
 
+.sqn-btn-disabled {
+  opacity: 0.5;
+}
 
 
 @mixin login-btn-config-settings($bg-color){
