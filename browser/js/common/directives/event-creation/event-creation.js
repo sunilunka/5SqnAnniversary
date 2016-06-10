@@ -39,6 +39,15 @@ app.directive("eventCreation", function($rootScope, EventFactory){
        })
      }
 
+     scope.cancelEdit = () => {
+       event.preventDefault();
+       angular.copy(scope.evt, scope.modifiedEntry);
+       scope.activeDate = scope.modifiedEntry.date;
+       console.log("SCOPE MODIFIED: ", scope.modifiedEntry);
+       scope.$parent.toggleEditMode();
+
+     }
+
 
 
 

@@ -36,7 +36,7 @@ app.directive("eventModification", function(EventFactory, $rootScope){
 
       scope.toggleEditMode = () => {
         scope.editMode = !scope.editMode;
-        scope.editOption = (scope.editOption === "Edit" ? "Cancel Edit" : "Edit")
+        // scope.editOption = (scope.editOption === "Edit" ? "Cancel Edit" : "Edit")
         /* scope.editMode will be toggled to false if the use has cancelled the edit. So revert the scope.announcement object to the original version. */
         return;
       }
