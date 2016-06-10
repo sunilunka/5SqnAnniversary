@@ -1,4 +1,4 @@
-app.directive("eventModification", function(EventFactory, $rootScope){
+app.directive("eventModification", function(EventFactory, ParsingFactory, $rootScope){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/event-modification/event-modification.html",
@@ -9,7 +9,6 @@ app.directive("eventModification", function(EventFactory, $rootScope){
 
     link: function(scope, element, attrs){
 
-      console.log("EVENT: ", scope.evt);
       scope.modifiedEntry = {};
       /* Boolean to show or hide edit mode form for specific announcement */
       scope.editMode = false;
@@ -39,6 +38,19 @@ app.directive("eventModification", function(EventFactory, $rootScope){
         scope.editMode = !scope.editMode;
         return;
       }
+
+      /* Watch for changes on model data that are propogated from Firebase, in particular the blurb, as this is not "deeply" analysed in the firebase array, as it is a long string. The watch function looks for changes on the blurb field, and triggers the display function so that ng-repeat can be conducted on the new blurb.*/
+
+      scope.$watch(function(){
+          return scope.evt.blurb
+        },
+
+        function(newValue, oldValue){
+          if(scope.evt.hasOwnProperty("blurb")){
+            console.log("PARSED ARRAY: ", ParsingFactory.parseForDisplay(scope.evt.blurb))
+            scope.displayBlurb = ParsingFactory.parseForDisplay(scope.evt.blurb);
+          }
+      })
     }
   }
 })

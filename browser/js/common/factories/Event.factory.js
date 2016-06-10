@@ -143,6 +143,16 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
         }
         return evt;
       })
+    },
+
+    /* If data modification on a specific event occurs, then run specified callbacks. Used primary to initiate display modification functions. */
+    modifyViewOnDataChange: function(eventKey, callback){
+      var eventDataRef = DatabaseFactory.dbConnection("events/" + eventKey);
+      eventDataRef.on("child_changed", function(childSnapshot, prevChildKey){
+        console.log("CHILD SNAPSHOT: ", childSnapshot.val());
+        console.log("CHILD KEY: ", childSnapshot.key);
+        callback;
+      })
     }
 
   }

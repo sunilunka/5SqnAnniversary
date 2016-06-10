@@ -10,7 +10,7 @@
   <div class="event-details-container">
     <p> <strong>{{ evt.date }}</strong> | Start Time:  {{ evt.startTime.hours }}{{ evt.startTime.minutes }}</p>
     <p>{{ evt.location }}</p>
-    <p>Event Details...</p>
+    <p ng-repeat="para in displayBlurb">{{ para }}</p>
   </div>
   <div>
     <event-guest-limit ng-show="guestLimits.displayMenu" evt=evt cats="categories"></event-guest-limit>

@@ -22,6 +22,9 @@
     <label>Location</label>
     <input class="sqnInputActive" type="text" ng-model="modifiedEntry.location"></input>
   </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 event-blurb">
+    <textarea ng-model="modifiedEntry.blurb" placeholder="Add some details about the event here."></textarea>
+  </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 event-options">
     <input class="sqn-btn-positive" type="submit" value="{{ updateLabel }}"></input>
     <button class="sqn-btn-inverse" ng-click="cancelEdit()">Cancel Edit</button>
