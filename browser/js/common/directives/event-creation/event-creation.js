@@ -1,4 +1,4 @@
-app.directive("eventCreation", function($rootScope, EventFactory){
+app.directive("eventCreation", function($rootScope, EventFactory, ParsingFactory){
  return {
    restrict: "E",
    templateUrl: "js/common/directives/event-creation/event-creation.html",
@@ -6,6 +6,12 @@ app.directive("eventCreation", function($rootScope, EventFactory){
      evt: "="
    },
    link: function(scope, element, attrs){
+
+     var convertNumbersForModification = (numberObject) => {
+       for(var num in numberObject){
+         numberObject[num] = ParsingFactory.parseNumberForModification(numberObject[num]);
+       }
+     }
 
      scope.updateMethods = {
        updateEvent: function(){
@@ -68,10 +74,11 @@ app.directive("eventCreation", function($rootScope, EventFactory){
        scope.updateEvent = scope.newEventMethods.saveEvent;
        return;
      } else {
-       scope.updateLabel = "Update Event"
+       scope.updateLabel = "Update Event";
        scope.updateEvent = scope.updateMethods.updateEvent;
        scope.cancelEdit = scope.updateMethods.cancelEdit;
        angular.copy(scope.evt, scope.modifiedEntry);
+      //  scope.modifiedEntry.startTime = convertNumbersForModification(scope.modifiedEntry.startTime);
        scope.activeDate = scope.modifiedEntry.date;
      }
 

@@ -47,8 +47,7 @@ app.directive("eventModification", function(EventFactory, ParsingFactory, $rootS
 
         function(newValue, oldValue){
           if(scope.evt.hasOwnProperty("blurb")){
-            console.log("PARSED ARRAY: ", ParsingFactory.parseForDisplay(scope.evt.blurb))
-            scope.displayBlurb = ParsingFactory.parseForDisplay(scope.evt.blurb);
+            scope.displayBlurb = ParsingFactory.parseStringForDisplay(scope.evt.blurb);
           }
       })
     }

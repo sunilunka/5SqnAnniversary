@@ -1,7 +1,7 @@
 <section class="flex-container-row"  ng-class="{'status-attending': attending, 'status-not-attending': !attending }">
   <header>
     <h4>{{ evt.name }}</h4>
-    <h5>23 Sep 2016 | 7.00pm</h5>
+    <h5>{{ evt.date }} | {{ evt.startTime.hours}}{{ evt.startTime.minutes}}</h5>
   </header>
   <div class="attend-event-options" ng-show="!attending">
     <button class="sqn-btn-positive" ng-disabled="!available" ng-click="attendEvent(evt.$id)"> Register for Event</button>
