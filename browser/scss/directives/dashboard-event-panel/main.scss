@@ -4,7 +4,58 @@ dashboard-event-panel {
   padding: 1em;
   flex-grow: 1;
   width: 15em;
+
+  table {
+    padding: 1.5em;
+    width: 100%;
+    thead {
+      font-size: 0.75em;
+      th {
+        text-align: center;
+      }
+    }
+    tbody {
+      tr:nth-child(odd).event-limit-reached{
+        background-color: $theme-red;
+      }
+
+      tr:nth-child(even).event-limit-reached {
+        color: $theme-red;
+        td:first-child {
+          border-right: 1px solid $theme-red;
+        }
+      }
+
+      tr:nth-child(odd) {
+        background-color: $theme-grey;
+        color: $theme-tacgrey;
+
+        td:first-child {
+          border-right: 1px solid $theme-tacgrey;
+        }
+      }
+
+      tr:nth-child(even){
+        color: $theme-grey;
+        td:first-child {
+          border-right: 1px solid $theme-grey;
+        }
+      }
+
+      td {
+        padding: 0.25em;
+      }
+    }
+  }
+
 }
+
+.event-category-name {
+  font-size: 0.9em;
+  text-align: center;
+  width: 75%;
+}
+
 
 .event-dashboard-panel {
 
@@ -14,10 +65,12 @@ dashboard-event-panel {
   display: inline-block;
   font-size: 1em;
   color: $theme-grey;
+  vertical-align: middle;
 }
 
 .event-name {
   font-weight: 900;
+  color: $theme-transparent-black;
 }
 
 .event-date {

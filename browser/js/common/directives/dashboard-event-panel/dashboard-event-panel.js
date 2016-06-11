@@ -3,7 +3,8 @@ app.directive("dashboardEventPanel", function(ParsingFactory){
     restrict: "E",
     templateUrl: "js/common/directives/dashboard-event-panel/dashboard-event-panel.html",
     scope: {
-      evt: "="
+      evt: "=",
+      categories: "="
     },
     link: function(scope, element, attrs){
 
@@ -15,21 +16,15 @@ app.directive("dashboardEventPanel", function(ParsingFactory){
         return total;
       }
 
-
-
       scope.totalAttendees = ParsingFactory.formatNumberForDisplay(getTotalGuests(scope.evt.guests));
 
-      scope.displayStartTime = ParsingFactory.formatNumberObj(scope.evt.startTime);
-
-      scope.displayEndTime = ParsingFactory.formatNumberObj(scope.evt.endTime);
-
       scope.$watch(function(){
-        return scope.evt.guests;
+        return scope.evt.guests
       }, function(newValue, oldValue){
-        if(newValue !== oldValue){
-          scope.totalAttendees = ParsingFactory.formatNumberForDisplay(getTotalGuests(scope.evt.guests))
-        }
+        scope.totalAttendees = ParsingFactory.formatNumberForDisplay(getTotalGuests(newValue));
       })
+
+
     }
   }
 })

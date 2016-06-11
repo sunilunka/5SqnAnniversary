@@ -1,7 +1,7 @@
 <section id="management-panel" class="container">
   <h2>Management Dashboard</h2>
   <div class="flex-container-row">
-    <dashboard-event-panel ng-repeat="evt in allEvents" evt="evt"></dashboard-event-panel>
+    <dashboard-event-panel ng-repeat="evt in allEvents" evt="evt" categories="allCategories"></dashboard-event-panel>
   </div>
   <div class="flex-container-row">
     <button class="sqn-btn sqn-btn-flex" ui-sref-active="sqn-btn-active" ng-repeat="managementView in areasToManage" ui-sref="{{ managementView.state }}">{{ managementView.title }}</button>

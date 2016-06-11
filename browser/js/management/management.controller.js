@@ -8,10 +8,6 @@ app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEv
 
   $scope.allCategories = allCategories;
 
-  $scope.catObject = categoryObject;
-
-  console.log("ALL CATEGORIES: ", categoryObject)
-
   $scope.areasToManage = [
     {
       title: "Manage Events",
