@@ -9,7 +9,8 @@
   </header>
   <div class="event-details-container">
     <p> <strong>{{ evt.date }}</strong> | Timings: {{ displayStartTime.hours }}{{ displayStartTime.minutes }} - {{ displayEndTime.hours }}{{ displayEndTime.minutes}}</p>
-    <p>{{ evt.location }}</p>
+    <p><strong>Venue:</strong> {{ evt.location }}</p>
+    <p><strong>Details:</strong></p>
     <p ng-repeat="para in displayBlurb">{{ para }}</p>
   </div>
   <div>

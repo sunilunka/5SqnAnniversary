@@ -74,16 +74,6 @@ app.directive("eventCreation", function($rootScope, EventFactory, ParsingFactory
        angular.copy(scope.evt, scope.modifiedEntry);
        scope.activeDate = scope.modifiedEntry.date;
      }
-
-
-
-
-
-
-
-
-
-
    }
  }
 })

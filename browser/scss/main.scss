@@ -169,6 +169,10 @@ alert {
   }
 }
 
+.sqn-input-wide {
+  width: 90%;
+}
+
 .sqnInputActive-inverse {
   @extend .sqnInput;
   border-top-width: 3px;
