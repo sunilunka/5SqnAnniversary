@@ -17,16 +17,10 @@ app.directive("eventModification", function(EventFactory, ParsingFactory, $rootS
 
       scope.guestLimits = {
         displayMenu: false,
-        buttonText: "Add"
       }
 
       scope.toggleGuestLimits = () => {
         scope.guestLimits.displayMenu = !scope.guestLimits.displayMenu;
-        if(scope.guestLimits.displayMenu){
-          scope.guestLimits.buttonText = "Cancel";
-        } else {
-          scope.guestLimits.buttonText = "Add";
-        }
       }
 
 
@@ -39,6 +33,7 @@ app.directive("eventModification", function(EventFactory, ParsingFactory, $rootS
         return;
       }
 
+      /* If changes to model data occur, then parse the string for display */
       scope.$watch(function(){
           return scope.evt.blurb
         },

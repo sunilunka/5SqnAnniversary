@@ -19,9 +19,15 @@
   @include responsive-number-input-settings(0rem 2rem 0rem 2rem, 0rem 3rem 0rem 2rem);
 }
 
+.event-limit-options {
+  background-color: $theme-grey;
+  padding: 0.25em;
+}
+
 event-guest-limit {
   display: block;
   padding: 0.25rem;
+  border-top: 3px solid $theme-grey;
 
   .event-guest-limit-holder {
     padding: 0.25rem;

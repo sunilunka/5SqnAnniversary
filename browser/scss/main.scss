@@ -207,6 +207,12 @@ alert {
   text-align: center;
 }
 
+.sqnInputNumber-wide {
+  @extend .sqnInputActive;
+  width: 3.5em;
+  text-align: center;
+}
+
 
 .sqn-not-available-label {
   @extend .sqnInputError;
