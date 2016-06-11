@@ -12,16 +12,16 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <label>Event Starts</label>
     <div class="edit-time-container">
-      <input class="sqnInputNumber" type="text" number-parsing ng-model="modifiedEntry.startTime.hours" minlength="1" maxlength="2" name="startTimeHours"></input>
+      <input class="sqnInputNumber" type="number" ng-model="modifiedEntry.startTime.hours" min="00" max="23" name="startTimeHours" placeholder="00"></input>
       <span>:</span>
-      <input class="sqnInputNumber" type="text" number-parsing ng-model="modifiedEntry.startTime.minutes" placeholder="00" name="startTimeMinutes"></input>
+      <input class="sqnInputNumber" type="number" ng-model="modifiedEntry.startTime.minutes" placeholder="00" name="startTimeMinutes" min="00" max="59"></input>
       <span>24hr</span>
     </div>
     <label>Event Ends</label>
     <div class="edit-time-container">
-      <input class="sqnInputNumber" type="text" ng-model="modifiedEntry.endTime.hours" minlength="1" maxlength="2" name="startTimeHours"></input>
+      <input class="sqnInputNumber" type="number" ng-model="modifiedEntry.endTime.hours" min="00" max="23" name="startTimeHours" placeholder="00"></input>
       <span>:</span>
-      <input class="sqnInputNumber" type="text" ng-model="modifiedEntry.endTime.minutes" placeholder="00" name="startTimeMinutes"></input>
+      <input class="sqnInputNumber" type="number" ng-model="modifiedEntry.endTime.minutes" placeholder="00" name="startTimeMinutes" min="00" max="59"></input>
       <span>24hr</span>
     </div>
   </div>

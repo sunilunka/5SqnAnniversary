@@ -15,6 +15,10 @@ app.directive("eventModification", function(EventFactory, ParsingFactory, $rootS
 
       scope.editOption = "Edit";
 
+      scope.displayStartTime = ParsingFactory.formatNumberObj(scope.evt.startTime);
+
+      scope.displayEndTime = ParsingFactory.formatNumberObj(scope.evt.endTime);
+
       scope.guestLimits = {
         displayMenu: false,
         buttonText: "Add"
@@ -48,6 +52,24 @@ app.directive("eventModification", function(EventFactory, ParsingFactory, $rootS
         function(newValue, oldValue){
           if(scope.evt.hasOwnProperty("blurb")){
             scope.displayBlurb = ParsingFactory.parseStringForDisplay(scope.evt.blurb);
+          }
+      })
+
+      scope.$watch(function(){
+        return scope.evt.startTime
+      },
+        function(newValue, oldValue){
+          if(newValue !== oldValue){
+            scope.displayStartTime = ParsingFactory.formatNumberObj(newValue);
+          }
+      })
+
+      scope.$watch(function(){
+        return scope.evt.endTime
+      },
+        function(newValue, oldValue){
+          if(newValue !== oldValue){
+            scope.displayEndTime = ParsingFactory.formatNumberObj(newValue);
           }
       })
     }

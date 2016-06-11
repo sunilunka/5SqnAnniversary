@@ -7,12 +7,6 @@ app.directive("eventCreation", function($rootScope, EventFactory, ParsingFactory
    },
    link: function(scope, element, attrs){
 
-     var convertNumbersForModification = (numberObject) => {
-       for(var num in numberObject){
-         numberObject[num] = ParsingFactory.parseNumberForModification(numberObject[num]);
-       }
-     }
-
      scope.updateMethods = {
        updateEvent: function(){
          EventFactory.saveEvent(scope.modifiedEntry)
@@ -78,7 +72,6 @@ app.directive("eventCreation", function($rootScope, EventFactory, ParsingFactory
        scope.updateEvent = scope.updateMethods.updateEvent;
        scope.cancelEdit = scope.updateMethods.cancelEdit;
        angular.copy(scope.evt, scope.modifiedEntry);
-      //  scope.modifiedEntry.startTime = convertNumbersForModification(scope.modifiedEntry.startTime);
        scope.activeDate = scope.modifiedEntry.date;
      }
 
