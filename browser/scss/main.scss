@@ -56,6 +56,7 @@ $gg-red: rgba(218, 79, 70, 1);
 $theme-placeholder-inverse: rgba(236,237,238,0.5);
 $theme-tacgrey-transparent: rgba(239,239,239,0.75);
 $theme-blue-transparent: rgba(104,175,195,0.75);
+$theme-transparent-black: rgba(0,0,0,0.75);
 
 body {
   background: $theme-tacgrey;
@@ -353,7 +354,6 @@ alert {
      -webkit-transform: scale(1.1, 1.1);
   }
 }
-
 
 
 @import 'directives/main';

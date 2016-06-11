@@ -3,12 +3,6 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
   var eventsArray = $firebaseArray(eventsRef);
   var eventsObj = $firebaseObject(eventsRef);
 
-  // var convertNumbersForStorage = function(numberObject){
-  //   for(var num in numberObject){
-  //     numberObject[num] = ParsingFactory.parseNumberForStorageAndDisplay(numberObject[num]);
-  //   }
-  //   return numberObject;
-  // }
 
   return {
     getEvents: () => {
@@ -46,9 +40,6 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
       var eventSerial = eventData.$id;
       delete eventData.$id;
       delete eventData.$priority;
-      // eventData.startTime = convertNumbersForStorage(eventData.startTime);
-      console.log("SAVING EVENT: ", eventData)
-      console.log("EVENT ARRAY: ", eventsArray)
       return DatabaseFactory.dbConnection("events/" + eventSerial)
       .update(eventData)
       .then(function(ref){
