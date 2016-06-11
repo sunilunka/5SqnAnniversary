@@ -23,7 +23,7 @@ app.factory("ParsingFactory", function(){
     for(var num in numObj){
       formattedObj[num] = ParsingFactory.formatNumberForDisplay(numObj[num]);
     }
-    return formattedObj;
+    return formattedObj.hours + "" + formattedObj.minutes;
   }
 
   return ParsingFactory;

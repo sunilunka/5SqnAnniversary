@@ -3,9 +3,13 @@
     <div class="event-total-guest">
       <span ng-bind="totalAttendees"></span>
     </div>
-    <div class="event-name">
-      <span  ng-bind="evt.name"></span>
+    <div class="event-details">
+      <span class="event-name" ng-bind="evt.name"></span>
+      <span class="event-date" ng-bind="evt.date"></span>
+      <display-time modelTime="evt.startTime"></display-time> - <display-time modelTime="evt.endTime"></display-time>
     </div>
-    <p>There are {{ evt.guests }} amount of people attending {{ evt.name }}
+    <div class="flex-container-row">
+      <span ng-bind="guest"></span><span></span>
+    </div>
   </div>
 </div>

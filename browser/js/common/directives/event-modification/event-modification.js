@@ -15,10 +15,6 @@ app.directive("eventModification", function(EventFactory, ParsingFactory, $rootS
 
       scope.editOption = "Edit";
 
-      scope.displayStartTime = ParsingFactory.formatNumberObj(scope.evt.startTime);
-
-      scope.displayEndTime = ParsingFactory.formatNumberObj(scope.evt.endTime);
-
       scope.guestLimits = {
         displayMenu: false,
         buttonText: "Add"
@@ -43,8 +39,6 @@ app.directive("eventModification", function(EventFactory, ParsingFactory, $rootS
         return;
       }
 
-      /* Watch for changes on model data that are propogated from Firebase, in particular the blurb, as this is not "deeply" analysed in the firebase array, as it is a long string. The watch function looks for changes on the blurb field, and triggers the display function so that ng-repeat can be conducted on the new blurb.*/
-
       scope.$watch(function(){
           return scope.evt.blurb
         },
@@ -52,24 +46,6 @@ app.directive("eventModification", function(EventFactory, ParsingFactory, $rootS
         function(newValue, oldValue){
           if(scope.evt.hasOwnProperty("blurb")){
             scope.displayBlurb = ParsingFactory.parseStringForDisplay(scope.evt.blurb);
-          }
-      })
-
-      scope.$watch(function(){
-        return scope.evt.startTime
-      },
-        function(newValue, oldValue){
-          if(newValue !== oldValue){
-            scope.displayStartTime = ParsingFactory.formatNumberObj(newValue);
-          }
-      })
-
-      scope.$watch(function(){
-        return scope.evt.endTime
-      },
-        function(newValue, oldValue){
-          if(newValue !== oldValue){
-            scope.displayEndTime = ParsingFactory.formatNumberObj(newValue);
           }
       })
     }

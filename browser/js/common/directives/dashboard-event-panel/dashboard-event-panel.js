@@ -7,7 +7,7 @@ app.directive("dashboardEventPanel", function(ParsingFactory){
     },
     link: function(scope, element, attrs){
 
-      var getTotal = function(guestTotalObj){
+      var getTotalGuests = function(guestTotalObj){
         let total = 0;
         for(var value in guestTotalObj){
           total += guestTotalObj[value];
@@ -15,13 +15,19 @@ app.directive("dashboardEventPanel", function(ParsingFactory){
         return total;
       }
 
-      scope.totalAttendees = ParsingFactory.formatNumberForDisplay(getTotal(scope.evt.guests));
+
+
+      scope.totalAttendees = ParsingFactory.formatNumberForDisplay(getTotalGuests(scope.evt.guests));
+
+      scope.displayStartTime = ParsingFactory.formatNumberObj(scope.evt.startTime);
+
+      scope.displayEndTime = ParsingFactory.formatNumberObj(scope.evt.endTime);
 
       scope.$watch(function(){
         return scope.evt.guests;
       }, function(newValue, oldValue){
         if(newValue !== oldValue){
-          scope.totalAttendees = ParsingFactory.formatNumberForDisplay(getTotal(scope.evt.guests))
+          scope.totalAttendees = ParsingFactory.formatNumberForDisplay(getTotalGuests(scope.evt.guests))
         }
       })
     }

@@ -10,12 +10,19 @@ dashboard-event-panel {
 
 }
 
-.event-name {
+.event-details {
   display: inline-block;
   font-size: 1em;
+  color: $theme-grey;
+}
+
+.event-name {
   font-weight: 900;
 }
 
+.event-date {
+  display: block;
+}
 .event-total-guest {
   position: relative;
   display: inline-block;
