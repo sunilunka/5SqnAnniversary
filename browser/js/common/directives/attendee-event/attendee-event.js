@@ -1,4 +1,4 @@
-app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, DatabaseFactory, $firebaseArray, $rootScope){
+app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, DatabaseFactory, $firebaseArray, $rootScope, PlatformsFactory){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/attendee-event/attendee-event.html",
@@ -7,7 +7,7 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
       attendee: "="
     },
     link: function(scope, element, attrs){
-
+      console.log("EVENT DATA: ", scope.evt);
       AttendeeEventFactory.checkSeatsAvailable(scope.evt.$id, scope.attendee.association, function(refValue){
         console.log("REF VALUE: ", refValue)
         if(scope.evt.hasOwnProperty("guestLimits")){
@@ -70,7 +70,11 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
       scope.removeFromEvent = (evtId) => {
         AttendeeFactory.removeEventFromAttendee(evtId, scope.attendee)
         .then(function(ref){
+          PlatformsFactory.removeFromEventTally(scope.attendee.platforms, evtId);
           scope.isUserAttending(scope.evt);
+        })
+        .catch(function(error){
+          console.log("SORRY AN ERROR OCCURED: ", error)
         })
       }
 

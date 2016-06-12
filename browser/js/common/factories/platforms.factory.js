@@ -108,5 +108,13 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
 
       return firebase.Promise.all(toResolve);
     },
+
+    removeFromEventTally: function(userPlatformObj, eventId){
+      var toResolveAndRemove = [];
+      for(var platformId in userPlatformObj){
+        toResolveAndRemove.push(updatePlatformEventTotal("remove", platformId, eventId));
+      }
+      return firebase.Promise.all(toResolveAndRemove);
+    }
   }
 })
