@@ -1,6 +1,8 @@
-app.controller("GuestCategoryCtrl", function($scope, GuestCategoryFactory, allCategories, PlatformsFactory){
+app.controller("GuestCategoryCtrl", function($scope, GuestCategoryFactory, allCategories, PlatformsFactory, allPlatforms){
 
   $scope.guestCategories =  allCategories;
+
+  $scope.allPlatforms = allPlatforms;
 
 
   $scope.addNewCategory = () => {

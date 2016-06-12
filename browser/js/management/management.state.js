@@ -25,6 +25,10 @@ app.config(function($stateProvider){
 
       categoryObject: (GuestCategoryFactory) => {
         return GuestCategoryFactory.getGuestCategoriesObject();
+      },
+
+      allPlatforms: (PlatformsFactory) => {
+        return PlatformsFactory.getPlatforms();
       }
     }
   })

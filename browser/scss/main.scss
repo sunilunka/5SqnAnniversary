@@ -109,6 +109,14 @@ alert {
   display: block;
 }
 
+.block-btn-holder {
+  margin: 0.5em 0em 0.5em 0em;
+  display: block;
+  background-color: $theme-grey;
+  padding: 0.25em;
+  text-align: center;
+}
+
 .sqnInput {
   border: none;
   outline: none;

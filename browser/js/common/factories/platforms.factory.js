@@ -39,12 +39,16 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
     },
 
     removePlatform: function(platform){
-      platformsArray.$remove(platform)
+      return platformsArray.$remove(platform)
       .then(function(ref){
         console.log("PLATFORM WITH REF " +  ref + " REMOVED");
         return ref;
       })
+    },
+
+    updatePlatform: function(platform_id, revisedLabel){
+      var platformRef = DatabaseFactory.dbConnection("platforms/" + platform_id);
+      return platformRef.update({ label: revisedLabel });
     }
   }
-
 })

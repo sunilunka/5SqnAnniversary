@@ -15,12 +15,23 @@
   }
 }
 
+.mod-input-width {
+  width: 20em;
+}
+
 modify-guest-category {
   position: relative;
   margin: 10px;
   display: block;
+
 }
 
-.guest-category-list {
+modify-platforms {
+  position: relative;
+  margin: 0.5em;
+  display: block;
+}
+
+.item-list {
   margin-top: 20px;
 }
