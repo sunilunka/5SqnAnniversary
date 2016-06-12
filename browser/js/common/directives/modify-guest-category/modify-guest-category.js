@@ -29,6 +29,17 @@ app.directive("modifyGuestCategory", function(GuestCategoryFactory){
           /* No data is returned from Firebase update. */
         })
       }
+
+      scope.removeCat = () => {
+        scope.isEditing = !scope.isEditing;
+        GuestCategoryFactory.removeGuestCategory(scope.cat)
+        .then(function(ref){
+          console.log("CATEGORY REMOVED: ", ref);
+        })
+        .catch(function(error){
+          console.log("SORRY AND ERROR OCCURED: ", error);
+        })
+      }
     }
   }
 })

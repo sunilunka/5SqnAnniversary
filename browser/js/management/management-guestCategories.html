@@ -1,4 +1,4 @@
-<section>
+<section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
   <header>
     <h3>Modify Guest Categories for all events</h3>
   </header>
@@ -9,5 +9,18 @@
   </form>
   <div class="guest-category-list">
     <modify-guest-category ng-repeat="guestCategory in guestCategories" cat=guestCategory></modify-guest-category>
+  </div>
+</section>
+<section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+  <header>
+    <h3>Modify Platforms</h3>
+  </header>
+  <form ng-submit="addNewPlatform()">
+    <label>New Category Name: </label>
+    <input class="sqnInput sqnInputActive" type="text" ng-model="platformLabel"></input>
+    <input class="sqn-btn" type="submit" value="Add Platform"></button>
+  </form>
+  <div class="guest-category-list">
+
   </div>
 </section>

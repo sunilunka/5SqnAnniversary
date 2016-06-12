@@ -51,8 +51,11 @@ app.factory("GuestCategoryFactory", function(DatabaseFactory, $firebaseArray, $f
       })
     },
 
-    removeGuestCategory: () => {
-      guestCategoryiesRef.$remove();
+    removeGuestCategory: (catObj) => {
+      return guestCatArray.$remove(catObj)
+      .then(function(ref){
+        return ref;
+      })
     },
 
     updateGuestCategory: (id, catName) => {

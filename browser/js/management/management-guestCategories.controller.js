@@ -1,8 +1,7 @@
-app.controller("GuestCategoryCtrl", function($scope, GuestCategoryFactory, allCategories){
+app.controller("GuestCategoryCtrl", function($scope, GuestCategoryFactory, allCategories, PlatformsFactory){
 
   $scope.guestCategories =  allCategories;
 
-  console.log("GUEST CATEGORIES RESOLVED: ", allCategories)
 
   $scope.addNewCategory = () => {
     console.log("CATEGORY TO SAVE: ", $scope.guestCategoryName)
@@ -10,8 +9,19 @@ app.controller("GuestCategoryCtrl", function($scope, GuestCategoryFactory, allCa
     .then(function(ref){
       console.log("CATEGORY ADDED!");
     })
-    .catch(function(err){
-      console.log("ERROR OCCURED: ", err);
+    .catch(function(error){
+      console.log("ERROR OCCURED: ", error);
+    })
+  }
+
+  $scope.addNewPlatform = () => {
+    console.log("ADDING PLATFORM: ", $scope.platformLabel)
+    return PlatformsFactory.addPlatform($scope.platformLabel)
+    .then(function(ref){
+      console.log("PLATFORM WITH REF " + ref + "ADDED")
+    })
+    .catch(function(error){
+      console.error("SORRY ERROR OCCURED: ", error);
     })
   }
 

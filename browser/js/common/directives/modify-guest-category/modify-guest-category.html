@@ -3,4 +3,4 @@
 
 <button class="sqn-btn" ng-click="toggleEdit()"><span ng-show="!isEditing">Edit</span><span ng-show="isEditing">Cancel</span></button>
 <button ng-cloak ng-hide="!isEditing" class="sqn-btn-positive" ng-click="updateCatName()">Save</button>
-<button class="sqn-btn-danger" ng-show="isEditing">Remove</button>
+<button class="sqn-btn-danger" ng-show="isEditing" ng-click="removeCat()">Remove</button>
