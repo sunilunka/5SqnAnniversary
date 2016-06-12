@@ -1,4 +1,4 @@
-app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, $q, EventGuestFactory, GuestOriginFactory, GuestCategoryFactory){
+app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, EventGuestFactory, GuestOriginFactory, GuestCategoryFactory, PlatformsFactory){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -24,7 +24,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
   }
 
-  /* Change event data to what is required in the schema. Because a user cannot allocate guests until they have registered, the default guestCount will always be one. */
+  /* Change event data to what is required in the schema. Because a user cannot allocate guests until they have registered, the default value will always be 'no guests', a null value removes it from the database. */
   var modifyEventData = (userEventObj, firstName, lastName) => {
     console.log("USER EVENT OBJECT: ", userEventObj);
     for(var evt in userEventObj){
@@ -39,6 +39,16 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       }
     }
     return userEventObj;
+  }
+
+  /* Similar method to event one above, removing false values (this indicates user selected then deselected the checkbox)*/
+  var modifyPlatformsData = function(userPlatformsObj){
+    for(var platform in userPlatformsObj){
+      if(!userPlatformsObj[platform]){
+        delete userPlatformsObj[platform];
+      }
+    }
+    return userPlatformsObj;
   }
 
   var storeRegisterDataForRedirect = (method, registerData) => {
@@ -91,7 +101,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       lastName: nameObj.last_name,
       email: formData.email,
       association: formData.association,
-      events: modifyEventData(formData.events, nameObj.first_name, nameObj.last_name)
+      overseas: formData.overseas,
+      events: modifyEventData(formData.events, nameObj.first_name, nameObj.last_name),
+      platforms: modifyPlatformsData(formData.platforms)
     }
   }
 
@@ -105,7 +117,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       lastName: nameObj.last_name,
       email: formData.email,
       association: formData.association,
-      events: modifyEventData(formData.events, nameObj.first_name, nameObj.last_name)
+      overseas: formData.overseas,
+      events: modifyEventData(formData.events, nameObj.first_name, nameObj.last_name),
+      platforms: modifyPlatformsData(formData.platforms)
     }
   }
 
@@ -116,7 +130,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       lastName: formData.lastName,
       email: formData.email,
       association: formData.association,
-      events: modifyEventData(formData.events, formData.firstName, formData.lastName)
+      overseas: formData.overseas,
+      events: modifyEventData(formData.events, formData.firstName, formData.lastName),
+      platforms: modifyPlatformsData(formData.platforms)
   }
 }
 
@@ -193,6 +209,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       var recordsToSave = [];
       if(!userData.events) userData.events = {};
       let eventObj = userData.events;
+      /* Like events (we shall see), the user platform object should all be valid, due to the modifyPlatformsData fn that takes place to parse the data. . */
+      let platformKeys = Object.keys(userData.platforms);
+      console.log("PLATFORM KEYS: ", platformKeys)
       /* For each object key, check it exists, if so, add to selected event*/
       for(var eventId in eventObj){
         /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
@@ -204,9 +223,14 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
           recordsToSave.push(EventGuestFactory.addAttendeeToEventList(eventId, userData))
         }
       }
+
+      /* Once events has run through, populate array with platforms promises */
+
+      recordsToSave.push(PlatformsFactory.addAttendeeToPlatforms(platformKeys, eventObj, userData.uid));
+
       /* Return the result of all resolved promises in array saved event records on resolution or rejection. Using this method means if one promise fails, then all promises will be rejected.  */
       console.log("EVENTS TO SAVE TO DB: ", recordsToSave);
-      return $q.all(recordsToSave);
+      return firebase.Promise.all(recordsToSave);
 
     },
 

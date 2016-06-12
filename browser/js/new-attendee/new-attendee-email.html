@@ -46,10 +46,10 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
       <h4>Are you travelling from overseas to attend?</h4>
       <div class="radio sqnInput">
-        <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true"></input> Yes I am!</label>
+        <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true" ng-required="true"></input> Yes I am!</label>
       </div>
       <div class="radio sqnInput">
-        <label class="control-label"><input ng-model="newAttendeeData.overseas" value="false" name="overseas" type="radio" ng-required="true"></input>No, I live in New Zealand</label>
+        <label class="control-label"><input ng-model="newAttendeeData.overseas" value="false" name="overseas" type="radio" ng-required="true"></input>No (unless there is a SAR callout...).</label>
       </div>
     </div>
     <div ng-show="showEvents" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

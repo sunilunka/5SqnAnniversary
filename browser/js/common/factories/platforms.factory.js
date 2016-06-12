@@ -14,6 +14,50 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
     })
   }
 
+  var updatePlatformTotal = function(addOrRemove, platformId){
+    return platformsRef.child(platformId).child("total")
+    .transaction(function(currentVal){
+      if(addOrRemove === "add"){
+        return currentVal += 1;
+      } else if(addOrRemove === "remove"){
+        return currentVal === 0 ? 0 : (currentVal -= 1);
+      }
+    })
+  }
+
+  var updatePlatformEventTotal = function(addOrRemove, platformId, eventId){
+    return platformsRef.child(platformId).child("eventTally").child(eventId)
+    .transaction(function(currentVal){
+      if(addOrRemove === "add"){
+        return currentVal += 1;
+      } else if(addOrRemove === "remove"){
+        return currentVal === 0 ? 0 : (currentVal -= 1);
+      }
+    })
+  }
+
+  var updatePlatformAttendeeList = function(addOrRemove, attendeeId, platformId){
+    var platformListRef = platformsRef.child(platformId).child("associatedAttendees");
+    if(addOrRemove === "add"){
+      let toSave = {};
+      toSave[attendeeId] = true;
+      return platformListRef.update(toSave);
+    } else if(addOrRemove === "remove"){
+      return platformListRef.update({[attendeeId]: null});
+    }
+
+  }
+
+  var updatePlatformObject = function(addOrRemove, platformId, eventObj, attendeeId){
+    var opsToResolve = [];
+      opsToResolve.push(updatePlatformTotal(addOrRemove , platformId));
+      opsToResolve.push(updatePlatformAttendeeList(addOrRemove, attendeeId, platformId))
+      for(var evt in eventObj){
+        opsToResolve.push(updatePlatformEventTotal(addOrRemove, platformId, evt))
+      }
+    return firebase.Promise.all(opsToResolve);
+  }
+
   return {
 
     getPlatforms: function(){
@@ -29,7 +73,8 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
         platformsArray.$add({
           label: name,
           total: 0,
-          eventTally: eventsKeyObj
+          eventTally: eventsKeyObj,
+          associatedAttendees: false
         })
         .then(function(ref){
           console.log("PLATFORM ADDED WITH REF: ", ref);
@@ -46,9 +91,22 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
       })
     },
 
+    /* Update the name of a platform */
     updatePlatform: function(platform_id, revisedLabel){
       var platformRef = DatabaseFactory.dbConnection("platforms/" + platform_id);
       return platformRef.update({ label: revisedLabel });
-    }
+    },
+
+    /* Update the total of a/each platform once a user has registered.
+      => Platforms array is an array of $id's that will be use to set the route.
+     */
+    addAttendeeToPlatforms: function(platformsArray, userEventObj, attendeeId){
+      var toResolve = platformsArray.map(function(platformId){
+        return updatePlatformObject("add", platformId, userEventObj, attendeeId);
+      })
+      console.log("TO RESOLVE: ", toResolve)
+
+      return firebase.Promise.all(toResolve);
+    },
   }
 })

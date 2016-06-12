@@ -6,7 +6,11 @@ app.factory("GuestOriginFactory", function(DatabaseFactory, $firebaseArray, $fir
     addGuestToOriginStore: (attendeeData) => {
       if(attendeeData.overseas){
         ref.child("overseas").update({
-          [attendeeData.id]: true
+          [attendeeData.uid]: true
+        })
+      } else {
+        ref.child("homeplate").update({
+          [attendeeData.uid]: true
         })
       }
     },

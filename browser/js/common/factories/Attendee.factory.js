@@ -21,7 +21,10 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
         })
       })
       .then(function(ref){
-        /* Ref will be undefined, as nothing is returned froma standard Firebase JS API update method call. */
+        /* Ref will be undefined, as nothing is returned from a standard Firebase JS API update method call. */
+      })
+      .then(function(ref){
+
         return UserAuthFactory.loginByEmail(newAttendeeData.email, newAttendeeData.password)
       })
       .then(function(authData){
