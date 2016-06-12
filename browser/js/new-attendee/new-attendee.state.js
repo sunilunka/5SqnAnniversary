@@ -12,6 +12,10 @@ app.config(function($stateProvider){
       },
       categories: function(GuestCategoryFactory){
         return GuestCategoryFactory.getGuestCategories();
+      },
+
+      platforms: function(PlatformsFactory){
+        return PlatformsFactory.getPlatforms();
       }
     }
   })

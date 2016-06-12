@@ -37,8 +37,14 @@
       </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <h4>What aircraft did you work with while on squadron?</h4>
+      <div class="checkbox sqnInput" ng-repeat="platform in platforms">
+        <label>
+        <input type="checkbox" ng-model="newAttendeeData.platforms[platform.$id]" value="{{ platform.$id }}" ng-true-value="true"  ng-false-value="false"></input>{{ platform.label }}</label>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
       <h4>Are you travelling from overseas to attend?</h4>
-
       <div class="radio sqnInput">
         <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true"></input> Yes I am!</label>
       </div>

@@ -1,6 +1,7 @@
-app.controller("NewAttendeeEmailCtrl", function($scope, AttendeeFactory, Events, categories, FormValidityFactory, EventFactory){
+app.controller("NewAttendeeEmailCtrl", function($scope, AttendeeFactory, Events, categories, platforms, FormValidityFactory, EventFactory){
   $scope.events = Events;
   $scope.categories = categories;
+  $scope.platforms = platforms;
   $scope.showEvents = false;
   $scope.eventsError = false;
   $scope.newAttendeeData = {};
