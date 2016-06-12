@@ -4,7 +4,7 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
   var platformsArray = $firebaseArray(platformsRef);
 
   var createEventKeysObj = function(){
-    EventFactory.getEvents()
+    return EventFactory.getEvents()
     .then(function(eventsArray){
       let platformEventObj = {};
       eventsArray.forEach(function(evt){
@@ -24,20 +24,25 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
     },
 
     addPlatform: function(name){
-      platformArray.$add({
-        label: name,
-        total: 0,
-        eventTally: createEventKeysObj()
-      })
-      .then(function(ref){
-        console.log("PLATFORM ADDED WITH REF: ", ref);
+      return createEventKeysObj()
+      .then(function(eventsKeyObj){
+        platformsArray.$add({
+          label: name,
+          total: 0,
+          eventTally: eventsKeyObj
+        })
+        .then(function(ref){
+          console.log("PLATFORM ADDED WITH REF: ", ref);
+          return ref;
+        })
       })
     },
 
-    removePlatform: function(platformRef){
-      platformArray.$remove(platformRef)
+    removePlatform: function(platform){
+      platformsArray.$remove(platform)
       .then(function(ref){
         console.log("PLATFORM WITH REF " +  ref + " REMOVED");
+        return ref;
       })
     }
   }
