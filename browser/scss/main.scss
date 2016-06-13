@@ -370,6 +370,10 @@ alert {
   }
 }
 
+.management-sub-menu {
+  padding-top: 4em;
+  color: $theme-grey;
+}
 
 @import 'directives/main';
 @import 'home/main';
@@ -380,3 +384,5 @@ alert {
 @import 'attendee/main';
 @import 'referredNewAttendee/main';
 @import 'management/main';
+@import 'management-events/main';
+@import 'management-announcements/main';

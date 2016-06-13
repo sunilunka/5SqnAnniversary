@@ -11,11 +11,11 @@ app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEv
   $scope.areasToManage = [
     {
       title: "Manage Events",
-      state: "management.events"
+      state: "managementEvents"
     },
     {
       title: "Manage Announcements",
-      state: "management.announcements"
+      state: "managementAnnouncements"
     },
     {
       title: "Manage Categories",

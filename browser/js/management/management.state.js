@@ -32,16 +32,6 @@ app.config(function($stateProvider){
       }
     }
   })
-  .state('management.events', {
-    url: '/events',
-    controller: 'ManagementEventsCtrl',
-    templateUrl: 'js/management/management-events.html'
-  })
-  .state('management.announcements', {
-    url: '/announcements',
-    controller: 'ManagementAnnouncementsCtrl',
-    templateUrl: 'js/management/management-announcements.html'
-  })
   .state('management.guestCategories', {
     url: '/guestCategories',
     controller: 'GuestCategoryCtrl',
