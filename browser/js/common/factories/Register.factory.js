@@ -89,6 +89,10 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     /* Store data to guest category objects */
     dataStorePromises.push(GuestCategoryFactory.addOrRemoveGuestToCategory("add", newUser.association, newUser.uid));
 
+    /* Store data to guest origin database object document */
+
+    dataStorePromises.push(GuestOriginFactory.addGuestToOriginStore(newUser));
+    
     return firebase.Promise.all(dataStorePromises);
 
   }
@@ -210,15 +214,18 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     /* Function to save user to events object. Key is user uid, value is true */
     RegisterFactory.addUserToEventsAndPlatforms = (userData) => {
       /* If no event has been selected (the fields have not been touched => 'pristine') then create a new empty object to continue. This is an isolated case, as there is validation on the form. */
-      console.log("USER DATA PROTOTYPE: ", userData.hasOwnProperty)
-      console.log("USER DATA FOR USE: ", userData);
-      var recordsToSave = [];
+
       if(!userData.events) userData.events = {};
       let eventObj = userData.events;
       /* Like events (we shall see), the user platform object should all be valid, due to the modifyPlatformsData fn that takes place to parse the data. . */
       let platformKeys = Object.keys(userData.platforms);
       console.log("PLATFORM KEYS: ", platformKeys)
       /* For each object key, check it exists, if so, add to selected event*/
+
+      /* Populate array with platforms and guest origin promises */
+
+      var recordsToSave = [PlatformsFactory.addAttendeeToPlatforms(platformKeys, eventObj, userData.uid)];
+
       for(var eventId in eventObj){
         /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
         console.log("EVENT TO USE: ", eventId, userData);
@@ -229,10 +236,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
           recordsToSave.push(EventGuestFactory.addAttendeeToEventList(eventId, userData))
         }
       }
-
-      /* Once events has run through, populate array with platforms promises */
-
-      recordsToSave.push(PlatformsFactory.addAttendeeToPlatforms(platformKeys, eventObj, userData.uid));
 
       /* Return the result of all resolved promises in array saved event records on resolution or rejection. Using this method means if one promise fails, then all promises will be rejected.  */
       console.log("EVENTS TO SAVE TO DB: ", recordsToSave);

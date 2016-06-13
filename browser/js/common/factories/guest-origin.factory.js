@@ -8,10 +8,6 @@ app.factory("GuestOriginFactory", function(DatabaseFactory, $firebaseArray, $fir
         ref.child("overseas").update({
           [attendeeData.uid]: true
         })
-      } else {
-        ref.child("homeplate").update({
-          [attendeeData.uid]: true
-        })
       }
     },
 

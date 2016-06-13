@@ -68,7 +68,6 @@
             if(userData){
               return AttendeeFactory.createNewUserFromExternalProvider(authData, userData)
               .then(function(dbData){
-                debugger;
                 /* userData could have uid or $id depending on source.*/
                 SiteAuthFactory.setSessionAndReRoute(dbData, "attendee", {id: (dbData.uid || dbData.$id) });
               })
