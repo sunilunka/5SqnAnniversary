@@ -2,6 +2,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
 
+  var RegisterFactory = {};
 
   var promisifyAuthData = () => {
     return $q(function(resolve, reject){
@@ -63,25 +64,41 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     }
   }
 
-  /* attendeeObject is the firebaseObject of the attendee db table. newUser is the parsed data to be saved to the firebase backend */
-  var saveUserDetailsToDb = (attendeeObject, newUser) => {
+  /* newUser is the parsed data to be saved to the firebase backend */
+  var saveUserDetailsToDb = (newUser) => {
     console.log('NEW USER CREATED: ', newUser);
     if(!newUser) return new Error("No user created!");
     let userId = newUser.uid;
     /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
     delete newUser.uid;
-    return attendeesRef.update({
+    var dataStorePromises = [];
+
+
+    /* Store data to attendee document object */
+    dataStorePromises.push(attendeesRef.update({
       [userId]: newUser
-    })
-    .then(function(ref){
-      console.log("OBJECT SAVED");
-      /* return newUser object, with uid field as it is used for registering events */
-      newUser.uid = userId;
-      /* Remvoe sessionStorage data as a resolved promise means data has been written to the database. */
-      if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
-      /* No 'ref' value is returned when using the .update method of the Firebase API. Entering this resolved stage means update was successful, return the newUser object. */
-      return newUser;
-    });
+    }));
+
+    /* Store data to events and platforms objects*/
+    dataStorePromises.push(RegisterFactory.addUserToEventsAndPlatforms(newUser));
+
+    /* Store data to guest category objects */
+    dataStorePromises.push(GuestCategoryFactory.addOrRemoveGuestToCategory("add", newUser.association, userId));
+
+    return firebase.Promise.all(dataStorePromises);
+
+    // .then(function(ref){
+    //   console.log("OBJECT SAVED");
+    //   /* return newUser object, with uid field as it is used for registering events */
+    //   newUser.uid = userId;
+    //   /* Remvoe sessionStorage data as a resolved promise means data has been written to the database. */
+    //   if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
+    //   /* No 'ref' value is returned when using the .update method of the Firebase API. Entering this resolved stage means update was successful, return the newUser object. */
+    //   return newUser;
+    // })
+    // .catch(function(error){
+    //   return error;
+    // })
   }
 
   var splitName = function(nameString){
@@ -137,12 +154,12 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 }
 
 
-  return {
+
     /* Function that takes a string describing a method as the first argument. the second argument is primarily for auth by email and password.
       => authData takes an object with the keys 'email' and 'password' and associated values.
       => AuthData also contains all other data the attendee has entered into the form and needs to be included for operations once a new user had successfully been created.
     */
-    registerNewUser: (method, userData) => {
+    RegisterFactory.registerNewUser = (method, userData) => {
       console.log("METHOD: ", method);
       console.log("DATA: ", userData);
       switch(method){
@@ -151,15 +168,11 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
          return UserAuthFactory.createNew(userData.email, userData.password)
         .then(function(data){
           /* Data returned from creating a new user with email and password => just uid */
-          console.log("EMAIL AUTH DATA: ", data);
-          debugger;
-          return parseEmailData(data, userData);
-        })
-        .then(function(userInfo){
-          return saveUserDetailsToDb(attendeeObject, userInfo)
+          var userInfo = parseEmailData(data, userData);
+          return saveUserDetailsToDb(userInfo);
         })
         .catch(function(error){
-          return error;
+          throw new Error(error.message);
         })
         break;
          default:
@@ -175,7 +188,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       }
     },
     /* If a user has tried to login, but has not registered, get their auth data with promisifyAuthData method (as their login details are stored in the firebase auth store.) */
-    registerReferredUser: (referredProvider, referredUid, formData) => {
+    RegisterFactory.registerReferredUser = (referredProvider, referredUid, formData) => {
       return promisifyAuthData()
       .then(function(authData){
         let providerInfo = getProviderData(authData);
@@ -203,8 +216,9 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     },
 
     /* Function to save user to events object. Key is user uid, value is true */
-    addUserToEvents: (userData) => {
+    RegisterFactory.addUserToEventsAndPlatforms = (userData) => {
       /* If no event has been selected (the fields have not been touched => 'pristine') then create a new empty object to continue. This is an isolated case, as there is validation on the form. */
+      console.log("USER DATA PROTOTYPE: ", userData.hasOwnProperty)
       console.log("USER DATA FOR USE: ", userData);
       var recordsToSave = [];
       if(!userData.events) userData.events = {};
@@ -230,9 +244,15 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
       /* Return the result of all resolved promises in array saved event records on resolution or rejection. Using this method means if one promise fails, then all promises will be rejected.  */
       console.log("EVENTS TO SAVE TO DB: ", recordsToSave);
-      return firebase.Promise.all(recordsToSave);
+      return firebase.Promise.all(recordsToSave)
+      .then(function(data){
+        return data;
+      })
+      .catch(function(error){
+        return error;
+      })
 
-    },
+    }
 
     /* Function to save user data to window.SessionStorage on redirect, as the resolved promise does not return any data due to OAuth Redirect */
 
@@ -254,7 +274,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
     }
 
-
-  }
+    return RegisterFactory;
 
 })

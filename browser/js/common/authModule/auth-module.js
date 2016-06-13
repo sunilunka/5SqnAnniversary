@@ -12,8 +12,6 @@
     return {
       /* Connect to firebase instance and create a new user using email and password as authentication basis. */
       createNew: (email, password) => {
-        console.log("EMAIL: ", email);
-        console.log("PASSWORD ", password );
         return authRef.$createUserWithEmailAndPassword(email, password);
       },
 

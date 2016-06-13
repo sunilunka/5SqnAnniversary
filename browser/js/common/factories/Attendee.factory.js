@@ -12,25 +12,6 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       /* First register the new user (if it does not exist), then once a unique ID has been generated, create an "attendee" record for the person. */
       console.log("NEW ATTENDEE DATA: ", newAttendeeData)
       return RegisterFactory.registerNewUser(registerMethod, newAttendeeData)
-      .then(function(newUser){
-        /* This promise will only be called when registering with email. */
-        console.log("NEW USER: ", newUser)
-        return RegisterFactory.addUserToEvents(newUser)
-        .then(function(savedEvents){
-          return GuestCategoryFactory.addOrRemoveGuestToCategory("add", newUser.association, newUser.uid)
-        })
-      })
-      .then(function(ref){
-        /* Ref will be undefined, as nothing is returned from a standard Firebase JS API update method call. */
-      })
-      .then(function(ref){
-
-        return UserAuthFactory.loginByEmail(newAttendeeData.email, newAttendeeData.password)
-      })
-      .then(function(authData){
-        SiteAuthFactory.setSessionAndReRoute(authData, "attendee", { id: authData.uid });
-        return authData;
-      })
     },
 
     createNewUserFromExternalProvider: (authData, formData) => {

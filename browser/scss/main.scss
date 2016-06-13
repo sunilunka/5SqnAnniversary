@@ -60,7 +60,7 @@ $theme-transparent-black: rgba(0,0,0,0.75);
 
 body {
   background: $theme-tacgrey;
-  font-family: 'Roboto', 'Arial';
+  font-family: 'Roboto', 'Arial', 'Helvetica';
 }
 
 alert {
@@ -143,6 +143,7 @@ alert {
 .sqnInputError {
   background-color: $theme-red;
   color: $theme-tacgrey;
+  padding: 0.25em;
   transform: translateY(0em);
   @include transition-mixin(all 0.5s ease-in-out);
 }
