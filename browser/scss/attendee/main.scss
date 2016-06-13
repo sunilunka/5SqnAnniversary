@@ -29,16 +29,17 @@
         margin: 0.25em 0.25em 0.5em 0.25em;
 
         header {
-          align-items: center;
+          align-items: baseline;
           color: $theme-blue;
           h4 {
             font-weight: 900;
             margin: 0.5em 0.5em 0.25em 0.5em;
-            flex: 1;
+            flex-grow: 2;
           }
 
-          span {
-            flex: 1;
+          formatted-date {
+            display: block;
+            flex-grow: 1;
           }
         }
 

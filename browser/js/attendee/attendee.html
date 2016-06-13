@@ -13,76 +13,12 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 attendee-announcements">
       <h3>Event Announcements</h3>
       <div class="announcement-viewer">
-        <article>
+        <article ng-repeat="announcement in allAnnouncements">
           <header class="flex-container-row">
-            <h4>Article Title</h4>
-            <span>12 Sep 2016</span>
+            <h4 ng-bind="announcement.title"></h4>
+            <formatted-date rawdate="announcement.date"></formatted-date>
           </header>
-          <p>Article article...</p>
-          <footer></footer>
-        </article>
-        <article>
-          <header class="flex-container-row">
-            <h4>Article Title</h4>
-            <span>12 Sep 2016</span>
-          </header>
-          <p>Article article...</p>
-          <footer></footer>
-        </article>
-        <article>
-          <header class="flex-container-row">
-            <h4>Article Title</h4>
-            <span>12 Sep 2016</span>
-          </header>
-          <p>Article article...</p>
-          <footer></footer>
-        </article>
-        <article>
-          <header class="flex-container-row">
-            <h4>Article Title</h4>
-            <span>12 Sep 2016</span>
-          </header>
-          <p>Article article...</p>
-          <footer></footer>
-        </article>
-        <article>
-          <header class="flex-container-row">
-            <h4>Article Title</h4>
-            <span>12 Sep 2016</span>
-          </header>
-          <p>Article article...</p>
-          <footer></footer>
-        </article>
-        <article>
-          <header class="flex-container-row">
-            <h4>Article Title</h4>
-            <span>12 Sep 2016</span>
-          </header>
-          <p>Article article...</p>
-          <footer></footer>
-        </article>
-        <article>
-          <header class="flex-container-row">
-            <h4>Article Title</h4>
-            <span>12 Sep 2016</span>
-          </header>
-          <p>Article article...</p>
-          <footer></footer>
-        </article>
-        <article>
-          <header class="flex-container-row">
-            <h4>Article Title</h4>
-            <span>12 Sep 2016</span>
-          </header>
-          <p>Article article...</p>
-          <footer></footer>
-        </article>
-        <article>
-          <header class="flex-container-row">
-            <h4>Article Title</h4>
-            <span>12 Sep 2016</span>
-          </header>
-          <p>Article article...</p>
+          <formatted-text rawtext="announcement.content"></formatted-text>
           <footer></footer>
         </article>
       </div>
