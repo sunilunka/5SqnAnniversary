@@ -9,8 +9,7 @@
       <button class="sqn-btn" ng-click="toggleEditMode()">{{ editOption }}</button>
     </div>
   </header>
-  <p>{{ announcement.content }}</p>
-
+  <formatted-text rawtext="announcement.content"></formatted-text>
   <footer ng-show="editMode">
     <form ng-submit="updateAnnouncement()" name="announcementEditForm">
       <h4>Edit Announcement</h4>

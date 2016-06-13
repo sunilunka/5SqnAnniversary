@@ -32,17 +32,6 @@ app.directive("eventModification", function(EventFactory, ParsingFactory, $rootS
         scope.editMode = !scope.editMode;
         return;
       }
-
-      /* If changes to model data occur, then parse the string for display */
-      scope.$watch(function(){
-          return scope.evt.blurb
-        },
-
-        function(newValue, oldValue){
-          if(scope.evt.hasOwnProperty("blurb")){
-            scope.displayBlurb = ParsingFactory.parseStringForDisplay(scope.evt.blurb);
-          }
-      })
     }
   }
 })

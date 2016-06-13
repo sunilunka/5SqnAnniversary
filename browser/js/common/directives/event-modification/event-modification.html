@@ -11,10 +11,10 @@
     <p> <strong>{{ evt.date }}</strong> | <display-time modeltime="evt.startTime"></display-time> - <display-time modelTime="evt.endTime"></display-time></p>
     <p><strong>Venue:</strong> {{ evt.location }}</p>
     <p><strong>Details:</strong></p>
-    <p ng-repeat="para in displayBlurb">{{ para }}</p>
+    <formatted-text rawtext="evt.blurb"></formatted-text>
   </div>
   <div>
-    <event-guest-limit ng-show="guestLimits.displayMenu" evt=evt cats="categories"></event-guest-limit>
+    <event-guest-limit ng-show="guestLimits.displayMenu" evt="evt" cats="categories"></event-guest-limit>
   </div>
   <footer ng-show="editMode">
     <event-creation evt="evt" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></event-creation>
