@@ -7,4 +7,13 @@
   h3 {
     margin: 0.5em;
   }
+  
+  .registerForm {
+    height: auto;
+    h4 {
+      background-color: $theme-grey;
+      color: $theme-tacgrey;
+      padding: 0.5em;
+    }
+  }
 }

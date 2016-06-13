@@ -67,11 +67,10 @@
             var userData = SiteAuthFactory.userRegisterInProgress(authData);
             if(userData){
               return AttendeeFactory.createNewUserFromExternalProvider(authData, userData)
-              .then(function(userData){
-                return userData;
-              })
-              .then(function(userData){
-                SiteAuthFactory.setSessionAndReRoute(userData, "attendee", {id: userData.uid });
+              .then(function(dbData){
+                debugger;
+                /* userData could have uid or $id depending on source.*/
+                SiteAuthFactory.setSessionAndReRoute(dbData, "attendee", {id: (dbData.uid || dbData.$id) });
               })
               .catch(function(error){
                   return error;

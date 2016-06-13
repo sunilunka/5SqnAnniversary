@@ -15,7 +15,7 @@ app.controller("NewAttendeeEmailCtrl", function($scope, AttendeeFactory, Events,
       console.log("FORM DATA: ", $scope.newAttendeeData);
       return AttendeeFactory.createOneAndLogin("email", $scope.newAttendeeData)
       .then(function(data){
-        return authData;
+        return data;
       })
       .catch(function(error){
         $scope.checkboxError = true;
@@ -27,10 +27,9 @@ app.controller("NewAttendeeEmailCtrl", function($scope, AttendeeFactory, Events,
       } else if (!eventsValid){
         $scope.checkboxErrorMessage = "Sorry, looks like you haven't told us what event(s) you want to attend, please select one or more. Thanks!"
       } else if (!platformsValid){
-        $scope.checkboxErrorMessage = "It would be great if you could let us know what platforms you worked with on Squadron before registering. Thanks!"
+        $scope.checkboxErrorMessage = "It would be great if you could let us know what aircraft you worked with on Squadron before registering. Thanks!"
       }
       $scope.checkboxError = true;
-      /* Will implement registering with email once new SDK becomes available. */
     }
   }
 

@@ -20,12 +20,12 @@
       </div>
       <div class="form-group">
         <label for="passwordOne" class="sqn-label-emphasis">Password</label>
-        <input type="password" ng-model="passwordOne" name="passwordOne" class="form-control sqnInputActive" placeholder="Password" ng-required="true"></input>
-        <p class="sqnInputError" ng-show="register.password.$dirty && register.passwordOne.$invalid">Those passwords do not match</p>
+        <input type="password" ng-model="passwordOne" name="passwordOne" class="form-control sqnInputActive" placeholder="Password must be 6 characters or more" ng-required="true" ng-minlength="6"></input>
+        <p class="sqnInputError" ng-show="register.password.$dirty && register.passwordOne.$invalid">Those passwords do not match or are too short.</p>
       </div>
       <div class="form-group">
         <label for="password" class="sqn-label-emphasis">Confirm Password</label>
-        <input password-match-check="passwordOne" ng-model="newAttendeeData.password" type="password" class="form-control sqnInputActive" placeholder="Confirm Password" name="password" ng-required="true" match-field="passwordOne"></input>
+        <input password-match-check="passwordOne" ng-model="newAttendeeData.password" type="password" class="form-control sqnInputActive" placeholder="Confirm Password" name="password" ng-required="true" match-field="passwordOne" ng-minlength="6"></input>
         <p class="sqnInputError" ng-show="(register.password.$touched || register.passwordOne.$touched) && (register.password.$invalid || register.passwordOne.$invalid)">Those passwords do not match</p>
       </div>
     </div>

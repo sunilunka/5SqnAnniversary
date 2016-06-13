@@ -8,23 +8,29 @@
   </div>
   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <h4>What is your association with the squadron?</h4>
-    <p class="sqnInputError" ng-show="register.association.$invalid && register.email.$valid && register.overseas.$valid">Just like a junior Nav, looks like you missed something...</p>
+    <p class="sqnInputError" ng-show="register.association.$invalid && register.firstName.$valid && register.lastName.$valid && register.password.$valid && register.email.$valid && register.overseas.$valid">Just like a junior Nav, looks like you missed something...</p>
     <div class="radio sqnInput" ng-repeat="category in categories">
       <label class="control-label"> <input event-limit-check type="radio" name="association" ng-model="newAttendeeData.association" value="{{ category.$id }}" ng-required="true">{{ category.$value }}</label>
     </div>
   </div>
   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <h4>What aircraft did you work with while on squadron?</h4>
+    <div class="checkbox sqnInput" ng-repeat="platform in platforms">
+      <label>
+      <input type="checkbox" ng-model="newAttendeeData.platforms[platform.$id]" value="{{ platform.$id }}" ng-true-value="true"  ng-false-value="false"></input>{{ platform.label }}</label>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <h4>Are you travelling from overseas to attend?</h4>
     <div class="radio sqnInput">
-      <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true"></input> Yes I am!</label>
+      <label class="control-label"><input name="overseas" type="radio" ng-model="newAttendeeData.overseas" value="true" ng-required="true"></input> Yes I am!</label>
     </div>
     <div class="radio sqnInput">
-      <label class="control-label"><input ng-model="newAttendeeData.overseas" value="false" name="overseas" type="radio" ng-required="true"></input>No, I live in New Zealand</label>
+      <label class="control-label"><input ng-model="newAttendeeData.overseas" value="false" name="overseas" type="radio" ng-required="true"></input>No (unless there is a SAR callout...).</label>
     </div>
   </div>
   <div ng-show="showEvents" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h4>What events are you planning to attend?</h4>
-    <p class="sqnInputError" ng-show="eventsError">Hmmm, no point registering if you arent going to attend anything!</p>
     <div class="checkbox col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3"  ng-repeat="evt in events">
       <div class="sqnInput">
         <label>
@@ -33,6 +39,7 @@
     </div>
   </div>
   <div class="col-xxs-12 col-xs-12 col-md-12 col-lg-12">
+    <p class="sqnInputError" ng-show="checkboxError" ng-bind="checkboxErrorMessage"></p>
     <input class="sqn-btn-positive sqn-btn-large" type="submit" value="Register" ng-show="register.$valid" ng-disabled="register.$invalid"></input>
   </div>
 </form>

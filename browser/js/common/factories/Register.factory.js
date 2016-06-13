@@ -1,4 +1,4 @@
-app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, EventGuestFactory, GuestOriginFactory, GuestCategoryFactory, PlatformsFactory){
+app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, EventGuestFactory, GuestOriginFactory, GuestCategoryFactory, PlatformsFactory, $q){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -68,37 +68,29 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
   var saveUserDetailsToDb = (newUser) => {
     console.log('NEW USER CREATED: ', newUser);
     if(!newUser) return new Error("No user created!");
-    let userId = newUser.uid;
-    /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
-    delete newUser.uid;
-    var dataStorePromises = [];
 
+    var dataStorePromises = [];
+    var dbAttendeeObject = {};
+
+    angular.copy(newUser, dbAttendeeObject);
+    /* Remove uid key and value from object so that it is not stored. It is used as the overall object key in the attendees schema.  */
+    delete dbAttendeeObject.uid;
 
     /* Store data to attendee document object */
     dataStorePromises.push(attendeesRef.update({
-      [userId]: newUser
+      [newUser.uid]: dbAttendeeObject
     }));
+
+    /* Add user Id in all for all other methods*/
 
     /* Store data to events and platforms objects*/
     dataStorePromises.push(RegisterFactory.addUserToEventsAndPlatforms(newUser));
 
     /* Store data to guest category objects */
-    dataStorePromises.push(GuestCategoryFactory.addOrRemoveGuestToCategory("add", newUser.association, userId));
+    dataStorePromises.push(GuestCategoryFactory.addOrRemoveGuestToCategory("add", newUser.association, newUser.uid));
 
     return firebase.Promise.all(dataStorePromises);
 
-    // .then(function(ref){
-    //   console.log("OBJECT SAVED");
-    //   /* return newUser object, with uid field as it is used for registering events */
-    //   newUser.uid = userId;
-    //   /* Remvoe sessionStorage data as a resolved promise means data has been written to the database. */
-    //   if(window.sessionStorage.hasOwnProperty("registerData")) window.sessionStorage.removeItem("registerData");
-    //   /* No 'ref' value is returned when using the .update method of the Firebase API. Entering this resolved stage means update was successful, return the newUser object. */
-    //   return newUser;
-    // })
-    // .catch(function(error){
-    //   return error;
-    // })
   }
 
   var splitName = function(nameString){
@@ -198,19 +190,19 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
         /* Once firebase authentication has been returned, merge with formData for saving into firebase attendee store */
           if(providerIdent === "facebook.com"){
-            return parseFbData(authData, formData);
+            return saveUserDetailsToDb(parseFbData(authData, formData));
 
           } else if(providerIdent === "google.com"){
-              return parseGoogleData(authData, formData);
+              return saveUserDetailsToDb(parseGoogleData(authData, formData));
 
           } else if(providerIdent === "password"){
               /* To be completed, full function flow not complete, referred attendee state needs firstName and lastName fields for email */
-            return parseEmailData(authData, formData);
+            return saveUserDetailsToDb(parseEmailData(authData, formData));
           } else {
-            return new Error("No provider data found!");
+            throw new Error("No provider data found!");
           }
         } else {
-          return new Error("No matching authentication credentials found!");
+          throw new Error("No matching authentication credentials found!");
         }
       })
     },
@@ -256,18 +248,18 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
     /* Function to save user data to window.SessionStorage on redirect, as the resolved promise does not return any data due to OAuth Redirect */
 
-    newUserRegisterFromExternalProvider: (authData, registerFormData) => {
+    RegisterFactory.newUserRegisterFromExternalProvider = (authData, registerFormData) => {
 
       switch(getProviderData(authData).providerId){
         case "facebook.com":
-          return parseFbData(authData, registerFormData);
+          return saveUserDetailsToDb(parseFbData(authData, registerFormData));
           break;
 
         case "google.com":
-          return parseGoogleData(authData, registerFormData);
+          return saveUserDetailsToDb(parseGoogleData(authData, registerFormData));
           break;
         default:
-          return new Error("NO AUTHDATA FOUND!");
+          throw new Error("NO AUTHDATA FOUND!");
 
         break;
       }

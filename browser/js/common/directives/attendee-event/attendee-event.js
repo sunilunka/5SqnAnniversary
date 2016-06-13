@@ -9,10 +9,8 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
     link: function(scope, element, attrs){
       console.log("EVENT DATA: ", scope.evt);
       AttendeeEventFactory.checkSeatsAvailable(scope.evt.$id, scope.attendee.association, function(refValue){
-        console.log("REF VALUE: ", refValue)
         if(scope.evt.hasOwnProperty("guestLimits")){
           let guestLims = scope.evt["guestLimits"];
-          console.log("GUEST LIMITS: ", refValue < guestLims[scope.attendee.association])
           if(guestLims.hasOwnProperty(scope.attendee.association)){
             if(refValue < guestLims[scope.attendee.association]){
               scope.available = true;
