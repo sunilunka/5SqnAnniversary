@@ -17,6 +17,7 @@ app.config(function($stateProvider){
         return GuestCategoryFactory.getGuestCategoriesObject();
       },
       Announcements: function(AnnouncementsFactory){
+        console.log("ANNOUNCEMENTS: ", AnnouncementsFactory.getAllAnnouncements())
         return AnnouncementsFactory.getAllAnnouncements();
       }
     }
