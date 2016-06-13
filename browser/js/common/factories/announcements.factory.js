@@ -3,6 +3,7 @@ app.factory("AnnouncementsFactory", function($firebaseArray, DatabaseFactory){
   var announcementList = $firebaseArray(announcementsRef);
   return {
     addNewAnnouncement: (formData) => {
+      formData.date = firebase.database.ServerValue.TIMESTAMP;
       return announcementList.$add(formData)
       .then(function(ref){
         console.log("NEW ANNOUNCEMENT ADDED: ", ref)

@@ -26,6 +26,10 @@ app.factory("ParsingFactory", function(){
     return formattedObj.hours + "" + formattedObj.minutes;
   }
 
+  ParsingFactory.shortFormatDate = function(dateObj){
+    return moment(dateObj).format("ll");
+  }
+
   return ParsingFactory;
 
 })

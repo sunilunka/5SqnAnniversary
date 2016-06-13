@@ -1,8 +1,8 @@
 <article>
   <header class="flex-container-row">
     <div class="announcement-details-holder">
-      <h4>{{ announcement.title }}</h4>
-      <span>Date Posted: 04 Jun 2016</span>
+      <h4 ng-bind="announcement.title"></h4>
+      <formatted-date rawdate="announcement.date"></formatted-date>
     </div>
     <div class="announcement-button-holder">
       <button class="sqn-btn-danger" ng-click="removeAnnouncement(announcement)">Delete</button>
