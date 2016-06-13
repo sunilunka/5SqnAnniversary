@@ -32,9 +32,4 @@ app.config(function($stateProvider){
       }
     }
   })
-  .state('management.guestCategories', {
-    url: '/guestCategories',
-    controller: 'GuestCategoryCtrl',
-    templateUrl: 'js/management/management-guestCategories.html'
-  })
 })

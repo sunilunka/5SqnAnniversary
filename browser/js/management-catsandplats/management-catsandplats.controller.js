@@ -1,4 +1,4 @@
-app.controller("GuestCategoryCtrl", function($scope, GuestCategoryFactory, allCategories, PlatformsFactory, allPlatforms){
+app.controller("CatsAndPlatsCtrl", function($scope, GuestCategoryFactory, allCategories, PlatformsFactory, allPlatforms){
 
   $scope.guestCategories =  allCategories;
 

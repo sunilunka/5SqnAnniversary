@@ -18,8 +18,8 @@ app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEv
       state: "managementAnnouncements"
     },
     {
-      title: "Manage Categories",
-      state: "management.guestCategories"
+      title: "Manage Categories and Platforms",
+      state: "managementCatsAndPlats"
     }
   ]
 })

@@ -1,0 +1,34 @@
+.announcement-details-holder {
+  flex-grow: 1;
+}
+
+.announcement-button-holder {
+  flex-grow: 1;
+}
+
+announcement-modification {
+  padding: 1em;
+
+  article {
+    border: 3px solid $theme-blue;
+
+    header {
+      background-color: $theme-blue;
+      color: $theme-tacgrey;
+      align-items: center;
+      h4 {
+        margin: 0;
+        padding: 0.5em;
+      }
+
+      span {
+        display: block;
+        padding: 0em 0em 0.25em 0.5em;
+      }
+    }
+
+    p {
+      padding: 0.5em;
+    }
+  }
+}

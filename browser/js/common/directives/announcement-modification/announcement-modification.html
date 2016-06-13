@@ -1,17 +1,26 @@
 <article>
-  <div>
-    <h4>{{ announcement.title }}</h4>
-    <button ng-click="removeAnnouncement(announcement)">Delete</button>
-    <button ng-click="toggleEditMode()">{{ editOption }}</button>
-  </div>
+  <header class="flex-container-row">
+    <div class="announcement-details-holder">
+      <h4>{{ announcement.title }}</h4>
+      <span>Date Posted: 04 Jun 2016</span>
+    </div>
+    <div class="announcement-button-holder">
+      <button class="sqn-btn-danger" ng-click="removeAnnouncement(announcement)">Delete</button>
+      <button class="sqn-btn" ng-click="toggleEditMode()">{{ editOption }}</button>
+    </div>
+  </header>
   <p>{{ announcement.content }}</p>
+
+  <footer ng-show="editMode">
+    <form ng-submit="updateAnnouncement()" name="announcementEditForm">
+      <h4>Edit Announcement</h4>
+      <label for="announcementTitle" class="input-form">Title</label>
+      <input class="sqnInputActive sqn-input-wide input-form" type="text" ng-model="modifiedEntry.title" name="announcementTitle" placeholder="What's it about?" ng-required="true"></input>
+      <label class="input-form">Content</label>
+      <textarea ng-model="modifiedEntry.content" name="announcementContent" class="input-form" ng-required="true" placeholder="The nitty gritty goes here. The date of the announcement is automatically tagged on saving, sweet!"></textarea>
+      <div class="block-btn-holder">
+        <input ng-class="{'sqn-btn-disabled': announcementEditForm.announcementTitle.$invalid || announcementEditForm.announcementContent.$invalid }" ng-disabled="announcementEditForm.announcementTitle.$invalid || announcementEditForm.announcementContent.$invalid" type="submit" class="sqn-btn-positive" value="Save Update">
+      </div>
+    </form>
+  </footer>
 </article>
-<div>
-  <form ng-show="editMode" ng-submit="updateAnnouncement()">
-    <label>Title</label>
-    <input type="text" ng-model="modifiedEntry.title"></input>
-    <label>Content</label>
-    <textarea ng-model="modifiedEntry.content"></textarea>
-    <input type="submit" value="Save update"></input>
-  </form>
-</div>
