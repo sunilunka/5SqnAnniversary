@@ -67,12 +67,13 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
 
       scope.removeFromEvent = (evtId) => {
         AttendeeFactory.removeEventFromAttendee(evtId, scope.attendee)
-        .then(function(ref){
-          PlatformsFactory.removeFromEventTally(scope.attendee.platforms, evtId);
+        .then(function(data){
+          console.log("DATA RETURNED FROM REMOVAL EVENT: ", data);
           scope.isUserAttending(scope.evt);
         })
         .catch(function(error){
           console.log("SORRY AN ERROR OCCURED: ", error)
+          return error;
         })
       }
 

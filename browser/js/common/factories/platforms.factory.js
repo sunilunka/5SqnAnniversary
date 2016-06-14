@@ -109,12 +109,27 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
       return firebase.Promise.all(toResolve);
     },
 
+    removeAttendeeFromPlatforms: function(platformsArray, userEventObj, attendeeId){
+      var toResolve = platformsArray.map(function(platformId){
+        return updatePlatformObject("remove", platformId, userEventObj, attendeeId)
+      })
+      return firebase.Promise.all(toResolve);
+    },
+
     removeFromEventTally: function(userPlatformObj, eventId){
       var toResolveAndRemove = [];
       for(var platformId in userPlatformObj){
         toResolveAndRemove.push(updatePlatformEventTotal("remove", platformId, eventId));
       }
       return firebase.Promise.all(toResolveAndRemove);
+    },
+
+    addToEventTally: function(userPlatformObj, eventId){
+      var toResolveAndAdd = [];
+      for(var platformId in userPlatformObj){
+        toResolveAndAdd.push(updatePlatformEventTotal("add", platformId, eventId));
+      }
+      return firebase.Promise.all(toResolveAndAdd);
     }
   }
 })

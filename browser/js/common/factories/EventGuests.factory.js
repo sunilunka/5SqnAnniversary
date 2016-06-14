@@ -28,8 +28,10 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
       .then(function(data){
         /* No data is returned on successful (resolved promise) removal using standard Firebase Javscript API methods. */
         console.log("DATA REMOVED!", data);
+        return data;
       })
       .catch(function(error){
+        console.log("EVENT GUESTS ERROR: ", error);
         return error;
       })
     }

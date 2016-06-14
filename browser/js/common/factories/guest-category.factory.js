@@ -26,6 +26,9 @@ app.factory("GuestCategoryFactory", function(DatabaseFactory, $firebaseArray, $f
             console.log("DATABASE ENTRY REMOVED: ", ref);
             return ref;
         })
+        .catch(function(error){
+          throw error;
+        })
       }
     },
 

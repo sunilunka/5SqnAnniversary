@@ -1,4 +1,4 @@
-app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory, GuestCategoryFactory, SiteAuthFactory){
+app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory, GuestCategoryFactory, SiteAuthFactory, GuestOriginFactory, PlatformsFactory){
   var attendeesRef = DatabaseFactory.dbConnection("attendees");
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -80,34 +80,65 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
        .then(function(count){
          /* Get count of current guests */
         delete user.events[evtId];
-        return firebase.Promise.all([ user.$save(), EventFactory.removeAttendeeFromEvent(evtId, user, count), EventGuestFactory.removeAttendeeFromEventList(evtId, user)])
-      })
-      .then(function(data){
-        return data;
-      })
-      .catch(function(error){
-        console.log("SORRY AN ERROR OCCURED");
-        return error;
+        return user.$save()
+        return firebase.Promise.all([EventFactory.removeAttendeeFromEvent(evtId, user, count), EventGuestFactory.removeAttendeeFromEventList(evtId, user), PlatformsFactory.removeFromEventTally(user.platforms, evtId)])
       })
     }
   }
 
   AttendeeFactory.addEventToAttendee = (evtId, user) => {
-    if(user.hasOwnProperty("events")){
-      user.events[evtId] = "No guests";
-    } else {
-      /* If events object in local db does not exist, create it */
-      user["events"] = {};
-      user.events[evtId] = "No guests";
+    let userId = (user.$id || user.uid || user.id);
+    return firebase.Promise.all([
+      attendeesRef.child(userId).child("events").update({
+        [evtId]: "No guests"
+      }),
+      EventFactory.addAttendeeToEvent(evtId, user),
+      EventGuestFactory.addAttendeeToEventList(evtId, user)
+
+    ])
+    // if(user.hasOwnProperty("events")){
+    //   user.events[evtId] = "No guests";
+    // } else {
+    //   /* If events object in local db does not exist, create it */
+    //   user["events"] = {};
+    //   user.events[evtId] = "No guests";
+    // }
+    // return firebase.Promise.all([EventFactory.addAttendeeToEvent(evtId, user),  EventGuestFactory.addAttendeeToEventList(evtId, user), PlatformsFactory.addToEventTally(user.platforms, evtId)])
+  },
+
+  AttendeeFactory.removeUser = function(userData){
+    console.log("User data: ", userData);
+    let userToRemove = userData;
+    let platformsIdArray = Object.keys(userToRemove.platforms);
+    /* If the user is not subscribed to any events, then add the events key to the userToRemove object to allow platforms to execute. */
+    if(!userToRemove.hasOwnProperty("events")){
+      userToRemove.events = {};
     }
-    return firebase.Promise.all([user.$save(), EventFactory.addAttendeeToEvent(evtId, user),  EventGuestFactory.addAttendeeToEventList(evtId, user)])
-    .then(function(data){
-      return data;
-    })
-    .catch(function(error){
-      console.log("SORRY AN ERROR OCCURED: ", error);
-      return error;
-    })
+
+    let userEvents = Object.keys(userToRemove.events);
+
+    /* Remove user from category, no iteration so already in array to resolve. Remove user from platforms already occupies array, as it's methods already iterate over required keys. */
+    let resolveToRemove = [
+      GuestCategoryFactory.addOrRemoveGuestToCategory("remove", userToRemove.association, userToRemove.$id),
+      PlatformsFactory.removeAttendeeFromPlatforms(platformsIdArray, userToRemove.events, userToRemove.$id)
+  ];
+
+    /* Remove guest from origin store */
+    if(userToRemove.hasOwnProperty("overseas") && userToRemove["overseas"]){
+      resolveToRemove.push(GuestOriginFactory.removeGuestFromOriginStore(userToRemove.$id))
+    }
+
+    /* If user has key "events", then for each event, execute removal from event and eventGuests (list) */
+    if(userToRemove.hasOwnProperty("events")){
+      if(userEvents.length > 0){
+        for(var evt in userToRemove.events){
+          resolveToRemove.push(AttendeeFactory.removeEventFromAttendee(evt, userToRemove));
+        }
+      }
+    }
+
+    return firebase.Promise.all(resolveToRemove);
+
   }
 
   return AttendeeFactory;
