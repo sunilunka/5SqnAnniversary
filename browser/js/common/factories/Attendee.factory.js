@@ -74,15 +74,22 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
 
   AttendeeFactory.removeEventFromAttendee = (evtId, user) => {
     console.log("REMOVING FROM USER: ", user);
+    let userId = (user.$id || user.uid || user.id);
     if(user.events.hasOwnProperty(evtId)){
+      let userEventsRef = attendeesRef.child(userId).child("events");
       /* Need to get count of all current attendee guests + attendee themselves to event. That way, on removal, the correct number of persons are deducted from the event guest count. */
-      return AttendeeEventFactory.getAttendeeGuestCount(evtId, user.$id)
+      return AttendeeEventFactory.getAttendeeGuestCount(evtId, userId)
        .then(function(count){
          /* Get count of current guests */
-        delete user.events[evtId];
-        return user.$save()
-        return firebase.Promise.all([EventFactory.removeAttendeeFromEvent(evtId, user, count), EventGuestFactory.removeAttendeeFromEventList(evtId, user), PlatformsFactory.removeFromEventTally(user.platforms, evtId)])
+        return firebase.Promise.all([
+          userEventsRef.update({ [evtId]: null }),
+          EventFactory.removeAttendeeFromEvent(evtId, user, count), EventGuestFactory.removeAttendeeFromEventList(evtId, user)
+        ])
       })
+      .then(function(data){
+        return data;
+      })
+
     }
   }
 
@@ -94,7 +101,6 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       }),
       EventFactory.addAttendeeToEvent(evtId, user),
       EventGuestFactory.addAttendeeToEventList(evtId, user)
-
     ])
     // if(user.hasOwnProperty("events")){
     //   user.events[evtId] = "No guests";
