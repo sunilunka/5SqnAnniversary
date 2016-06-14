@@ -1,0 +1,51 @@
+
+@mixin filter-mixin($params...){
+  -webkit-filter: $params;
+  filter: $params;
+}
+
+$theme-blur: blur(0.25em);
+
+.display-notification {
+  transform: translateY(10em);
+}
+
+.display-notification + #main {
+  @include filter-mixin($theme-blur);
+}
+
+.display-error {
+  background-color: $theme-red;
+  color: $theme-tacgrey;
+}
+
+.display-success {
+  background-color: $theme-green;
+  color: $theme-tacgrey;
+}
+
+.display-in-progress {
+  background-color: $theme-blue;
+  color: $theme-tacgrey;
+}
+
+notification-panel {
+  display: block;
+  position: fixed;
+  top: -4em;
+  left: 0;
+  margin-left: 20%;
+  width: 60%;
+  z-index: 900;
+  min-height: 3.5em;
+  text-align: center;
+  @include theme-shadow-default;
+  @include transition-mixin(transform 0.5s ease-in-out);
+
+  h4 {
+    margin: 0em auto;
+    padding: 0.5em;
+    vertical-align: middle;
+  }
+
+}

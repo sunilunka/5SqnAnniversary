@@ -1,4 +1,4 @@
-app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray, $rootScope){
+app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray, $rootScope, NotificationService){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/add-event-guest/add-event-guest.html",
@@ -18,7 +18,6 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray, $r
         return;
       }
 
-      console.log("SEATS AVAILABLE: ", scope.available)
       /* Using firebase array to generate unique key for each guest. */
       let guestArray = AttendeeEventFactory.arrayToModify("attendees/" + scope.attendee.$id + "/events/" + scope.evt.$id)
 
@@ -30,7 +29,11 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray, $r
           return AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, scope.attendee).addGuest(ref.key, guestName);
         })
         .then(function(data){
+          NotificationService.createAndBroadcastMessage("success", "Great, your guest is added to the list.")
           resetForm();
+        })
+        .catch(function(error){
+          NotificationService.createAndBroadcastMessage("error", "Sorry, looks like an error has occured: " + error.message);
         })
       }
 
