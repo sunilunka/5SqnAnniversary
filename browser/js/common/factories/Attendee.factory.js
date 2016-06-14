@@ -117,7 +117,8 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
     /* Remove user from category, no iteration so already in array to resolve. Remove user from platforms already occupies array, as it's methods already iterate over required keys. */
     let resolveToRemove = [
       GuestCategoryFactory.addOrRemoveGuestToCategory("remove", userToRemove.association, userToRemove.$id),
-      PlatformsFactory.removeAttendeeFromPlatforms(platformsIdArray, userToRemove.events, userToRemove.$id)
+      PlatformsFactory.removeAttendeeFromPlatforms(platformsIdArray, userToRemove.events, userToRemove.$id),
+      attendeesRef.update({ [userData.$id]: null })
   ];
 
     /* Remove guest from origin store */

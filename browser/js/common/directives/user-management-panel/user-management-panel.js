@@ -11,7 +11,7 @@ app.directive("userManagementPanel", function(AttendeeFactory){
         let userId = scope.user.$id;
         return AttendeeFactory.removeUser(scope.user)
         .then(function(data){
-          console.log("DATA ON REMOVAL: ", data);
+          console.log("USER REMOVED: ", userId);
           return userId;
         })
         .catch(function(error){
