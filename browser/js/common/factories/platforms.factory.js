@@ -18,9 +18,9 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
     return platformsRef.child(platformId).child("total")
     .transaction(function(currentVal){
       if(addOrRemove === "add"){
-        return currentVal ++;
+        return currentVal + 1;
       } else if(addOrRemove === "remove"){
-        return currentVal === 0 ? 0 : currentVal--;
+        return currentVal === 0 ? 0 : currentVal - 1;
       }
     })
   }
@@ -29,9 +29,9 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
     return platformsRef.child(platformId).child("eventTally").child(eventId)
     .transaction(function(currentVal){
       if(addOrRemove === "add"){
-        return currentVal++;
+        return currentVal + 1;
       } else if(addOrRemove === "remove"){
-        return currentVal === 0 ? 0 : currentVal--;
+        return currentVal === 0 ? 0 : currentVal - 1;
       }
     })
   }

@@ -83,13 +83,10 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
          /* Get count of current guests */
         return firebase.Promise.all([
           userEventsRef.update({ [evtId]: null }),
-          EventFactory.removeAttendeeFromEvent(evtId, user, count), EventGuestFactory.removeAttendeeFromEventList(evtId, user)
+          EventFactory.removeAttendeeFromEvent(evtId, user, count), EventGuestFactory.removeAttendeeFromEventList(evtId, user),
+          PlatformsFactory.removeFromEventTally(user.platforms, evtId)
         ])
       })
-      .then(function(data){
-        return data;
-      })
-
     }
   }
 
@@ -100,16 +97,10 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
         [evtId]: "No guests"
       }),
       EventFactory.addAttendeeToEvent(evtId, user),
-      EventGuestFactory.addAttendeeToEventList(evtId, user)
+      EventGuestFactory.addAttendeeToEventList(evtId, user),
+      PlatformsFactory.addToEventTally(user.platforms, evtId)
     ])
-    // if(user.hasOwnProperty("events")){
-    //   user.events[evtId] = "No guests";
-    // } else {
-    //   /* If events object in local db does not exist, create it */
-    //   user["events"] = {};
-    //   user.events[evtId] = "No guests";
-    // }
-    // return firebase.Promise.all([EventFactory.addAttendeeToEvent(evtId, user),  EventGuestFactory.addAttendeeToEventList(evtId, user), PlatformsFactory.addToEventTally(user.platforms, evtId)])
+
   },
 
   AttendeeFactory.removeUser = function(userData){
