@@ -80,13 +80,14 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
        .then(function(count){
          /* Get count of current guests */
         delete user.events[evtId];
-        return user.$save()
-        .then(function(ref){
-          return EventFactory.removeAttendeeFromEvent(evtId, user, count);
-        })
-        .then(function(ref){
-          return EventGuestFactory.removeAttendeeFromEventList(evtId, user);
-        })
+        return firebase.Promise.all([ user.$save(), EventFactory.removeAttendeeFromEvent(evtId, user, count), EventGuestFactory.removeAttendeeFromEventList(evtId, user)])
+      })
+      .then(function(data){
+        return data;
+      })
+      .catch(function(error){
+        console.log("SORRY AN ERROR OCCURED");
+        return error;
       })
     }
   }

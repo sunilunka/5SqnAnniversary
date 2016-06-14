@@ -1,8 +1,18 @@
 <section>
   <header class="flex-container-row">
-    <span ng-bind="user.firstName"></span><span ng-bind="user.lastName"></span>
+    <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+    <p>User Association</p>
   </header>
+  <div class="flex-container-row">
+    <p>P-3K2 Orion</p>
+    <p>P-3K Orion</p>
+    <p>P-3B Orion</p>
+  </div>
   <footer>
     <span ng-bind="user.email"></span>
+    <div class="flex-container-row">
+      <button class="sqn-btn">Make Admin</button>
+      <button class="sqn-btn-danger">Remove</button>
+    </div>
   </footer>
 </section>

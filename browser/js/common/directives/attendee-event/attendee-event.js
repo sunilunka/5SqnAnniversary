@@ -95,7 +95,6 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
         } else {
           return "Add Guest"
         }
-        // $rootScope.$digest();
       }
 
 

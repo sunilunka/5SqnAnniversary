@@ -10,6 +10,12 @@ app.config(function($stateProvider){
     resolve: {
       Users: function(AttendeeFactory){
         return AttendeeFactory.getAll();
+      },
+      Categories: function(GuestCategoryFactory){
+        return GuestCategoryFactory.getGuestCategories();
+      },
+      Events: function(EventsFactory){
+        return EventFactory.getEvents();
       }
     }
 

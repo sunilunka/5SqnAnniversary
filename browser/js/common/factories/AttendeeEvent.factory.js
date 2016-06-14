@@ -26,12 +26,10 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
       let eventList = eventGuestLists.child(evtId).child(attendeeId);
       return {
         addGuest: (guestKey, guestName) => {
-          return eventList.update({
+          return firebase.Promise.all([eventList.update({
             [guestKey]: guestName
-          })
-          .then(function(data){
-            return EventFactory.addAttendeeToEvent(evtId, attendeeData);
-          })
+          }), EventFactory.addAttendeeToEvent(evtId, attendeeData)]);
+
         },
 
         removeGuest: (guestId) => {
