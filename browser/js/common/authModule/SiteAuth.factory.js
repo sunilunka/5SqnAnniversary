@@ -2,6 +2,8 @@
 
 app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, SessionService, $state, $rootScope){
 
+  var managementRef = DatabaseFactory.dbConnection("managers");
+  var managementObj = $firebaseObject(managementRef);
 
   /* Create a connection to the user identification key. If the key does not exist then no details will be returned. */
   var verifyUserDetails = (id) => {
@@ -71,7 +73,12 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
       SessionService.createSession(data);
       $rootScope.$broadcast("loggedIn", SessionService.user);
       if(data.hasOwnProperty("manager")){
-        $state.go("management")
+        managementObj.$loaded()
+        .then(function(managementData){
+          if(managementData[data.id]){
+            $state.go("management")
+          }
+        })
       } else {
         /* User is registered, go to the appropriate URL, where the id is the url identifier i.e. attendee/{{data.id}}*/
         $state.go("attendee", {id: data.id});

@@ -3,6 +3,8 @@
 ;(function(){
 
   if(!window.angular) throw new Error("Looks like angular isn't available!");
+
+  if(!window.firebase) throw new Error("Looks like Firebase isn't available!");
   /* Instantiate a new module for user creation and auth handling */
   var app = angular.module('firebaseAuthHandler', ['firebase']);
 
@@ -48,7 +50,29 @@
   /* */
   app.service('AuthService', function(DatabaseFactory, SessionService, $rootScope, SiteAuthFactory, AttendeeFactory, RegisterFactory, $state, $firebaseObject){
 
+    var permissionsObj;
+
     var authRef = DatabaseFactory.authConnection();
+
+    var managementRef = DatabaseFactory.dbConnection("managers");
+
+    var managementObj = $firebaseObject(managementRef);
+
+    managementObj.$loaded()
+    .then(function(data){
+      if(!permissionsObj){
+        permissionsObj = data;
+      }
+    })
+
+    this.checkUserIsManager = (currentUserIdent) => {
+      if(permissionsObj){
+        if(permissionsObj[currentUserIdent]){
+          return true;
+        }
+      }
+      return false;
+    }
 
     this.getCurrentUser = () => {
       if(SessionService.user) return SessionService.user;

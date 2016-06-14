@@ -8,6 +8,8 @@ app.directive("headerBar", function($state, $rootScope, AuthService){
 
       scope.currentUser = null;
 
+      scope.isManager = null;
+
       scope.goToUserProfile = () => {
         $state.go("attendee", {id: scope.currentUser.uid})
       }
@@ -20,18 +22,16 @@ app.directive("headerBar", function($state, $rootScope, AuthService){
       $rootScope.$on('loggedIn', function(event, authData){
 
         scope.currentUser = AuthService.getCurrentUser();
+
+        let currentUserId = scope.currentUser.id || scope.currentUser.$id || scope.currentUser.uid;
+
+        scope.isManager = AuthService.checkUserIsManager(currentUserId) && scope.currentUser["manager"];
       })
 
       $rootScope.$on('loggedOut', () => {
         scope.currentUser = null;
       })
 
-      scope.links = [
-        {title: "Home", state: "home"},
-        {title: "About", state: "about"},
-        {title: "Anniversary", state: "newAttendee"}
-      ]
     }
   }
-
 })

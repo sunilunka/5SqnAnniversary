@@ -23,7 +23,9 @@ app.config(function ($urlRouterProvider, $locationProvider) {
 });
 
 // This app.run is for controlling access to specific states.
-app.run(function ($rootScope, $state, AuthService, SessionService) {
+app.run(function ($rootScope, $state, $firebaseObject, AuthService, SessionService, ManagementFactory) {
+
+
   AuthService.reportAuthState();
 
   var stateRequiresAuth = (state) => {
@@ -45,12 +47,16 @@ app.run(function ($rootScope, $state, AuthService, SessionService) {
       $state.go('login')
       return;
     }
-
     /* To complete, if the user has the property manager, and the is their user id is also annotated against the 'manager' entry in the Firebase Database (FBDB) then allow access to management state. */
 
-    // if(currentUser && stateRequiresAdmin(toState)){
-    //   if(currentUser.hasOwnProperty("manager"))
-    // }
+    if(currentUser && stateRequiresAuth(toState) && stateRequiresAdmin(toState)){
+      let currentUserIdent = currentUser.$id || currentUser.id || currentUser.uid;
+      /* If the user is not tagged as a manager or is not in the permissions list on the server, stop*/
+      if(!currentUser.manager || !AuthService.checkUserIsManager(currentUserIdent)){
+        event.preventDefault();
+        $state.go("attendee", {id: currentUserIdent});
+      }
+    }
 
 
   })

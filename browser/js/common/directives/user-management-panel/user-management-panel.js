@@ -1,4 +1,4 @@
-app.directive("userManagementPanel", function(AttendeeFactory){
+app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/user-management-panel/user-management-panel.html",
@@ -19,6 +19,17 @@ app.directive("userManagementPanel", function(AttendeeFactory){
           return error;
         })
       }
+
+      scope.makeAdmin = function(){
+        return ManagementFactory.addManager(scope.user.$id)
+        .then(function(data){
+          return error;
+        })
+        .catch(function(error){
+          return error;
+        })
+      }
+
     }
   }
 })
