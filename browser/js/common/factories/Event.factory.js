@@ -12,6 +12,13 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
       })
     },
 
+    getEventsObject: () => {
+      return eventsObj.$loaded()
+      .then(function(data){
+        return data;
+      })
+    },
+
     returnEventDetails: (evtObjId) => {
       return eventsArray.$loaded()
       .then(function(data){

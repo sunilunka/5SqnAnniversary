@@ -7,6 +7,47 @@ user-management-panel {
 
   section {
     padding: 1em;
+
+    header {
+      align-items: stretch;
+
+      h4, p {
+        flex-grow: 1;
+        margin: 0.5em;
+      }
+
+      p {
+        background-color: $theme-grey;
+        color: $theme-tacgrey;
+        padding: 0.25em;
+        font-size: 0.8em;
+        text-align: center;
+      }
+
+    }
+
+    footer {
+      a {
+        color: $theme-grey;
+        display: block;
+        margin: 0.25em 0.5em 0.5em 0.5em;
+        padding: 0.5em;
+      }
+    }
+  }
+
+  user-platforms{
+    display: block;
+    align-items: baseline;
+
+    span {
+      text-align: center;
+      padding: 0.5em;
+      background-color: $theme-green;
+      color: $theme-tacgrey;
+      margin: 0.5em;
+      flex-grow: 1;
+    }
   }
 
   admin-button {

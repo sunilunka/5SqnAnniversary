@@ -1,7 +1,8 @@
-app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebaseArray){
+app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebaseArray, $firebaseObject){
 
   var platformsRef = DatabaseFactory.dbConnection("platforms");
   var platformsArray = $firebaseArray(platformsRef);
+  var platformsObject = $firebaseObject(platformsRef);
 
   var createEventKeysObj = function(){
     return EventFactory.getEvents()
@@ -130,6 +131,13 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
         toResolveAndAdd.push(updatePlatformEventTotal("add", platformId, eventId));
       }
       return firebase.Promise.all(toResolveAndAdd);
+    },
+
+    getPlatformsObject: function(){
+      return platformsObject.$loaded()
+      .then(function(data){
+        return data;
+      })
     }
   }
 })

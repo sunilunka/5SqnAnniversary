@@ -3,9 +3,17 @@ app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory
     restrict: "E",
     templateUrl: "js/common/directives/user-management-panel/user-management-panel.html",
     scope: {
-      user: "="
+      user: "=",
+      platforms: "=",
+      evts: "=",
+      categories: "="
     },
     link: function(scope, element, attrs){
+
+      let user = scope.user;
+
+      scope.association = scope.categories[user.association];
+
       scope.deleteUser = function(){
         /* Store userId so that it can be shown to admin to help them identify and remove the authentication of the user as well. */
         let userId = scope.user.$id;
@@ -20,15 +28,7 @@ app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory
         })
       }
 
-      scope.makeAdmin = function(){
-        return ManagementFactory.addManager(scope.user.$id)
-        .then(function(data){
-          return error;
-        })
-        .catch(function(error){
-          return error;
-        })
-      }
+
 
     }
   }

@@ -1,15 +1,11 @@
 <section>
   <header class="flex-container-row">
     <h4>{{ user.firstName }} {{ user.lastName }}</h4>
-    <p>User Association</p>
+    <p ng-bind="association"></p>
   </header>
-  <div class="flex-container-row">
-    <p>P-3K2 Orion</p>
-    <p>P-3K Orion</p>
-    <p>P-3B Orion</p>
-  </div>
+  <user-platforms class="flex-container-row" userdata="user.platforms" platforms="platforms"></user-platforms>
   <footer>
-    <span ng-bind="user.email"></span>
+    <a href="mailto:{{ user.email }}" ng-bind="user.email" title="Open your email application to send a message to this addres."></a>
     <div class="flex-container-row">
       <admin-button user="user"></admin-button>
       <button class="sqn-btn-danger" ng-click="deleteUser()">Remove</button>
