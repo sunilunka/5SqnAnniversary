@@ -14,7 +14,7 @@ app.config(function($stateProvider){
       Categories: function(GuestCategoryFactory){
         return GuestCategoryFactory.getGuestCategories();
       },
-      Events: function(EventsFactory){
+      Events: function(EventFactory){
         return EventFactory.getEvents();
       }
     }

@@ -81,6 +81,7 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
         AttendeeFactory.addEventToAttendee(evtId, scope.attendee)
         .then(function(ref){
           scope.isUserAttending(scope.evt);
+          $rootScope.$digest();
           return;
         })
       }

@@ -100,15 +100,13 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       user["events"] = {};
       user.events[evtId] = "No guests";
     }
-    return user.$save()
-    .then(function(ref){
-      return EventFactory.addAttendeeToEvent(evtId, user)
-      .then(function(ref){
-        return ref;
-      })
+    return firebase.Promise.all([user.$save(), EventFactory.addAttendeeToEvent(evtId, user),  EventGuestFactory.addAttendeeToEventList(evtId, user)])
+    .then(function(data){
+      return data;
     })
-    .then(function(ref){
-      return EventGuestFactory.addAttendeeToEventList(evtId, user);
+    .catch(function(error){
+      console.log("SORRY AN ERROR OCCURED: ", error);
+      return error;
     })
   }
 
