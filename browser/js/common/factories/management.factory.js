@@ -2,6 +2,7 @@ app.factory("ManagementFactory", function($firebaseObject, DatabaseFactory){
 
   var managementRef = DatabaseFactory.dbConnection("managers");
   let managementObj = $firebaseObject(managementRef);
+  let usersRef = DatabaseFactory.dbConnection("attendees");
 
   let ManagementFactory = {};
 
@@ -21,7 +22,12 @@ app.factory("ManagementFactory", function($firebaseObject, DatabaseFactory){
     ])
   }
 
-
+  ManagementFactory.getCategoryUsers = () => {
+    return usersRef.orderByKey().limitToFirst(50)
+    .on("value", function(snapshot){
+      console.log("CATEGORY SNAPSHOT: ", snapshot.val());
+    })
+  }
 
   return ManagementFactory;
 

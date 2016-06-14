@@ -1,9 +1,15 @@
-<section class="management-sub-menu">
-  <header>
-    <h2>Management Dashboard - Users</h2>
-    <div>
-      <h4>Filter users</h4>
-      <input type="text" class="sqnInputActive" ng-model="user"></input>
+<section class="management-sub-menu container-fluid">
+  <header class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h2>Management Dashboard - Users</h2>
+      <h4>Search users</h4>
+      <div class="flex-container-row">
+        <input type="text" class="sqnInputActive" ng-model="user" placeholder="Search by first or last name"></input>
+      </div>
+      <div class="flex-container-row">
+        <button class="sqn-btn" ng-click="getOverseasUsers()">View from overseas</button>
+        <button class="sqn-btn" ng-click="getCategoryUsers()">View current members</button>
+      </div>
     </div>
   </header>
   <div class="flex-container-row">

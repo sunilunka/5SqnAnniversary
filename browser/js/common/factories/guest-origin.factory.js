@@ -5,15 +5,21 @@ app.factory("GuestOriginFactory", function(DatabaseFactory, $firebaseArray, $fir
   return {
     addGuestToOriginStore: (attendeeData) => {
       if(attendeeData.overseas){
-        guestOriginRef.child("overseas").update({
+        return guestOriginRef.child("overseas").update({
           [attendeeData.uid]: true
         })
       }
     },
 
     removeGuestFromOriginStore: (attendeeIdent) => {
-      guestOriginRef.child("overseas").update({
+      return guestOriginRef.child("overseas").update({
         [attendeeIdent]: null
+      })
+    },
+
+    getOverseasData: () => {
+      return guestOriginRef.child("overseas").on("value", function(snapshot){
+        console.log("SNAPSHOT: ", snapshot.val());
       })
     }
   }

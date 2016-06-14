@@ -1,4 +1,4 @@
-app.controller("ManagementUsersCtrl", function($scope, AttendeeFactory, Users, Categories, Events, Platforms){
+app.controller("ManagementUsersCtrl", function($scope, AttendeeFactory, ManagementFactory, GuestOriginFactory, Users, Categories, Events, Platforms){
 
   $scope.users = Users;
 
@@ -7,5 +7,13 @@ app.controller("ManagementUsersCtrl", function($scope, AttendeeFactory, Users, C
   $scope.platforms = Platforms;
 
   $scope.events = Events;
+
+  $scope.getOverseasUsers = function(){
+    return GuestOriginFactory.getOverseasData();
+  }
+
+  $scope.getCategoryUsers = function(){
+    return ManagementFactory.getCategoryUsers();
+  }
 
 })
