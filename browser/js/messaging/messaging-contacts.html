@@ -1,3 +1,5 @@
 <section class="messaging-contacts">
-  <h2>Will hold user contacts</h2>
+  <div class="flex-container-row">
+    <messaging-contact ng-repeat="user in users" user="user" categories="categories" current="current" platforms="platforms"></messaging-contact>
+  </div>
 </section>

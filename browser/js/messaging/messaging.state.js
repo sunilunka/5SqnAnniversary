@@ -6,6 +6,17 @@ app.config(function($stateProvider){
     resolve: {
       Users: function(AttendeeFactory){
         return AttendeeFactory.getAll();
+      },
+
+      Categories: function(GuestCategoryFactory){
+        return GuestCategoryFactory.getGuestCategoriesObject();
+      },
+
+      Platforms: function(PlatformsFactory){
+        return PlatformsFactory.getPlatformsObject();
+      },
+      loggedInUser: function(AttendeeFactory){
+        return AttendeeFactory.getOne();
       }
     }
   })
