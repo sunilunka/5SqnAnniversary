@@ -29,11 +29,11 @@ app.directive("addEventGuest", function(AttendeeEventFactory, $firebaseArray, $r
           return AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, scope.attendee).addGuest(ref.key, guestName);
         })
         .then(function(data){
-          NotificationService.createAndBroadcastMessage("success", "Great, your guest is added to the list.")
+          NotificationService.notify("success", "Great, your guest is added to the list.")
           resetForm();
         })
         .catch(function(error){
-          NotificationService.createAndBroadcastMessage("error", "Sorry, looks like an error has occured: " + error.message);
+          NotificationService.notify("error", "Sorry, looks like an error has occured: " + error.message);
         })
       }
 

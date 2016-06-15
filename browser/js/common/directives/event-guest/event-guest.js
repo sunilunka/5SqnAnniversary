@@ -9,7 +9,7 @@ app.directive("eventGuest", function(AttendeeEventFactory, NotificationService){
     },
     link: function(scope, element, attrs){
       scope.removeGuest = () => {
-        NotificationService.createAndBroadcastMessage("in-progress", "Removing guest...")
+        NotificationService.notify("in-progress", "Removing guest...")
         let attendeeGuestArray = AttendeeEventFactory.arrayToModify("attendees/" + scope.attendee.$id + "/events/" + scope.evtid);
         let guestId = scope.guest.$id;
         return attendeeGuestArray.$loaded()
@@ -20,7 +20,7 @@ app.directive("eventGuest", function(AttendeeEventFactory, NotificationService){
               return AttendeeEventFactory.modifyEventGuestList(scope.evtid, scope.attendee).removeGuest(guestId);
             })
             .then(function(data){
-              NotificationService.createAndBroadcastMessage("success", "Guest removed.")
+              NotificationService.notify("success", "Guest removed.")
             })
           } else if(data.length > 1){
             return data.$ref().child(guestId)
@@ -29,10 +29,10 @@ app.directive("eventGuest", function(AttendeeEventFactory, NotificationService){
               return AttendeeEventFactory.modifyEventGuestList(scope.evtid, scope.attendeeid).removeGuest(guestId);
             })
             .then(function(data){
-              NotificationService.createAndBroadcastMessage("success", "Guest removed.")
+              NotificationService.notify("success", "Guest removed.")
             })
             .catch(function(error){
-              NotificationService.createAndBroadcastMessage("error", "SORRY AN ERROR OCCURED: " + error.message);
+              NotificationService.notify("error", "SORRY AN ERROR OCCURED: " + error.message);
             })
           }
         });

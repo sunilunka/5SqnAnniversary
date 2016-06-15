@@ -11,7 +11,7 @@ $theme-blur: blur(0.25em);
 }
 
 .display-notification + #main {
-  @include filter-mixin($theme-blur);
+  opacity: 0.5;
 }
 
 .display-error {
