@@ -56,10 +56,8 @@
 
     var managementRef = DatabaseFactory.dbConnection("managers");
 
-    var managementObj = $firebaseObject(managementRef);
-
-    managementObj.$loaded()
-    .then(function(data){
+    managementRef.on("value", function(snapshot){
+      let data = snapshot.val()["managers"];
       if(!permissionsObj){
         permissionsObj = data;
       }

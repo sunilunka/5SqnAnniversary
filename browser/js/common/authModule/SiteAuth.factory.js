@@ -3,7 +3,6 @@
 app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, SessionService, $state, $rootScope, NotificationService){
 
   var managementRef = DatabaseFactory.dbConnection("managers");
-  var managementObj = $firebaseObject(managementRef);
   var attendeesRef = DatabaseFactory.dbConnection("attendees");
 
   var setUserOnline = function(sessionUserData){
@@ -92,18 +91,20 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
     /* If user is registered then re-route to required state depending on if user is a manager or not. */
     userIsRegistered: (data) => {
       SessionService.createSession(data);
+      let userId = data.id || data.uid || data.$id;
       $rootScope.$broadcast("loggedIn", SessionService.user);
       if(data.hasOwnProperty("manager")){
-        managementObj.$loaded()
-        .then(function(managementData){
-          if(managementData[data.uid]){
+        managementRef.child(userId).on("value", function(snapshot){
+          let data = snapshot.val();
+          if(data){
             $state.go("management")
           }
         })
       } else {
         /* User is registered, go to the appropriate URL, where the id is the url identifier i.e. attendee/{{data.id}}*/
-        $state.go("attendee", {id: data.id || data.uid || data.$id});
+        $state.go("attendee", {id: userId});
       }
+      /* Set user online regardless of if manager or not. */
       return setUserOnline(SessionService.user);
 
     },
