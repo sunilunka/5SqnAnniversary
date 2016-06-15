@@ -140,7 +140,6 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
   }
 
   AttendeeFactory.setOnline = (userId) => {
-    console.log("TOGGLING ONLINE STATUS: ", userId);
     return attendeesRef.child(userId).child("online").transaction(function(currentVal){
       return true;
     })
@@ -150,6 +149,10 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
     return attendeesRef.child(userId).child("online").transaction(function(currentVal){
       return false;
     });
+  },
+
+  AttendeeFactory.getAllStandard = () => {
+    
   }
 
   return AttendeeFactory;
