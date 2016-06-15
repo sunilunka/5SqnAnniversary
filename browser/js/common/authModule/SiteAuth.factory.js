@@ -23,14 +23,21 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
   var verifyUserDetails = (id) => {
     /* Change this to firebase query? */
     let usersRef = DatabaseFactory.dbConnection('attendees');
-    let usersObject = $firebaseObject(usersRef);
+    let usersObject = usersRef.orderByKey().equalTo(id);
 
-    return usersObject.$loaded()
-      .then(function(data){
-        var userData = data[id];
-        console.log("USER DATA: ", data[id]);
-        return userData;
+    return new Promise(function(fulfill, reject){
+      usersObject.on("value", function(snapshot){
+        let userData = snapshot.val();
+        if(!userData) {
+          fulfill(null);
+        } else {
+          /* If snapshot returns an object, key is the requested id.*/
+          fulfill(userData[id]);
+        }
+      }, function(err){
+        reject(err);
       })
+    });
   }
 
   return {

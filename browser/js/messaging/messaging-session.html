@@ -6,12 +6,16 @@
     </div>
   </header>
   <div id="messages-view">
+    <div ng-repeat="message in messages">
+      <formatted-text rawtext="message.content"></formatted-text>
+      <span ng-bind="message.author"></span><span ng-bind="message.dtg"></span>
+    </div>
   </div>
   <footer>
-    <form name="newMessageForm" ng-submit="sendMessage()">
-      <textarea ng-model="newMessage" name="newMessageContent" placeholder="Write a message..." ng-required="true">
+    <form name="newMessageForm" ng-submit="transmit()">
+      <textarea ng-model="newMessage.content" name="content" placeholder="Write a message..." ng-required="true" novalidate>
       </textarea>
-      <input type="submit" value="Send" ng-class="{'sqn-btn-disabled': newMessageForm.newMessageContent.$invalid }"></input>
+      <input type="submit" class="sqn-btn-positive" value="Send" ng-class="{'sqn-btn-disabled': newMessageForm.content.$invalid }" ng-disabled="newMessageForm.content.$invalid"></input>
     </form>
   </footer>
 

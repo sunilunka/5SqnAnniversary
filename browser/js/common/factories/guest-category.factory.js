@@ -35,7 +35,6 @@ app.factory("GuestCategoryFactory", function(DatabaseFactory, $firebaseArray, $f
     getGuestCategories: () => {
       return guestCatArray.$loaded()
       .then(function(arr){
-        console.log("ARRAY FOUND AND POPULATED: ", arr)
         return arr;
       })
     },

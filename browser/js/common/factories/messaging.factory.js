@@ -1,6 +1,6 @@
 app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, NotificationService){
 
-  var messageStoreRef = DatabaseFactory.dbConnection("messageStore");
+  var sessionMessageStoreRef = DatabaseFactory.dbConnection("sessionMessageStore");
   var userSessionsRef = DatabaseFactory.dbConnection("userSessions");
   var sessionUsersRef = DatabaseFactory.dbConnection("sessionUsers");
   var userToUserRef = DatabaseFactory.dbConnection("userToUserMessaging")
@@ -54,21 +54,24 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
   }
 
-  MessagingFactory.getMessagesArray = function(sessionId){
-    var messages = $firebaseArray(messageStoreRef.child(sessionId));
+  MessagingFactory.getSessionMessages = function(sessionId){
+    var messages = $firebaseArray(sessionMessageStoreRef.child(sessionId).orderByKey().limitToLast(30));
     return messages.$loaded()
+    .then(function(data){
+      return data;
+    })
   }
 
   MessagingFactory.checkMessageSessionExists = function(currentUserId, candidateId, callback){
     return userToUserRef.child(currentUserId).orderByKey().equalTo(candidateId)
     .on("value", function(snapshot){
-      console.log("SNAPSHOT: ", snapshot.val());
-      // if(snapshot.val()){
-      //   callback(matchingSessionId)
-      // } else {
-      //
-      // }
+      callback(snapshot);
     })
+  },
+
+  MessagingFactory.addNewMessage = function(sessionId, messageObj){
+    return sessionMessageStoreRef.child(sessionId)
+    .push(messageObj)
   }
 
   return MessagingFactory;

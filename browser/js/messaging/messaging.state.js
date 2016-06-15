@@ -21,13 +21,18 @@ app.config(function($stateProvider){
     }
   })
   .state("messaging.contacts", {
-    url: "/messaging/:id/contacts",
+    url: "/contacts",
     controller: "MessagingContactsCtrl",
     templateUrl: "js/messaging/messaging-contacts.html",
   })
   .state("messaging.session", {
-    url: "/messaging/:id/session",
+    url: "/session/:sessionId",
     controller: "MessagingSessionCtrl",
-    templateUrl: "js/messaging/messaging-session.html"
+    templateUrl: "js/messaging/messaging-session.html",
+    resolve: {
+      SessionMessages: function(MessagingFactory, $stateParams){
+        return MessagingFactory.getSessionMessages($stateParams.sessionId);
+      }
+    }
   })
 })

@@ -19,9 +19,7 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
       scope.association = scope.categories[user.association];
 
       scope.peerToPeerChat = function(){
-        console.log("USER DETAILS: ", userId, currentUserId);
-        MessagingFactory.checkMessageSessionExists(currentUserId, userId)
-        // MessageSessionService.setPeerToPeerSession(userId, currentUserId)
+        MessageSessionService.setPeerToPeerSession(userId, currentUserId)
       }
 
     }
