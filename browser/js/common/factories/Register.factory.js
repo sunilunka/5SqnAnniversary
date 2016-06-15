@@ -92,7 +92,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     /* Store data to guest origin database object document */
 
     dataStorePromises.push(GuestOriginFactory.addGuestToOriginStore(newUser));
-    
+
     return firebase.Promise.all(dataStorePromises);
 
   }
@@ -116,7 +116,8 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       association: formData.association,
       overseas: formData.overseas,
       events: modifyEventData(formData.events, nameObj.first_name, nameObj.last_name),
-      platforms: modifyPlatformsData(formData.platforms)
+      platforms: modifyPlatformsData(formData.platforms),
+      online: false
     }
   }
 
@@ -132,7 +133,8 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       association: formData.association,
       overseas: formData.overseas,
       events: modifyEventData(formData.events, nameObj.first_name, nameObj.last_name),
-      platforms: modifyPlatformsData(formData.platforms)
+      platforms: modifyPlatformsData(formData.platforms),
+      online: false
     }
   }
 
@@ -145,7 +147,8 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       association: formData.association,
       overseas: formData.overseas,
       events: modifyEventData(formData.events, formData.firstName, formData.lastName),
-      platforms: modifyPlatformsData(formData.platforms)
+      platforms: modifyPlatformsData(formData.platforms),
+      online: false
   }
 }
 

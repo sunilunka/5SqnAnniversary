@@ -1,10 +1,24 @@
 /* Factory for handling the Application specific authentication flow. */
 
-app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, SessionService, $state, $rootScope){
+app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, SessionService, $state, $rootScope, NotificationService){
 
   var managementRef = DatabaseFactory.dbConnection("managers");
   var managementObj = $firebaseObject(managementRef);
+  var attendeesRef = DatabaseFactory.dbConnection("attendees");
 
+  var setUserOnline = function(sessionUserData){
+    let userId = sessionUserData.uid || sessionUserData.$id || sessionUserData.id;
+    return attendeesRef.child(userId).child("online")
+    .transaction(function(currentVal){
+      return true;
+    })
+    .then(function(data){
+      NotificationService.notify("success", "Logged in");
+    })
+    .catch(function(error){
+      NotificationService.notify("error", "Sorry, it looks likes we haven't been able to set you as online, you are logged in.")
+    })
+  }
   /* Create a connection to the user identification key. If the key does not exist then no details will be returned. */
   var verifyUserDetails = (id) => {
     /* Change this to firebase query? */
@@ -24,10 +38,9 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
     isUserRegistered: (authData) => {
       return verifyUserDetails(authData.uid)
       .then(function(userData){
-        console.log("USER DATA ", userData)
         if(userData) {
           /* Append user id to the returned userData, so it can be used when any reference is made to the SessionService.user */
-          userData.id = authData.uid;
+          userData.uid = authData.uid;
           return { currentUser: userData };
         } else {
           return { unregistered: authData };
@@ -42,11 +55,12 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
     setSessionAndReRoute: (sessionUserData, toState, params) => {
       /* sessionUserData => Data to populate SessionService.user
         toState => <String>The state that the user shoud be redirected to
-        params => An object with URL parameters, when setting session, usually { id: uniqueUserId (uid) }
+        params => An object with URL parameters, when setting session, usually { uid: uniqueUserId (uid) }
       */
       SessionService.createSession(sessionUserData);
       $rootScope.$broadcast("loggedIn", SessionService.user);
       $state.go(toState, params)
+      setUserOnline(SessionService.user);
     },
 
     /* When a user is registering for the first time with external auth provider */
@@ -75,15 +89,16 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
       if(data.hasOwnProperty("manager")){
         managementObj.$loaded()
         .then(function(managementData){
-          if(managementData[data.id]){
+          if(managementData[data.uid]){
             $state.go("management")
           }
         })
       } else {
         /* User is registered, go to the appropriate URL, where the id is the url identifier i.e. attendee/{{data.id}}*/
-        $state.go("attendee", {id: data.id});
+        $state.go("attendee", {id: data.id || data.uid || data.$id});
       }
-      return;
+      return setUserOnline(SessionService.user);
+
     },
 
     userNotRegistered: (authData) => {

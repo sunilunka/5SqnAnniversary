@@ -48,7 +48,7 @@
   })
 
   /* */
-  app.service('AuthService', function(DatabaseFactory, SessionService, $rootScope, SiteAuthFactory, AttendeeFactory, RegisterFactory, $state, $firebaseObject){
+  app.service('AuthService', function(DatabaseFactory, SessionService, $rootScope, SiteAuthFactory, AttendeeFactory, RegisterFactory, $state, $firebaseObject, NotificationService){
 
     var permissionsObj;
 
@@ -93,7 +93,7 @@
               return AttendeeFactory.createNewUserFromExternalProvider(authData, userData)
               .then(function(dbData){
                 /* userData could have uid or $id depending on source.*/
-                SiteAuthFactory.setSessionAndReRoute(dbData, "attendee", {id: (dbData.uid || dbData.$id) });
+                SiteAuthFactory.setSessionAndReRoute(dbData, "attendee", {id: (dbData.uid || dbData.$id || dbData.id) });
               })
               .catch(function(error){
                   return error;
@@ -117,14 +117,15 @@
 
         } else if (SessionService.user && (!authData)){
           /* If there is session user information, but no AuthData, log the user out. This is because the $onAuth callback is fired at an auth event (login, logout etc ) is detected by the firebase backend. This case covers the $unauth, when the user has initiated logout, and no authdata is returned */
+          AttendeeFactory.setOffline(SessionService.user.uid || SessionService.user.id || SessionService.user.$id);
           SessionService.destroySession()
           $rootScope.$broadcast('loggedOut');
           $state.go("home");
-          console.warn("Logged out!");
+          NotificationService.notify("success", "You are now logged out")
           // console.log("SESSION USER LOGGED OUT: ", SessionService.user);
         } else if (SessionService.user && authData) {
           $rootScope.$broadcast('loggedIn', SessionService.user)
-          return /* No need to return anything, user is still signed in */
+          return;/* No need to return anything, user is still signed in */
         }
       })
     }
