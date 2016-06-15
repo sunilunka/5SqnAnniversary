@@ -11,7 +11,7 @@ app.directive("headerBar", function($state, $rootScope, AuthService){
       scope.isManager = null;
 
       scope.goToUserProfile = () => {
-        $state.go("attendee", {id: scope.currentUser.uid})
+        $state.go("attendee", {id: scope.currentUser.uid || scope.currentUser.id || scope.currentUser.$id })
       }
 
       scope.logoutUser = () => {
