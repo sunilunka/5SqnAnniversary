@@ -60,6 +60,14 @@ app.directive("searchOptions", function(ManagementFactory, GuestOriginFactory, G
         }, catId)
       }
 
+      scope.executePlatformQuery = function(platId, associatedUsers){
+        scope.loadingData = true; QueryFactory.getPlatformUsers(associatedUsers, function(users){
+          sendResultsToParentScope(users);
+          scope.searchView = platId;
+          return searchComplete();
+        });
+
+      }
 
       scope.userOptions = [
         {

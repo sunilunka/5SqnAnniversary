@@ -10,8 +10,21 @@ app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFacto
 
   $scope.events = Events;
 
+  $scope.showMessage = false;
+
+  $scope.activity;
+
   $scope.$on("resultsReceived", function(event, value){
+    if(!value.length){
+      $scope.activity = "No users found";
+      $scope.showMessage = true;
+    } else {
+      $scope.showMessage = false;
+    }
     $scope.searchResults = value;
+    $timeout(function(){
+      $scope.$apply();
+    }, 1)
   })
 
 })

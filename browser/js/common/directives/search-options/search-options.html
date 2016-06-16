@@ -8,5 +8,5 @@
   <button ng-repeat="cat in categories" ng-class="{'sqn-btn-disabled': loadingData || searchView === cat.$id }" ng-disabled="loadingData || searchView === cat.$id" class="sqn-btn-inverse" ng-bind="cat.$value" ng-click="executeCategoryQuery(cat.$id)"></button>
 </div>
 <div ng-if="showPlatforms" class="flex-container-row search-sub-options">
-  <button ng-repeat="plat in platforms" ng-class="{'sqn-btn-disabled': loadingData || searchView === plat.$id }" ng-disabled="loadingData || searchView === plat.$id" class="sqn-btn-inverse" ng-bind="plat.label"></button>
+  <button ng-repeat="plat in platforms" ng-class="{'sqn-btn-disabled': loadingData || searchView === plat.$id }" ng-disabled="loadingData || searchView === plat.$id" class="sqn-btn-inverse" ng-bind="plat.label" ng-click="executePlatformQuery(plat.$id, plat.associatedAttendees)"></button>
 </div>

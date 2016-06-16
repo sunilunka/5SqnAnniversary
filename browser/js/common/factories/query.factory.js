@@ -12,8 +12,21 @@ app.factory("QueryFactory", function(DatabaseFactory){
           catUsers.push(snapshot.val());
         })
       })
+      callback(catUsers);
     })
-    callback(catUsers);
+  }
+
+  QueryFactory.getPlatformUsers = (associatedUsers, callback) => {
+    let correlatedUsers = [];
+    if(associatedUsers){
+      associatedUsers = Object.keys(associatedUsers);
+      associatedUsers.map(function(id){
+        attendeesRef.child(id).on("value", function(snapshot){
+          correlatedUsers.push(snapshot.val());
+        })
+      })
+    }
+    callback(correlatedUsers);
   }
 
 
