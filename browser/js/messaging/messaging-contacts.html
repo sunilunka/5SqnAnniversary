@@ -1,6 +1,21 @@
-<section class="messaging-contacts">
-  <search-options evts="events" categories="categories" platforms="platforms"></search-options>
+<section class="messaging-contacts container-fluid">
+  <header class="row">
+    <search-options evts="events" categories="categories" platforms="platforms"></search-options>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h5>Filter the results from above by the parameters here.</h5>
+      <form name="userFilterForm" ng-submit="filterUsers()">
+        <div class="flex-container-row">
+          <input type="text" class="sqnInputActive" ng-model="filterParams.firstName" placeholder="First Name"></input>
+          <input type="text" class="sqnInputActive" ng-model="filterParams.lastName" placeholder="Last Name"></input>
+          <input type="text" ng-model="filterParams.email" class="sqnInputActive" placeholder="Email Address">
+        </div>
+        <div class="flex-container-row">
+          <input type="submit" class="sqn-btn-inverse" value="Filter"></input>
+        </div>
+      </form>
+    </div>
+  </header>
   <div class="flex-container-row">
-    <messaging-contact ng-repeat="user in users" user="user" categories="categories" current="current" platforms="platforms"></messaging-contact>
+    <messaging-contact user="result" current="current" ng-if="!loadingData" ng-repeat="result in searchResults | filter:userFilterParams"></messaging-contact>
   </div>
 </section>
