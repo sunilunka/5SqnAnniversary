@@ -1,10 +1,8 @@
-app.controller("MessagingCtrl", function($scope, Users, AuthService){
+app.controller("MessagingCtrl", function($scope, AuthService){
 
   var currentUser = AuthService.getCurrentUser();
 
   let userId = currentUser.uid || currentUser.id || currentUser.$id;
-
-  $scope.users = Users;
 
   $scope.options = [
     {

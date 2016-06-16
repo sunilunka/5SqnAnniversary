@@ -4,9 +4,6 @@ app.config(function($stateProvider){
     controller: "MessagingCtrl",
     templateUrl: "js/messaging/messaging.html",
     resolve: {
-      Users: function(AttendeeFactory){
-        return AttendeeFactory.getAll();
-      },
       Categories: function(GuestCategoryFactory){
         return GuestCategoryFactory.getGuestCategories();
       },
@@ -18,7 +15,7 @@ app.config(function($stateProvider){
       Platforms: function(PlatformsFactory){
         return PlatformsFactory.getPlatforms();
       },
-      
+
       loggedInUser: function(AttendeeFactory){
         return AttendeeFactory.getOne();
       }
