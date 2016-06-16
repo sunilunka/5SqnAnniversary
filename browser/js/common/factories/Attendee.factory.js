@@ -56,9 +56,10 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
   AttendeeFactory.getOne = function(id){
     /* Look at session service user to get current user */
     var currentUser = SessionService.user;
-    console.log("CURRENT USER: ", currentUser);
+    let userId = (currentUser.id || currentUser.uid || currentUser.$id);
     if(currentUser){
-      var userRef = DatabaseFactory.dbConnection("attendees/" + (currentUser.id || currentUser.uid));
+      console.log("CURRENT USER: ", SessionService.user);
+      var userRef = DatabaseFactory.dbConnection("attendees/" + userId);
       var userObj = $firebaseObject(userRef);
       return userObj.$loaded()
       .then(function(data){
@@ -152,7 +153,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
   },
 
   AttendeeFactory.getAllStandard = () => {
-    
+
   }
 
   return AttendeeFactory;

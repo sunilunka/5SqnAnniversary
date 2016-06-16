@@ -91,12 +91,14 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
     /* If user is registered then re-route to required state depending on if user is a manager or not. */
     userIsRegistered: (data) => {
       SessionService.createSession(data);
-      let userId = data.id || data.uid || data.$id;
+      console.log("SESSION USER DATA: ", data);
+      let userId = (data.id || data.uid || data.$id);
       $rootScope.$broadcast("loggedIn", SessionService.user);
       if(data.hasOwnProperty("manager")){
         managementRef.child(userId).on("value", function(snapshot){
-          let data = snapshot.val();
-          if(data){
+          let inManagerTable = snapshot.val();
+          console.log("MANAGEMENT VALID: ", snapshot.val());
+          if(inManagerTable){
             $state.go("management")
           }
         })

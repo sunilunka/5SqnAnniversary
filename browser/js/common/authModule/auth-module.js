@@ -56,20 +56,22 @@
 
     var managementRef = DatabaseFactory.dbConnection("managers");
 
-    managementRef.on("value", function(snapshot){
-      let data = snapshot.val()["managers"];
-      if(!permissionsObj){
-        permissionsObj = data;
-      }
-    })
 
     this.checkUserIsManager = (currentUserIdent) => {
-      if(permissionsObj){
-        if(permissionsObj[currentUserIdent]){
-          return true;
+      console.log("PERMISSIONS OBJ: ", permissionsObj);
+      return managementRef.on("value", function(snapshot){
+        let data = snapshot.val();
+        if(!permissionsObj){
+          permissionsObj = data;
         }
-      }
-      return false;
+
+        if(permissionsObj){
+          if(permissionsObj[currentUserIdent]){
+            return true;
+          }
+        }
+        return false;
+      })
     }
 
     this.getCurrentUser = () => {
