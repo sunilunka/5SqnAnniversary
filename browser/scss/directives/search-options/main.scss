@@ -1,0 +1,16 @@
+search-options {
+  display: block;
+  margin: 0.5em;
+  .sqn-btn, .sqn-btn-inverse {
+    margin: 0.25em;
+  }
+  .primary-options {
+    padding: 0.25em;
+  }
+
+  .search-sub-options {
+    background-color: $theme-grey;
+    padding: 0.25em;
+  }
+
+}
