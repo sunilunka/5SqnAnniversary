@@ -7,14 +7,18 @@ app.config(function($stateProvider){
       Users: function(AttendeeFactory){
         return AttendeeFactory.getAll();
       },
-
       Categories: function(GuestCategoryFactory){
-        return GuestCategoryFactory.getGuestCategoriesObject();
+        return GuestCategoryFactory.getGuestCategories();
+      },
+
+      Events: function(EventFactory){
+        return EventFactory.getEvents();
       },
 
       Platforms: function(PlatformsFactory){
-        return PlatformsFactory.getPlatformsObject();
+        return PlatformsFactory.getPlatforms();
       },
+      
       loggedInUser: function(AttendeeFactory){
         return AttendeeFactory.getOne();
       }

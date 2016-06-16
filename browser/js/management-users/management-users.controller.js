@@ -2,7 +2,7 @@ app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFacto
 
 
 
-  $scope.searchResults = Users;
+  $scope.searchResults = [];
 
   $scope.categories = Categories;
 
@@ -14,6 +14,15 @@ app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFacto
 
   $scope.activity;
 
+  $scope.userFilterParams = {};
+
+  $scope.filterUsers = function(){
+    for(var param in $scope.filterParams){
+      $scope.userFilterParams[param] = $scope.filterParams[param];
+    }
+  }
+
+
   $scope.$on("resultsReceived", function(event, value){
     if(!value.length){
       $scope.activity = "No users found";
@@ -21,7 +30,7 @@ app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFacto
     } else {
       $scope.showMessage = false;
     }
-    $scope.searchResults = value;
+    angular.copy(value, $scope.searchResults);
     $timeout(function(){
       $scope.$apply();
     }, 1)

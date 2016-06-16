@@ -1,4 +1,4 @@
-app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory, GuestCategoryFactory){
+app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory, GuestCategoryFactory, NotificationService){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/user-management-panel/user-management-panel.html",
@@ -9,20 +9,16 @@ app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory
 
       let user = scope.user;
 
-      // GuestCategoryFactory.resolveName(user.association, function(name){
-      //   scope.association = name;
-      // })
-
       scope.deleteUser = function(){
         /* Store userId so that it can be shown to admin to help them identify and remove the authentication of the user as well. */
         let userId = scope.user.$id;
         return AttendeeFactory.removeUser(scope.user)
         .then(function(data){
-          console.log("USER REMOVED: ", userId);
+          NotificationService.notify("success", "User " + userId + "has been removed. Remember to remove them from the auth panel.");
           return userId;
         })
         .catch(function(error){
-          console.log("SORRY AN ERROR OCCURED: ", error);
+          NotificationService.notify("error", "Sorry an error occured: " + error.message);
           return error;
         })
       }

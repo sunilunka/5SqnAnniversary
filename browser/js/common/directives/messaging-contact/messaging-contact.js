@@ -1,11 +1,9 @@
-app.directive("messagingContact", function(MessageSessionService, MessagingFactory){
+app.directive("messagingContact", function(MessageSessionService, MessagingFactory, GuestCategoryFactory){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/messaging-contact/messaging-contact.html",
     scope: {
       user: "=",
-      platforms: "=",
-      categories: "=",
       current: "="
     },
     link: function(scope, element, attrs){
@@ -16,11 +14,18 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
 
       let userId = user.$id;
 
-      scope.association = scope.categories[user.association];
-
       scope.peerToPeerChat = function(){
         MessageSessionService.setPeerToPeerSession(userId, currentUserId)
       }
+
+      scope.$watch(function(){
+        return scope.user
+      }, function(newValue, oldValue){
+        GuestCategoryFactory.resolveName(user.association, function(name){
+          scope.association = name;
+          scope.$apply();
+        })
+      })
 
     }
   }

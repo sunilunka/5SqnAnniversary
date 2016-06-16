@@ -58,7 +58,6 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
     var currentUser = SessionService.user;
     let userId = (currentUser.id || currentUser.uid || currentUser.$id);
     if(currentUser){
-      console.log("CURRENT USER: ", SessionService.user);
       var userRef = DatabaseFactory.dbConnection("attendees/" + userId);
       var userObj = $firebaseObject(userRef);
       return userObj.$loaded()
@@ -74,7 +73,6 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
   }
 
   AttendeeFactory.removeEventFromAttendee = (evtId, user) => {
-    console.log("REMOVING FROM USER: ", user);
     let userId = (user.$id || user.uid || user.id);
     if(user.events.hasOwnProperty(evtId)){
       let userEventsRef = attendeesRef.child(userId).child("events");
@@ -105,7 +103,6 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
   },
 
   AttendeeFactory.removeUser = function(userData){
-    console.log("User data: ", userData);
     let userToRemove = userData;
     let platformsIdArray = Object.keys(userToRemove.platforms);
     /* If the user is not subscribed to any events, then add the events key to the userToRemove object to allow platforms to execute. */
