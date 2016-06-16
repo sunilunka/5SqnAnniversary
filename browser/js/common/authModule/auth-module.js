@@ -58,7 +58,6 @@
 
 
     this.checkUserIsManager = (currentUserIdent) => {
-      console.log("PERMISSIONS OBJ: ", permissionsObj);
       return managementRef.on("value", function(snapshot){
         let data = snapshot.val();
         if(!permissionsObj){
