@@ -1,0 +1,9 @@
+<div class="flex-container-row">
+  <button ng-repeat="option in userOptions" ng-disabled="{{option.disabledCriteria}}" ng-class="{{option.classCriteria}}" class="sqn-btn" ng-click="option.clickAction()" ng-bind="option.label"></button>
+  <button class="sqn-btn">View By Events</button>
+  <button class="sqn-btn">View By Platform</button>
+  <button class="sqn-btn">View By Category</button>
+</div>
+<div class="flex-container-row">
+  <button></button>
+</div>

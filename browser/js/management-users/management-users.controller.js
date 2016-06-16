@@ -1,6 +1,8 @@
-app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFactory, ManagementFactory, GuestOriginFactory, Users, Categories, Events, Platforms){
+app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFactory, ManagementFactory, GuestOriginFactory, Users, Categories, Events, Platforms, $timeout){
 
-  $scope.users = Users;
+
+
+  $scope.searchResults = Users;
 
   $scope.categories = Categories;
 
@@ -8,17 +10,8 @@ app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFacto
 
   $scope.events = Events;
 
-  $scope.loadingData = false;
-
-  $scope.getOverseasUsers = function(){
-    console.log("LOADING...");
-    $scope.loadingData = true;
-    GuestOriginFactory.getOverseasData(function(users){
-      $scope.users = users;
-      $scope.loadingData = false;
-      $scope.$digest();
-    });
-  }
-
+  $scope.$on("resultsReceived", function(event, value){
+    $scope.searchResults = value;
+  })
 
 })

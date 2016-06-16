@@ -22,10 +22,15 @@ app.factory("ManagementFactory", function($firebaseObject, DatabaseFactory){
     ])
   }
 
-  ManagementFactory.getCategoryUsers = (categoryKey) => {
-    return usersRef.orderByKey().equalTo()
-    .on("value", function(snapshot){
-      console.log("CATEGORY SNAPSHOT: ", snapshot.val());
+  ManagementFactory.getManagers = (callback) => {
+    managementRef.on("value", function(snapshot){
+      let managementUsers = [];
+      snapshot.forEach(function(childSnapshot){
+        usersRef.child(childSnapshot.key).on("value", function(snapshot){
+          managementUsers.push(snapshot.val());
+        })
+      })
+      callback(managementUsers);
     })
   }
 

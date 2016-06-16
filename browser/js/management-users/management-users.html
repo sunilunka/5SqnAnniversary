@@ -6,13 +6,19 @@
       <div class="flex-container-row">
         <input type="text" class="sqnInputActive" ng-model="user" placeholder="Search by first or last name"></input>
       </div>
-      <div class="flex-container-row">
-        <button ng-disabled="loadingData" ng-class="{'sqn-btn-disabled': loadingData }" class="sqn-btn" ng-click="getOverseasUsers()">View from overseas</button>
-        <button class="sqn-btn" ng-click="getCategoryUsers()">View current members</button>
+      <search-options evts="events" categories="categories" platforms="platforms"></search-options>
+      <!-- <div class="flex-container-row">
+        <button ng-repeat="option in userOptions" ng-disabled="{{option.disabledCriteria}}" ng-class="{{option.classCriteria}}" class="sqn-btn" ng-click="option.clickAction()" ng-bind="option.label"></button>
       </div>
+      <div class="flex-container-row">
+
+      </div> -->
     </div>
   </header>
   <div class="flex-container-row">
-    <user-management-panel ng-repeat="user in users | filter:user" user="user"></user-management-panel>
+    <div ng-if="loadingData">
+      <h3>Searching...</h3>
+    </div>
+    <user-management-panel ng-if="!loadingData" ng-repeat="result in searchResults | filter:user" user="result"></user-management-panel>
   </div>
 </section>

@@ -20,7 +20,7 @@ app.factory("GuestOriginFactory", function(DatabaseFactory, $firebaseArray, $fir
 
     getOverseasData: (callback) => {
       return guestOriginRef.child("overseas").on("value", function(snapshot){
-        let overseasUsers = []
+        let overseasUsers = [];
         snapshot.forEach(function(childSnapshot){
           attendeesRef.child(childSnapshot.key).on("value", function(snapshot){
             overseasUsers.push(snapshot.val());

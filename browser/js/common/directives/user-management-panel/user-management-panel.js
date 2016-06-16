@@ -32,7 +32,7 @@ app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory
       }, function(newValue, oldValue){
         GuestCategoryFactory.resolveName(user.association, function(name){
           scope.association = name;
-          scope.$digest();
+          scope.$apply();
         })
       })
 

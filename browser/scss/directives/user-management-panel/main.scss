@@ -47,10 +47,11 @@ user-management-panel, messaging-contact {
 
     span {
       text-align: center;
-      padding: 0.5em;
-      background-color: $theme-green;
-      color: $theme-tacgrey;
-      margin: 0.5em;
+      padding: 0.25em;
+      font-size: 1.2rem;
+      background-color: #88BD91;
+      color: #EFEFEF;
+      margin: 0.25em;
       flex-grow: 1;
     }
   }

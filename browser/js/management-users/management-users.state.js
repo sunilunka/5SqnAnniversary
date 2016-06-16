@@ -12,14 +12,15 @@ app.config(function($stateProvider){
         return AttendeeFactory.getAll();
       },
       Categories: function(GuestCategoryFactory){
-        return GuestCategoryFactory.getGuestCategoriesObject();
+        return GuestCategoryFactory.getGuestCategories();
       },
+
       Events: function(EventFactory){
-        return EventFactory.getEventsObject();
+        return EventFactory.getEvents();
       },
 
       Platforms: function(PlatformsFactory){
-        return PlatformsFactory.getPlatformsObject();
+        return PlatformsFactory.getPlatforms();
       }
     }
 
