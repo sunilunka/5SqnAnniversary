@@ -9,26 +9,45 @@ app.factory("QueryFactory", function(DatabaseFactory){
     catRef.on("value", function(snapshot){
       snapshot.forEach(function(childSnap){
         attendeesRef.child(childSnap.key).on("value", function(snapshot){
-          catUsers.push(snapshot.val());
+          let userData = snapshot.val();
+          userData.$id = childSnap.key;
+          catUsers.push(userData);
         })
       })
       callback(catUsers);
     })
   }
 
-  QueryFactory.getPlatformUsers = (associatedUsers, callback) => {
+  QueryFactory.getPlatformUsers = (callback, associatedUsers) => {
     let correlatedUsers = [];
     if(associatedUsers){
       associatedUsers = Object.keys(associatedUsers);
       associatedUsers.map(function(id){
         attendeesRef.child(id).on("value", function(snapshot){
-          correlatedUsers.push(snapshot.val());
+          let userData = snapshot.val();
+          userData.$id = id;
+          correlatedUsers.push(userData);
         })
       })
     }
     callback(correlatedUsers);
   }
 
+  QueryFactory.getEventUsers = (callback, evtId) => {
+    let eventGuestRef = DatabaseFactory.dbConnection("eventGuests");
+    let populatedArray = [];
+    eventGuestRef.child(evtId).on("value", function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+        let userKey = childSnapshot.key
+        attendeesRef.child(userKey).on("value", function(snapshot){
+          let userData = snapshot.val();
+          userData.$id = userKey;
+          populatedArray.push(userData);
+        })
+      })
+      callback(populatedArray);
+    })
+  }
 
   return QueryFactory;
 })

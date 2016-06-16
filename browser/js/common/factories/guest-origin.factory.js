@@ -23,7 +23,9 @@ app.factory("GuestOriginFactory", function(DatabaseFactory, $firebaseArray, $fir
         let overseasUsers = [];
         snapshot.forEach(function(childSnapshot){
           attendeesRef.child(childSnapshot.key).on("value", function(snapshot){
-            overseasUsers.push(snapshot.val());
+            let userData = snapshot.val();
+            userData.$id = childSnapshot.key;
+            overseasUsers.push(userData);
           })
         })
         callback(overseasUsers);

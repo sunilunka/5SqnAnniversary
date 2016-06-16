@@ -27,7 +27,9 @@ app.factory("ManagementFactory", function($firebaseObject, DatabaseFactory){
       let managementUsers = [];
       snapshot.forEach(function(childSnapshot){
         usersRef.child(childSnapshot.key).on("value", function(snapshot){
-          managementUsers.push(snapshot.val());
+          let userData = snapshot.val();
+          userData.$id = childSnapshot.key;
+          managementUsers.push(userData);
         })
       })
       callback(managementUsers);
