@@ -1,20 +1,22 @@
-app.directive("userPlatforms", function(){
+app.directive("userPlatforms", function(PlatformsFactory){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/user-platforms/user-platforms.html",
     scope: {
-      platforms: "=",
       userdata: "="
     },
     link: function(scope, element, attrs){
 
       let platformKeys = Object.keys(scope.userdata);
 
-      var nameArray = platformKeys.map(function(pkey){
-          return scope.platforms[pkey].label;
-      })
+      scope.parsedPlatforms = [];
 
-      scope.parsedPlatforms = nameArray;
+      platformKeys.forEach(function(pkey){
+        return PlatformsFactory.resolvePlatformName(pkey, function(platName){
+          scope.parsedPlatforms.push(platName);
+          return;
+        })
+      })
 
     }
   }

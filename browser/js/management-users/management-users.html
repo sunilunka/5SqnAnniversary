@@ -7,12 +7,12 @@
         <input type="text" class="sqnInputActive" ng-model="user" placeholder="Search by first or last name"></input>
       </div>
       <div class="flex-container-row">
-        <button class="sqn-btn" ng-click="getOverseasUsers()">View from overseas</button>
+        <button ng-disabled="loadingData" ng-class="{'sqn-btn-disabled': loadingData }" class="sqn-btn" ng-click="getOverseasUsers()">View from overseas</button>
         <button class="sqn-btn" ng-click="getCategoryUsers()">View current members</button>
       </div>
     </div>
   </header>
   <div class="flex-container-row">
-    <user-management-panel ng-repeat="user in users | filter:user" user="user" platforms="platforms" evts="events" categories="categories"></user-management-panel>
+    <user-management-panel ng-repeat="user in users | filter:user" user="user"></user-management-panel>
   </div>
 </section>

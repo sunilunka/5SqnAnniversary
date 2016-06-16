@@ -65,6 +65,13 @@ app.factory("GuestCategoryFactory", function(DatabaseFactory, $firebaseArray, $f
       catUpdateObj[id] = catName
       return guestCategoriesRef.update(catUpdateObj);
 
+    },
+
+    resolveName: (catIdent, callback) => {
+      guestCategoriesRef.child(catIdent).once("value")
+      .then(function(snapshot){
+        callback(snapshot.val());
+      })
     }
   }
 })

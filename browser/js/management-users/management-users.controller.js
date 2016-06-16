@@ -1,4 +1,4 @@
-app.controller("ManagementUsersCtrl", function($scope, AttendeeFactory, ManagementFactory, GuestOriginFactory, Users, Categories, Events, Platforms){
+app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFactory, ManagementFactory, GuestOriginFactory, Users, Categories, Events, Platforms){
 
   $scope.users = Users;
 
@@ -8,12 +8,17 @@ app.controller("ManagementUsersCtrl", function($scope, AttendeeFactory, Manageme
 
   $scope.events = Events;
 
+  $scope.loadingData = false;
+
   $scope.getOverseasUsers = function(){
-    return GuestOriginFactory.getOverseasData();
+    console.log("LOADING...");
+    $scope.loadingData = true;
+    GuestOriginFactory.getOverseasData(function(users){
+      $scope.users = users;
+      $scope.loadingData = false;
+      $scope.$digest();
+    });
   }
 
-  $scope.getCategoryUsers = function(){
-    return ManagementFactory.getCategoryUsers();
-  }
 
 })

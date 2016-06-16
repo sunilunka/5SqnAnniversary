@@ -22,8 +22,8 @@ app.factory("ManagementFactory", function($firebaseObject, DatabaseFactory){
     ])
   }
 
-  ManagementFactory.getCategoryUsers = () => {
-    return usersRef.orderByKey().limitToFirst(50)
+  ManagementFactory.getCategoryUsers = (categoryKey) => {
+    return usersRef.orderByKey().equalTo()
     .on("value", function(snapshot){
       console.log("CATEGORY SNAPSHOT: ", snapshot.val());
     })

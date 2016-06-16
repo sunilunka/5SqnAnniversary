@@ -1,18 +1,17 @@
-app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory){
+app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory, GuestCategoryFactory){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/user-management-panel/user-management-panel.html",
     scope: {
-      user: "=",
-      platforms: "=",
-      evts: "=",
-      categories: "="
+      user: "="
     },
     link: function(scope, element, attrs){
 
       let user = scope.user;
 
-      scope.association = scope.categories[user.association];
+      // GuestCategoryFactory.resolveName(user.association, function(name){
+      //   scope.association = name;
+      // })
 
       scope.deleteUser = function(){
         /* Store userId so that it can be shown to admin to help them identify and remove the authentication of the user as well. */
@@ -28,7 +27,14 @@ app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory
         })
       }
 
-
+      scope.$watch(function(){
+        return scope.user
+      }, function(newValue, oldValue){
+        GuestCategoryFactory.resolveName(user.association, function(name){
+          scope.association = name;
+          scope.$digest();
+        })
+      })
 
     }
   }

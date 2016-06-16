@@ -138,6 +138,13 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
       .then(function(data){
         return data;
       })
+    },
+
+    resolvePlatformName: function(platKey, callback){
+      platformsRef.child(platKey).child("label").once("value")
+      .then(function(snapshot){
+        return callback(snapshot.val());
+      })
     }
   }
 })

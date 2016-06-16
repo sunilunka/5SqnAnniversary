@@ -1,6 +1,7 @@
 app.factory("GuestOriginFactory", function(DatabaseFactory, $firebaseArray, $firebaseObject){
 
   var guestOriginRef = DatabaseFactory.dbConnection("guestOrigin");
+  var attendeesRef = DatabaseFactory.dbConnection("attendees");
 
   return {
     addGuestToOriginStore: (attendeeData) => {
@@ -17,9 +18,15 @@ app.factory("GuestOriginFactory", function(DatabaseFactory, $firebaseArray, $fir
       })
     },
 
-    getOverseasData: () => {
+    getOverseasData: (callback) => {
       return guestOriginRef.child("overseas").on("value", function(snapshot){
-        console.log("SNAPSHOT: ", snapshot.val());
+        let overseasUsers = []
+        snapshot.forEach(function(childSnapshot){
+          attendeesRef.child(childSnapshot.key).on("value", function(snapshot){
+            overseasUsers.push(snapshot.val());
+          })
+        })
+        callback(overseasUsers);
       })
     }
   }
