@@ -1,8 +1,12 @@
+<div class="panel-display-tab" ng-click="toggleDisplay()">
+  <span>Messages</span>
+</div>
 <section>
   <header>
+    <a class="sqn-btn" ui-sref="messaging.contacts">Find a squadron mate</a>
     <h5>Your active chats</h5>
   </header>
-  <div>
+  <div class="active-chat-holder">
     <chat-contact-tile ng-repeat="session in sessions" userid="user.$id || user.uid || user.id" session="session">
     </chat-contact-tile>
   </div>

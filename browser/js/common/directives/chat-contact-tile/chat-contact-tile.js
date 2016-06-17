@@ -1,4 +1,4 @@
-app.directive("chatContactTile", function(MessagingFactory, MessageSessionService){
+app.directive("chatContactTile", function(MessagingFactory, MessageSessionService, AttendeeFactory){
     return {
       restrict: "E",
       templateUrl: "js/common/directives/chat-contact-tile/chat-contact-tile.html",
@@ -8,9 +8,14 @@ app.directive("chatContactTile", function(MessagingFactory, MessageSessionServic
       },
       link: function(scope, element, attrs){
         scope.goToSession = function(){
-          console.log("SESSION: ", scope.session, scope.userid);
           MessageSessionService.setPeerToPeerSession(scope.userid, scope.session.peerId)
         }
+
+        AttendeeFactory.watchOnlineState(scope.session.peerId, function(snapshot){
+          let onlineState = snapshot.val();
+          scope.session.online = onlineState;
+        })
+
       }
 
 

@@ -11,6 +11,17 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
 
       scope.sessions = [];
 
+      let displayActive = false;
+
+      scope.toggleDisplay = function(){
+        displayActive = !displayActive;
+        if(displayActive){
+          element.addClass("panel-active");
+        } else {
+          element.removeClass("panel-active");
+        }
+      }
+
       MessagingFactory.getPeerToPeerSessions(userId, function(results){
         console.log("USER RESULTS: ", results);
         angular.copy(results, scope.sessions);

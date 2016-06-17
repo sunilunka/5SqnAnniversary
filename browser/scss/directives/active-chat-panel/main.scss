@@ -1,46 +1,90 @@
-@media screen and (max-width: $screen-xxs-max){
-  active-chat-panel {
-    width: 100vw;
+@mixin panel-responsive-dimensions($width){
+  .panel-active {
+    transform: translateX(-$width);
   }
+
+  active-chat-panel {
+    width: $width;
+    right: -$width;
+  }
+}
+
+@media screen and (max-width: $screen-xxs-max){
+  @include panel-responsive-dimensions(75vw);
 }
 
 @media screen and (min-width: $screen-xs-min) and (max-width: $screen-xs-max) {
-  active-chat-panel {
-    width: 75vw;
-  }
+  @include panel-responsive-dimensions(75vw);
 }
 
 @media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max){
-  active-chat-panel{
-    width: 50vw;
-  }
+@include panel-responsive-dimensions(50vw);
 }
 
 @media screen and (min-width: $screen-md-min){
-  active-chat-panel {
-    width: 33vw;
+  @include panel-responsive-dimensions(25vw);
+}
+
+.user-online {
+  background-color: $theme-green;
+}
+
+.tile-content {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  z-index: 850;
+  color: $theme-tacgrey;
+  padding: 0.5em;
+  @include transition-mixin(all 0.25s ease-in-out);
+  border-bottom: 1px solid $theme-tacgrey;
+  &:hover {
+    color: $theme-grey;
+    background-color: $theme-tacgrey;
   }
+}
+
+.panel-display-tab {
+  position: absolute;
+  top: 0px;
+  left: -3.5em;
+  width: 3.5em;
+  height: 7.5em;
+  background-color: $theme-blue;
+  color: $theme-tacgrey;
+  @include theme-shadow-default;
+  z-index: 800;
+  cursor: pointer;
+  span {
+    display: block;
+    transform: rotate(90deg);
+    position: absolute;
+    top: 2.2em;
+    font-size: 1.8rem;
+    left: -1em;
+  }
+
 }
 
 active-chat-panel {
   position: fixed;
   top: 3.5em;
-  right: 0px;
   height: calc(100vh - 3.5em);
-  background-color: $theme-tacgrey;
+  background-color: rgba(0,0,0,0.9);
   box-shadow: -5px 0px 1em $theme-transparent-black;
   z-index: 800;
   padding: 1em;
-
-  chat-contact-tile {
-    width: 100%;
-    height: auto;
-    cursor: pointer;
-    div {
-      display: block;
-      padding: 0.5em;
-    }
-    &:hover {}
+  @include transition-mixin(transform 0.33s ease-in-out);
+  .sqn-btn {
+    padding: 0.25em;
   }
 
+  .active-chat-holder {
+    @include scrollable-content-viewer;
+    display: block;
+  }
+
+  chat-contact-tile {
+    display: block;
+  }
 }

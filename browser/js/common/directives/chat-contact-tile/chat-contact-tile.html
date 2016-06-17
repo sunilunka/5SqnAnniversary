@@ -1,4 +1,4 @@
-<div ng-click="goToSession()">
+<div ng-class="{'user-online': session.online}" class="tile-content" ng-click="goToSession()">
   <h6 ng-bind="session.displayName"></h6>
   <span ng-bind="session.online"></span>
 </div>
