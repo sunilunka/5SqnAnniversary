@@ -1,4 +1,4 @@
-app.directive("userPlatforms", function(PlatformsFactory){
+app.directive("userPlatforms", function(PlatformsFactory, $timeout){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/user-platforms/user-platforms.html",
@@ -11,12 +11,17 @@ app.directive("userPlatforms", function(PlatformsFactory){
 
       scope.parsedPlatforms = [];
 
-      platformKeys.forEach(function(pkey){
-        return PlatformsFactory.resolvePlatformName(pkey, function(platName){
-          scope.parsedPlatforms.push(platName);
-          return;
+      scope.$watch(function(){
+        return scope.userdata;
+      }, function(newValue, oldValue){
+        platformKeys.forEach(function(pkey){
+          return PlatformsFactory.resolvePlatformName(pkey, function(platName){
+            scope.parsedPlatforms.push(platName);
+            return;
+          })
         })
       })
+
 
     }
   }

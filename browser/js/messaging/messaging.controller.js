@@ -6,13 +6,17 @@ app.controller("MessagingCtrl", function($scope, AuthService){
 
   $scope.options = [
     {
-      title: "Find Users",
+      title: "Search for contacts or create a group",
       ref: "messaging.contacts"
     },
     {
-        title: "Chat Sessions",
-        ref: "messaging.session({id: " + userId + "})"
+      title: "Current Chats and Groups",
+      ref: "messaging.userSessions"
     }
+    // {
+    //     title: "Chat Sessions",
+    //     ref: "messaging.session({id: " + userId + "})"
+    // }
   ]
 
 })

@@ -1,7 +1,9 @@
 <section class="management-sub-menu container-fluid">
-  <h2>Messaging</h2>
-  <button class="sqn-btn" ui-sref="messaging.contacts">Find a contact or continue a chat</button>
+  <header class="row">
+    <h2>Messaging</h2>
+    <button ng-repeat="option in options" class="sqn-btn" ui-sref="{{option.ref}}" ng-bind="option.title" ui-sref-active="sqn-btn-positive"></button>
+  </header>
   <div ui-view>
-    <h2> Loading </h2>
+    <h2> Welcome, select a user to chat with, group or create a new group from the options above. </h2>
   </div>
 </section>

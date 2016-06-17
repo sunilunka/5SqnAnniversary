@@ -32,6 +32,10 @@ app.directive("userManagementPanel", function(AttendeeFactory, ManagementFactory
         })
       })
 
+      AttendeeFactory.watchOnlineState(scope.user.$id, function(snapshot){
+        scope.user.online = snapshot.val();
+      })
+
     }
   }
 })

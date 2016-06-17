@@ -1,9 +1,10 @@
-app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, NotificationService){
+app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, NotificationService, $firebaseObject){
 
   var sessionMessageStoreRef = DatabaseFactory.dbConnection("sessionMessageStore");
   var userSessionsRef = DatabaseFactory.dbConnection("userSessions");
   var sessionUsersRef = DatabaseFactory.dbConnection("sessionUsers");
   var userToUserRef = DatabaseFactory.dbConnection("userToUserMessaging")
+  var attendeesRef = DatabaseFactory.dbConnection("attendees");
 
   var MessagingFactory = {};
 
@@ -11,12 +12,12 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
     if(!Array.isArray(participantIds)){
       participantIds = [];
-      console.log("SORRY, PARTICIPANT ID'S MUST BE IN AN ARRAY!");
       for(var i = 0; i < arguments.length; i++) {
         participantsIds.push(arguments[i]);
       }
     }
 
+    /* Create new session key, with no data. */
     var messageSessionRef = messageStoreRef.push()
 
     console.log("MESSAGE SESSION REF: ", messageSessionRef.key);
@@ -72,6 +73,24 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
   MessagingFactory.addNewMessage = function(sessionId, messageObj){
     return sessionMessageStoreRef.child(sessionId)
     .push(messageObj)
+  }
+
+  MessagingFactory.getPeerToPeerSessions = function(userId){
+    return userToUserRef.child(userId).on("value", function(snapshot){
+      let peerToPeerArray = [];
+      snapshot.forEach(function(childSnapshot){
+        let sessionData = {};
+        sessionData.peerId = childSnapshot.key;
+        sessionData.$id = childSnapshot.val();
+        attendeesRef.child(childSnapshot.key).on("value", function(snapshot){
+          let peerData = snapshot.val();
+          sessionData.displayName = peerData.firstName + " " + peerData.lastName;
+          sessionData.online = peerData.online;
+          peerToPeerArray.push(sessionData);
+        })
+      })
+      return peerToPeerArray;
+    })
   }
 
   return MessagingFactory;

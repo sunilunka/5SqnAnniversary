@@ -149,8 +149,8 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
     });
   },
 
-  AttendeeFactory.getAllStandard = () => {
-
+  AttendeeFactory.watchOnlineState = (userId, callback) => {
+    return attendeesRef.child(userId).child("online").on("value", callback)
   }
 
   return AttendeeFactory;

@@ -1,4 +1,4 @@
-app.directive("messagingContact", function(MessageSessionService, MessagingFactory, GuestCategoryFactory){
+app.directive("messagingContact", function(MessageSessionService, MessagingFactory, GuestCategoryFactory, AttendeeFactory){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/messaging-contact/messaging-contact.html",
@@ -25,6 +25,10 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
           scope.association = name;
           scope.$apply();
         })
+      })
+
+      AttendeeFactory.watchOnlineState(userId, function(snapshot){
+        scope.user.online = snapshot.val();
       })
 
     }
