@@ -3,9 +3,7 @@
     <h5>Your active chats</h5>
   </header>
   <div>
-    <div>
-      <h6>User Name</h6>
-      <p>Online</p>
-    </div>
+    <chat-contact-tile ng-repeat="session in sessions" userid="user.$id || user.uid || user.id" session="session">
+    </chat-contact-tile>
   </div>
 </section>

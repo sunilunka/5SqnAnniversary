@@ -66,6 +66,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
   MessagingFactory.checkMessageSessionExists = function(currentUserId, candidateId, callback){
     return userToUserRef.child(currentUserId).orderByKey().equalTo(candidateId)
     .on("value", function(snapshot){
+      console.log("DATA: ", snapshot.val())
       callback(snapshot);
     })
   },
@@ -75,7 +76,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     .push(messageObj)
   }
 
-  MessagingFactory.getPeerToPeerSessions = function(userId){
+  MessagingFactory.getPeerToPeerSessions = function(userId, callback){
     return userToUserRef.child(userId).on("value", function(snapshot){
       let peerToPeerArray = [];
       snapshot.forEach(function(childSnapshot){
@@ -89,7 +90,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
           peerToPeerArray.push(sessionData);
         })
       })
-      return peerToPeerArray;
+      callback(peerToPeerArray);
     })
   }
 

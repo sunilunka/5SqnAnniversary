@@ -11,6 +11,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
     /* Check if peer to peer chat already exists, and if so, set the session accordingly. */
     MessagingFactory.checkMessageSessionExists(currentUserId, candidateId, function(snapshot){
       if(snapshot){
+        console.log("SERVICE: ", snapshot.val());
         let sessionId = snapshot.val()[candidateId];
         self.messageSession = sessionId;
         $state.go("messaging.session", {sessionId: sessionId})
