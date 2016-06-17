@@ -18,7 +18,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     }
 
     /* Create new session key, with no data. */
-    var messageSessionRef = messageStoreRef.push()
+    var messageSessionRef = sessionMessageStoreRef.push()
 
     console.log("MESSAGE SESSION REF: ", messageSessionRef.key);
     var mapUsersAndSessions = participantIds.map(function(id){
