@@ -5,6 +5,8 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
   $scope.events = Events;
   $scope.current = loggedInUser;
 
+  var loggedInId = loggedInUser.$id || loggedInUser.uid || loggedInUser.id;
+
   $scope.searchResults = [];
 
   $scope.categories = Categories;
@@ -18,6 +20,11 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
   $scope.activity;
 
   $scope.userFilterParams = {};
+
+  $scope.newGroup = {
+    participants: [loggedInId],
+    name: ""
+  }
 
   $scope.filterUsers = function(){
     for(var param in $scope.filterParams){
@@ -37,6 +44,18 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
     $timeout(function(){
       $scope.$apply();
     }, 1)
+  })
+
+  $scope.$on("userAddedToGroup", function(event, value){
+    if($scope.newGroup.participants.indexOf(value) === -1){
+      $scope.newGroup.participants.push(value);
+      console.log("PARTICIPANT LIST", $scope.newGroup.participants)
+      $scope.$broadcast("userAddConfirmed", true);
+    }
+  })
+
+  $scope.$on("removedFromGroup", function(event, value){
+
   })
 
 })

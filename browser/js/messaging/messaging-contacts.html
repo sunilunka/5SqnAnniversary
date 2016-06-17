@@ -1,5 +1,11 @@
 <section class="messaging-contacts container-fluid">
   <header class="row">
+    <div class="flex-container-row message-group-modification">
+      <form name="newMessageGroup" ng-submit="createGroup()">
+        <input type="text" class="sqnInputActive" ng-model="newGroup.name"></input>
+        <input type="submit" value="Create Group" ng-disabled="newGroup.participants.length === 0"></input>
+      </form>
+    </div>
     <search-options evts="events" categories="categories" platforms="platforms"></search-options>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h5>Filter the results from above by the parameters here.</h5>

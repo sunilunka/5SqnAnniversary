@@ -8,6 +8,8 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
     },
     link: function(scope, element, attrs){
 
+      scope.addedToGroup = false;
+
       let user = scope.user;
 
       let currentUserId = scope.current.id || scope.current.$id || scope.current.uid;
@@ -17,6 +19,15 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
       scope.peerToPeerChat = function(){
         MessageSessionService.setPeerToPeerSession(userId, currentUserId)
       }
+
+      scope.addToGroup = function(){
+        console.log("EMITTING: ", userId);
+        scope.$emit("userAddedToGroup", userId);
+      }
+
+      scope.$on("userAddConfirmed", function(event, value){
+        scope.addedToGroup = value;
+      })
 
       scope.$watch(function(){
         return scope.user

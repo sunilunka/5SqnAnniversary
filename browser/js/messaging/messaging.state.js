@@ -36,14 +36,4 @@ app.config(function($stateProvider){
       }
     }
   })
-  .state("messaging.userSessions", {
-    url: "/userSessions",
-    controller: "MessagingUserSessionsCtrl",
-    templateUrl: "js/messaging/messaging-user-sessions.html",
-    resolve: {
-      // PeerSessions: function(MessagingFactory){
-      //   return MessagingFactory.getPeerToPeerSessions($stateParams.id);
-      // }
-    }
-  })
 })

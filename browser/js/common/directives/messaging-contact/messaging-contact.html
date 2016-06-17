@@ -8,7 +8,8 @@
     <a href="mailto:{{ user.email }}" ng-bind="user.email" title="Open your email application to send a message to this address."></a>
     <div class="flex-container-row">
       <button class="sqn-btn" ng-click="peerToPeerChat()">Chat</button>
-      <button class="sqn-btn" ng-click="addToGroup()">Add To Group</button>
+      <button ng-if="!addedToGroup" class="sqn-btn" ng-click="addToGroup()">Add To Group</button>
+      <button ng-if="addedToGroup" class="sqn-btn" ng-click="removeFromGroup()">Remove From Group</button>
     </div>
   </footer>
 </section>

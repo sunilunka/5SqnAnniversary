@@ -8,6 +8,25 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
   var MessagingFactory = {};
 
+  var mapUserToSessionAndSessionToUser = function(sessionId, participantsArray){
+
+    console.log("MESSAGE SESSION REF: ", sessionId);
+    var mapUsersAndSessions = participantsArray.map(function(id){
+      var userSessionObj = {};
+      /* User session object holds number of unseen messages for user based on their online status */
+      userSessionObj[sessionId] = 0;
+      return userSessionsRef.child(id).update(userSessionObj);
+    })
+
+    var mapSessionAndUsers = participantsArray.map(function(id){
+      return sessionUsersRef.child(sessionId).update({
+          [id]: true
+      })
+    })
+
+    return firebase.Promise.all([mapUsersAndSessions, mapSessionAndUsers])
+  }
+
   MessagingFactory.createNewChat = function(participantIds){
 
     if(!Array.isArray(participantIds)){
@@ -20,19 +39,21 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     /* Create new session key, with no data. */
     var messageSessionRef = sessionMessageStoreRef.push()
 
-    console.log("MESSAGE SESSION REF: ", messageSessionRef.key);
-    var mapUsersAndSessions = participantIds.map(function(id){
-      var userSessionObj = {};
-      /* User session object holds number of unseen messages for user based on their online status */
-      userSessionObj[messageSessionRef.key] = 0;
-      return userSessionsRef.child(id).update(userSessionObj);
-    })
+    var sessionUserPromisesToResolve = mapUserToSessionAndSessionToUser(messageSessionRef.key, participantIds);
 
-    var mapSessionAndUsers = participantIds.map(function(id){
-      return sessionUsersRef.child(messageSessionRef.key).update({
-          [id]: true
-      })
-    })
+    // console.log("MESSAGE SESSION REF: ", messageSessionRef.key);
+    // var mapUsersAndSessions = participantIds.map(function(id){
+    //   var userSessionObj = {};
+    //   /* User session object holds number of unseen messages for user based on their online status */
+    //   userSessionObj[messageSessionRef.key] = 0;
+    //   return userSessionsRef.child(id).update(userSessionObj);
+    // })
+    //
+    // var mapSessionAndUsers = participantIds.map(function(id){
+    //   return sessionUsersRef.child(messageSessionRef.key).update({
+    //       [id]: true
+    //   })
+    // })
 
     var mapUserToUserToSession = participantIds.map(function(id){
       let userMap = {};
@@ -48,9 +69,8 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
 
     return firebase.Promise.all([
-        firebase.Promise.all(mapUsersAndSessions),
-        firebase.Promise.all(mapSessionAndUsers),
-        firebase.Promise.all(mapUserToUserToSession)
+        firebase.Promise.all(mapUserToUserToSession),
+        sessionUserPromisesToResolve
       ])
 
   }
