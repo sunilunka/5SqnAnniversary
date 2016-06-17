@@ -2,7 +2,6 @@
 <section class="messaging-state container-fluid">
   <header class="row">
     <div class="">
-      <button class="sqn-btn">Add to private group</button>
       <button class="sqn-btn">Create new group</button>
     </div>
     <div ng-if="createNewGroup" class="flex-container-row message-group-modification">
@@ -33,6 +32,6 @@
     </div>
   </header>
   <div class="flex-container-row">
-    <messaging-contact user="result" current="current" ng-if="!loadingData" ng-repeat="result in searchResults | filter:userFilterParams"></messaging-contact>
+    <messaging-contact user="result" current="user" ng-if="!loadingData" ng-repeat="result in searchResults | filter:userFilterParams"></messaging-contact>
   </div>
 </section>

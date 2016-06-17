@@ -11,18 +11,13 @@ app.directive("userPlatforms", function(PlatformsFactory, $timeout){
 
       scope.parsedPlatforms = [];
 
-      scope.$watch(function(){
-        return scope.userdata;
-      }, function(newValue, oldValue){
-        platformKeys.forEach(function(pkey){
-          return PlatformsFactory.resolvePlatformName(pkey, function(platName){
-            scope.parsedPlatforms.push(platName);
-            return;
-          })
-        })
+      PlatformsFactory.resolvePlatformName(platformKeys, function(data){
+        angular.copy(data, scope.parsedPlatforms);
+        $timeout(function(){
+          scope.$apply();
+        }, 1)
+        return;
       })
-
-
     }
   }
 })

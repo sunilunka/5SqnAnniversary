@@ -140,10 +140,15 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
       })
     },
 
-    resolvePlatformName: function(platKey, callback){
-      platformsRef.child(platKey).child("label").once("value")
-      .then(function(snapshot){
-        return callback(snapshot.val());
+    resolvePlatformName: function(platObj, callback){
+      return firebase.Promise.all(platObj.map(function(platKey){
+        return platformsRef.child(platKey).child("label").once("value")
+        .then(function(snapshot){
+          return snapshot.val();
+        })
+      }))
+      .then(function(data){
+        callback(data);
       })
     }
   }

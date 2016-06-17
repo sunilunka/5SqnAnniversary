@@ -78,7 +78,6 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
 
   $scope.$on("modifyExistingGroup", function(event, value){
     angular.copy(value, $scope.modifyExistingGroup);
-    
   })
 
 })

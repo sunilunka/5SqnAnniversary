@@ -29,8 +29,8 @@
   background-color: rgba()
 }*/
 
-.chat-user-online {
-  background-color: $theme-green;
+.chat-user-online, .adding-user {
+  background-color: $theme-green !important;
 }
 
 .sqn-btn-small {

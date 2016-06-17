@@ -20,6 +20,7 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
 
       scope.setGroupToModify = function(){
         console.log("SESSION TO SEND: ", scope.session);
+        scope.addingUser = true;
         scope.$emit("modifyExistingGroup", scope.session);
       }
 
