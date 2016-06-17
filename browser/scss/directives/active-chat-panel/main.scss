@@ -25,6 +25,10 @@
   @include panel-responsive-dimensions(25vw);
 }
 
+/*.group-private {
+  background-color: rgba()
+}*/
+
 .chat-user-online {
   background-color: $theme-green;
 }

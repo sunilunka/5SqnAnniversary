@@ -97,6 +97,24 @@ alert {
 
 }
 
+.state-transition-view {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
+  padding: 3em;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  animation: fade-in 3s 1;
+}
+
+.transition-squadron {
+  
+}
+
 .flex-container-row {
   display: flex;
   flex-direction: row;

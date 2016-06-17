@@ -25,7 +25,16 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
         scope.$emit("userAddedToGroup", userId);
       }
 
+      scope.removeFromGroup = function(){
+        scope.$emit("removeUserFromGroup", userId);
+      }
+
       scope.$on("userAddConfirmed", function(event, value){
+        scope.addedToGroup = value;
+      })
+
+      scope.$on("userRemoveConfirmed", function(event, value){
+        console.log("USER REMOVED");
         scope.addedToGroup = value;
       })
 

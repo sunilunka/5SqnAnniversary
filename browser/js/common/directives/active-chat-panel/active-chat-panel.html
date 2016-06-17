@@ -4,10 +4,20 @@
 <section>
   <header>
     <a class="sqn-btn" ui-sref="messaging.contacts">Find a squadron mate</a>
-    <h5>Your active chats</h5>
+    <h5>Message Contacts</h5>
   </header>
   <div class="active-chat-holder">
-    <chat-contact-tile ng-repeat="session in sessions" userid="user.$id || user.uid || user.id" session="session">
+    <chat-contact-tile ng-repeat="session in peerSessions" userid="user.$id || user.uid || user.id" session="session">
     </chat-contact-tile>
+  </div>
+  <div class="active-chat-holder">
+    <h6>Your Private Group Chats</h6>
+    <group-contact-tile ng-repeat="group in privateGroupSessions" userid="user.$id || user.uid || user.id" session="group">
+    </group-contact-tile>
+  </div>
+  <div class="active-chat-holder">
+    <h6>Public Group chats</h6>
+    <group-contact-tile ng-repeat="group in publicGroupSessions" userid="user.$id || user.uid || user.id" session="group">
+    </group-contact-tile>
   </div>
 </section>

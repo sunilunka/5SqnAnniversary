@@ -1,4 +1,4 @@
-app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, Events, loggedInUser, $timeout){
+app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, Events, loggedInUser, $timeout, MessagingFactory, NotificationService){
 
   $scope.platforms = Platforms;
   $scope.categories = Categories;
@@ -23,13 +23,22 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
 
   $scope.newGroup = {
     participants: [loggedInId],
-    name: ""
   }
 
   $scope.filterUsers = function(){
     for(var param in $scope.filterParams){
       $scope.userFilterParams[param] = $scope.filterParams[param];
     }
+  }
+
+  $scope.createGroup = function(){
+    return MessagingFactory.createNewGroupChat($scope.newGroup, $scope.newGroup.participants)
+    .then(function(data){
+      NotificationService.notify("success", "New group created!")
+    })
+    .catch(function(error){
+      NotificationService.notify("error", "Sorry and error occured: " + error);
+    })
   }
 
 
@@ -49,13 +58,16 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
   $scope.$on("userAddedToGroup", function(event, value){
     if($scope.newGroup.participants.indexOf(value) === -1){
       $scope.newGroup.participants.push(value);
-      console.log("PARTICIPANT LIST", $scope.newGroup.participants)
       $scope.$broadcast("userAddConfirmed", true);
     }
   })
 
-  $scope.$on("removedFromGroup", function(event, value){
-
+  $scope.$on("removeUserFromGroup", function(event, value){
+    var isInArray = $scope.newGroup.participants.indexOf(value);
+    if(isInArray !== -1){
+      $scope.newGroup.participants.splice(isInArray, 1);
+      $scope.$broadcast("userRemoveConfirmed", false);
+    }
   })
 
 })

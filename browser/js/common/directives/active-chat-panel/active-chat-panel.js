@@ -9,7 +9,11 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
 
       let userId = scope.user.$id || scope.user.id || scope.user.uid;
 
-      scope.sessions = [];
+      scope.peerSessions = [];
+
+      scope.privateGroupSessions = [];
+
+      scope.publicGroupSessions = [];
 
       let displayActive = false;
 
@@ -23,12 +27,25 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
       }
 
       MessagingFactory.getPeerToPeerSessions(userId, function(results){
-        console.log("USER RESULTS: ", results);
-        angular.copy(results, scope.sessions);
+        angular.copy(results, scope.peerSessions);
         $timeout(function(){
           scope.$apply();
         }, 1)
 
+      })
+
+      MessagingFactory.getUserGroupSessions(userId, "private", function(results){
+        angular.copy(results, scope.privateGroupSessions);
+        $timeout(function(){
+          scope.$apply();
+        }, 1)
+      })
+
+      MessagingFactory.getUserGroupSessions(userId, "public", function(results){
+        angular.copy(results, scope.privateGroupSessions);
+        $timeout(function(){
+          scope.$apply();
+        }, 1)
       })
 
 

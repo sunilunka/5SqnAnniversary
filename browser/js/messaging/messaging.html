@@ -1,10 +1,6 @@
 <active-chat-panel user="user"></active-chat-panel>
 <section class="management-sub-menu container-fluid">
-  <header class="row">
-    <h2>Messaging</h2>
-    <button ng-repeat="option in options" class="sqn-btn" ui-sref="{{option.ref}}" ng-bind="option.title" ui-sref-active="sqn-btn-positive"></button>
-  </header>
-  <div ui-view>
+  <div ui-view class="row">
     <h2> Welcome, select a user to chat with, group or create a new group from the options above. </h2>
   </div>
 </section>

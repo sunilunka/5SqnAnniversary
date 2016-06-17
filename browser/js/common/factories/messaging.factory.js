@@ -5,6 +5,8 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
   var sessionUsersRef = DatabaseFactory.dbConnection("sessionUsers");
   var userToUserRef = DatabaseFactory.dbConnection("userToUserMessaging")
   var attendeesRef = DatabaseFactory.dbConnection("attendees");
+  var messageGroupsRef = DatabaseFactory.dbConnection("messageGroups");
+  var userToGroupRef = DatabaseFactory.dbConnection("userToGroupMessaging");
 
   var MessagingFactory = {};
 
@@ -40,20 +42,6 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     var messageSessionRef = sessionMessageStoreRef.push()
 
     var sessionUserPromisesToResolve = mapUserToSessionAndSessionToUser(messageSessionRef.key, participantIds);
-
-    // console.log("MESSAGE SESSION REF: ", messageSessionRef.key);
-    // var mapUsersAndSessions = participantIds.map(function(id){
-    //   var userSessionObj = {};
-    //   /* User session object holds number of unseen messages for user based on their online status */
-    //   userSessionObj[messageSessionRef.key] = 0;
-    //   return userSessionsRef.child(id).update(userSessionObj);
-    // })
-    //
-    // var mapSessionAndUsers = participantIds.map(function(id){
-    //   return sessionUsersRef.child(messageSessionRef.key).update({
-    //       [id]: true
-    //   })
-    // })
 
     var mapUserToUserToSession = participantIds.map(function(id){
       let userMap = {};
@@ -112,6 +100,83 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
       })
       callback(peerToPeerArray);
     })
+  }
+
+  MessagingFactory.getUserGroupSessions = function(userId, groupType, callback){
+    return userToGroupRef.child(userId).child(groupType).on("value", function(snapshot){
+        let userGroups = [];
+        snapshot.forEach(function(childSnapshot){
+          let groupId = childSnapshot.key;
+          userGroups.push(messageGroupsRef.child("private").child(groupId)
+          .once("value")
+          .then(function(lastSnap){
+            let groupData = lastSnap.val();
+            delete groupData.participants;
+            groupData.$id = groupId;
+            return groupData;
+          }))
+        })
+        return firebase.Promise.all(userGroups)
+        .then(function(resultsArray){
+          callback(resultsArray);
+        })
+      })
+    }
+
+  MessagingFactory.createNewGroupChat = function(groupObj, participantIds){
+    /* Group is treated as a 'user' for session association purposes. */
+    let newMessageGroup = messageGroupsRef.push();
+    let newMessageSession = sessionMessageStoreRef.push();
+
+    groupObj["sessionId"] = newMessageSession.key;
+
+    var mapToUsers = function(groupType, participantIds, sessionKey, groupKey){
+       return participantIds.map(function(id){
+        return userToGroupRef.child(id).child(groupType).update({
+          [groupKey]: sessionKey
+        })
+      })
+    }
+
+    let operationsToResolve = [];
+    console.log("GROUP OBJ: ", groupObj);
+    /* Remove participants key and value from object, as no longer required */
+    delete groupObj.participants;
+
+    let groupToSave = {};
+    groupToSave[newMessageGroup.key] = groupObj;
+
+    if(groupObj["private"]){
+      operationsToResolve.push(messageGroupsRef.child("private").update(groupToSave));
+
+      operationsToResolve.push(mapToUsers("private", participantIds, newMessageSession.key, newMessageGroup.key ));
+
+    } else {
+      operationsToResolve.push(messageGroupsRef.child("public").update(groupToSave));
+
+      operationsToResolve.push(mapToUsers("public", participantIds, newMessageSession.key, newMessageGroup.key ))
+    }
+
+    operationsToResolve.push(mapUserToSessionAndSessionToUser(newMessageSession.key, participantIds));
+
+    return firebase.Promise.all(operationsToResolve);
+
+  }
+
+  MessagingFactory.checkGroupSessionExists = function(userId, groupObj, callback){
+    if(groupObj["private"]){
+      userToGroupRef.child(userId).child("private").child(groupObj.$id).on("value", function(snapshot){
+        callback(snapshot);
+      })
+    } else {
+      userToGroupRef.child(userId).child("public").child(groupObj.$id).on("value", function(snapshot){
+        callback(snapshot);
+      })
+    }
+  }
+
+  MessagingFactory.addUserToGroup = function(){
+
   }
 
   return MessagingFactory;
