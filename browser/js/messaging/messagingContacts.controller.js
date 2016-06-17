@@ -3,7 +3,7 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
   $scope.platforms = Platforms;
   $scope.categories = Categories;
   $scope.events = Events;
-  $scope.current = loggedInUser;
+  $scope.user = loggedInUser;
 
   var loggedInId = loggedInUser.$id || loggedInUser.uid || loggedInUser.id;
 
@@ -24,6 +24,12 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
   $scope.newGroup = {
     participants: [loggedInId],
   }
+
+  $scope.createNewGroup = false;
+
+  $scope.modifyPrivateGroup = false;
+
+  $scope.modifyExistingGroup = {};
 
   $scope.filterUsers = function(){
     for(var param in $scope.filterParams){
@@ -68,6 +74,11 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
       $scope.newGroup.participants.splice(isInArray, 1);
       $scope.$broadcast("userRemoveConfirmed", false);
     }
+  })
+
+  $scope.$on("modifyExistingGroup", function(event, value){
+    angular.copy(value, $scope.modifyExistingGroup);
+    
   })
 
 })

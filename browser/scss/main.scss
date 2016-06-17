@@ -112,7 +112,7 @@ alert {
 }
 
 .transition-squadron {
-  
+
 }
 
 .flex-container-row {
@@ -277,6 +277,7 @@ alert {
   background: $sec-color;
   color: $pri-color;
   outline: none;
+  text-decoration: none;
   /*transition: 0.25s all ease-in-out;
   -webkit-tranisiton: 0.25 s all ease-in-out;*/
   &:hover {

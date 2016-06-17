@@ -1,7 +1,7 @@
 app.controller("MessagingSessionCtrl", function($scope, loggedInUser, MessageSessionService, MessagingFactory, SessionMessages, NotificationService){
 
   var currentUser = loggedInUser;
-
+  $scope.user = loggedInUser;
   $scope.newMessage = {};
   $scope.messages = SessionMessages;
 

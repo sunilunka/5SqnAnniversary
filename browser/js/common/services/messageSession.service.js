@@ -14,7 +14,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
       if(snapVal){
         let sessionId = snapVal[candidateId];
         self.messageSession = sessionId;
-        $state.go("messaging.session", {sessionId: sessionId})
+        $state.go("messagingSession", {id: currentUserId, sessionId: sessionId})
       } else {
         MessagingFactory.createNewChat([currentUserId, candidateId])
       }
@@ -28,7 +28,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
       if(snapVal){
         /* User is part of the group so go to session */
         self.messageSession = snapVal;
-        $state.go("messaging.session", {sessionId: snapVal})
+        $state.go("messagingSession", {id: userId, sessionId: snapVal})
       } else {
         /* User is not part of the group, check if private and if not add them.*/
         console.log("YOU ARE NOT PART OF THIS GROUP");

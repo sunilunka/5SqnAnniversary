@@ -33,18 +33,40 @@
   background-color: $theme-green;
 }
 
+.sqn-btn-small {
+  border: 1px solid $theme-tacgrey;
+  color: $theme-tacgrey;
+  font-size: 0.8em;
+  background-color: rgba(0,0,0,0.9);
+  outline: none;
+  border-bottom: none;
+  &:hover {
+    color: $theme-grey;
+    background-color: $theme-tacgrey;
+  }
+}
+
 .tile-content {
   width: 100%;
   height: auto;
   cursor: pointer;
   z-index: 850;
   color: $theme-tacgrey;
-  padding: 0.5em;
+  align-items: stretch;
+  text-decoration: none;
   @include transition-mixin(all 0.25s ease-in-out);
   border-bottom: 1px solid $theme-tacgrey;
-  &:hover {
-    color: $theme-grey;
-    background-color: $theme-tacgrey;
+
+}
+
+.group-tile {
+  h6 {
+    margin: 0;
+    padding: 0.75em;
+    &:hover {
+      color: $theme-grey;
+      background-color: $theme-tacgrey;
+    }
   }
 }
 
@@ -88,7 +110,4 @@ active-chat-panel {
     display: block;
   }
 
-  chat-contact-tile {
-    display: block;
-  }
 }

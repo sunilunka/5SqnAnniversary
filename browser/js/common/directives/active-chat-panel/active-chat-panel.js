@@ -6,8 +6,9 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
       user: "=",
     },
     link: function(scope, element, attrs){
-
       let userId = scope.user.$id || scope.user.id || scope.user.uid;
+
+      scope.userId = userId;
 
       scope.peerSessions = [];
 
