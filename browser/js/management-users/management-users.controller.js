@@ -1,6 +1,6 @@
-app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFactory, ManagementFactory, GuestOriginFactory, Users, Categories, Events, Platforms, $timeout){
+app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFactory, ManagementFactory, GuestOriginFactory, Users, Categories, Events, Platforms, $timeout, AuthService){
 
-
+  $scope.user = AuthService.getCurrentUser();
 
   $scope.searchResults = [];
 
