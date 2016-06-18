@@ -14,10 +14,6 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
         MessageSessionService.setGroupSession(scope.userid, scope.session)
       }
 
-      scope.addToGroupSession = function(){
-
-      }
-
     }
   }
 })

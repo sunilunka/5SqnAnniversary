@@ -25,6 +25,8 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
     display: false
   }
 
+  $scope.newGroup = {};
+
   $scope.createNewGroup = function(){
     if($scope.creatingNewGroup.display){
       $scope.newGroup = {};
@@ -32,7 +34,7 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
       $scope.creatingNewGroup.label = "Create New Group";
       MessageSessionService.createNewGroupInProgress(false);
     } else {
-      MessageSessionService.createNewGroupInProgress(true);
+      MessageSessionService.createNewGroupInProgress(true, loggedInId);
       $scope.creatingNewGroup.display = true;
       $scope.creatingNewGroup.label = "Cancel Group Creation"
     }
@@ -45,17 +47,24 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
     }
   }
 
+  var resetGroupCreation = function(){
+    $scope.newGroup = {};
+    $scope.creatingNewGroup.display = false;
+    $scope.creatingNewGroup.label = "Create New Group"
+    MessageSessionService.createNewGroupInProgress(false);
+    return;
+  }
+
   $scope.createGroup = function(){
     let participants = MessageSessionService.getNewGroupMembers();
     return MessagingFactory.createNewGroupChat($scope.newGroup, participants)
     .then(function(data){
       NotificationService.notify("success", "New group created!");
-      $scope.newGroup = null;
-      $scope.creatingNewGroup = false;
-      MessageSessionService.createNewGroupInProgress(false);
+      resetGroupCreation();
     })
     .catch(function(error){
       NotificationService.notify("error", "Sorry an error occured: " + error);
+      resetGroupCreation();
     })
   }
 

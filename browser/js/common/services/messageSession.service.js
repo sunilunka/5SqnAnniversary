@@ -40,6 +40,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
       if(snapVal){
         /* User is part of the group so go to session */
         self.messageSession = snapVal;
+        self.groupSessionData = groupObj;
         $state.go("messagingSession", {id: userId, sessionId: snapVal, sessionType: groupType })
       } else {
         /* User is not part of the group, check if private and if not add them.*/
@@ -51,11 +52,16 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
           /* Messaging Factory mapping functions require userId in array, so userId is placed in array for second argument. */
           MessagingFactory.addUserToGroup(groupObj, [userId])
           .then(function(data){
+            self.groupSessionData = groupObj;
             $state.go("messagingSession", {id: userId, sessionId: groupObj.sessionId, sessionType: groupType });
           })
         }
       }
     })
+  }
+
+  this.getCurrentSessionDetails = function(){
+    return self.groupSessionData;
   }
 
 

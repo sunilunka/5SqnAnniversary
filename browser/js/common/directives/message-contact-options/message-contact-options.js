@@ -1,4 +1,4 @@
-app.directive("messageContactOptions", function(MessageSessionService, MessagingFactory, GuestCategoryFactory, AttendeeFactory, $timeout, $stateParams, $rootScope){
+app.directive("messageContactOptions", function(MessageSessionService, MessagingFactory, GuestCategoryFactory, AttendeeFactory, $timeout, $stateParams, $rootScope, NotificationService){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/message-contact-options/message-contact-options.html",
@@ -13,6 +13,8 @@ app.directive("messageContactOptions", function(MessageSessionService, Messaging
       let user = scope.targetuser;
 
       let userId = user.$id;
+
+      let currentSessionData = MessageSessionService.getCurrentSessionDetails();
 
       scope.userInSession = false;
 
@@ -53,12 +55,22 @@ app.directive("messageContactOptions", function(MessageSessionService, Messaging
       }
 
       scope.addToGroup = function(){
-        MessageSessionService.addNewParticipant(userId, function(){
-          scope.addedToGroup = true;
-          $timeout(function(){
-            scope.$apply();
-          },1)
-        });
+        if(!scope.addToNewGroup && $stateParams.sessionType === "private"){
+          MessagingFactory.addUserToGroup(currentSessionData, [userId])
+          .then(function(data){
+            NotificationService.notify("success", "User added to private group.")
+          })
+          .catch(function(error){
+            NotificationService.notify("error", "Sorry an error occured and the user was not added, try again.")
+          })
+        } else {
+          MessageSessionService.addNewParticipant(userId, function(){
+            scope.addedToGroup = true;
+            $timeout(function(){
+              scope.$apply();
+            },1)
+          });
+        }
       }
 
       scope.removeFromGroup = function(){
@@ -74,7 +86,6 @@ app.directive("messageContactOptions", function(MessageSessionService, Messaging
       $rootScope.$on("groupCreationInProgress", function(event, value){
         scope.addToNewGroup = MessageSessionService.getGroupCreationState();
         scope.addedToGroup = MessageSessionService.checkInGroup(userId);
-        console.log("EVENT RECEIVED: ", value);
         $timeout(function(){
           scope.$apply()
         }, 1);
