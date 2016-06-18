@@ -166,6 +166,9 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     let groupToSave = {};
     groupToSave[newMessageGroup.key] = groupObj;
 
+    let groupForRedirect = groupObj;
+    groupForRedirect.$id = newMessageGroup.key;
+
     if(groupObj["private"]){
       operationsToResolve.push(messageGroupsRef.child("private").update(groupToSave));
 
