@@ -60,7 +60,7 @@ app.directive("searchOptions", function(AuthService, ManagementFactory, GuestOri
           sendResultsToParentScope(catUsers);
           scope.searchView = catId;
           return searchComplete();
-        }, catId)
+        }, catId, currentUserId)
       }
 
       scope.executePlatformQuery = function(platId, associatedUsers){
@@ -68,7 +68,7 @@ app.directive("searchOptions", function(AuthService, ManagementFactory, GuestOri
           sendResultsToParentScope(users);
           scope.searchView = platId;
           return searchComplete();
-        }, associatedUsers);
+        }, associatedUsers, currentUserId);
       }
 
       scope.executeEventUserQuery = function(evtId){
@@ -104,7 +104,7 @@ app.directive("searchOptions", function(AuthService, ManagementFactory, GuestOri
               scope.searchView = "managers";
               resetSubMenus();
               return searchComplete();
-            })
+            }, currentUserId)
           }
         },
         {
