@@ -4,6 +4,17 @@ app.config(function($stateProvider){
     controller: "MessagingSessionCtrl",
     templateUrl: "js/messaging/messaging-session.html",
     resolve: {
+      Categories: function(GuestCategoryFactory){
+        return GuestCategoryFactory.getGuestCategories();
+      },
+
+      Events: function(EventFactory){
+        return EventFactory.getEvents();
+      },
+
+      Platforms: function(PlatformsFactory){
+        return PlatformsFactory.getPlatforms();
+      },
       loggedInUser: function(AttendeeFactory){
         return AttendeeFactory.getOne();
       },

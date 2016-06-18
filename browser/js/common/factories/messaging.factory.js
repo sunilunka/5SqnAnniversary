@@ -200,8 +200,10 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
   }
 
-  MessagingFactory.listenToUserGroupSessions = function(userId, groupId){
-    return userToGroupRef.child(userId).child("private").once("value");
+  MessagingFactory.listenToUserSessions = function(userId, sessionId, callback){
+    return userSessionsRef.child(userId).child(sessionId).on("value", function(snapshot){
+      callback(snapshot);
+    });
   }
 
   return MessagingFactory;

@@ -3,9 +3,10 @@
 }
 
 .messaging-state {
-  padding-top: 5em;
+  padding-top: 4em;
   color: $theme-grey;
 }
+
 .new-message-group {
   flex-grow: 1;
   padding: 0.5em;
@@ -13,6 +14,61 @@
 
 .input-inline {
   display: inline-block;
+}
+
+messaging-contact {
+  display: block;
+  width: 20em;
+  margin: 0.25em;
+  @include theme-shadow-default;
+  flex-grow: 1;
+
+  section {
+    padding: 0.5em;
+
+    header {
+      align-items: stretch;
+
+      h4, p {
+        flex-grow: 1;
+        margin: 0.1em;
+      }
+
+      p {
+        background-color: $theme-grey;
+        color: $theme-tacgrey;
+        padding: 0.125em;
+        font-size: 0.7em;
+        text-align: center;
+      }
+
+    }
+
+    footer {
+      a {
+        color: $theme-grey;
+        display: block;
+        margin: 0.25em 0.25em 0.25em 0.25em;
+        padding: 0.25em;
+      }
+    }
+  }
+
+  user-platforms{
+    display: block;
+    align-items: baseline;
+
+
+    span {
+      text-align: center;
+      padding: 0.125em 0em;
+      font-size: 1rem;
+      background-color: #88BD91;
+      color: #EFEFEF;
+      margin: 0.2em;
+      flex-grow: 1;
+    }
+  }
 }
 
 #messages-view {

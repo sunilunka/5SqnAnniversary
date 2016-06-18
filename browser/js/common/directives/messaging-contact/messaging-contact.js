@@ -1,4 +1,4 @@
-app.directive("messagingContact", function(MessageSessionService, MessagingFactory, GuestCategoryFactory, AttendeeFactory, $timeout){
+app.directive("messagingContact", function(MessageSessionService, MessagingFactory, GuestCategoryFactory, AttendeeFactory, $timeout, $stateParams){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/messaging-contact/messaging-contact.html",
@@ -8,15 +8,42 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
     },
     link: function(scope, element, attrs){
 
-      scope.addedToGroup = false;
-
-      scope.addToExistingGroup = false;
-
       let user = scope.user;
 
       let currentUserId = scope.current.id || scope.current.$id || scope.current.uid;
 
       let userId = user.$id;
+
+      scope.userInSession = false;
+
+      scope.addToExistingGroup = false;
+
+      console.log("CURRENT STATE: ", $stateParams);
+      if($stateParams.sessionId !== "no-session"){
+
+      }
+      GuestCategoryFactory.resolveName(user.association, function(name){
+        scope.association = name;
+      })
+
+      AttendeeFactory.watchOnlineState(userId, function(snapshot){
+        scope.user.online = snapshot.val();
+      })
+
+      MessagingFactory.listenToUserSessions(userId, $stateParams.sessionId, function(snapshot){
+        console.log("USER SESSIONS: ", snapshot.val(),  $stateParams.sessionId);
+        let snapVal = snapshot.val();
+        /* If the returned value is truthy, then the type will be number, otherwise the returned value from .val() will be null. Cannot compare by snapshot.key, as this is retained for reference and comparing the snapshot.key and sessionId will therefore always be true. */
+        if(typeof(snapVal) === "number"){
+          if($stateParams.sessionId !== "no-session"){
+            scope.userInSession = true;
+          }
+          $timeout(function(){
+            scope.$apply();
+          })
+        }
+      })
+
 
       scope.peerToPeerChat = function(){
         MessageSessionService.setPeerToPeerSession(userId, currentUserId)
@@ -56,18 +83,6 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
         processBroadcast(value);
       })
 
-      scope.$watch(function(){
-        return scope.user
-      }, function(newValue, oldValue){
-        GuestCategoryFactory.resolveName(user.association, function(name){
-          scope.association = name;
-          scope.$apply();
-        })
-      })
-
-      AttendeeFactory.watchOnlineState(userId, function(snapshot){
-        scope.user.online = snapshot.val();
-      })
 
     }
   }
