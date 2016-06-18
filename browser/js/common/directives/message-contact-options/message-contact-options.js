@@ -73,6 +73,7 @@ app.directive("messageContactOptions", function(MessageSessionService, Messaging
 
       $rootScope.$on("groupCreationInProgress", function(event, value){
         scope.addToNewGroup = MessageSessionService.getGroupCreationState();
+        scope.addedToGroup = MessageSessionService.checkInGroup(userId);
         console.log("EVENT RECEIVED: ", value);
         $timeout(function(){
           scope.$apply()

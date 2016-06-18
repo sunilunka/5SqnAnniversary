@@ -25,19 +25,13 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
     display: false
   }
 
-  /* Remains null until new group is being created. */
-  $scope.newGroup;
-
   $scope.createNewGroup = function(){
     if($scope.creatingNewGroup.display){
-      $scope.newGroup = null;
+      $scope.newGroup = {};
       $scope.creatingNewGroup.display = false;
       $scope.creatingNewGroup.label = "Create New Group";
       MessageSessionService.createNewGroupInProgress(false);
     } else {
-      $scope.newGroup = {
-        participants: [loggedInId]
-      }
       MessageSessionService.createNewGroupInProgress(true);
       $scope.creatingNewGroup.display = true;
       $scope.creatingNewGroup.label = "Cancel Group Creation"
@@ -52,15 +46,11 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
   }
 
   $scope.createGroup = function(){
-    let participants = $scope.newGroup.participants;
-    return MessagingFactory.createNewGroupChat($scope.newGroup, MessageSessionService.getNewGroupMembers())
+    let participants = MessageSessionService.getNewGroupMembers();
+    return MessagingFactory.createNewGroupChat($scope.newGroup, participants)
     .then(function(data){
       NotificationService.notify("success", "New group created!");
       $scope.newGroup = null;
-      $scope.$broadcast("groupCreationSuccess", {
-        buttonVal: false,
-        userId: participants
-      });
       $scope.creatingNewGroup = false;
       MessageSessionService.createNewGroupInProgress(false);
     })

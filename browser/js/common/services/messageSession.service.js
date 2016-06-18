@@ -1,4 +1,4 @@
-app.service("MessageSessionService", function($firebaseArray, $state, MessagingFactory, NotificationService, $rootScope){
+app.service("MessageSessionService", function($firebaseArray, $state, MessagingFactory, NotificationService, $rootScope, AuthService){
   var self = this;
 
   this.messageSession = null;
@@ -101,14 +101,14 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
     }
   }
 
-  this.createNewGroupInProgress = function(inProgress){
+  this.createNewGroupInProgress = function(inProgress, currentUserId){
     if(inProgress){
       self.newGroupInCreation = true;
-      self.newGroupParticipants = [];
+      self.newGroupParticipants = [currentUserId];
       $rootScope.$broadcast("groupCreationInProgress", true);
     } else {
       self.newGroupInCreation = false;
-      self.newGroupParticipants = null;
+      self.newGroupParticipants = [];
       $rootScope.$broadcast("groupCreationInProgress", false);
     }
   }
