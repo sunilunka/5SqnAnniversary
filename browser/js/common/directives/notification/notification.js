@@ -10,6 +10,7 @@ app.directive("notificationPanel", function($rootScope, $timeout){
           scope.message = noteObj.message;
           $timeout(function(){
             element.removeClass("display-notification");
+            scope.message = "";
           }, 2000)
         }
 

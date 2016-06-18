@@ -9,7 +9,8 @@
     <div class="flex-container-row">
       <button class="sqn-btn" ng-click="peerToPeerChat()">Chat</button>
       <button ng-if="!addedToGroup" class="sqn-btn" ng-click="addToGroup()">Add To Group</button>
-      <button ng-if="addedToGroup" class="sqn-btn" ng-click="removeFromGroup()">Remove From Group</button>
+      <button ng-if="addedToGroup && !addToExistingGroup" class="sqn-btn" ng-click="removeFromGroup()">Remove From Group</button>
+
     </div>
   </footer>
 </section>

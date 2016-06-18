@@ -1,4 +1,4 @@
-app.directive("messagingContact", function(MessageSessionService, MessagingFactory, GuestCategoryFactory, AttendeeFactory){
+app.directive("messagingContact", function(MessageSessionService, MessagingFactory, GuestCategoryFactory, AttendeeFactory, $timeout){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/messaging-contact/messaging-contact.html",
@@ -9,6 +9,8 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
     link: function(scope, element, attrs){
 
       scope.addedToGroup = false;
+
+      scope.addToExistingGroup = false;
 
       let user = scope.user;
 
@@ -29,13 +31,29 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
         scope.$emit("removeUserFromGroup", userId);
       }
 
+      var processBroadcast = function(broadcastObj){
+        if(Array.isArray(broadcastObj.userId)){
+          if(broadcastObj.userId.indexOf(userId) !== -1){
+            scope.addedToGroup = broadcastObj.buttonVal;
+          }
+        } else {
+          if(broadcastObj.userId === userId){
+            scope.addedToGroup = broadcastObj.buttonVal;
+          }
+        }
+      }
+
       scope.$on("userAddConfirmed", function(event, value){
-        scope.addedToGroup = value;
+        processBroadcast(value);
       })
 
+      scope.$on("groupCreationSuccess", function(event, value){
+        processBroadcast(value);
+      })
+
+
       scope.$on("userRemoveConfirmed", function(event, value){
-        console.log("USER REMOVED");
-        scope.addedToGroup = value;
+        processBroadcast(value);
       })
 
       scope.$watch(function(){

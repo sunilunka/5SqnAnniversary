@@ -27,10 +27,6 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
 
   $scope.createNewGroup = false;
 
-  $scope.modifyPrivateGroup = false;
-
-  $scope.modifyExistingGroup = {};
-
   $scope.filterUsers = function(){
     for(var param in $scope.filterParams){
       $scope.userFilterParams[param] = $scope.filterParams[param];
@@ -38,12 +34,21 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
   }
 
   $scope.createGroup = function(){
+    let participants = $scope.newGroup.participants;
     return MessagingFactory.createNewGroupChat($scope.newGroup, $scope.newGroup.participants)
     .then(function(data){
-      NotificationService.notify("success", "New group created!")
+      NotificationService.notify("success", "New group created!");
+      let resetGroup = {
+        participants: [loggedInId]
+      }
+      angular.copy(resetGroup, $scope.newGroup);
+      $scope.$broadcast("groupCreationSuccess", {
+        buttonVal: false,
+        userId: participants
+      });
     })
     .catch(function(error){
-      NotificationService.notify("error", "Sorry and error occured: " + error);
+      NotificationService.notify("error", "Sorry an error occured: " + error);
     })
   }
 
@@ -64,7 +69,10 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
   $scope.$on("userAddedToGroup", function(event, value){
     if($scope.newGroup.participants.indexOf(value) === -1){
       $scope.newGroup.participants.push(value);
-      $scope.$broadcast("userAddConfirmed", true);
+      $scope.$broadcast("userAddConfirmed", {
+        buttonVal: true,
+        userId: value
+      });
     }
   })
 
@@ -72,12 +80,11 @@ app.controller("MessagingContactsCtrl", function($scope, Platforms, Categories, 
     var isInArray = $scope.newGroup.participants.indexOf(value);
     if(isInArray !== -1){
       $scope.newGroup.participants.splice(isInArray, 1);
-      $scope.$broadcast("userRemoveConfirmed", false);
+      $scope.$broadcast("userRemoveConfirmed", {
+        buttonVal: false,
+        userId: value
+      });
     }
-  })
-
-  $scope.$on("modifyExistingGroup", function(event, value){
-    angular.copy(value, $scope.modifyExistingGroup);
   })
 
 })

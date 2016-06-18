@@ -9,7 +9,7 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
     link: function(scope, element, attrs){
 
       scope.contactState;
-      
+
       if($state.current.name === "messagingContacts"){
         if(scope.session["private"]){
           scope.contactState = true
