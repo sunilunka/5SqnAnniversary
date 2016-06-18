@@ -22,6 +22,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
       } else {
         MessagingFactory.createNewChat([currentUserId, candidateId])
         .then(function(data){
+          /* Data returned from promise is formatted so that it can be immediately injected into $state.go */
           $state.go("messagingSession", data);
         })
       }
