@@ -12,7 +12,7 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
 
       scope.peerSessions = [];
 
-      scope.privateGroupSessions = [];
+      scope.userGroupSessions = [];
 
       scope.publicGroupSessions = [];
 
@@ -35,18 +35,19 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
 
       })
 
-      MessagingFactory.getUserGroupSessions(userId, "private", function(results){
-        angular.copy(results, scope.privateGroupSessions);
+      MessagingFactory.getUserGroupSessions(userId, function(results){
+        angular.copy(results, scope.userGroupSessions);
         $timeout(function(){
           scope.$apply();
         }, 1)
       })
 
-      MessagingFactory.getUserGroupSessions(userId, "public", function(results){
-        angular.copy(results, scope.publicGroupSessions);
-        $timeout(function(){
-          scope.$apply();
-        }, 1)
+      MessagingFactory.getPublicGroups()
+      .then(function(array){
+        angular.copy(array, scope.publicGroupSessions);
+        // $timeout(function(){
+        //   scope.$apply();
+        // }, 1)
       })
 
 

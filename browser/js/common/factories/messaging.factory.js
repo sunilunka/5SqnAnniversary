@@ -110,18 +110,25 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     })
   }
 
-  MessagingFactory.getUserGroupSessions = function(userId, groupType, callback){
-    return userToGroupRef.child(userId).child(groupType).on("value", function(snapshot){
+  MessagingFactory.getPublicGroups = function(){
+    return $firebaseArray(messageGroupsRef.child("public")).$loaded();
+  }
+
+  MessagingFactory.getUserGroupSessions = function(userId, callback){
+    return userToGroupRef.child(userId).on("value", function(snapshot){
         let userGroups = [];
         snapshot.forEach(function(childSnapshot){
-          let groupId = childSnapshot.key;
-          userGroups.push(messageGroupsRef.child(groupType).child(groupId)
-          .once("value")
-          .then(function(lastSnap){
-            let groupData = lastSnap.val();
-            groupData.$id = groupId;
-            return groupData;
-          }))
+          let groupType = childSnapshot.key;
+          childSnapshot.forEach(function(innerSnapshot){
+            let groupId = innerSnapshot.key;
+            userGroups.push(messageGroupsRef.child(groupType).child(groupId)
+            .once("value")
+            .then(function(lastSnap){
+              let groupData = lastSnap.val();
+              groupData.$id = groupId;
+              return groupData;
+            }))
+          })
         })
         return firebase.Promise.all(userGroups)
         .then(function(resultsArray){
@@ -176,7 +183,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     }
   }
 
-  MessagingFactory.addUserToGroup = function(groupObj, participantArray, callback){
+  MessagingFactory.addUserToGroup = function(groupObj, participantArray){
 
     let groupType;
 
@@ -188,7 +195,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
     return firebase.Promise.all([
       mapUserToSessionAndSessionToUser(groupObj.sessionId, participantArray),
-
+      mapGroupToUsers(groupType, participantArray, groupObj.sessionId, groupObj.$id)
     ])
 
   }

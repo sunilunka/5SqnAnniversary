@@ -9,6 +9,7 @@ app.controller("MessagingSessionCtrl", function($scope, loggedInUser, MessageSes
 
   $scope.transmit = () => {
     $scope.newMessage.author = currentUser.firstName;
+    $scope.newMessage.authorId = (currentUser.id || currentUser.$id || currentUser.uid);
     MessageSessionService.sendMessage($scope.newMessage)
     .then(function(){
       $scope.newMessageForm.$setUntouched()
@@ -16,7 +17,6 @@ app.controller("MessagingSessionCtrl", function($scope, loggedInUser, MessageSes
       $scope.newMessage = {};
     })
     .catch(function(error){
-      console.log("ERROR FOUND: ", error);
       NotificationService.notify("error", "Sorry, an we can't seem to get through to the server...sounds like a poor radio operator.")
     })
   }

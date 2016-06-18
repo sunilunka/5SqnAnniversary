@@ -31,7 +31,17 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
         $state.go("messagingSession", {id: userId, sessionId: snapVal})
       } else {
         /* User is not part of the group, check if private and if not add them.*/
-        console.log("YOU ARE NOT PART OF THIS GROUP");
+        if(groupObj["private"]){
+          /* User should not get to this as the UI and data structure should prevent this. */
+          NotificationService.notify("error", "Sorry, this is a private group. For admittance, please ask a member of the group to add you.")
+          return;
+        } else {
+          /* Messaging Factory mapping functions require userId in array, so userId is placed in array for second argument. */
+          MessagingFactory.addUserToGroup(groupObj, [userId])
+          .then(function(data){
+            $state.go("messagingSession", {id: userId, sessionId: groupObj.sessionId });
+          })
+        }
       }
     })
   }
