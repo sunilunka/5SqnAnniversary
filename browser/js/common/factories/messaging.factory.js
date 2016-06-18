@@ -68,6 +68,18 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
         firebase.Promise.all(mapUserToUserToSession),
         sessionUserPromisesToResolve
       ])
+      .then(function(data){
+        return {
+          /* User id will always be first index */
+          id: participantIds[0],
+          sessionId: messageSessionRef.key,
+          sessionType: "peer"
+        }
+      })
+      .catch(function(error){
+        NotificationService.notify("error", "Sorry, we couldn't start the chat due to an error: ", + error.message);
+        throw error;
+      })
 
   }
 

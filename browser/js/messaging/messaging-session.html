@@ -23,9 +23,9 @@
   </section>
   <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
     <div class="">
-      <button class="sqn-btn">Create new group</button>
+      <button class="sqn-btn" ng-click="createNewGroup()" ng-bind="creatingNewGroup.label"></button>
     </div>
-    <div class="flex-container-row message-group-modification">
+    <div ng-if="creatingNewGroup.display" class="flex-container-row message-group-modification">
       <form class="new-message-group" name="newMessageGroup" ng-submit="createGroup()">
         <input type="text" class="sqnInputActive input-inline" ng-model="newGroup.name" placeholder="Add a group name"></input>
         <div class="checkbox sqnInput input-inline">

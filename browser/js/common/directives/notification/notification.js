@@ -5,12 +5,11 @@ app.directive("notificationPanel", function($rootScope, $timeout){
     link: function(scope, element, attrs){
 
       var processNotification = function(noteObj){
-
+        scope.message = "";
         var standardResponse = (noteObj) => {
           scope.message = noteObj.message;
           $timeout(function(){
             element.removeClass("display-notification");
-            scope.message = "";
           }, 2000)
         }
 

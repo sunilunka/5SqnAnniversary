@@ -1,6 +1,6 @@
 app.config(function($stateProvider){
   $stateProvider.state("messagingSession", {
-    url: "/messaging/:id/session/:sessionId",
+    url: "/messaging/:id/session/:sessionId/:sessionType",
     controller: "MessagingSessionCtrl",
     templateUrl: "js/messaging/messaging-session.html",
     resolve: {

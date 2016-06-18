@@ -1,7 +1,5 @@
 app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUser, MessageSessionService, MessagingFactory, SessionMessages, NotificationService, Categories, Events, Platforms, $timeout){
 
-  console.log("STATE PARAMS: ", $stateParams);
-
   $scope.categories = Categories;
   $scope.events = Events;
   $scope.platforms = Platforms;
@@ -22,11 +20,30 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
 
   $scope.userFilterParams = {};
 
-  $scope.newGroup = {
-    participants: [loggedInId],
+  $scope.creatingNewGroup = {
+    label: "Create New Group",
+    display: false
   }
 
-  $scope.createNewGroup = false;
+  /* Remains null until new group is being created. */
+  $scope.newGroup;
+
+  $scope.createNewGroup = function(){
+    if($scope.creatingNewGroup.display){
+      $scope.newGroup = null;
+      $scope.creatingNewGroup.display = false;
+      $scope.creatingNewGroup.label = "Create New Group";
+      MessageSessionService.createNewGroupInProgress(false);
+    } else {
+      $scope.newGroup = {
+        participants: [loggedInId]
+      }
+      MessageSessionService.createNewGroupInProgress(true);
+      $scope.creatingNewGroup.display = true;
+      $scope.creatingNewGroup.label = "Cancel Group Creation"
+    }
+  }
+
 
   $scope.filterUsers = function(){
     for(var param in $scope.filterParams){
@@ -36,17 +53,16 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
 
   $scope.createGroup = function(){
     let participants = $scope.newGroup.participants;
-    return MessagingFactory.createNewGroupChat($scope.newGroup, $scope.newGroup.participants)
+    return MessagingFactory.createNewGroupChat($scope.newGroup, MessageSessionService.getNewGroupMembers())
     .then(function(data){
       NotificationService.notify("success", "New group created!");
-      let resetGroup = {
-        participants: [loggedInId]
-      }
-      angular.copy(resetGroup, $scope.newGroup);
+      $scope.newGroup = null;
       $scope.$broadcast("groupCreationSuccess", {
         buttonVal: false,
         userId: participants
       });
+      $scope.creatingNewGroup = false;
+      MessageSessionService.createNewGroupInProgress(false);
     })
     .catch(function(error){
       NotificationService.notify("error", "Sorry an error occured: " + error);
@@ -67,27 +83,6 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
     }, 1)
   })
 
-  $scope.$on("userAddedToGroup", function(event, value){
-    if($scope.newGroup.participants.indexOf(value) === -1){
-      $scope.newGroup.participants.push(value);
-      $scope.$broadcast("userAddConfirmed", {
-        buttonVal: true,
-        userId: value
-      });
-    }
-  })
-
-  $scope.$on("removeUserFromGroup", function(event, value){
-    var isInArray = $scope.newGroup.participants.indexOf(value);
-    if(isInArray !== -1){
-      $scope.newGroup.participants.splice(isInArray, 1);
-      $scope.$broadcast("userRemoveConfirmed", {
-        buttonVal: false,
-        userId: value
-      });
-    }
-  })
-
 
   console.log("SESSION MESSAGES: ", SessionMessages);
 
@@ -104,6 +99,5 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
       NotificationService.notify("error", "Sorry, an we can't seem to get through to the server...sounds like a poor radio operator.")
     })
   }
-
 
 })

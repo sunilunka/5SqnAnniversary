@@ -25,7 +25,7 @@ messaging-contact {
 
   section {
     padding: 0.5em;
-
+    z-index: 750;
     header {
       align-items: stretch;
 
@@ -45,7 +45,9 @@ messaging-contact {
     }
 
     footer {
+      z-index: 750;
       a {
+        z-index: 750;
         color: $theme-grey;
         display: block;
         margin: 0.25em 0.25em 0.25em 0.25em;
@@ -61,14 +63,25 @@ messaging-contact {
 
     span {
       text-align: center;
-      padding: 0.125em 0em;
+      padding: 0.125em;
       font-size: 1rem;
       background-color: #88BD91;
       color: #EFEFEF;
-      margin: 0.2em;
+      margin: 0.2em 0em;
       flex-grow: 1;
     }
   }
+}
+
+message-contact-options {
+  position: relative;
+  z-index: 700;
+  display: none;
+  /*@include transition-mixin(transform 0.5s ease-in-out);*/
+}
+
+.show-options {
+  display: block;
 }
 
 #messages-view {

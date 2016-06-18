@@ -6,11 +6,6 @@
   <user-platforms class="flex-container-row" userdata="user.platforms" platforms="platforms"></user-platforms>
   <footer>
     <a href="mailto:{{ user.email }}" ng-bind="user.email" title="Open your email application to send a message to this address."></a>
-    <div ng-if="!userInSession" class="flex-container-row">
-      <button class="sqn-btn" ng-click="peerToPeerChat()">Chat</button>
-      <button ng-if="!addedToGroup" class="sqn-btn" ng-click="addToGroup()">Add To Group</button>
-      <button ng-if="addedToGroup && !addToExistingGroup" class="sqn-btn" ng-click="removeFromGroup()">Remove From Group</button>
-
-    </div>
   </footer>
+  <message-contact-options targetuser="user" current="current"></message-contact-options>
 </section>

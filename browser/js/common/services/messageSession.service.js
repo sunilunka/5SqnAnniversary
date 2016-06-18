@@ -1,7 +1,11 @@
-app.service("MessageSessionService", function($firebaseArray, $state, MessagingFactory, NotificationService){
+app.service("MessageSessionService", function($firebaseArray, $state, MessagingFactory, NotificationService, $rootScope){
   var self = this;
 
   this.messageSession = null;
+
+  this.newGroupInCreation = false;
+
+  this.newGroupParticipants;
 
   this.getSession = function(){
     return this.messageSession;
@@ -14,9 +18,12 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
       if(snapVal){
         let sessionId = snapVal[candidateId];
         self.messageSession = sessionId;
-        $state.go("messagingSession", {id: currentUserId, sessionId: sessionId})
+        $state.go("messagingSession", {id: currentUserId, sessionId: sessionId, sessionType: "peer"})
       } else {
         MessagingFactory.createNewChat([currentUserId, candidateId])
+        .then(function(data){
+          $state.go("messagingSession", data);
+        })
       }
     })
   }
@@ -24,11 +31,16 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
   this.setGroupSession = function(userId, groupObj, callback){
     MessagingFactory.checkGroupSessionExists(userId, groupObj, function(snapshot){
       let snapVal = snapshot.val();
-      console.log("SNAP VAL: ", snapshot.key);
+      let groupType;
+      if(groupObj["private"]){
+        groupType = "private";
+      } else {
+        groupType = "public";
+      }
       if(snapVal){
         /* User is part of the group so go to session */
         self.messageSession = snapVal;
-        $state.go("messagingSession", {id: userId, sessionId: snapVal})
+        $state.go("messagingSession", {id: userId, sessionId: snapVal, sessionType: groupType })
       } else {
         /* User is not part of the group, check if private and if not add them.*/
         if(groupObj["private"]){
@@ -39,7 +51,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
           /* Messaging Factory mapping functions require userId in array, so userId is placed in array for second argument. */
           MessagingFactory.addUserToGroup(groupObj, [userId])
           .then(function(data){
-            $state.go("messagingSession", {id: userId, sessionId: groupObj.sessionId });
+            $state.go("messagingSession", {id: userId, sessionId: groupObj.sessionId, sessionType: groupType });
           })
         }
       }
@@ -56,6 +68,49 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
   this.leaveSession = function(){
     self.messageSession = null;
     self.messages = null;
+  }
+
+  this.getGroupCreationState = function(){
+    return self.newGroupInCreation;
+  }
+
+  this.getNewGroupMembers = function(){
+    return self.newGroupParticipants;
+  }
+
+  this.checkInGroup = function(userId){
+    if(self.newGroupParticipants.indexOf(userId) === -1){
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  this.addNewParticipant = function(userId, callback){
+    if(self.newGroupParticipants.indexOf(userId) === -1){
+      self.newGroupParticipants.push(userId);
+      callback()
+    }
+  }
+
+  this.removeParticipantFromGroup = function(userId, callback){
+    var isInArray = self.newGroupParticipants.indexOf(userId);
+    if(isInArray !== -1){
+      self.newGroupParticipants.splice(isInArray, 1);
+      callback();
+    }
+  }
+
+  this.createNewGroupInProgress = function(inProgress){
+    if(inProgress){
+      self.newGroupInCreation = true;
+      self.newGroupParticipants = [];
+      $rootScope.$broadcast("groupCreationInProgress", true);
+    } else {
+      self.newGroupInCreation = false;
+      self.newGroupParticipants = null;
+      $rootScope.$broadcast("groupCreationInProgress", false);
+    }
   }
 
 
