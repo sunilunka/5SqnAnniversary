@@ -43,7 +43,7 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
       })
 
       MessagingFactory.getUserGroupSessions(userId, "public", function(results){
-        angular.copy(results, scope.privateGroupSessions);
+        angular.copy(results, scope.publicGroupSessions);
         $timeout(function(){
           scope.$apply();
         }, 1)

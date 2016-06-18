@@ -29,6 +29,14 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     return firebase.Promise.all([mapUsersAndSessions, mapSessionAndUsers])
   }
 
+  var mapGroupToUsers = function(groupType, participantIds, sessionKey, groupKey){
+     return participantIds.map(function(id){
+      return userToGroupRef.child(id).child(groupType).update({
+        [groupKey]: sessionKey
+      })
+    })
+  }
+
   MessagingFactory.createNewChat = function(participantIds){
 
     if(!Array.isArray(participantIds)){
@@ -107,11 +115,10 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
         let userGroups = [];
         snapshot.forEach(function(childSnapshot){
           let groupId = childSnapshot.key;
-          userGroups.push(messageGroupsRef.child("private").child(groupId)
+          userGroups.push(messageGroupsRef.child(groupType).child(groupId)
           .once("value")
           .then(function(lastSnap){
             let groupData = lastSnap.val();
-            delete groupData.participants;
             groupData.$id = groupId;
             return groupData;
           }))
@@ -130,13 +137,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
     groupObj["sessionId"] = newMessageSession.key;
 
-    var mapToUsers = function(groupType, participantIds, sessionKey, groupKey){
-       return participantIds.map(function(id){
-        return userToGroupRef.child(id).child(groupType).update({
-          [groupKey]: sessionKey
-        })
-      })
-    }
+
 
     let operationsToResolve = [];
     console.log("GROUP OBJ: ", groupObj);
@@ -149,12 +150,12 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     if(groupObj["private"]){
       operationsToResolve.push(messageGroupsRef.child("private").update(groupToSave));
 
-      operationsToResolve.push(mapToUsers("private", participantIds, newMessageSession.key, newMessageGroup.key ));
+      operationsToResolve.push(mapGroupToUsers("private", participantIds, newMessageSession.key, newMessageGroup.key ));
 
     } else {
       operationsToResolve.push(messageGroupsRef.child("public").update(groupToSave));
 
-      operationsToResolve.push(mapToUsers("public", participantIds, newMessageSession.key, newMessageGroup.key ))
+      operationsToResolve.push(mapGroupToUsers("public", participantIds, newMessageSession.key, newMessageGroup.key ))
     }
 
     operationsToResolve.push(mapUserToSessionAndSessionToUser(newMessageSession.key, participantIds));
@@ -175,7 +176,20 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     }
   }
 
-  MessagingFactory.addUserToGroup = function(){
+  MessagingFactory.addUserToGroup = function(groupObj, participantArray, callback){
+
+    let groupType;
+
+    if(groupObj["private"]){
+      groupType = "private";
+    } else {
+      groupType = "public";
+    }
+
+    return firebase.Promise.all([
+      mapUserToSessionAndSessionToUser(groupObj.sessionId, participantArray),
+
+    ])
 
   }
 

@@ -4,7 +4,7 @@
     <div class="">
       <button class="sqn-btn">Create new group</button>
     </div>
-    <div ng-if="createNewGroup" class="flex-container-row message-group-modification">
+    <div class="flex-container-row message-group-modification">
       <form class="new-message-group" name="newMessageGroup" ng-submit="createGroup()">
         <input type="text" class="sqnInputActive input-inline" ng-model="newGroup.name" placeholder="Add a group name"></input>
         <div class="checkbox sqnInput input-inline">
@@ -12,9 +12,6 @@
         </div>
         <input class="sqn-btn-positive" type="submit" value="Create Group" ng-disabled="newGroup.participants.length === 0"></input>
       </form>
-    </div>
-    <div ng-if="modifyPrivateGroup" class="flex-container-row">
-
     </div>
     <search-options evts="events" categories="categories" platforms="platforms"></search-options>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
