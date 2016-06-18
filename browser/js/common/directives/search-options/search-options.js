@@ -1,4 +1,4 @@
-app.directive("searchOptions", function(ManagementFactory, GuestOriginFactory, GuestCategoryFactory, QueryFactory, $timeout){
+app.directive("searchOptions", function(AuthService, ManagementFactory, GuestOriginFactory, GuestCategoryFactory, QueryFactory, $timeout){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/search-options/search-options.html",
@@ -8,6 +8,9 @@ app.directive("searchOptions", function(ManagementFactory, GuestOriginFactory, G
       platforms: "="
     },
     link: function(scope, element, attrs){
+
+      var currentUser = AuthService.getCurrentUser();
+      var currentUserId = currentUser.id || currentUser.$id || currentUser.uid;
 
       scope.loadingData = false;
 
@@ -34,9 +37,9 @@ app.directive("searchOptions", function(ManagementFactory, GuestOriginFactory, G
         return "loadingData || searchView ==='" + searchView + "'";
       }
 
-      var executeSearch = function(searchFn, callback, id){
+      var executeSearch = function(searchFn, callback, id, currentUserId){
         scope.loadingData = true;
-        searchFn(callback, id)
+        searchFn(callback, id, currentUserId)
       }
 
       var sendResultsToParentScope = function(payload){
@@ -73,7 +76,7 @@ app.directive("searchOptions", function(ManagementFactory, GuestOriginFactory, G
           sendResultsToParentScope(evtUsers);
           scope.searchView = evtId;
           return searchComplete();
-        }, evtId)
+        }, evtId, currentUserId)
       }
 
       scope.userOptions = [

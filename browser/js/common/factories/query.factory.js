@@ -8,12 +8,12 @@ app.factory("QueryFactory", function(DatabaseFactory){
     let catUsers = [];
     catRef.on("value", function(snapshot){
       snapshot.forEach(function(childSnap){
-        attendeesRef.child(childSnap.key).on("value", function(snapshot){
-          let userData = snapshot.val();
-          userData.$id = childSnap.key;
-          catUsers.push(userData);
+          attendeesRef.child(childSnap.key).on("value", function(snapshot){
+            let userData = snapshot.val();
+            userData.$id = childSnap.key;
+            catUsers.push(userData);
+          })
         })
-      })
       callback(catUsers);
     })
   }
@@ -33,17 +33,19 @@ app.factory("QueryFactory", function(DatabaseFactory){
     callback(correlatedUsers);
   }
 
-  QueryFactory.getEventUsers = (callback, evtId) => {
+  QueryFactory.getEventUsers = (callback, evtId, currentUserKey) => {
     let eventGuestRef = DatabaseFactory.dbConnection("eventGuests");
     let populatedArray = [];
     eventGuestRef.child(evtId).on("value", function(snapshot){
       snapshot.forEach(function(childSnapshot){
         let userKey = childSnapshot.key
-        attendeesRef.child(userKey).on("value", function(snapshot){
-          let userData = snapshot.val();
-          userData.$id = userKey;
-          populatedArray.push(userData);
-        })
+        if(userKey !== currentUserKey){
+          attendeesRef.child(userKey).on("value", function(snapshot){
+            let userData = snapshot.val();
+            userData.$id = userKey;
+            populatedArray.push(userData);
+          })
+        }
       })
       callback(populatedArray);
     })
