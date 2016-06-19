@@ -1,3 +1,41 @@
+@media screen and (max-width: $screen-xs-max) {
+  .tab-selector-small {
+    display: block;
+  }
+  .tab-selector-large {
+    display: none;
+  }
+
+  .chat-view-small {
+    display: block;
+  }
+
+  .chat-view-large {
+    display: none;
+  }
+}
+
+@media screen and (min-width: $screen-sm-min){
+  .tab-selector-small {
+    display: none;
+  }
+  .tab-selector-large {
+    display: block;
+  }
+
+  .chat-view-small {
+    display: none;
+  }
+
+  .chat-view-large {
+    display: block;
+  }
+}
+
+.tab-selector-small {
+
+}
+
 .message-group-modification {
   padding: 1.5em;
 }
@@ -21,13 +59,13 @@
   flex-grow: 1;
   padding: 0.5em;
   cursor: pointer;
-  background-color: $theme-grey;
-  color: $theme-tacgrey;
+  background-color: $theme-tacgrey;
+  color: $theme-grey;
 }
 
 .tab-active {
-  background-color: $theme-tacgrey;
-  color: $theme-grey;
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
 }
 
 .input-inline {
@@ -102,7 +140,7 @@ message-contact-options {
   display: block;
 }
 
-#messages-view {
+.messages-view {
   height: 50vh;
   width: 90%;
   margin: 1em auto;

@@ -29,7 +29,7 @@
   background-color: rgba()
 }*/
 
-.chat-user-online, .adding-user {
+.chat-user-online {
   background-color: $theme-green !important;
 }
 
@@ -56,6 +56,13 @@
   text-decoration: none;
   @include transition-mixin(all 0.25s ease-in-out);
   border-bottom: 1px solid $theme-tacgrey;
+  &:hover {
+    color: $theme-grey;
+    background-color: $theme-tacgrey;
+  }
+  &:active {
+
+  }
 
 }
 

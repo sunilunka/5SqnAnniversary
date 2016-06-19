@@ -7,12 +7,15 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
 
   this.newGroupParticipants;
 
+  this.groupSessionData = {};
+
   this.getSession = function(){
     return this.messageSession;
   }
 
   this.setPeerToPeerSession = function(currentUserId, candidateId){
     /* Check if peer to peer chat already exists, and if so, set the session accordingly. */
+    angular.copy({}, self.groupSessionData); /* Zeroise group session */
     MessagingFactory.checkMessageSessionExists(currentUserId, candidateId, function(snapshot){
       let snapVal = snapshot.val();
       if(snapVal){
@@ -41,7 +44,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
       if(snapVal){
         /* User is part of the group so go to session */
         self.messageSession = snapVal;
-        self.groupSessionData = groupObj;
+        angular.copy(groupObj, self.groupSessionData);
         $state.go("messagingSession", {id: userId, sessionId: snapVal, sessionType: groupType })
       } else {
         /* User is not part of the group, check if private and if not add them.*/
@@ -53,7 +56,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
           /* Messaging Factory mapping functions require userId in array, so userId is placed in array for second argument. */
           MessagingFactory.addUserToGroup(groupObj, [userId])
           .then(function(data){
-            self.groupSessionData = groupObj;
+            angular.copy(groupObj, self.groupSessionData);
             $state.go("messagingSession", {id: userId, sessionId: groupObj.sessionId, sessionType: groupType });
           })
         }
@@ -63,6 +66,10 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
 
   this.getCurrentSessionDetails = function(){
     return self.groupSessionData;
+  }
+
+  this.resetSessionDetails = function(){
+    angular.copy({}, self.groupSessionData);
   }
 
 

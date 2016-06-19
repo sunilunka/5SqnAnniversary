@@ -1,5 +1,18 @@
 app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUser, MessageSessionService, MessagingFactory, SessionMessages, NotificationService, Categories, Events, Platforms, $timeout, $rootScope){
 
+  $scope.sessionIsGroup = false;
+
+  if($stateParams.sessionId === "no-session"){
+    MessageSessionService.resetSessionDetails();
+  }
+
+  var currentSessionDetails = MessageSessionService.getCurrentSessionDetails();
+
+  if(currentSessionDetails.hasOwnProperty("name")){
+    $scope.sessionName = currentSessionDetails.name;
+    $scope.sessionIsGroup = true;
+  }
+
   $scope.categories = Categories;
   $scope.events = Events;
   $scope.platforms = Platforms;

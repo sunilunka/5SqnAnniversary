@@ -266,6 +266,19 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     })
   }
 
+  MessagingFactory.removeUserFromGroup = function(userId, group){
+    let groupType;
+    if(group["private"]){
+      groupType = "private";
+    } else {
+      groupType = "public";
+    }
+    return firebase.Promise.all([
+      userSessionsRef.child(userId).child(group.sessionId).remove(), sessionUsersRef.child(group.sessionId).child(userId).remove(),
+      userToGroupRef.child(userId).child(groupType).child(group.$id).remove()
+    ])
+  }
+
   return MessagingFactory;
 
 })

@@ -2,35 +2,67 @@
 <div class="messaging-state container-fluid">
   <div class="row">
     <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-      <header>
-        <h3>Group Name</h3>
-        <div>
-          <span>User names</span>
-        </div>
-      </header>
-      <div id="messages-view">
-        <div ng-repeat="message in messages">
-          <formatted-text rawtext="message.content"></formatted-text>
-          <span ng-bind="message.author"></span><span ng-bind="message.dtg"></span>
+      <div class="tab-selector-small">
+        <div class="flex-container-row">
+          <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'currentChat'}" ng-click="viewSelector('currentChat')">
+            <h4>Current Chat</h4>
+          </div>
+          <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'members'}" ng-click="viewSelector('members')">
+            <h4>Members</h4>
+          </div>
+          <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'search'}" ng-click="viewSelector('search')">
+            <h4>Search Contacts</h4>
+          </div>
         </div>
       </div>
-      <footer>
-        <form name="newMessageForm" ng-submit="transmit()">
-          <textarea ng-model="newMessage.content" name="content" placeholder="Write a message..." ng-required="true" novalidate>
-          </textarea>
-          <input type="submit" class="sqn-btn-positive" value="Send" ng-class="{'sqn-btn-disabled': newMessageForm.content.$invalid }" ng-disabled="newMessageForm.content.$invalid"></input>
-        </form>
-      </footer>
+      <div class="chat-view-large">
+        <header ng-if="sessionIsGroup">
+          <h3 ng-bind="sessionName"></h3>
+        </header>
+        <div class="messages-view">
+          <div ng-repeat="message in messages">
+            <formatted-text rawtext="message.content"></formatted-text>
+            <span ng-bind="message.author"></span><span ng-bind="message.dtg"></span>
+          </div>
+        </div>
+        <footer>
+          <form name="newMessageForm" ng-submit="transmit()">
+            <textarea ng-model="newMessage.content" name="content" placeholder="Write a message..." ng-required="true" novalidate>
+            </textarea>
+            <input type="submit" class="sqn-btn-positive" value="Send" ng-class="{'sqn-btn-disabled': newMessageForm.content.$invalid }" ng-disabled="newMessageForm.content.$invalid"></input>
+          </form>
+        </footer>
+      </div>
     </section>
     <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6 session-options">
-      <div class="flex-container-row">
-        <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'members'}" ng-click="viewSelector('members')">
-          <h4>Members</h4>
-        </div>
-        <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'search'}" ng-click="viewSelector('search')">
-          <h4>Search Contacts</h4>
+      <div class="tab-selector-large">
+        <div class="flex-container-row">
+          <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'members'}" ng-click="viewSelector('members')">
+            <h4>Members</h4>
+          </div>
+          <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'search'}" ng-click="viewSelector('search')">
+            <h4>Search Contacts</h4>
+          </div>
         </div>
       </div>
+      <section ng-if="activeTab === 'currentChat'" class="chat-view-small">
+        <header ng-if="sessionIsGroup">
+          <h3 ng-bind="sessionName"></h3>
+        </header>
+        <div claclass="messages-view">
+          <div ng-repeat="message in messages">
+            <formatted-text rawtext="message.content"></formatted-text>
+            <span ng-bind="message.author"></span><span ng-bind="message.dtg"></span>
+          </div>
+        </div>
+        <footer>
+          <form name="newMessageForm" ng-submit="transmit()">
+            <textarea ng-model="newMessage.content" name="content" placeholder="Write a message..." ng-required="true" novalidate>
+            </textarea>
+            <input type="submit" class="sqn-btn-positive" value="Send" ng-class="{'sqn-btn-disabled': newMessageForm.content.$invalid }" ng-disabled="newMessageForm.content.$invalid"></input>
+          </form>
+        </footer>
+      </section>
       <section ng-if="activeTab === 'members'" class="members-tab">
         <h5 ng-if="!membersLoaded">Loading members...</h5>
         <chat-contact-tile ng-repeat="member in sessionMembers" userid="loggedInId" session="member"></chat-contact-tile>
