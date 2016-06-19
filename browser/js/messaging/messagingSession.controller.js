@@ -103,13 +103,12 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
   })
 
 
-  console.log("SESSION MESSAGES: ", SessionMessages);
-
   $scope.transmit = () => {
-    $scope.newMessage.author = currentUser.firstName;
-    $scope.newMessage.authorId = (currentUser.id || currentUser.$id || currentUser.uid);
+    $scope.newMessage.author = currentUser.firstName + " " + currentUser.lastName;
+    $scope.newMessage.authorId = loggedInId;
     MessageSessionService.sendMessage($scope.newMessage)
     .then(function(){
+      MessagingFactory.updateMissedMessages($stateParams.sessionId, loggedInId)
       $scope.newMessageForm.$setUntouched()
       $scope.newMessageForm.$setPristine();
       $scope.newMessage = {};

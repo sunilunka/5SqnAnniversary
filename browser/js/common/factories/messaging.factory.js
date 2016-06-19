@@ -99,9 +99,25 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     })
   },
 
-  MessagingFactory.addNewMessage = function(sessionId, messageObj){
+  MessagingFactory.addNewMessage = function(sessionId, currentUserId, messageObj){
     return sessionMessageStoreRef.child(sessionId)
     .push(messageObj)
+  }
+
+  /* Update missed messages counter once a user has sent message. If the user key matches the user, their missed messages are reduced to zero (as they are watching the conversation)*/
+  MessagingFactory.updateMissedMessages = function(sessionId, currentUserId){
+    sessionUsersRef.child(sessionId).on("value", function(snapshot){
+      return snapshot.forEach(function(childSnapshot){
+        let userKey = childSnapshot.key;
+        userSessionsRef.child(userKey).child(sessionId).transaction(function(currentVal){
+          if(userKey === currentUserId){
+            return 0;
+          } else {
+            return currentVal + 1;
+          }
+        })
+      })
+    })
   }
 
   MessagingFactory.getPeerToPeerSessions = function(userId, callback){
@@ -240,6 +256,13 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
         }
       })
       callback(members)
+    })
+  }
+
+  MessagingFactory.watchMissedMessages = function(userId, sessionId, callback){
+    userSessionsRef.child(sessionId).on("value", function(snapshot){
+      let missedMsgs = snapshot.val();
+      callback(missedMsgs);
     })
   }
 

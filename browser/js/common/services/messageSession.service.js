@@ -68,7 +68,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
 
   this.sendMessage = function(messageObj){
     messageObj.dtg = firebase.database.ServerValue.TIMESTAMP;
-    return MessagingFactory.addNewMessage(self.messageSession, messageObj);
+    return MessagingFactory.addNewMessage(self.messageSession, messageObj.authorId, messageObj);
   }
 
 

@@ -7,6 +7,9 @@ app.directive("chatContactTile", function(MessagingFactory, MessageSessionServic
         session: "="
       },
       link: function(scope, element, attrs){
+
+        scope.missedMsgs = "?";
+
         scope.goToSession = function(){
           MessageSessionService.setPeerToPeerSession(scope.userid, scope.session.peerId)
         }
@@ -15,6 +18,12 @@ app.directive("chatContactTile", function(MessagingFactory, MessageSessionServic
           let onlineState = snapshot.val();
           scope.session.online = onlineState;
         })
+
+        if(scope.session.hasOwnProperty("sessionId")){
+          MessagingFactory.watchMissedMessages(scope.userid, scope.sessionId, function(missedMsgs){
+            scope.missedMsgs = missedMsgs;
+          })
+        }
 
       }
 
