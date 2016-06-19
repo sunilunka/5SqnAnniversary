@@ -280,7 +280,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     } else {
       groupType = "public";
     }
-
+    console.log("REMOVE GROUP SESSION: ", groupType, group)
     return firebase.Promise.all([
       userSessionsRef.child(userId).child(group.sessionId).remove(), sessionUsersRef.child(group.sessionId).child(userId).remove(),
       userToGroupRef.child(userId).child(groupType).child(group.$id).remove()
@@ -290,12 +290,15 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
   MessagingFactory.checkPartOfPublicGroup = function(sessionId, userId, callback){
     sessionUsersRef.child(sessionId).on("value", function(snapshot){
       let snapVal = snapshot.val();
-      if(snapVal.hasOwnProperty(userId)){
-        callback(true);
+      if(snapVal){
+        if(snapVal.hasOwnProperty(userId)){
+          callback(true);
+        } else {
+          callback(false);
+        }
       } else {
         callback(false);
       }
-
     })
   }
 

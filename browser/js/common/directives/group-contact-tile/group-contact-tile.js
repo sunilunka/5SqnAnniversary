@@ -35,6 +35,7 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
         }
         return MessagingFactory.removeUserFromGroup(scope.userid, scope.session)
         .then(function(data){
+          console.log("DATA: ", data);
           NotificationService.notify("success", "You have left the group");
           // if(removeFromSessionKey === $stateParams.sessionid){
           //   $state.go("attendee", {id: scope.userid})

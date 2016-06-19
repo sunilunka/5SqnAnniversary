@@ -46,7 +46,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
         /* User is part of the group so go to session */
         self.messageSession = snapVal;
         angular.copy(groupObj, self.groupSessionData);
-        MessagingFactory.resetSessionMissedMessages(userId, sessionId);
+        MessagingFactory.resetSessionMissedMessages(userId, groupObj.sessionId);
         $state.go("messagingSession", {id: userId, sessionId: snapVal, sessionType: groupType })
       } else {
         /* User is not part of the group, check if private and if not add them.*/
