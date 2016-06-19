@@ -2,7 +2,28 @@ app.directive("scrollBottom", function($timeout){
   return {
     restrict: "A",
     link: function(scope, element, attrs){
-      let pastHeight = element[0].scrollHeight;
+      let targetElement = element[0];
+      let pastHeight = targetElement.scrollHeight;
+
+      /* This doesn't seem to work on mobile devices. Poop. */
+      // let scrollDown = (event) => {
+      //   console.log("EVENT FIRED: ", event.animationName);
+      //   let currentHeight = targetElement.scrollHeight;
+      //   if(event.animationName === 'new-item-received'){
+      //     currentHeight = targetElement.scrollHeight;
+      //     if(currentHeight > pastHeight){
+      //       targetElement.scrollTop = currentHeight;
+      //       pastHeight = currentHeight;
+      //     }
+      //   }
+      // }
+      //
+      //
+      // targetElement.addEventListener("MSAnimationStart", scrollDown, false);
+      //
+      // targetElement.addEventListener("animationStart", scrollDown, false);
+      //
+      // targetElement.addEventListener("webkitAnimationStart", scrollDown, false);
 
       setInterval(function(){
         let currentHeight = element[0].scrollHeight;
@@ -10,7 +31,7 @@ app.directive("scrollBottom", function($timeout){
           element[0].scrollTop = currentHeight;
           pastHeight = currentHeight;
         }
-      }, 200)
+      }, 1000)
 
     }
   }

@@ -12,7 +12,6 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
   var mapUserToSessionAndSessionToUser = function(sessionId, participantsArray){
 
-    console.log("MESSAGE SESSION REF: ", sessionId);
     var mapUsersAndSessions = participantsArray.map(function(id){
       var userSessionObj = {};
       /* User session object holds number of unseen messages for user based on their online status */
@@ -94,7 +93,6 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
   MessagingFactory.checkMessageSessionExists = function(currentUserId, candidateId, callback){
     return userToUserRef.child(currentUserId).orderByKey().equalTo(candidateId)
     .on("value", function(snapshot){
-      console.log("DATA: ", snapshot.val())
       callback(snapshot);
     })
   },
@@ -117,6 +115,12 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
           }
         })
       })
+    })
+  }
+  /* If user views session, then reset missed messages as user will see them. */
+  MessagingFactory.resetSessionMissedMessages = function(userId, sessionId){
+    userSessionsRef.child(userId).child(sessionId).transaction(function(currentVal){
+      return 0;
     })
   }
 
@@ -182,8 +186,8 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     let groupToSave = {};
     groupToSave[newMessageGroup.key] = groupObj;
 
-    let groupForRedirect = groupObj;
-    groupForRedirect.$id = newMessageGroup.key;
+    let groupForRedirect = {};
+    angular.copy(groupObj, groupForRedirect);
 
     if(groupObj["private"]){
       operationsToResolve.push(messageGroupsRef.child("private").update(groupToSave));
@@ -198,7 +202,10 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
     operationsToResolve.push(mapUserToSessionAndSessionToUser(newMessageSession.key, participantIds));
 
-    return firebase.Promise.all(operationsToResolve);
+    return firebase.Promise.all(operationsToResolve)
+    .then(function(data){
+      return groupForRedirect;
+    })
 
   }
 
@@ -260,7 +267,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
   }
 
   MessagingFactory.watchMissedMessages = function(userId, sessionId, callback){
-    userSessionsRef.child(sessionId).on("value", function(snapshot){
+    userSessionsRef.child(userId).child(sessionId).on("value", function(snapshot){
       let missedMsgs = snapshot.val();
       callback(missedMsgs);
     })
@@ -273,10 +280,23 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     } else {
       groupType = "public";
     }
+
     return firebase.Promise.all([
       userSessionsRef.child(userId).child(group.sessionId).remove(), sessionUsersRef.child(group.sessionId).child(userId).remove(),
       userToGroupRef.child(userId).child(groupType).child(group.$id).remove()
     ])
+  }
+
+  MessagingFactory.checkPartOfPublicGroup = function(sessionId, userId, callback){
+    sessionUsersRef.child(sessionId).on("value", function(snapshot){
+      let snapVal = snapshot.val();
+      if(snapVal.hasOwnProperty(userId)){
+        callback(true);
+      } else {
+        callback(false);
+      }
+
+    })
   }
 
   return MessagingFactory;

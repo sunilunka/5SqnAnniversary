@@ -1,4 +1,8 @@
 <div ng-class="{'chat-user-online': session.online}" class="tile-content flex-container-row" ng-click="goToSession()">
-  <h6 ng-bind="session.displayName"></h6>
-  <span ng-bind="session.online"></span>
+  <p>{{ session.displayName }}<span class="tile-association" ng-bind="association"></span></p>
+  <div class="tile-options">
+    <div ng-if="missedMsgs" class="missed-msg-counter">
+      <span class="missed-msg-content" ng-bind="missedMsgs"></span>
+    </div>
+  </div>
 </div>

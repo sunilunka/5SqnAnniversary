@@ -16,6 +16,8 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
 
       scope.publicGroupSessions = [];
 
+      scope.activePanel = "peer";
+
       let displayActive = false;
 
       scope.toggleDisplay = function(){
@@ -25,6 +27,10 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
         } else {
           element.removeClass("panel-active");
         }
+      }
+
+      scope.selectMenu = function(viewName){
+        scope.activePanel = viewName;
       }
 
       MessagingFactory.getPeerToPeerSessions(userId, function(results){
@@ -45,12 +51,10 @@ app.directive("activeChatPanel", function(MessagingFactory, $timeout){
       MessagingFactory.getPublicGroups()
       .then(function(array){
         angular.copy(array, scope.publicGroupSessions);
-        // $timeout(function(){
-        //   scope.$apply();
-        // }, 1)
+        $timeout(function(){
+          scope.$apply();
+        },1);
       })
-
-
     }
   }
 })

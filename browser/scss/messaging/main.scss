@@ -1,3 +1,12 @@
+@keyframes new-item-received {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 @mixin theme-shadow-inset{
   box-shadow: 0px 5px 10px rgba(128, 128, 128, 0.95) inset;
 }
@@ -67,8 +76,13 @@
   }
 }
 
+.group-private {
+  background-color: $theme-red;
+  color: $theme-tacgrey;
+}
+
 .message-group-modification {
-  padding: 1.5em;
+  padding: 0.5rem;
 }
 
 .messaging-state {
@@ -200,9 +214,35 @@ chat-message-output {
   width: 66%;
   margin-top: 1em;
   padding: 0.5em;
+  animation-name: new-item-received;
+  animation-duration: 0.5s;
   .message-footer {
     text-align: right;
     font-size: 0.75em;
     margin: 0;
   }
+}
+
+.members-tab {
+  chat-contact-tile {
+    .tile-content {
+      color: $theme-tacgrey;
+      background-color: $theme-grey;
+      border-bottom: 3px solid $theme-grey;
+      .tile-association {
+        background-color: $theme-tacgrey;
+        color: $theme-grey;
+      }
+    }
+  }
+}
+
+.tile-association {
+  font-size: 1rem;
+  padding: 0.25em;
+  margin: 0.1em;
+  background-color: grey;
+  display: block;
+  border-radius: 4px;
+  text-align: center;
 }

@@ -2,21 +2,23 @@
   <span>Messages</span>
 </div>
 <section>
-  <header>
-    <a class="sqn-btn" ui-sref="messagingSession({id: userId, sessionId: 'no-session', sessionType: 'none' })">Find a squadron mate</a>
-    <h5>Message Contacts</h5>
+  <header class="flex-container-row">
+    <a class="active-chat-redirect" ui-sref="messagingSession({id: userId, sessionId: 'no-session', sessionType: 'none' })">Find a squadron mate or create group</a>
   </header>
-  <div class="active-chat-holder">
+  <div class="flex-container-row">
+    <div class="chat-menu-selector" ng-class="{'chat-menu-selector-active': activePanel === 'peer'}" ng-click="selectMenu('peer')">Peer Chats</div>
+    <div ng-class="{'chat-menu-selector-active': activePanel === 'groups'}" class="chat-menu-selector" ng-click="selectMenu('groups')">Your Groups</div>
+    <div ng-class="{'chat-menu-selector-active': activePanel === 'public'}" class="chat-menu-selector" ng-click="selectMenu('public')">Public Groups</div>
+  </div>
+  <div ng-if="activePanel === 'peer'" class="active-chat-holder">
     <chat-contact-tile ng-repeat="session in peerSessions" userid="user.$id || user.uid || user.id" session="session">
     </chat-contact-tile>
   </div>
-  <div class="active-chat-holder">
-    <h6>Your Private Group Chats</h6>
+  <div ng-if="activePanel === 'groups'" class="active-chat-holder">
     <group-contact-tile ng-repeat="group in userGroupSessions" userid="user.$id || user.uid || user.id" session="group">
     </group-contact-tile>
   </div>
-  <div class="active-chat-holder">
-    <h6>Public Group chats</h6>
+  <div class="active-chat-holder" ng-if="activePanel === 'public'">
     <group-contact-tile ng-repeat="group in publicGroupSessions" userid="user.$id || user.uid || user.id" session="group">
     </group-contact-tile>
   </div>

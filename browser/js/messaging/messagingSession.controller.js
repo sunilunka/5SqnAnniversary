@@ -1,4 +1,4 @@
-app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUser, MessageSessionService, MessagingFactory, SessionMessages, NotificationService, Categories, Events, Platforms, $timeout, $rootScope){
+app.controller("MessagingSessionCtrl", function($scope, $stateParams, $state, loggedInUser, MessageSessionService, MessagingFactory, SessionMessages, NotificationService, Categories, Events, Platforms, $timeout, $rootScope){
 
   $scope.sessionIsGroup = false;
 
@@ -41,10 +41,6 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
     }, 1);
   })
 
-
-
-
-
   $scope.searchResults = [];
 
   $scope.showMessage = false;
@@ -60,9 +56,11 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
 
   $scope.newGroup = {};
 
+  $scope.groupPrivate = "Make Private (only group members can add others)";
+
   $scope.createNewGroup = function(){
     if($scope.creatingNewGroup.display){
-      $scope.newGroup = {};
+      angular.copy({}, $scope.newGroup);
       $scope.creatingNewGroup.display = false;
       $scope.creatingNewGroup.label = "Create New Group";
       MessageSessionService.createNewGroupInProgress(false);
@@ -73,6 +71,18 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
     }
   }
 
+  $scope.makePrivateGroup = function(){
+    event.preventDefault();
+    if($scope.creatingNewGroup.display){
+      if(!$scope.newGroup.private){
+        $scope.newGroup.private = true;
+        $scope.groupPrivate = "Revert group back to public";
+      } else {
+        $scope.newGroup.private = false;
+        $scope.groupPrivate = "Make Private (only group members can add others)";
+      }
+    }
+  }
 
   $scope.filterUsers = function(){
     for(var param in $scope.filterParams){
@@ -94,6 +104,14 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
     .then(function(data){
       NotificationService.notify("success", "New group created!");
       resetGroupCreation();
+      let groupType = null;
+      if(data["private"]){
+        groupType = "private";
+      } else {
+        groupType = "public";
+      }
+      MessageSessionService.setGroupSessionDetails(data);
+      $state.go("messagingSession", {id: loggedInId, sessionId: data.sessionId, sessionType: groupType });
     })
     .catch(function(error){
       NotificationService.notify("error", "Sorry an error occured: " + error);
@@ -122,9 +140,9 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
     MessageSessionService.sendMessage($scope.newMessage)
     .then(function(){
       MessagingFactory.updateMissedMessages($stateParams.sessionId, loggedInId)
+      angular.copy({}, $scope.newMessage);
       $scope.newMessageForm.$setUntouched()
       $scope.newMessageForm.$setPristine();
-      $scope.newMessage = {};
     })
     .catch(function(error){
       NotificationService.notify("error", "Sorry, an we can't seem to get through to the server...sounds like a poor radio operator.")
