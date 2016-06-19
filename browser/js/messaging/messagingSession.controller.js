@@ -1,4 +1,4 @@
-app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUser, MessageSessionService, MessagingFactory, SessionMessages, NotificationService, Categories, Events, Platforms, $timeout){
+app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUser, MessageSessionService, MessagingFactory, SessionMessages, NotificationService, Categories, Events, Platforms, $timeout, $rootScope){
 
   $scope.categories = Categories;
   $scope.events = Events;
@@ -11,6 +11,26 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
   $scope.filterParams = {};
 
   var loggedInId = loggedInUser.$id || loggedInUser.uid || loggedInUser.id;
+
+  $scope.loggedInId = loggedInId;
+
+  $scope.membersLoaded = false;
+
+  $scope.sessionMembers = [];
+
+  /* Get current session members */
+
+  MessagingFactory.getSessionMembers($stateParams.sessionId, loggedInId, function(data){
+    $scope.membersLoaded = true;
+    angular.copy(data, $scope.sessionMembers);
+    $timeout(function(){
+      $scope.$apply();
+    }, 1);
+  })
+
+
+
+
 
   $scope.searchResults = [];
 
@@ -98,5 +118,12 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
       NotificationService.notify("error", "Sorry, an we can't seem to get through to the server...sounds like a poor radio operator.")
     })
   }
+
+  $scope.activeTab = "members"
+
+  $scope.viewSelector = function(viewName){
+    $scope.activeTab = viewName;
+  }
+
 
 })

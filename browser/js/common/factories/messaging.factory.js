@@ -221,6 +221,28 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
     });
   }
 
+  MessagingFactory.getSessionMembers = function(sessionId, currentUserId, callback){
+    sessionUsersRef.child(sessionId).on("value", function(snapshot){
+      let members = [];
+      snapshot.forEach(function(childSnap){
+        if(childSnap.key !== currentUserId){
+          let userId = childSnap.key;
+          attendeesRef.child(userId).on("value", function(userSnap){
+            let userDetails = userSnap.val();
+            let displayProps = {
+              displayName: userDetails.firstName + " " + userDetails.lastName,
+              peerId: userId,
+              online: userDetails.online,
+              $id: userId
+            }
+            members.push(displayProps);
+          })
+        }
+      })
+      callback(members)
+    })
+  }
+
   return MessagingFactory;
 
 })

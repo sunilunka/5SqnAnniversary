@@ -12,6 +12,24 @@
   padding: 0.5em;
 }
 
+.session-options {
+  border: 3px solid $theme-grey;
+  padding: 0;
+}
+
+.messaging-tab-selector {
+  flex-grow: 1;
+  padding: 0.5em;
+  cursor: pointer;
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
+}
+
+.tab-active {
+  background-color: $theme-tacgrey;
+  color: $theme-grey;
+}
+
 .input-inline {
   display: inline-block;
 }

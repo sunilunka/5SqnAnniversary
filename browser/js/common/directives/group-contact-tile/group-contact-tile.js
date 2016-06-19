@@ -8,8 +8,6 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
     },
     link: function(scope, element, attrs){
 
-      console.log("SCOPE SESSION: ", scope.session);
-
       scope.goToSession = function(){
         MessageSessionService.setGroupSession(scope.userid, scope.session)
       }

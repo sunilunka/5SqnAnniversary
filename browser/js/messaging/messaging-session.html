@@ -1,60 +1,77 @@
 <active-chat-panel user="user"></active-chat-panel>
-<div class="messaging-state">
-  <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-    <header>
-      <h3>Group Name</h3>
-      <div>
-        <span>User names</span>
-      </div>
-    </header>
-    <div id="messages-view">
-      <div ng-repeat="message in messages">
-        <formatted-text rawtext="message.content"></formatted-text>
-        <span ng-bind="message.author"></span><span ng-bind="message.dtg"></span>
-      </div>
-    </div>
-    <footer>
-      <form name="newMessageForm" ng-submit="transmit()">
-        <textarea ng-model="newMessage.content" name="content" placeholder="Write a message..." ng-required="true" novalidate>
-        </textarea>
-        <input type="submit" class="sqn-btn-positive" value="Send" ng-class="{'sqn-btn-disabled': newMessageForm.content.$invalid }" ng-disabled="newMessageForm.content.$invalid"></input>
-      </form>
-    </footer>
-  </section>
-  <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-    <div></div>
-    <div class="">
-      <div class="flex-container-row">
-        <button class="sqn-btn-positive sqn-btn-flex" ng-click="createNewGroup()" ng-bind="creatingNewGroup.label"></button>
-      </div>
-      <div ng-if="creatingNewGroup.display" class="flex-container-row message-group-modification">
-        <form class="new-message-group" name="newMessageGroup" ng-submit="createGroup()">
-          <input type="text" class="sqnInputActive input-inline" ng-model="newGroup.name" placeholder="Add a group name"></input>
-          <div class="checkbox sqnInput input-inline">
-            <label for="group-private"><input type="checkbox" name="group-private" ng-model="newGroup.private"></input>Private (only group members can add others)</label>
-          </div>
-          <input class="sqn-btn-positive" type="submit" value="Create Group"></input>
-        </form>
-      </div>
-      <search-options evts="events" categories="categories" platforms="platforms"></search-options>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h5>Filter the results from above by the parameters here.</h5>
-        <form name="userFilterForm" ng-submit="filterUsers()">
-          <div class="flex-container-row">
-            <input type="text" class="sqnInputActive" ng-model="filterParams.firstName" placeholder="First Name"></input>
-            <input type="text" class="sqnInputActive" ng-model="filterParams.lastName" placeholder="Last Name"></input>
-            <input type="text" ng-model="filterParams.email" class="sqnInputActive" placeholder="Email Address">
-          </div>
-          <div class="flex-container-row">
-            <input type="submit" class="sqn-btn-inverse" value="Filter"></input>
-          </div>
-        </form>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="flex-container-row">
-          <messaging-contact user="result" current="user" ng-if="!loadingData" ng-repeat="result in searchResults | filter:userFilterParams"></messaging-contact>
+<div class="messaging-state container-fluid">
+  <div class="row">
+    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <header>
+        <h3>Group Name</h3>
+        <div>
+          <span>User names</span>
+        </div>
+      </header>
+      <div id="messages-view">
+        <div ng-repeat="message in messages">
+          <formatted-text rawtext="message.content"></formatted-text>
+          <span ng-bind="message.author"></span><span ng-bind="message.dtg"></span>
         </div>
       </div>
-    </div>
-  </section>
+      <footer>
+        <form name="newMessageForm" ng-submit="transmit()">
+          <textarea ng-model="newMessage.content" name="content" placeholder="Write a message..." ng-required="true" novalidate>
+          </textarea>
+          <input type="submit" class="sqn-btn-positive" value="Send" ng-class="{'sqn-btn-disabled': newMessageForm.content.$invalid }" ng-disabled="newMessageForm.content.$invalid"></input>
+        </form>
+      </footer>
+    </section>
+    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6 session-options">
+      <div class="flex-container-row">
+        <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'members'}" ng-click="viewSelector('members')">
+          <h4>Members</h4>
+        </div>
+        <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'search'}" ng-click="viewSelector('search')">
+          <h4>Search Contacts</h4>
+        </div>
+      </div>
+      <section ng-if="activeTab === 'members'" class="members-tab">
+        <h5 ng-if="!membersLoaded">Loading members...</h5>
+        <chat-contact-tile ng-repeat="member in sessionMembers" userid="loggedInId" session="member"></chat-contact-tile>
+      </section>
+      <section class="" ng-if="activeTab === 'search'">
+        <div></div>
+        <div class="">
+          <div class="flex-container-row">
+            <button class="sqn-btn-positive sqn-btn-flex" ng-click="createNewGroup()" ng-bind="creatingNewGroup.label"></button>
+          </div>
+          <div ng-if="creatingNewGroup.display" class="flex-container-row message-group-modification">
+            <form class="new-message-group" name="newMessageGroup" ng-submit="createGroup()">
+              <input type="text" class="sqnInputActive input-inline" ng-model="newGroup.name" placeholder="Add a group name"></input>
+              <div class="checkbox sqnInput input-inline">
+                <label for="group-private"><input type="checkbox" name="group-private" ng-model="newGroup.private"></input>Private (only group members can add others)</label>
+              </div>
+              <input class="sqn-btn-positive" type="submit" value="Create Group"></input>
+            </form>
+          </div>
+          <search-options evts="events" categories="categories" platforms="platforms"></search-options>
+          <div class="">
+            <h5>Filter the results from above by the parameters here.</h5>
+            <form name="userFilterForm" ng-submit="filterUsers()">
+              <div class="flex-container-row">
+                <input type="text" class="sqnInputActive" ng-model="filterParams.firstName" placeholder="First Name"></input>
+                <input type="text" class="sqnInputActive" ng-model="filterParams.lastName" placeholder="Last Name"></input>
+                <input type="text" ng-model="filterParams.email" class="sqnInputActive" placeholder="Email Address">
+              </div>
+              <div class="flex-container-row">
+                <input type="submit" class="sqn-btn-inverse" value="Filter"></input>
+              </div>
+            </form>
+          </div>
+          <div class="">
+            <div class="flex-container-row">
+              <h3 ng-if="showMessage" ng-bind="activity"></h3>
+              <messaging-contact user="result" current="user" ng-if="!loadingData" ng-repeat="result in searchResults | filter:userFilterParams"></messaging-contact>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
 </div>
