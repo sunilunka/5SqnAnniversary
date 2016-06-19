@@ -131,7 +131,17 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, loggedInUs
     })
   }
 
+  /* On load, detect if window width is less than 768px, if so make the activeTab chatContact or else if no session, then activeTab is search */
   $scope.activeTab = "members"
+
+  if($stateParams.sessionId === "no-session"){
+    $scope.activeTab = "search";
+  } else {
+    if((window.innerWidth < 768) && ($stateParams.sessionId !== "no-session")){
+      $scope.activeTab = "currentChat";
+    }
+  }
+
 
   $scope.viewSelector = function(viewName){
     $scope.activeTab = viewName;

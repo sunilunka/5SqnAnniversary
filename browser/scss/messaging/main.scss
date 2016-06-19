@@ -1,3 +1,7 @@
+@mixin theme-shadow-inset{
+  box-shadow: 0px 5px 10px rgba(128, 128, 128, 0.95) inset;
+}
+
 @media screen and (max-width: $screen-xs-max) {
   .tab-selector-small {
     display: block;
@@ -36,6 +40,33 @@
 
 }
 
+.new-message-box {
+  textarea {
+    width: 70%;
+    outline: none;
+    height: 6em;
+    border: 3px solid $theme-grey;
+    &:focus {
+      outline: none;
+    }
+  }
+  input {
+    width: 25%;
+  }
+
+  textarea, input {
+    align-items: stretch;
+  }
+}
+
+.chat-view-small, chat-view-large {
+  header {
+    h3 {
+      margin-left: 1em;
+    }
+  }
+}
+
 .message-group-modification {
   padding: 1.5em;
 }
@@ -53,19 +84,24 @@
 .session-options {
   border: 3px solid $theme-grey;
   padding: 0;
+  height: 90vh;
+}
+
+.session-chat {
+
 }
 
 .messaging-tab-selector {
   flex-grow: 1;
   padding: 0.5em;
   cursor: pointer;
-  background-color: $theme-tacgrey;
-  color: $theme-grey;
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
 }
 
 .tab-active {
-  background-color: $theme-grey;
-  color: $theme-tacgrey;
+  background-color: $theme-tacgrey;
+  color: $theme-grey;
 }
 
 .input-inline {
@@ -145,10 +181,11 @@ message-contact-options {
   width: 95%;
   margin: 1em auto;
   @include scrollable-content-viewer;
+  @include theme-shadow-inset;
 }
 
 .current-user-message {
-  margin-left: 33%;
+  margin-left: 34%;
   background-color: $theme-blue;
   color: $theme-tacgrey;
 }

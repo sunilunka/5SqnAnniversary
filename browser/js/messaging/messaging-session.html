@@ -1,17 +1,17 @@
 <active-chat-panel user="user"></active-chat-panel>
 <div class="messaging-state container-fluid">
   <div class="row">
-    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6 session-chat">
       <div class="tab-selector-small">
         <div class="flex-container-row">
           <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'currentChat'}" ng-click="viewSelector('currentChat')">
-            <h4>Current Chat</h4>
+            <h5>Current Chat</h5>
           </div>
           <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'members'}" ng-click="viewSelector('members')">
-            <h4>Members</h4>
+            <h5>Members</h5>
           </div>
           <div class="messaging-tab-selector" ng-class="{'tab-active': activeTab === 'search'}" ng-click="viewSelector('search')">
-            <h4>Search Contacts</h4>
+            <h5>Search Contacts</h5>
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
           <chat-message-output ng-repeat="message in messages" userid="loggedInId" message="message"></chat-message-output>
         </div>
         <footer>
-          <form name="newMessageForm" ng-submit="transmit()">
+          <form name="newMessageForm" ng-submit="transmit()" class="flex-container-row new-message-box">
             <textarea ng-model="newMessage.content" name="content" placeholder="Write a message..." ng-required="true" novalidate>
             </textarea>
             <input type="submit" class="sqn-btn-positive" value="Send" ng-class="{'sqn-btn-disabled': newMessageForm.content.$invalid }" ng-disabled="newMessageForm.content.$invalid"></input>
@@ -50,8 +50,8 @@
           <chat-message-output ng-repeat="message in messages" userid="loggedInId" message="message"></chat-message-output>
         </div>
         <footer>
-          <form name="newMessageForm" ng-submit="transmit()">
-            <textarea ng-model="newMessage.content" name="content" placeholder="Write a message..." ng-required="true" novalidate>
+          <form name="newMessageForm" ng-submit="transmit()" class="new-message-box flex-container-row">
+            <textarea class="sqnInputActive" ng-model="newMessage.content" name="content" placeholder="Write a message..." ng-required="true" novalidate>
             </textarea>
             <input type="submit" class="sqn-btn-positive" value="Send" ng-class="{'sqn-btn-disabled': newMessageForm.content.$invalid }" ng-disabled="newMessageForm.content.$invalid"></input>
           </form>
@@ -90,11 +90,9 @@
               </div>
             </form>
           </div>
-          <div class="">
-            <div class="flex-container-row">
-              <h3 ng-if="showMessage" ng-bind="activity"></h3>
-              <messaging-contact user="result" current="user" ng-if="!loadingData" ng-repeat="result in searchResults | filter:userFilterParams"></messaging-contact>
-            </div>
+          <div class="flex-container-row messaging-search-results">
+            <h3 ng-if="showMessage" ng-bind="activity"></h3>
+            <messaging-contact user="result" current="user" ng-if="!loadingData" ng-repeat="result in searchResults | filter:userFilterParams"></messaging-contact>
           </div>
         </div>
       </section>
