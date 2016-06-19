@@ -141,17 +141,31 @@ message-contact-options {
 }
 
 .messages-view {
-  height: 50vh;
-  width: 90%;
+  height: 60vh;
+  width: 95%;
   margin: 1em auto;
+  @include scrollable-content-viewer;
 }
 
 .current-user-message {
-  margin-left: 25%;
+  margin-left: 33%;
+  background-color: $theme-blue;
+  color: $theme-tacgrey;
+}
+
+.other-user-message {
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
 }
 
 chat-message-output {
   display: block;
-  width: 75%;
-
+  width: 66%;
+  margin-top: 1em;
+  padding: 0.5em;
+  .message-footer {
+    text-align: right;
+    font-size: 0.75em;
+    margin: 0;
+  }
 }

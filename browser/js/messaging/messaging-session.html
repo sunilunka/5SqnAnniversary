@@ -19,7 +19,7 @@
         <header ng-if="sessionIsGroup">
           <h3 ng-bind="sessionName"></h3>
         </header>
-        <div class="messages-view">
+        <div scroll-bottom class="messages-view">
           <chat-message-output ng-repeat="message in messages" userid="loggedInId" message="message"></chat-message-output>
         </div>
         <footer>
@@ -46,7 +46,7 @@
         <header ng-if="sessionIsGroup">
           <h3 ng-bind="sessionName"></h3>
         </header>
-        <div class="messages-view">
+        <div scroll-bottom class="messages-view">
           <chat-message-output ng-repeat="message in messages" userid="loggedInId" message="message"></chat-message-output>
         </div>
         <footer>

@@ -7,10 +7,12 @@ app.directive("chatMessageOutput", function(){
       userid: "="
     },
     link: function(scope, element, attrs){
-      console.log("DATA: ", scope.message, scope.userid)
       if(scope.userid === scope.message.authorId){
-        element.addClass("current-user-message")
+        element.addClass("current-user-message");
+      } else {
+        element.addClass("other-user-message");
       }
+
     }
   }
 })
