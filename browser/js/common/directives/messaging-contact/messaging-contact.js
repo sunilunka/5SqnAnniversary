@@ -14,7 +14,6 @@ app.directive("messagingContact", function(MessageSessionService, MessagingFacto
 
       let userId = user.$id;
 
-      console.log("CURRENT STATE: ", $stateParams);
       GuestCategoryFactory.resolveName(user.association, function(name){
         scope.association = name;
       })

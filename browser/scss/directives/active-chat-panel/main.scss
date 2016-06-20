@@ -1,4 +1,4 @@
-@mixin panel-responsive-dimensions($width){
+@mixin panel-responsive-dimensions($width, $height){
   .panel-active {
     transform: translateX(-$width);
   }
@@ -7,27 +7,28 @@
     width: $width;
     right: -$width;
   }
+
+  .active-chat-holder {
+    height: $height;
+  }
 }
 
 @media screen and (max-width: $screen-xxs-max){
-  @include panel-responsive-dimensions(75vw);
+  @include panel-responsive-dimensions(75vw, 60vh);
 }
 
 @media screen and (min-width: $screen-xs-min) and (max-width: $screen-xs-max) {
-  @include panel-responsive-dimensions(75vw);
+  @include panel-responsive-dimensions(75vw, 60vh);
 }
 
 @media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max){
-@include panel-responsive-dimensions(50vw);
+  @include panel-responsive-dimensions(50vw, 75vh);
 }
 
 @media screen and (min-width: $screen-md-min){
-  @include panel-responsive-dimensions(25vw);
+  @include panel-responsive-dimensions(25vw, 75vh);
 }
 
-/*.group-private {
-  background-color: rgba()
-}*/
 
 .chat-user-online {
   background-color: $theme-green !important;
@@ -80,33 +81,32 @@
       color: $theme-grey;
     }
   }
-  &:active {
-
-  }
-
   p {
     margin: 0;
     width: 50%;
     padding: 1rem;
     cursor: pointer;
   }
-
 }
 
 .tile-options {
   width: 50%;
-  padding: 1rem;
+  padding: 0.5rem;
+  button {
+    height: 4rem;
+    &:hover {
+      background-color: $theme-red;
+      color: $theme-tacgrey;
+    }
+    &:active {
+      background-color: $theme-red;
+      color: $theme-tacgrey;
+    }
+  }
 }
 
 .group-tile {
-  h6 {
-    margin: 0;
-    padding: 0.75em;
-    &:hover {
-      color: $theme-grey;
-      background-color: $theme-tacgrey;
-    }
-  }
+
 }
 
 .panel-display-tab {
@@ -148,7 +148,6 @@ active-chat-panel {
   @include scrollable-content-viewer;
   display: block;
   border: 3px solid $theme-tacgrey;
-  height: auto;
 }
 
 .chat-menu-selector {

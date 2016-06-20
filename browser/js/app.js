@@ -58,11 +58,6 @@ app.run(function ($rootScope, $state, $firebaseObject, AuthService, SessionServi
       }
     }
 
-    if(fromState.name === "messagingSession"){
-      MessageSessionService.leaveSession();
-    }
-
-
   })
 
 });

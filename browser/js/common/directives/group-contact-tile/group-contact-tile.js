@@ -13,7 +13,6 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
       }
 
       scope.leaveGroup = function(){
-        event.preventDefault();
         let removeFromSessionKey = scope.session.sessionId;
         if(MessageSessionService.getSession() === removeFromSessionKey){
           MessageSessionService.leaveSession();
