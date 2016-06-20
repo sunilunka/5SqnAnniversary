@@ -93,6 +93,16 @@
 .new-message-group {
   flex-grow: 1;
   padding: 0.5em;
+  p {
+    margin: 0.5em;
+    background-color: $theme-blue;
+    padding: 0.25em;
+    font-size: 0.9em;
+    color: $theme-tacgrey;
+  }
+  button {
+    margin: 0.5em;
+  }
 }
 
 .session-options {

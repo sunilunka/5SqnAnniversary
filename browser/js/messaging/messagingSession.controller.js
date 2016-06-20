@@ -56,7 +56,7 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, $state, lo
 
   $scope.newGroup = {};
 
-  $scope.groupPrivate = "Make Private (only group members can add others)";
+  $scope.groupPrivate = "Make Private";
 
   $scope.createNewGroup = function(){
     if($scope.creatingNewGroup.display){
@@ -79,7 +79,7 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, $state, lo
         $scope.groupPrivate = "Revert group back to public";
       } else {
         $scope.newGroup.private = false;
-        $scope.groupPrivate = "Make Private (only group members can add others)";
+        $scope.groupPrivate = "Make Private";
       }
     }
   }
