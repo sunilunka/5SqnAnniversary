@@ -23,7 +23,7 @@ app.config(function ($urlRouterProvider, $locationProvider) {
 });
 
 // This app.run is for controlling access to specific states.
-app.run(function ($rootScope, $state, $firebaseObject, AuthService, SessionService, ManagementFactory) {
+app.run(function ($rootScope, $state, $firebaseObject, AuthService, SessionService, ManagementFactory, MessageSessionService) {
 
 
   AuthService.reportAuthState();
@@ -56,6 +56,10 @@ app.run(function ($rootScope, $state, $firebaseObject, AuthService, SessionServi
         event.preventDefault();
         $state.go("attendee", {id: currentUserIdent});
       }
+    }
+
+    if(fromState.name === "messagingSession"){
+      MessageSessionService.leaveSession();
     }
 
 

@@ -1,4 +1,4 @@
-app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, DatabaseFactory, $firebaseArray, $rootScope, PlatformsFactory){
+app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, DatabaseFactory, $firebaseArray, $rootScope, PlatformsFactory, NotificationService){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/attendee-event/attendee-event.html",
@@ -7,7 +7,6 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
       attendee: "="
     },
     link: function(scope, element, attrs){
-      console.log("EVENT DATA: ", scope.evt);
       AttendeeEventFactory.checkSeatsAvailable(scope.evt.$id, scope.attendee.association, function(refValue){
         if(scope.evt.hasOwnProperty("guestLimits")){
           let guestLims = scope.evt["guestLimits"];
@@ -69,10 +68,11 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
         AttendeeFactory.removeEventFromAttendee(evtId, scope.attendee)
         .then(function(data){
           scope.isUserAttending(scope.evt);
+          NotificationService.notify("success", "You have been removed from the event.")
           return data;
         })
         .catch(function(error){
-          console.log("SORRY AN ERROR OCCURED: ", error)
+          NotificationService.notify("error", "Sorry an error occured and we couldn't remove you.");
           return error;
         })
       }

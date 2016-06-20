@@ -211,11 +211,13 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
   MessagingFactory.checkGroupSessionExists = function(userId, groupObj, callback){
     if(groupObj["private"]){
-      userToGroupRef.child(userId).child("private").child(groupObj.$id).on("value", function(snapshot){
+      userToGroupRef.child(userId).child("private").child(groupObj.$id).once("value")
+      .then(function(snapshot){
         callback(snapshot);
       })
     } else {
-      userToGroupRef.child(userId).child("public").child(groupObj.$id).on("value", function(snapshot){
+      userToGroupRef.child(userId).child("public").child(groupObj.$id).once("value")
+      .then(function(snapshot){
         callback(snapshot);
       })
     }

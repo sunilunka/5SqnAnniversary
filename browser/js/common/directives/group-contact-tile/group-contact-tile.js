@@ -8,19 +8,6 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
     },
     link: function(scope, element, attrs){
 
-      scope.canLeaveGroup = false;
-
-      MessagingFactory.checkPartOfPublicGroup(scope.session.sessionId, scope.userid, function(value){
-        if(value){
-          scope.canLeaveGroup = value;
-        } else {
-          scope.canLeaveGroup = value;
-        }
-        $timeout(function(){
-          scope.$apply();
-        }, 1);
-      })
-
       scope.goToSession = function(){
         MessageSessionService.setGroupSession(scope.userid, scope.session)
       }
@@ -28,7 +15,7 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
       scope.leaveGroup = function(){
         event.preventDefault();
         let removeFromSessionKey = scope.session.sessionId;
-
+        console.log("SESSION KEYS: ", MessageSessionService.getSession() === removeFromSessionKey, MessageSessionService.getSession(), removeFromSessionKey);
         if(MessageSessionService.getSession() === removeFromSessionKey){
           MessageSessionService.leaveSession();
           $state.go("attendee", {id: scope.userid});
@@ -37,9 +24,6 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
         .then(function(data){
           console.log("DATA: ", data);
           NotificationService.notify("success", "You have left the group");
-          // if(removeFromSessionKey === $stateParams.sessionid){
-          //   $state.go("attendee", {id: scope.userid})
-          // }
           return;
         })
         .catch(function(error){
@@ -56,6 +40,19 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
           },1)
         })
       }
+
+      scope.canLeaveGroup = false;
+
+      MessagingFactory.checkPartOfPublicGroup(scope.session.sessionId, scope.userid, function(value){
+        if(value){
+          scope.canLeaveGroup = value;
+        } else {
+          scope.canLeaveGroup = value;
+        }
+        $timeout(function(){
+          scope.$apply();
+        }, 1);
+      })
 
     }
   }
