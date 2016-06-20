@@ -23,3 +23,11 @@ modify-platforms {
 .item-list {
   margin-top: 20px;
 }
+
+.stats-header {
+  width: 100%;
+  background-color: $theme-blue;
+  color: $theme-tacgrey;
+  padding: 1rem;
+  margin: 1rem 0rem;
+}

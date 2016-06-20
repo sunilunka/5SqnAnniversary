@@ -1,4 +1,4 @@
-app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFactory, SessionService, EventGuestFactory, ParsingFactory){
+app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFactory, SessionService, EventGuestFactory, ParsingFactory, NotificationService){
   var eventsRef = DatabaseFactory.dbConnection("events");
   var eventsArray = $firebaseArray(eventsRef);
   var eventsObj = $firebaseObject(eventsRef);
@@ -27,18 +27,18 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
     },
 
     removeEvent: (evtObjId) => {
+      /* This function needs to be built out. Button is disabled at this time. Remember to remove ng-disabled from html template when function is built out. */
       return eventsArray.$remove(evtObjId)
       .then(function(ref){
-        console.log("EVENT REMOVED: ", ref);
+        NotificationService.notify("success", "Event has been removed.")
         return ref;
       })
     },
 
     addEvent: (eventData) => {
-      // eventData.startTime = convertNumbersForStorage(eventData.startTime);
       return eventsArray.$add(eventData)
       .then(function(ref){
-        console.log("EVENT ADDED: ", ref)
+        NotificationService.notify("success", "Event has been added.");
         return ref;
       })
     },
@@ -50,7 +50,7 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
       return DatabaseFactory.dbConnection("events/" + eventSerial)
       .update(eventData)
       .then(function(ref){
-        console.log("UPDATE SAVED: ", ref);
+        NotificationService.notify("success", eventData.name + " has been updated.")
         return ref;
       })
 
@@ -62,14 +62,14 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
       let userAssociation = userData.association;
       return eventsRef.child(eventKey)
       .child("guests").child(userAssociation).transaction(function(currentVal){
-        return currentVal += 1;
+        return currentVal + 1;
       })
       .then(function(transactionObj){
-        console.log("VALUE RETURNED IN PROMISE: ", transactionObj);
+        NotificationService.notify("success", "You have been added to the event.")
         return transactionObj;
       })
       .catch(function(error){
-        console.error("SORRY, AN ERROR OCCURED!", error);
+        NotificationService.notify("error", "Sorry and error occured: ", error.message);
       })
     },
 
@@ -84,7 +84,6 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
       .transaction(function(currentVal){
         /* If the number of guests to remove is not specified assume only one guest is being removed. */
         let guestDecrement = numGuestsToRemove ? numGuestsToRemove : 1;
-        console.log("GUEST DECREMENT: ", guestDecrement);
         /* If current value is above 0, then decrement by the number of guests to remove, otherwise, return 0 */
         return (currentVal > 0 ? currentVal -= guestDecrement : 0);
       })
@@ -120,11 +119,9 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
           if(evt.guestLimits.hasOwnProperty(associationKey) && evt.guests.hasOwnProperty(associationKey)) {
             let limit = evt.guestLimits[associationKey];
             if(evt.guests[associationKey] < limit){
-              console.log("EVENT HAS SPACE LEFT: ", evt)
               evt["available"] = true;
               return evt;
             } else {
-              console.log("NO SPACE LEFT: ", evt)
               evt["available"] = false;
               return evt;
             }
@@ -133,7 +130,6 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
           }
 
         } else {
-          console.log("EVENT HAS NO LIMIT")
           return evt;
         }
       })
@@ -149,9 +145,14 @@ app.factory("EventFactory", function($firebaseArray, $firebaseObject, DatabaseFa
         }
         return evt;
       })
+    },
 
+    resolveEventDetails: (eventKeys) => {
+      /* Events keys is an array */
+      return firebase.Promise.all(
+      eventKeys.map(function(evtKey){
+        return eventsRef.child(evtKey).once("value");
+      }))
     }
-
   }
-
 })

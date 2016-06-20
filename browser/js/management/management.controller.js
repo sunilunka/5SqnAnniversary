@@ -1,4 +1,4 @@
-app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEvents, allCategories, categoryObject, SessionService){
+app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEvents, allCategories, allPlatforms, categoryObject, SessionService){
 
   $scope.currentUser = SessionService.user;
 
@@ -7,6 +7,8 @@ app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEv
   $scope.allEvents = allEvents;
 
   $scope.allCategories = allCategories;
+  $scope.allPlatforms = allPlatforms;
+
 
   $scope.areasToManage = [
     {
