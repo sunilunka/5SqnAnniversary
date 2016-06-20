@@ -10,6 +10,12 @@
     </header>
     <dashboard-event-panel ng-repeat="evt in allEvents" evt="evt" categories="allCategories"></dashboard-event-panel>
   </section>
+  <section class="flex-container-row overseas-guest-output">
+    <div class="event-total-guest">
+      <span ng-bind="overseasGuests"></span>
+    </div>
+    <h4>Overseas Attendees (not including any family, partners or friends)</h4>
+  </section>
   <section class="flex-container-row">
     <header class="stats-header">
       <h4>Platform Stats</h4>

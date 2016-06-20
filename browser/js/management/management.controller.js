@@ -1,4 +1,4 @@
-app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEvents, allCategories, allPlatforms, categoryObject, SessionService){
+app.controller('ManagementCtrl', function($scope, EventFactory, GuestOriginFactory, attendees, allEvents, allCategories, allPlatforms, categoryObject, SessionService, ParsingFactory, $timeout){
 
   $scope.currentUser = SessionService.user;
 
@@ -9,6 +9,14 @@ app.controller('ManagementCtrl', function($scope, EventFactory, attendees, allEv
   $scope.allCategories = allCategories;
   $scope.allPlatforms = allPlatforms;
 
+  $scope.overseasGuests = "00";
+
+  GuestOriginFactory.overseasAttendeesListener(function(guestCount){
+    $scope.overseasGuests = ParsingFactory.formatNumberForDisplay(guestCount);
+    $timeout(function(){
+      $scope.$apply();
+    });
+  });
 
   $scope.areasToManage = [
     {

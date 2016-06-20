@@ -30,4 +30,18 @@ modify-platforms {
   color: $theme-tacgrey;
   padding: 1rem;
   margin: 1rem 0rem;
+  @include theme-shadow-default;
+}
+
+.overseas-guest-output {
+  @include theme-shadow-default;
+  margin: 1rem;
+  align-items: center;
+  z-index: 1;
+  background-color: $theme-blue;
+  color: $theme-tacgrey;
+  h4 {
+    margin: 0;
+    padding: 1.5rem;
+  }
 }

@@ -1,4 +1,4 @@
-app.factory("GuestOriginFactory", function(DatabaseFactory, $firebaseArray, $firebaseObject){
+app.factory("GuestOriginFactory", function(DatabaseFactory, ParsingFactory,$firebaseArray, $firebaseObject){
 
   var guestOriginRef = DatabaseFactory.dbConnection("guestOrigin");
   var attendeesRef = DatabaseFactory.dbConnection("attendees");
@@ -29,6 +29,16 @@ app.factory("GuestOriginFactory", function(DatabaseFactory, $firebaseArray, $fir
           })
         })
         callback(overseasUsers);
+      })
+    },
+
+    overseasAttendeesListener: function(callback){
+      guestOriginRef.child("overseas").on("value", function(snapshot){
+        let guestCount = 0;
+        snapshot.forEach(function(childSnap){
+          guestCount += 1;
+        })
+        callback(guestCount);
       })
     }
   }
