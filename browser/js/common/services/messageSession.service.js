@@ -56,9 +56,9 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
           return;
         } else {
           /* Messaging Factory mapping functions require userId in array, so userId is placed in array for second argument. */
-          console.log("THIS WAS TRIGGERED ON PUBLIC DELETION");
           MessagingFactory.addUserToGroup(groupObj, [userId])
           .then(function(data){
+            self.messageSession = groupObj.sessionId;
             angular.copy(groupObj, self.groupSessionData);
             $state.go("messagingSession", {id: userId, sessionId: groupObj.sessionId, sessionType: groupType });
           })

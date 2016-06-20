@@ -176,10 +176,7 @@ app.factory("MessagingFactory", function(DatabaseFactory, $firebaseArray, Notifi
 
     groupObj["sessionId"] = newMessageSession.key;
 
-
-
     let operationsToResolve = [];
-    console.log("GROUP OBJ: ", groupObj);
     /* Remove participants key and value from object, as no longer required */
     delete groupObj.participants;
 

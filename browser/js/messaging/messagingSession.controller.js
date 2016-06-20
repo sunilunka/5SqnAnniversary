@@ -138,7 +138,7 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, $state, lo
     $scope.newMessage.author = currentUser.firstName + " " + currentUser.lastName;
     $scope.newMessage.authorId = loggedInId;
     MessageSessionService.sendMessage($scope.newMessage)
-    .then(function(){
+    .then(function(data){
       MessagingFactory.updateMissedMessages($stateParams.sessionId, loggedInId)
       angular.copy({}, $scope.newMessage);
       $scope.newMessageForm.$setUntouched()

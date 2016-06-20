@@ -15,14 +15,12 @@ app.directive("groupContactTile", function(MessagingFactory, MessageSessionServi
       scope.leaveGroup = function(){
         event.preventDefault();
         let removeFromSessionKey = scope.session.sessionId;
-        console.log("SESSION KEYS: ", MessageSessionService.getSession() === removeFromSessionKey, MessageSessionService.getSession(), removeFromSessionKey);
         if(MessageSessionService.getSession() === removeFromSessionKey){
           MessageSessionService.leaveSession();
           $state.go("attendee", {id: scope.userid});
         }
         return MessagingFactory.removeUserFromGroup(scope.userid, scope.session)
         .then(function(data){
-          console.log("DATA: ", data);
           NotificationService.notify("success", "You have left the group");
           return;
         })
