@@ -52,12 +52,13 @@
         <label class="control-label"><input ng-model="newAttendeeData.overseas" value="false" name="overseas" type="radio" ng-required="true"></input>No (unless there is a SAR callout...).</label>
       </div>
     </div>
-    <div ng-show="showEvents" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div ng-show="showEvents" class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
       <h4>What events are you planning to attend?</h4>
-      <div class="checkbox col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3"  ng-repeat="evt in events">
-        <div class="sqnInput">
-          <label>
-          <input type="checkbox" ng-model="newAttendeeData.events[evt.$id]" value="{{ evt.$id }}" ng-true-value="true"  ng-false-value="false" ng-disabled="evt['available'] === false"></input>{{ evt.name }}</label><span class="sqn-not-available-label" ng-show="evt['available'] === false">No seats available</span>
+      <div class="checkbox col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1"  ng-repeat="evt in events">
+        <div class="sqnInput sqn-input-wide">
+          <label ng-class="{'sqn-btn-disabled': evt['available'] === false}">
+          <input type="checkbox" ng-model="newAttendeeData.events[evt.$id]" value="{{ evt.$id }}" ng-true-value="true"  ng-false-value="false" ng-disabled="evt['available'] === false"></input>{{ evt.name }}, {{evt.date}}</label>
+          <p class="sqn-not-available-label" ng-show="evt['available'] === false">No seats available</p>
         </div>
       </div>
     </div>

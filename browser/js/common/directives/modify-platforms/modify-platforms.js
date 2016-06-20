@@ -30,6 +30,7 @@ app.directive("modifyPlatforms", function(PlatformsFactory){
       }
 
       scope.removePlatform = () => {
+        /* Disabled on template, please enable when full removal protocol is established. */
         scope.isEditing = !scope.isEditing;
         PlatformsFactory.removePlatform(scope.platform)
         .then(function(ref){

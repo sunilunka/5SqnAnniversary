@@ -85,6 +85,7 @@ app.factory("PlatformsFactory", function(DatabaseFactory, EventFactory, $firebas
     },
 
     removePlatform: function(platform){
+      /* Button disabled on template, enable it once this is built out. */
       return platformsArray.$remove(platform)
       .then(function(ref){
         console.log("PLATFORM WITH REF " +  ref + " REMOVED");

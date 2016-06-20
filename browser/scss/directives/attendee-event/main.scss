@@ -26,22 +26,6 @@ hr {
   }
 }
 
-.flex-container-row.attendee-header {
-  align-items: center;
-  h2 {
-    @include attend-event-flex-options;
-    margin: 0.5em 1em 0.25em 1em;
-
-  }
-  span {
-    @include attend-event-flex-options;
-    margin: 0.5em 2em 0.25em 1.5em;
-    background-color: black;
-    color: white;
-    text-align: center;
-    padding: 0.25em;
-  }
-}
 
 attendee-event {
   display: block;
@@ -66,4 +50,8 @@ attendee-event {
       @include event-button-containers;
     }
   }
+}
+
+.display-event-details {
+  align-items: center;
 }

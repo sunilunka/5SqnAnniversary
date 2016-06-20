@@ -110,8 +110,10 @@ app.directive("attendeeEvent", function(AttendeeFactory, AttendeeEventFactory, D
         }
       }
 
+      scope.showDetails = function(){
+        $rootScope.$broadcast("showEventDetails", scope.evt);
+      }
+
     }
   }
-
-
 })

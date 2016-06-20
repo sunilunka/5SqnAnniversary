@@ -1,3 +1,30 @@
+@mixin attendee-event-details-view($width, $height){
+  attendee-event-details {
+    left: -$width;
+    width: $width;
+  }
+
+  .show-details {
+    transform: translateX($width);
+  }
+
+  .aed-blurb {
+    height: $height;
+  }
+}
+
+@media screen and (max-width: $screen-xs-max){
+  @include attendee-event-details-view(75vw, 50vh);
+}
+
+@media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max){
+  @include attendee-event-details-view(50vw, 60vh);
+}
+
+@media screen and (min-width: $screen-md-min) {
+  @include attendee-event-details-view(33vw, 60vh);
+}
+
 #user-profile {
   padding-top: 4em;
   color: $theme-grey;
@@ -15,7 +42,7 @@
 
   .attendee-event-viewer {
     overflow-y: auto;
-    height: auto;
+    height: 66vh;
     box-shadow: 0px 10px 20px rgba(109, 109, 109, 0.75) inset;
   }
 
@@ -49,5 +76,73 @@
 
       }
     }
+  }
+}
+
+attendee-event-details {
+  position: fixed;
+  height: calc(100vh - 4em);
+  top: 3.5em;
+  padding: 1em;
+  background-color: rgba(0, 0, 0, 0.95);
+  color: #EFEFEF;
+  display: block;
+  z-index: 600;
+  @include transition-mixin(transform 0.5s ease-in-out);
+
+  h4 {
+    margin: 1rem 0 0.25rem 0;
+    padding: 0.5em;
+    background-color: $theme-tacgrey;
+    color: $theme-grey;
+    font-weight: 900;
+  }
+
+  footer {
+    text-align: center;
+    button {
+      margin: 0.5em;
+    }
+  }
+
+}
+
+.event-timings {
+  background-color: $theme-blue;
+  color: $theme-tacgrey;
+  p {
+    margin: 0;
+    padding: 0.5em;
+  }
+}
+
+.aed-blurb {
+  @include scrollable-content-viewer;
+  border: 3px solid $theme-tacgrey;
+  padding: 1em;
+}
+
+.aed-location {
+  background-color: $theme-tacgrey;
+  color: $theme-grey;
+  padding: 0.5em;
+  margin-top: 0.25rem;
+}
+
+.flex-container-row.attendee-header {
+  align-items: center;
+  h2 {
+    @include attend-event-flex-options;
+    margin: 0.5em 1em 0.25em 1em;
+
+  }
+  span {
+    @include attend-event-flex-options;
+    margin: 0.5em 2em 0.25em 1.5em;
+    background-color: $theme-blue;
+    color: white;
+    text-align: center;
+    padding: 0.25em;
+    border-radius: 4px;
   }
 }

@@ -244,7 +244,7 @@ alert {
 .sqn-not-available-label {
   @extend .sqnInputError;
   border: 3px solid $theme-red;
-  margin: 0em 0em 0em 2em;
+  margin: 0;
   opacity: 1;
   @include transition-mixin(all 0.25s ease-in-out);
 }

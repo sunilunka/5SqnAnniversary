@@ -3,4 +3,4 @@
 
 <button class="sqn-btn" ng-click="toggleEdit()"><span ng-show="!isEditing">Edit</span><span ng-show="isEditing">Cancel</span></button>
 <button ng-cloak ng-hide="!isEditing" class="sqn-btn-positive" ng-click="updatePlatformLabel()">Save</button>
-<button class="sqn-btn-danger" ng-show="isEditing" ng-click="removePlatform()">Remove</button>
+<button class="sqn-btn-danger" ng-show="isEditing" ng-click="removePlatform()" ng-disabled="true">Remove</button>
