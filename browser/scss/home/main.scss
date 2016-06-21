@@ -61,7 +61,13 @@ $theme-transparent-black: rgba(0,0,0,0.75);
   video.background-media {
     display: none;
   }
-  @include home-responsive-settings(3em, 5em, 75%, 12.5%, 15em);
+
+  img.background-media {
+    height: 30em;
+    width: auto;
+  }
+
+  @include home-responsive-settings(3em, 5em, 75%, 12.5%, 25em);
 }
 
 @media screen and (min-width: $screen-xs-min) and (max-width: $screen-xs-max) {
@@ -91,7 +97,7 @@ $theme-transparent-black: rgba(0,0,0,0.75);
   img.background-media {
     display: none;
   }
-  @include home-responsive-settings(3.5em, 40em, 33%, 33%, 50em);
+  @include home-responsive-settings(3.5em, 40em, 33%, 33%, 46em);
 }
 
 #home {
@@ -99,37 +105,6 @@ $theme-transparent-black: rgba(0,0,0,0.75);
   padding: 0;
   background-color: black;
   height: 100vh;
-}
-
-.tile-spanning-oceans {
-  @extend .tile;
-  @include background-img-settings($theme-tacgrey, "/images/home/serve-nz.jpg", left);
-  animation: fade-in 2s 1;
-  animation-delay: 0.5s;
-  animation-fill-mode: forwards;
-  opacity: 0;
-}
-.tile-orions {
-  @extend .tile;
-  background-image: url("/images/home/NZP3K2002.jpg");
-  @include background-img-settings(inherit, "/images/home/NZP3K2002.jpg", left);
-  animation: fade-in 3s 1;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-  opacity: 0;
-}
-
-.tile-blurb {
-  @include text-align-left;
-  min-height: 5em;
-  padding: 1.5em 1.5em 0.75em 1.5em;
-  background-color: $theme-transparent-black;
-  /*@include background-img-settings($theme-transparent-black, "/images/home/those-before.jpg", center);*/
-  height: auto;
-}
-
-.tile-non-side {
-  margin-left: 1em;
 }
 
 .centered-title {
@@ -141,6 +116,7 @@ $theme-transparent-black: rgba(0,0,0,0.75);
 .home-main-title {
  top: 3.5em;
  @extend .centered-title;
+ animation: fade-in 3s 1;
 }
 
 .home-sub-title {
@@ -173,6 +149,7 @@ p.home-title-text, h3.home-title-text {
 .home-description {
   position: relative;
   z-index: 10;
+  animation: fade-in-from-bottom 3s 1;
 }
 
 .intro-blurb {
@@ -190,6 +167,7 @@ p.home-title-text, h3.home-title-text {
   position: relative;
   display: block;
   h2 {
+    color: $theme-blue;
     margin: 0;
   }
 }
@@ -201,6 +179,8 @@ p.home-title-text, h3.home-title-text {
 .home-intro-blurb {
   font-size: 1.5em;
   text-align: left;
+  padding: 1em;
+  color: $theme-tacgrey;
 }
 
 .background-media {
@@ -221,10 +201,55 @@ video.background-media {
 }
 
 .people-blurb {
-
+ @include background-img-settings($theme-grey, "/images/home/those-before.jpg", center);
 }
 
 .home-period {
   display: block;
   width: 100%;
+}
+
+.home-events-title {
+  color: $theme-blue;
+  background-color: black;
+  padding: 0.5em;
+  h3 {
+    margin: 0;
+    padding: 0.5em;
+  }
+}
+
+.home-events {
+  background-color: $theme-tacgrey;
+  color: $theme-grey;
+  footer {
+    h4 {
+      a {
+        padding: 0.25em;
+      }
+    }
+  }
+}
+
+.home-event {
+  padding: 1em;
+  flex-grow: 1;
+  margin: 1em;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.home-event:nth-child(odd) {
+  background-color: $theme-blue;
+  color: $theme-tacgrey;
+}
+
+.home-footer {
+  margin-top: 3em;
+  text-align: right;
+  padding: 0.5em;
+  font-size: 1rem;
+  border-top: 3px solid $theme-grey;
 }
