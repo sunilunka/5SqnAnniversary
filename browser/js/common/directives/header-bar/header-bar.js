@@ -15,7 +15,6 @@ app.directive("headerBar", function($state, $rootScope, AuthService){
       }
 
       scope.logoutUser = () => {
-        console.log("LOGGING OUT NOW!!!")
         AuthService.logout();
       }
 

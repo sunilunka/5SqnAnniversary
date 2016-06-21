@@ -116,12 +116,11 @@
 
         } else if (SessionService.user && (!authData)){
           /* If there is session user information, but no AuthData, log the user out. This is because the $onAuth callback is fired at an auth event (login, logout etc ) is detected by the firebase backend. This case covers the $unauth, when the user has initiated logout, and no authdata is returned */
-          AttendeeFactory.setOffline(SessionService.user.uid || SessionService.user.id || SessionService.user.$id);
           SessionService.destroySession()
           $rootScope.$broadcast('loggedOut');
           $state.go("home");
           NotificationService.notify("success", "You are now logged out")
-          // console.log("SESSION USER LOGGED OUT: ", SessionService.user);
+
         } else if (SessionService.user && authData) {
           $rootScope.$broadcast('loggedIn', SessionService.user)
           return;/* No need to return anything, user is still signed in */
@@ -130,7 +129,11 @@
     }
 
     this.logout = () => {
-      DatabaseFactory.authConnection().$signOut();
+      /* Have to set the user 'online' state to offline prior to logging off. */
+      AttendeeFactory.setOffline(SessionService.user.uid || SessionService.user.id || SessionService.user.$id)
+      .then(function(data){
+        DatabaseFactory.authConnection().$signOut();
+      });
     }
   })
 
