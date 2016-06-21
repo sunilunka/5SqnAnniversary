@@ -7,12 +7,24 @@
   background-clip: border-box;
 }
 
-@mixin small-screen-date-settings {
-  .home-description {
-    .anniversary-date-banner {
-      @include background-img-settings($theme-transparent-black, "/images/home/bg-date-dark.jpg", center)
-    }
+@mixin home-responsive-settings($home-main-top, $home-sub-top, $width, $left, $home-desc-top) {
+  .home-main-title {
+    top: $home-main-top;
   }
+
+  .home-sub-title {
+    top: $home-sub-top;
+  }
+
+  .centered-title {
+    width: $width;
+    left: $left;
+  }
+
+  .home-description {
+    top: $home-desc-top;
+  }
+
 }
 
 @mixin tile-blurb-md-lg-animation {
@@ -46,236 +58,173 @@ $theme-transparent-black: rgba(0,0,0,0.75);
 }
 
 @media screen and (max-width: $screen-xxs-max){
-  #main-title {
-    @include tile-display-none;
-    .home-side-panel {
-      .home-title {
-        background-color: $theme-transparent-black;
-      }
-      .tile-blurb {
-        .anniversary-date-banner {
-          display: none;
-        }
-      }
-    }
+  video.background-media {
+    display: none;
   }
-  @include small-screen-date-settings;
+  @include home-responsive-settings(3em, 5em, 75%, 12.5%, 15em);
 }
 
 @media screen and (min-width: $screen-xs-min) and (max-width: $screen-xs-max) {
-  #main-title {
-    max-height: 30em;
-    @include tile-display-none;
-    .home-side-panel {
-      .home-title {
-        background-color: $theme-transparent-black;
-      }
-      .tile-blurb {
-
-        .anniversary-date-banner {
-          display: none;
-        }
-      }
-    }
+  video.background-media {
+    display: none;
   }
-  @include small-screen-date-settings;
+  @include home-responsive-settings(3em, 10em, 75%, 12.5%, 25em);
 }
 
 @media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max){
-  #main-title {
-    min-height: 30em;
-    @include tile-shadow-display;
-    .tile-blurb {
-      @include tile-blurb-md-lg-animation;
-    }
+  img.background-media {
+    display: none;
   }
+  @include home-responsive-settings(3.5em, 30em, 50%, 25%, 30em);
 
-  .home-description {
-    @include tile-display-none;
-    .anniversary-date-banner {
-      display: none;
-    }
-  }
 }
 
 
 @media screen and (min-width: $screen-md-min) and (max-width: $screen-md-max){
-  #main-title {
-    min-height: 35em;
-    @include tile-shadow-display;
-    .tile-blurb {
-      @include tile-blurb-md-lg-animation;
-    }
+  img.background-media {
+    display: none;
   }
-
-  .home-description {
-    @include tile-display-none;
-    .anniversary-date-banner {
-      display: none;
-    }
-  }
+  @include home-responsive-settings(3.5em, 37em, 50%, 25%, 40em);
 }
 
 @media screen and (min-width: $screen-lg-min){
-  #main-title {
-    min-height: 35em;
-    @include tile-shadow-display;
-    .tile-blurb {
-      @include tile-blurb-md-lg-animation;
-    }
+  img.background-media {
+    display: none;
   }
+  @include home-responsive-settings(3.5em, 40em, 33%, 33%, 50em);
+}
 
-  .home-description {
-    @include tile-display-none;
-    .anniversary-date-banner {
-      display: none
-    }
+#home {
+  text-align: center;
+  padding: 0;
+  background-color: black;
+  height: 100vh;
+}
+
+.tile-spanning-oceans {
+  @extend .tile;
+  @include background-img-settings($theme-tacgrey, "/images/home/serve-nz.jpg", left);
+  animation: fade-in 2s 1;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+.tile-orions {
+  @extend .tile;
+  background-image: url("/images/home/NZP3K2002.jpg");
+  @include background-img-settings(inherit, "/images/home/NZP3K2002.jpg", left);
+  animation: fade-in 3s 1;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+.tile-blurb {
+  @include text-align-left;
+  min-height: 5em;
+  padding: 1.5em 1.5em 0.75em 1.5em;
+  background-color: $theme-transparent-black;
+  /*@include background-img-settings($theme-transparent-black, "/images/home/those-before.jpg", center);*/
+  height: auto;
+}
+
+.tile-non-side {
+  margin-left: 1em;
+}
+
+.centered-title {
+
+ position: absolute;
+  z-index: 5;
+}
+
+.home-main-title {
+ top: 3.5em;
+ @extend .centered-title;
+}
+
+.home-sub-title {
+  width: 100%;
+}
+
+h1.home-title-text {
+ font-size: 3.5em;
+  margin-bottom: 0;
+}
+
+span.home-title-text {
+  font-size: 1.5em;
+}
+
+p.home-title-text, h3.home-title-text {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 900;
+  color: $theme-tacgrey;
+}
+
+.home-title-text {
+  background-color: $theme-transparent-black;
+  color: $theme-tacgrey;
+  padding: 0.1em 0.5em 0.1em 0.5em;
+  display: block;
+}
+
+.home-description {
+  position: relative;
+  z-index: 10;
+}
+
+.intro-blurb {
+  padding: 1em;
+  flex-grow: 1;
+  width: 20em;
+}
+
+.home-description-header {
+  color: $theme-tacgrey;
+  font-weight: 900;
+  background: linear-gradient(rgba(0,0,0,0.75) 25%, rgba(0,0,0,1) 75%);
+  padding: 0.5em;
+  z-index: 10;
+  position: relative;
+  display: block;
+  h2 {
+    margin: 0;
   }
 }
 
+.home-description-content {
+  background-color: $theme-tacgrey;
+}
 
-#home {
-  position: relative;
-  min-width: 100%;
-  text-align: center;
-  #main-title {
-    position: relative;
-    padding: 5em 0 0 0;
-    animation: fade-in 1s 1;
-    @include background-img-settings($theme-tacgrey,"/images/home/crest-overalls-002.jpg", left);
-    .home-side-panel {
-      background-color: transparent;
-      color: white;
-      margin-bottom: 1em;
-      padding: 0 0.5em 2em 0.5em;
-      .home-title {
-        padding-bottom: 1em;
-        h3 {
-          margin: 0.5em 0;
-        }
-      }
-    }
-  }
+.home-intro-blurb {
+  font-size: 1.5em;
+  text-align: left;
+}
 
-  .anniversary {
-    position: absolute;
-    display: block;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    background-color: rgba(0,0,0,0.75);
-    padding: 1em 1em 0 1em;
-    p {
-      color: white;
-    }
-  }
+.background-media {
+  position: fixed;
+  display: block;
+  top: 3.5em;
+  left: 0px;
+  width: 100%;
+  z-index: 0;
+}
 
-  .anniversary-year {
-    left: 0px;
-    font-size: 3em;
-    color: $theme-blue;
-  }
+video.background-media {
+  z-index: 1;
+}
 
-  .anniversary-tag {
-    position: absolute;
-    padding: 0 1em 0 0;
-    font-size: 1em;
-    height: 3em;
-    color: white;
-    right: 0px;
-    font-weight: bold;
-  }
+.orion-blurb {
+  @include background-img-settings($theme-grey, "/images/home/NZP3K2002.jpg", center);
+}
 
-  .anniversary-caption {
-    @extend .anniversary-tag;
-    right: 0px;
-    bottom: 0px;
-    color: white;
-  }
+.people-blurb {
 
-  .anniversary-date-top {
-    @extend .anniversary-tag;
-    padding-top: 1.5em;
-    top: 0px;
-  }
+}
 
-  .anniversary-date-offset {
-    @extend .anniversary-tag;
-    bottom: 2em;
-    color: $theme-grey;
-  }
-
-  .anniversary-caption-dark {
-    @extend .anniversary-caption;
-    color: $theme-grey;
-  }
-
-  .anniversary-date-banner {
-    position: relative;
-    color: $theme-blue;
-    text-align: center;
-    margin: 0 0 1em 0;
-    h3 {
-      margin: 0.5em 0em;
-    }
-    p {
-      font-size: 1.5em;
-    }
-  }
-
-  .tile {
-    margin-bottom: 1em;
-    padding: 2em 1em 0em 1em;
-    min-height: 10em;
-    .tile-caption {
-      position: absolute;
-      bottom: 0px;
-      left: 0px;
-      width: 100%;
-      padding: 0 1em 1em 1em;
-      background-color: rgba(0,0,0,0.75);
-      color: white;
-    }
-  }
-
-
-  .tile-spanning-oceans {
-    @extend .tile;
-    @include background-img-settings($theme-tacgrey, "/images/home/serve-nz.jpg", left);
-    animation: fade-in 2s 1;
-    animation-delay: 0.5s;
-    animation-fill-mode: forwards;
-    opacity: 0;
-  }
-  .tile-orions {
-    @extend .tile;
-    background-image: url("/images/home/NZP3K2002.jpg");
-    @include background-img-settings(inherit, "/images/home/NZP3K2002.jpg", left);
-    animation: fade-in 3s 1;
-    animation-delay: 1s;
-    animation-fill-mode: forwards;
-    opacity: 0;
-  }
-
-  .tile-blurb {
-    @include text-align-left;
-    min-height: 5em;
-    padding: 1.5em 1.5em 0.75em 1.5em;
-    background-color: $theme-transparent-black;
-    @include background-img-settings($theme-transparent-black, "/images/home/those-before.jpg", center);
-    height: auto;
-  }
-
-  .tile-non-side {
-    margin-left: 1em;
-  }
-
-  .home-description {
-    padding: 0.5em 1em 1em 1em;
-    color: $theme-grey;
-    background-color: inherit;
-    .anniversary-date-banner {
-      padding: 1em;
-    }
-  }
+.home-period {
+  display: block;
+  width: 100%;
 }
