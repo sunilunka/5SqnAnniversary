@@ -1,4 +1,4 @@
-app.directive("headerBar", function($state, $rootScope, AuthService){
+app.directive("headerBar", function($state, $rootScope, AuthService, DatabaseFactory){
 
   return {
     restrict: 'E',
@@ -6,9 +6,13 @@ app.directive("headerBar", function($state, $rootScope, AuthService){
     scope: {},
     link: function(scope){
 
+      var managementRef = DatabaseFactory.dbConnection("managers");
+
       scope.currentUser = null;
 
       scope.isManager = null;
+
+      let currentUserId = null;
 
       scope.goToUserProfile = () => {
         $state.go("attendee", {id: scope.currentUser.uid || scope.currentUser.id || scope.currentUser.$id })
@@ -18,19 +22,34 @@ app.directive("headerBar", function($state, $rootScope, AuthService){
         AuthService.logout();
       }
 
+      let monitorManagementState = function(snapshot){
+        let userId = currentUserId || AuthService.getCurrentUser().uid;
+        let snapVal = snapshot.val();
+        if(snapVal){
+          if(snapVal[userId]){
+            scope.isManager = true;
+          } else {
+            scope.isManager = false;
+          }
+        }
+      }
+
       $rootScope.$on('loggedIn', function(event, authData){
 
         scope.currentUser = AuthService.getCurrentUser();
 
-        let currentUserId = scope.currentUser.id || scope.currentUser.$id || scope.currentUser.uid;
+        currentUserId = scope.currentUser.id || scope.currentUser.$id || scope.currentUser.uid;
 
-        scope.isManager = AuthService.checkUserIsManager(currentUserId) && scope.currentUser["manager"];
+        managementRef.on("value", monitorManagementState);
+
       })
 
       $rootScope.$on('loggedOut', () => {
+        managementRef.off("value", monitorManagementState)
         scope.currentUser = null;
+        scope.isManager = null;
+        currentUserId = null;
       })
-
     }
   }
 })

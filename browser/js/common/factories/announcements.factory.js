@@ -1,4 +1,4 @@
-app.factory("AnnouncementsFactory", function($firebaseArray, DatabaseFactory, $rootScope){
+app.factory("AnnouncementsFactory", function($firebaseArray, DatabaseFactory, $rootScope, NotificationService){
   var announcementsRef = DatabaseFactory.dbConnection("announcements");
   var announcementList = $firebaseArray(announcementsRef);
   return {
@@ -6,11 +6,11 @@ app.factory("AnnouncementsFactory", function($firebaseArray, DatabaseFactory, $r
       formData.date = firebase.database.ServerValue.TIMESTAMP;
       return announcementList.$add(formData)
       .then(function(ref){
-        console.log("NEW ANNOUNCEMENT ADDED: ", ref)
+        NotificationService.notify("success", "New accouncement added");
         return ref;
       })
       .catch(function(error){
-        console.log("SORRY AN ERROR OCCURED: ", error)
+        NotificationService.notify("error", "Sorry we couldn't create the announcement at this time due to a problem. Try again later.")
         return error;
       })
     },
