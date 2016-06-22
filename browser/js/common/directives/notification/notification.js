@@ -22,10 +22,12 @@ app.directive("notificationPanel", function($rootScope, $timeout){
 
         switch(noteObj.context){
           case "success":
+            element.removeClass("display-error");
             element.addClass("display-success");
             return standardResponse(noteObj);
           break;
           case "error":
+            element.removeClass("display-succes");
             element.addClass("display-error");
             return standardResponse(noteObj);
           break;

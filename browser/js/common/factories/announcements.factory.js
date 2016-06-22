@@ -1,4 +1,4 @@
-app.factory("AnnouncementsFactory", function($firebaseArray, DatabaseFactory){
+app.factory("AnnouncementsFactory", function($firebaseArray, DatabaseFactory, $rootScope){
   var announcementsRef = DatabaseFactory.dbConnection("announcements");
   var announcementList = $firebaseArray(announcementsRef);
   return {

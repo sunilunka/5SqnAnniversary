@@ -1,9 +1,9 @@
-app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory, GuestCategoryFactory, SiteAuthFactory, GuestOriginFactory, PlatformsFactory){
+app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory, GuestCategoryFactory, SiteAuthFactory, GuestOriginFactory, PlatformsFactory, $rootScope){
+
   var attendeesRef = DatabaseFactory.dbConnection("attendees");
   var attendeeObject = $firebaseObject(attendeesRef);
 
   var AttendeeFactory = {};
-
   /* Create a new user and log them in.
     => registerMethod takes a string denoting the register method.
     => newAttendeeData takes an object containing user data including password and email when registering with email.
@@ -152,7 +152,6 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
   AttendeeFactory.watchOnlineState = (userId, callback) => {
     return attendeesRef.child(userId).child("online").on("value", callback)
   }
-
   return AttendeeFactory;
 
 })

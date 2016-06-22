@@ -36,6 +36,13 @@ app.factory("ManagementFactory", function($firebaseObject, DatabaseFactory){
       })
       callback(managementUsers);
     })
+  },
+
+  ManagementFactory.watchManagementState = function(userId, callback){
+    usersRef.child(userId).on("value", function(snapshot){
+      let snapVal = snapshot.val();
+      callback(snapVal["manager"]);
+    })
   }
 
   return ManagementFactory;

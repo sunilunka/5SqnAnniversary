@@ -1,4 +1,4 @@
-app.directive("adminButton", function($rootScope, ManagementFactory, AuthService, NotificationService){
+app.directive("adminButton", function(ManagementFactory, AuthService, NotificationService, $timeout){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/admin-button/admin-button.html",
@@ -7,27 +7,33 @@ app.directive("adminButton", function($rootScope, ManagementFactory, AuthService
     },
     link: function(scope, element, attrs){
 
-      scope.isManager = scope.user.manager;
+      scope.isManager = false;
 
       scope.addToManagement = function(){
         return ManagementFactory.addManager(scope.user.$id)
         .then(function(data){
-
-          scope.isManager = scope.user.manager;
           NotificationService.notify("success", scope.user.firstName + " is now a manager")
-          $rootScope.$digest();
         })
       }
 
       scope.removeFromManagement = function(){
         return ManagementFactory.removeManager(scope.user.$id)
         .then(function(){
-          scope.isManager = scope.user.manager;
           NotificationService.notify("success", scope.user.firstName + " has been removed from managers")
-          $rootScope.$digest();
         })
       }
 
+      ManagementFactory.watchManagementState(scope.user.$id, function(managementState){
+        if(managementState){
+          scope.isManager = true;
+        } else {
+          scope.isManager = false;
+        }
+        $timeout(function(){
+          scope.$apply();
+        },1);
+
+      })
     }
   }
 })

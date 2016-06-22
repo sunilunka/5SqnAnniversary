@@ -81,12 +81,18 @@
     /* Setup a listener and report function for auth status. */
     this.reportAuthState = () => {
       authRef.$onAuthStateChanged(function(authData){
+        // if(!authData && !SessionService.user){
+
+        //   return;
+        // }
+
         if((!SessionService.user) && authData) {
           /* If authData is returned, but user data is not available from SessionService
           => Check if the user has logged in with an external media service, but has not registered data on the site. Look for key 'registerData'
           */
           if(window.sessionStorage.hasOwnProperty("registerData")){
             /* If the sessionStorage object has key registerData, then we are in the new user registration flow from the registration state. If key has data, then retrieve register form data to continue registration and login */
+
             var userData = SiteAuthFactory.userRegisterInProgress(authData);
             if(userData){
               return AttendeeFactory.createNewUserFromExternalProvider(authData, userData)
@@ -101,6 +107,7 @@
 
           }  else {
             /* Find if user has registered data on the site or not and redirect as appropriate */
+
             SiteAuthFactory.isUserRegistered(authData)
             .then(function(data){
               /* Promise resolve if user data is returned from firebase instance. Will have key currentUser */
