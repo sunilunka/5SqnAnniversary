@@ -121,6 +121,7 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, $state, lo
 
 
   $scope.$on("resultsReceived", function(event, value){
+    angular.copy([], $scope.searchResults);
     if(!value.length){
       $scope.activity = "No users found";
       $scope.showMessage = true;
@@ -135,6 +136,7 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, $state, lo
 
 
   $scope.transmit = () => {
+    if($stateParams.sessionId === "no-session") return;
     $scope.newMessage.author = currentUser.firstName + " " + currentUser.lastName;
     $scope.newMessage.authorId = loggedInId;
     MessageSessionService.sendMessage($scope.newMessage)

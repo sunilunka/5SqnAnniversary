@@ -24,6 +24,7 @@ app.controller("ManagementUsersCtrl", function($scope, $rootScope, AttendeeFacto
 
 
   $scope.$on("resultsReceived", function(event, value){
+    angular.copy([], $scope.searchResults);
     if(!value.length){
       $scope.activity = "No users found";
       $scope.showMessage = true;
