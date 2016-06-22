@@ -4,6 +4,9 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
 
   var managementRef = DatabaseFactory.dbConnection("managers");
   var attendeesRef = DatabaseFactory.dbConnection("attendees");
+  var announcementsRef = DatabaseFactory.dbConnection("announcements");
+  var eventGuestsRef = DatabaseFactory.dbConnection("eventGuests");
+  var messageGroupsRef = DatabaseFactory.dbConnection("messageGroups");
 
   var setUserOnline = function(sessionUserData){
     let userId = sessionUserData.uid || sessionUserData.$id || sessionUserData.id;
@@ -120,10 +123,18 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
       } else {
         $state.go("newAttendee.email");
       }
-    }
+    },
 
+    switchOffDbListeners: function(userId){
+     managementRef.off()
+     attendeesRef.child(userId).off()
+     attendeesRef.off();
+     announcementsRef.off()
+     eventGuestsRef.off()
+     messageGroupsRef.child("public").off()
+     messageGroupsRef.child("private").off();
+   }
 
-  }
-
+ }
 
 })

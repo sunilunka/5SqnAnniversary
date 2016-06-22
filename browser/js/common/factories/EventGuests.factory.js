@@ -5,7 +5,6 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
   return {
     /* When adding an attendee or guest to event, the attendee id is used as the key */
     addAttendeeToEventList: (eventId, attendee) => {
-      console.log("EVENT GUEST REFERENCE: ", attendee);
       /* Multiple options for attendee Ident based on register method */
       let attendeeIdent = (attendee.uid || attendee.$id || attendee.id);
       return eventGuestRef.child(eventId).update({

@@ -1,4 +1,4 @@
-app.controller('NewAttendeeCtrl', function($scope, $rootScope, AttendeeFactory, attendees, Events, categories, $stateParams, $state, FormValidityFactory, EventFactory){
+app.controller('NewAttendeeCtrl', function($scope, $state){
   /* Events, and categories are promises resolved in the ui-router state. Is an array of all entries.  Allows ng-repeat to be used to present all entries */
 
   $scope.processingData = false;

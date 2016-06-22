@@ -137,8 +137,10 @@
 
     this.logout = () => {
       /* Have to set the user 'online' state to offline prior to logging off. */
-      AttendeeFactory.setOffline(SessionService.user.uid || SessionService.user.id || SessionService.user.$id)
+      let userId = SessionService.user.uid || SessionService.user.id || SessionService.user.$id;
+      AttendeeFactory.setOffline(userId)
       .then(function(data){
+        SiteAuthFactory.switchOffDbListeners(userId);
         DatabaseFactory.authConnection().$signOut();
       });
     }

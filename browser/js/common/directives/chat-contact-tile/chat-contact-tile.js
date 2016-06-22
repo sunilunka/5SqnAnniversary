@@ -9,7 +9,6 @@ app.directive("chatContactTile", function(MessagingFactory, MessageSessionServic
       link: function(scope, element, attrs){
 
         scope.association = null;
-
         GuestCategoryFactory.resolveName(AuthService.getCurrentUser().association, function(associationName){
           scope.association = associationName;
           $timeout(function(){

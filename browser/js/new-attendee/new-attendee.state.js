@@ -4,9 +4,6 @@ app.config(function($stateProvider){
     controller: "NewAttendeeCtrl",
     templateUrl: "js/new-attendee/new-attendee.html",
     resolve: {
-      attendees: function(AttendeeFactory){
-        return AttendeeFactory.getAll();
-      },
       Events: function(EventFactory){
         return EventFactory.getEvents();
       },

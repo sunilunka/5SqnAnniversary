@@ -30,7 +30,7 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
   AttendeeFactory.createReferredUser = (referredProvider, referredUid, formData) => {
     return RegisterFactory.registerReferredUser(referredProvider, referredUid, formData)
     .then(function(savedData){
-      console.log("SAVED DATA: ", savedData)
+      console.log("SAVED DATA: ", savedData);
     })
     .catch(function(error){
       return error;
@@ -56,8 +56,8 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
   AttendeeFactory.getOne = function(id){
     /* Look at session service user to get current user */
     var currentUser = SessionService.user;
-    let userId = (currentUser.id || currentUser.uid || currentUser.$id);
     if(currentUser){
+      let userId = (currentUser.id || currentUser.uid || currentUser.$id);
       var userRef = DatabaseFactory.dbConnection("attendees/" + userId);
       var userObj = $firebaseObject(userRef);
       return userObj.$loaded()

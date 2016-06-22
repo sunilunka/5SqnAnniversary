@@ -18,8 +18,6 @@ app.directive("newAttendeeExternalForm", function(SiteAuthFactory, AttendeeFacto
       scope.saveAttendee = function(){
         var eventsValid = FormValidityFactory.checkEvents(scope.newAttendeeData);
         var platformsValid = FormValidityFactory.checkPlatforms(scope.newAttendeeData);
-        console.log("REGISTER: ", scope.register);
-        console.log("NEW-ATTENDEE-DATA: ", scope.newAttendeeData)
         if(eventsValid && platformsValid){
           scope.checkboxError = false;
           /* If events and platforms object is populated then continue the registration and login process.

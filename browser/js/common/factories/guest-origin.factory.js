@@ -5,7 +5,7 @@ app.factory("GuestOriginFactory", function(DatabaseFactory, ParsingFactory,$fire
 
   return {
     addGuestToOriginStore: (attendeeData) => {
-      if(attendeeData.overseas){
+      if(attendeeData.overseas === "true"){
         return guestOriginRef.child("overseas").update({
           [attendeeData.uid]: true
         })
