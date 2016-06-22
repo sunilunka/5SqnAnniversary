@@ -78,6 +78,7 @@ app.service("MessageSessionService", function($firebaseArray, $state, MessagingF
 
   this.setGroupSessionDetails = function(groupObj){
     angular.copy(groupObj, self.groupSessionData);
+    self.messageSession = groupObj.sessionId;
   }
 
 
