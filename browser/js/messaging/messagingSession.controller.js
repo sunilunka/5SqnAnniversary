@@ -147,7 +147,7 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, $state, lo
       $scope.newMessageForm.$setPristine();
     })
     .catch(function(error){
-      NotificationService.notify("error", "Sorry, an we can't seem to get through to the server...sounds like a poor radio operator.")
+      NotificationService.notify("error", "Sorry, we can't seem to get through to the server...must be a poor radio operator.")
     })
   }
 
