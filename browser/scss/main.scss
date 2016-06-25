@@ -415,6 +415,10 @@ formatted-text {
   color: $theme-grey;
 }
 
+.shop-storefront {
+  padding: 5em;
+}  
+
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';
