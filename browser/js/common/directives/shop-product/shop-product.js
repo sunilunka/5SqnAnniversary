@@ -9,15 +9,7 @@ app.directive("shopProduct", function(ShopifyService, ShopifyFactory){
       var product = scope.product;
       scope.title = product.title;
       scope.image = product.images[0];
-
-      scope.addProductToCart = function(){
-        console.log("SCOPE QUANTITY: ", scope.quantity)
-        if(!scope.quantity) return;
-        ShopifyService.addToCart({ variant: product.selectedVariant, quantity: scope.quantity })
-        .then(function(updatedCart){
-          console.log("UPDATED CART: ", updatedCart);
-        })
-      }
+      console.log("PRODUCT DETAILS: ", product);
 
     }
   }

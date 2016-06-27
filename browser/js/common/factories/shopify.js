@@ -8,7 +8,15 @@ app.factory("ShopifyFactory", function(ShopifyService){
     .then(function(products){
       return products;
     })
+  },
+
+  ShopifyFactory.getProduct = (productId) => {
+    return ShopifyService.shopClient.fetchProduct(productId)
+    .then(function(product){
+      return product;
+    })
   }
+
   return ShopifyFactory;
 
 })

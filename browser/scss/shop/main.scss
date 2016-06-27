@@ -1,3 +1,17 @@
 .shop-storefront {
   padding-top: 5em;
 }
+
+.shop-product-page {
+  padding-top: 5em;
+}
+
+shop-product {
+  a {
+    padding: 0.5em;
+    text-decoration: none;
+    @include theme-shadow-default;
+    margin: 0.5em;
+    display: block;
+  }
+}
