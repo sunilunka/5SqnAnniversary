@@ -1,3 +1,6 @@
 <li>
   <h4 ng-bind="lineitem.title"></h4>
+  <input type="number" class="sqnInputNumber" ng-model="item.quantity"></input>
+  <button class="sqn-btn"><span class="glyphicon glyphicon-plus"></span></button><button class="sqn-btn"><span class="glyphicon glyphicon-minus"></span></button>
+  <button class="sqn-btn-danger" ng-click="removeCartItem()">Remove Item(s)</button>
 </li>

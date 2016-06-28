@@ -6,7 +6,9 @@ app.directive("cartProduct", function(ShopifyService){
       lineitem: "="
     },
     link: function(scope, element, attrs){
-      
+      scope.removeCartItem = function(){
+        ShopifyService.removeCartItem(scope.lineitem.id);
+      }
     }
   }
 })

@@ -12,7 +12,6 @@ app.directive("shopCart", function(ShopifyService, $rootScope, $timeout){
         scope.itemCount = cart.lineItemCount;
         scope.subTotal = cart.subtotal;
         angular.copy(cart.lineItems, scope.items)
-        console.log("SCOPE ITEMS: ", scope.items)
         $timeout(function(){
           scope.$apply()
         }, 1);
@@ -31,7 +30,6 @@ app.directive("shopCart", function(ShopifyService, $rootScope, $timeout){
       }
 
       $rootScope.$on("updatedCart", function(event, value){
-        console.log("BROADCAST CART: ", value);
         updateCart();
       })
 
@@ -46,7 +44,6 @@ app.directive("shopCart", function(ShopifyService, $rootScope, $timeout){
       }
 
       scope.checkoutCart = function(){
-        console.log("CART CHECKOUT LINK: ", ShopifyService.getCart().checkoutUrl)
         window.open(ShopifyService.getCart().checkoutUrl);
       }
     }

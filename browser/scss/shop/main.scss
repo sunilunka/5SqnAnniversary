@@ -46,4 +46,7 @@ shop-cart {
 
 cart-product {
   flex-grow: 1;
+  li {
+    list-style-type: none;
+  }
 }

@@ -291,6 +291,7 @@ alert {
   color: $pri-color;
   outline: none;
   text-decoration: none;
+  padding: 2px 6px 3px 6px;
   /*transition: 0.25s all ease-in-out;
   -webkit-tranisiton: 0.25 s all ease-in-out;*/
   &:hover {
@@ -324,6 +325,7 @@ alert {
 
 .sqn-btn-header {
   @include base-button(white, black);
+  text-decoration: none;
 }
 
 .sqn-btn-danger {

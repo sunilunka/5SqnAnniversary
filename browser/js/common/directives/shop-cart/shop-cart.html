@@ -7,10 +7,6 @@
 </section>
 <section ng-if="showItems">
   Butts!
-  <div class="item-order-mod" ng-repeat="item in items">
-    <h4 ng-bind="item.title"></h4>
-    <input type="number" class="sqnInputNumber" ng-model="item.quantity"></input>
-    <button class="sqn-btn"><span class="glyphicon glyphicon-plus"></span></button><button class="sqn-btn"><span class="glyphicon glyphicon-minus"></span></button>
-    <button class="sqn-btn-danger">Remove Item(s)</button>
-  </div>
+  <cart-product class="item-order-mod" lineitem="item" ng-repeat="item in items">
+  </cart-product>
 </section>

@@ -57,11 +57,23 @@ app.service("ShopifyService", function($rootScope){
         // return self.cart;
       })
     } else {
-      console.log("SELF CARTS: ", self.cart);
-      self.cart.addVariants(productObj);
-      $rootScope.$broadcast("updatedCart", self.cart)
+      self.cart.addVariants(productObj)
+      .then(function(cart){
+        $rootScope.$broadcast("updatedCart", self.cart)
+      })
       // return self.cart.addVariants(productObj);
     }
+  }
+
+  this.updateCartItem = function(){
+
+  }
+
+  this.removeCartItem = function(itemId){
+    self.cart.removeLineItem(itemId)
+    .then(function(cart){
+      $rootScope.$broadcast("updatedCart", self.cart);
+    })
   }
 
 })
