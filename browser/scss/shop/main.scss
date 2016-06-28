@@ -35,6 +35,15 @@ shop-cart {
   }
 }
 
+.item-order-mod {
+  .sqnInputNumber {
+    color: $theme-grey;
+    &:focus {
+      color: $theme-tacgrey;
+    }
+  }
+}
+
 cart-product {
   flex-grow: 1;
 }

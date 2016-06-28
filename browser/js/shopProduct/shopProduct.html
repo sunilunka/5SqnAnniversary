@@ -3,6 +3,7 @@
   <div class="row">
     <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h2 ng-bind="product.title"></h2>
+      <a class="sqn-btn" ui-sref="shopFront">Back To Store</a>
     </header>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="option in product.options">
       <h5>{{ option.name }}</h5>
