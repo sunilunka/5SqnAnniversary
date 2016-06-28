@@ -6,6 +6,9 @@ app.config(function($stateProvider){
     resolve: {
       collectionProducts: function(ShopifyFactory){
         return ShopifyFactory.getCollectionProducts(310317511);
+      },
+      shoppingCart: function(ShopifyService){
+        return ShopifyService.initiateCart();
       }
     }
   })

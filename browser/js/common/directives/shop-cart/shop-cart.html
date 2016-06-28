@@ -1,0 +1,13 @@
+<section class="flex-container-row">
+  <h3><span class="glyphicon glyphicon-shopping-cart"></span></h3>
+  <span ng-bind="itemCount"></span><span> items</span>
+  <button class="sqn-btn" ng-click="toggleShowItems()">Show/Modify your items</button>
+</section>
+<section ng-if="showItems">
+  Butts!
+  <div ng-repeat="item in lineItems">
+    <h4 ng-bind="item.title"></h4>
+    <input type="sqnInputNumber-wide"></input>
+    <button class="sqn-btn"><span class="glyphicon glyphicon-plus"></span></button><button><span class="glyphicon glyphicon-minus"></span></button>
+  </div>
+</section>

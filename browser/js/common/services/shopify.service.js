@@ -13,6 +13,7 @@ app.service("ShopifyService", function(){
     return self.shopClient.createCart()
     .then(function(newCart){
       self.cart = newCart;
+      return self.cart;
     })
   }
 
@@ -20,9 +21,22 @@ app.service("ShopifyService", function(){
     return self.cart;
   }
 
+  this.initiateCart = function(){
+    return new Promise(function(resolve, reject){
+      if(!self.cart){
+        console.log("NO CART CREATED, CREATING NEW CART")
+        resolve(self.createCart());
+      } else {
+        console.log("CART HAS BEEN CREATED, RETURNING...")
+        resolve(self.cart);
+      }
+    })
+  }
+
   this.addToCart = function(productObj){
+    console.log("PRODUCT: ", productObj);
     console.log("SELF CART: ", self.cart);
-    return self.cart.addVariants(productObj)
+    // return self.cart.addVariants(productObj)
   }
 
 

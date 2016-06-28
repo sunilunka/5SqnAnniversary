@@ -1,7 +1,7 @@
-app.directive("shopProduct", function(ShopifyService, ShopifyFactory){
+app.directive("shopFrontProduct", function(ShopifyService, ShopifyFactory){
   return {
     restrict: "E",
-    templateUrl: "js/common/directives/shop-product/shop-product.html",
+    templateUrl: "js/common/directives/shop-front-product/shop-front-product.html",
     scope: {
       product: "="
     },

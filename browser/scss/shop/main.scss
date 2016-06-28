@@ -1,17 +1,40 @@
-.shop-storefront {
-  padding-top: 5em;
+.shop-storefront, .shop-product-page {
+  padding-top: 7em;
 }
 
-.shop-product-page {
-  padding-top: 5em;
-}
-
-shop-product {
+shop-front-product {
   a {
+    cursor: pointer;
     padding: 0.5em;
     text-decoration: none;
     @include theme-shadow-default;
     margin: 0.5em;
     display: block;
   }
+}
+
+shop-cart {
+  position: fixed;
+  /*right: 0px;*/
+  left: 0px;
+  display: block;
+  top: 3.5em;
+  width: 100%;
+  height: auto;
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
+  @include theme-shadow-default;
+  padding: 0.5em;
+  align-items: center;
+  z-index: 500;
+  h3 {
+    margin: 0;
+  }
+  h3, span {
+    flex-grow: 1;
+  }
+}
+
+cart-product {
+  flex-grow: 1;
 }
