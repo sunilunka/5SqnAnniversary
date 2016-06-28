@@ -61,7 +61,6 @@ app.service("ShopifyService", function($rootScope){
       .then(function(cart){
         $rootScope.$broadcast("updatedCart", self.cart)
       })
-      // return self.cart.addVariants(productObj);
     }
   }
 

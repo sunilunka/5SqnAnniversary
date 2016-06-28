@@ -45,7 +45,11 @@ shop-cart {
 }
 
 cart-product {
+  background-color: $theme-blue;
   flex-grow: 1;
+  display: block;
+  margin: 1em;
+  padding: 1em;
   li {
     list-style-type: none;
   }
