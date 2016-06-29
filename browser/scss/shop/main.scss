@@ -46,6 +46,17 @@ shop-cart {
   }
 }
 
+.item-not-available {
+  position: absolute;
+  display: block;
+  z-index: 300;
+  left: 0px;
+  top: 0px;
+  height: 200px;
+  width: 200px;
+  background-color: red;
+}
+
 .product-option-selected {
   background-color: $theme-green;
   border-color: $theme-green;

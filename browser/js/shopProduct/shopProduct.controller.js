@@ -1,4 +1,4 @@
-app.controller("ShopProductCtrl", function($scope, ShopifyFactory, shopProduct, ShopifyService){
+app.controller("ShopProductCtrl", function($scope, ShopifyFactory, shopProduct, ShopifyService, $timeout){
 
   $scope.product = shopProduct;
 
@@ -8,6 +8,9 @@ app.controller("ShopProductCtrl", function($scope, ShopifyFactory, shopProduct, 
   $scope.optionObject = ShopifyFactory.produceLookUpObject($scope.product);
 
   $scope.availableVars = {};
+
+  $scope.notAvailable = false;
+  $scope.canAddToCart = true;
 
   var getSelectedOption = function(option){
     return $scope.product.options.filter(function(opt){
@@ -19,16 +22,20 @@ app.controller("ShopProductCtrl", function($scope, ShopifyFactory, shopProduct, 
     // option.selected = newValue;
     option.value = newValue;
     option.selected = newValue;
-    console.log("SELECTED VARIANT: ", $scope.product.selectedVariant);
-    angular.copy($scope.optionObject[option.name][newValue], $scope.availableVars[option.name]);
-    console.log("AVAILABLE VARIANTS: ", $scope.availableVars);
+    if(!$scope.product.selectedVariant){
+      $scope.notAvailable = true;
+    } else {
+      $scope.notAvailable = false;
+    }
+    // angular.copy($scope.optionObject[option.name][newValue], $scope.availableVars[option.name]);
+    // console.log("AVAILABLE VARIANTS: ", $scope.availableVars);
     return option;
   }
 
   var setSelectedOptionsOnLoad = function(productOptions){
     productOptions.forEach(function(option){
       option.value = option.selected;
-      $scope.availableVars[option.name] = [];
+      // $scope.availableVars[option.name] = [];
     })
   }
 
