@@ -7,7 +7,7 @@
     </header>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="option in product.options">
       <h5>{{ option.name }}</h5>
-      <button ng-class="{'sqn-btn-inverse': value === option.value }" class="sqn-btn" ng-repeat="value in option.values" ng-bind="value" ng-click="updateSelectedVariant(option, value)">
+      <button ng-class="{'product-option-selected': value === option.value }" class="sqn-btn sqn-btn-product" ng-repeat="value in option.values" ng-bind="value" ng-click="updateSelectedVariant(option, value)">
       </button>
     </div>
     <footer class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

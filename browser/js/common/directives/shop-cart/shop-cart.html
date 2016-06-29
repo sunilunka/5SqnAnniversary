@@ -5,7 +5,9 @@
   <button class="sqn-btn" ng-click="toggleShowItems()" ng-bind="showItemLabel"></button>
   <button class="sqn-btn-positive" ng-click="checkoutCart()">Checkout</button>
 </section>
-<section ng-if="showItems" class="flex-container-row">
-  <cart-product class="item-order-mod" lineitem="item" ng-repeat="item in items">
-  </cart-product>
+<section ng-if="showItems">
+  <ul class="flex-container-row">
+    <cart-product class="item-order-mod" lineitem="item" ng-repeat="item in items">
+    </cart-product>
+  </ul>
 </section>

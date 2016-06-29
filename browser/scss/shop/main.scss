@@ -11,6 +11,13 @@ shop-front-product {
     margin: 0.5em;
     display: block;
   }
+
+  img {
+    height: 100%;
+    width: auto;
+    display: block;
+    position: relative;
+  }
 }
 
 shop-cart {
@@ -33,6 +40,20 @@ shop-cart {
   h3, span {
     flex-grow: 1;
   }
+
+  ul {
+    padding: 0;
+  }
+}
+
+.product-option-selected {
+  background-color: $theme-green;
+  border-color: $theme-green;
+  color: $theme-tacgrey;
+}
+
+.sqn-btn-product {
+  margin: 0.25em;
 }
 
 .item-order-mod {
@@ -50,6 +71,7 @@ cart-product {
   display: block;
   margin: 1em;
   padding: 1em;
+  width: 20em;
   li {
     list-style-type: none;
   }
