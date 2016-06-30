@@ -1,0 +1,26 @@
+<div class="event-dashboard-panel">
+  <div class="">
+    <div class="event-total-guest">
+      <span ng-bind="totalAttendees"></span>
+    </div>
+    <div class="event-details">
+      <span class="event-name" ng-bind="evt.name"></span>
+      <span class="event-date" ng-bind="evt.date"></span>
+      <display-time modelTime="evt.startTime"></display-time> - <display-time modelTime="evt.endTime"></display-time>
+    </div>
+    <table>
+      <thead>
+        <th>Reg</th>
+        <th ng-if="evt.guestLimits">Limit</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="cat in categories" ng-class="{'event-limit-reached': evt.guests[cat.$id] >= evt.guestLimits[cat.$id]}">
+          <td ng-bind="evt.guests[cat.$id]"></td>
+          <td ng-bind="evt.guestLimits[cat.$id]"></td>
+          <td class="event-category-name" ng-bind="cat.$value"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

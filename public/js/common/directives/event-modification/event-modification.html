@@ -1,0 +1,22 @@
+<article>
+  <header>
+    <h4>{{ evt.name }}</h4>
+      <div class="event-option-container">
+        <button class="sqn-btn-danger" ng-click="removeEvent(evt)" ng-disabled="true">Delete</button>
+        <button class="sqn-btn" ng-click="toggleEditMode()" ng-disabled="editMode" ng-class="{'sqn-btn-disabled': editMode }">Edit</button>
+        <button class="sqn-btn" ng-click="toggleGuestLimits()" ng-class="{'sqn-btn-disabled': guestLimits.displayMenu}" ng-disabled="guestLimits.displayMenu">Add Guest Limits</button>
+      </div>
+  </header>
+  <div class="event-details-container">
+    <p> <strong>{{ evt.date }}</strong> | <display-time modeltime="evt.startTime"></display-time> - <display-time modelTime="evt.endTime"></display-time></p>
+    <p><strong>Venue:</strong> {{ evt.location }}</p>
+    <p><strong>Details:</strong></p>
+    <formatted-text rawtext="evt.blurb"></formatted-text>
+  </div>
+  <div>
+    <event-guest-limit ng-show="guestLimits.displayMenu" evt="evt" cats="categories"></event-guest-limit>
+  </div>
+  <footer ng-show="editMode">
+    <event-creation evt="evt" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></event-creation>
+  </footer>
+</article>

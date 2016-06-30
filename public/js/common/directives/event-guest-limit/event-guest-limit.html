@@ -1,0 +1,11 @@
+<form ng-submit="saveGuestLimits()">
+  <div class="event-guest-limit-holder" ng-repeat="cat in cats">
+    <label class="category-field">{{ cat.$value }}
+    </label>
+    <input class="sqnInputNumber-wide" type="number" placeholder="00" ng-model="limits[cat.$id]"></input>
+  </div>
+  <div class="flex-container-row event-limit-options">
+    <input type="submit" class="sqn-btn-positive" value="Update"></input>
+    <button class="sqn-btn" ng-click="cancelEdit()">Cancel</button>
+  </div>
+</form>

@@ -1,0 +1,14 @@
+<header>
+  <h4 ng-bind="evt.name">Event Name</h4>
+  <div class="flex-container-row event-timings">
+    <p ng-bind="evt.date"></p>
+    <p><display-time modeltime="evt.startTime"></display-time> - <display-time modeltime="evt.endTime"></display-time></p>
+  </div>
+  <p class="aed-location" ng-bind="evt.location"></p>
+  <div class="aed-blurb">
+    <formatted-text rawtext="evt.blurb"></formatted-text>
+  </div>
+</header>
+<footer>
+  <button class="sqn-btn-header" ng-click="closeEventView()">Close</button>
+</footer>

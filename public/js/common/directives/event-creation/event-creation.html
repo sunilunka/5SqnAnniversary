@@ -1,0 +1,39 @@
+<form  class="event-creation-form" name="eventEditForm" ng-submit="updateEvent()">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <label>Name</label>
+    <input class="sqnInput sqnInputActive sqn-input-wide" type="text" ng-model="modifiedEntry.name" placeholder="What's you event name?" ng-required="true"></input>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <label>Date</label>
+    <div class="date-selector">
+      <button class="sqn-btn" ng-class="{'sqn-btn-positive': activeDate === date }"ng-repeat="date in validDates" ng-click="modifyDate(date)" >{{ date }}</button>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <label>Event Starts</label>
+    <div class="edit-time-container">
+      <input class="sqnInputNumber" type="number" ng-model="modifiedEntry.startTime.hours" min="00" max="23" name="startTimeHours" placeholder="00" ng-required="true"></input>
+      <span>:</span>
+      <input class="sqnInputNumber" type="number" ng-model="modifiedEntry.startTime.minutes" placeholder="00" name="startTimeMinutes" min="00" max="59" ng-required="true"></input>
+      <span>24hr</span>
+    </div>
+    <label>Event Ends</label>
+    <div class="edit-time-container">
+      <input class="sqnInputNumber" type="number" ng-model="modifiedEntry.endTime.hours" min="00" max="23" name="startTimeHours" placeholder="00" ng-required="true"></input>
+      <span>:</span>
+      <input class="sqnInputNumber" type="number" ng-model="modifiedEntry.endTime.minutes" placeholder="00" name="startTimeMinutes" min="00" max="59" ng-required="true"></input>
+      <span>24hr</span>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <label>Location</label>
+    <input class="sqnInputActive sqn-input-wide" type="text" ng-model="modifiedEntry.location" placeholder="Where is it going to be held?" ng-required="true"></input>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 event-blurb">
+    <textarea ng-model="modifiedEntry.blurb" placeholder="Add some details about the event here." ng-required="true"></textarea>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 event-options">
+    <input class="sqn-btn-positive" ng-class="{'sqn-btn-disabled': eventEditForm.$invalid }"type="submit" value="{{ updateLabel }}" ng-disabled="eventEditForm.$invalid"></input>
+    <button class="sqn-btn-inverse" ng-click="cancelEdit()">Cancel Edit</button>
+  </div>
+</form>

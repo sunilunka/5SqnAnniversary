@@ -1,0 +1,47 @@
+<section id="home">
+  <video class="background-media" poster="/images/home/crest-overalls-002.jpg" autoplay loop>
+    <source src="/video/5sqn-anniversary-intro_deploy.mp4" type="video/mp4"></source>
+    <source src="/video/5sqn-anniversary-intro_deploy.webm" type="video/webm"></source>
+    <source src="/video/5sqn-anniversary-intro_deploy.ogv" type="video/ogg"></source>
+  </video>
+  <img src="/images/home/crest-overalls-002.jpg" class="background-media"></img>
+  <section class="home-main-title">
+    <div class="">
+      <h1 class="home-title-text">No.5 Squadron</h1>
+      <span class="home-title-text">ROYAL NEW ZEALAND AIR FORCE</span>
+    </div>
+  </section>
+  <section class="home-description">
+    <section class="home-description-header">
+      <h3><em>"Keitou Kalawaca Na Wasaliwa"</em></h3>
+      <h2>Celebrating 75 years of spanning the oceans</h2>
+      <h3 class="home-period">1941 - 2016</h3>
+    </section>
+    <section class="flex-container-row home-description-content">
+        <div class="intro-blurb orion-blurb">
+          <p class="home-intro-blurb">...and <strong>50 years</strong> of operating the venerable <strong>Lockheed Martin P-3 Orion</strong></p>
+        </div>
+        <div class="intro-blurb people-blurb">
+          <p class="home-intro-blurb">Help commemorate 75 years of the squadron serving New Zealand, built on the dedication of men and women like you.</p>
+        </div>
+      </div>
+    </section>
+    <section class="home-events">
+      <header class="home-events-title">
+        <h3>23 - 24 September 2016</h3>
+        <p>Auckland, New Zealand</p>
+      </header>
+      <div class="flex-container-row space-between">
+        <div class="home-event" ng-repeat="evt in allEvents">
+          <h4 ng-bind="evt.name"></h4>
+          <p ng-bind="evt.date"></p>
+        </div>
+      </div>
+      <footer>
+        <h4>Please <a ui-sref="newAttendee" class="home-register">Register</a> to attend the anniversary events and find out more information.</h4>
+        <h4>We look forward to welcoming you back.</h4>
+        <p class="home-footer">Site built by 5 Squadron member, 2016 (<a href=https://github.com/sunilunka/5sqnAnniversary>Github</a>)</p>
+      </footer>
+    </section>
+  </section>
+</section>

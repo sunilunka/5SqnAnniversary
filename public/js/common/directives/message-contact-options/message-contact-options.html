@@ -1,0 +1,3 @@
+<button ng-if="!userInSession && (sessionType !== 'peer')" class="sqn-btn" ng-click="peerToPeerChat()">Chat</button>
+<button ng-if="(!userInSession && sessionType === 'private') || (addToNewGroup && !addedToGroup)" class="sqn-btn" ng-click="addToGroup()">Add To Group</button>
+<button ng-if="addedToGroup && addToNewGroup" class="sqn-btn" ng-click="removeFromGroup()">Remove From Group</button>
