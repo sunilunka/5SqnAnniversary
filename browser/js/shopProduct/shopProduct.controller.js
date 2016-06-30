@@ -10,7 +10,6 @@ app.controller("ShopProductCtrl", function($scope, ShopifyFactory, shopProduct, 
   $scope.availableVars = {};
 
   $scope.notAvailable = false;
-  $scope.canAddToCart = true;
 
   var getSelectedOption = function(option){
     return $scope.product.options.filter(function(opt){
