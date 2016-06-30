@@ -51,6 +51,11 @@ gulp.task('buildJS', ['lintJS'], function () {
         .pipe(gulp.dest('./public'));
 });
 
+gulp.task('buildHTML', function(){
+  return gulp.src(['./browser/js/**/*.html'])
+    .pipe(gulp.dest('./public/js/'))
+})
+
 gulp.task('testServerJS', function () {
     require('babel/register');
 	return gulp.src('./tests/server/**/*.js', {
@@ -125,7 +130,7 @@ gulp.task('build', function () {
     if (process.env.NODE_ENV === 'production') {
         runSeq(['buildJSProduction', 'buildCSSProduction']);
     } else {
-        runSeq(['buildJS', 'buildCSS']);
+        runSeq(['buildHTML', 'buildJS', 'buildCSS']);
     }
 });
 
@@ -146,7 +151,7 @@ gulp.task('default', function () {
     gulp.watch('server/**/*.js', ['lintJS']);
 
     // Reload when a template (.html) file changes.
-    gulp.watch(['browser/**/*.html', 'server/app/views/*.html'], ['reload']);
+    gulp.watch(['browser/**/*.html', 'server/app/views/*.html'], ['buildHTML', 'reload']);
 
     // Run server tests when a server file or server test file changes.
     gulp.watch(['tests/server/**/*.js'], ['testServerJS']);

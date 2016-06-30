@@ -1,0 +1,13 @@
+<section class="flex-container-row">
+  <h3><span class="glyphicon glyphicon-shopping-cart"></span></h3>
+  <span ng-bind="itemCount"></span><span> items</span>
+  <span ng-bind="subTotal"></span>
+  <button class="sqn-btn" ng-click="toggleShowItems()" ng-bind="showItemLabel"></button>
+  <button class="sqn-btn-positive" ng-click="checkoutCart()">Checkout</button>
+</section>
+<section ng-if="showItems">
+  <ul class="flex-container-row">
+    <cart-product class="item-order-mod" lineitem="item" ng-repeat="item in items">
+    </cart-product>
+  </ul>
+</section>
