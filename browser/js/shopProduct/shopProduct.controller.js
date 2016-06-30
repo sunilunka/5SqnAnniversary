@@ -5,9 +5,9 @@ app.controller("ShopProductCtrl", function($scope, ShopifyFactory, shopProduct, 
   $scope.quantity = 1;
 
 
-  $scope.optionObject = ShopifyFactory.produceLookUpObject($scope.product);
+  // $scope.optionObject = ShopifyFactory.produceLookUpObject($scope.product);
 
-  $scope.availableVars = {};
+  // $scope.availableVars = {};
 
   $scope.notAvailable = false;
 
@@ -21,7 +21,7 @@ app.controller("ShopProductCtrl", function($scope, ShopifyFactory, shopProduct, 
     // option.selected = newValue;
     option.value = newValue;
     option.selected = newValue;
-    if(!$scope.product.selectedVariant){
+    if(!$scope.product.selectedVariant || !$scope.product.selectedVariant.attrs.variant.available){
       $scope.notAvailable = true;
     } else {
       $scope.notAvailable = false;

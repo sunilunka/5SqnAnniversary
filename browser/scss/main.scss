@@ -328,6 +328,10 @@ alert {
   text-decoration: none;
 }
 
+a.sqn-btn-header {
+  padding: 4px 6px 5px 6px;
+}
+
 .sqn-btn-danger {
   @include base-button($theme-red, $theme-tacgrey);
 }
