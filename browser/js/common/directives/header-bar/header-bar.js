@@ -14,6 +14,8 @@ app.directive("headerBar", function($state, $rootScope, AuthService, DatabaseFac
 
       let currentUserId = null;
 
+      scope.current_id = null;
+
       scope.goToUserProfile = () => {
         $state.go("attendee", {id: scope.currentUser.uid || scope.currentUser.id || scope.currentUser.$id })
       }
@@ -40,6 +42,8 @@ app.directive("headerBar", function($state, $rootScope, AuthService, DatabaseFac
 
         currentUserId = scope.currentUser.id || scope.currentUser.$id || scope.currentUser.uid;
 
+        scope.current_id = currentUserId;
+
         managementRef.on("value", monitorManagementState);
 
       })
@@ -48,6 +52,7 @@ app.directive("headerBar", function($state, $rootScope, AuthService, DatabaseFac
         managementRef.off("value", monitorManagementState)
         scope.currentUser = null;
         scope.isManager = null;
+        scope.current_id = null;
         currentUserId = null;
       })
     }
