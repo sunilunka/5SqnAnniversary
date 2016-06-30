@@ -1,5 +1,6 @@
 .shop-storefront, .shop-product-page {
   padding-top: 7em;
+  color: $theme-grey;
 }
 
 shop-front-product {
@@ -52,9 +53,21 @@ shop-cart {
   z-index: 300;
   left: 0px;
   top: 0px;
-  height: 200px;
-  width: 200px;
-  background-color: red;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(214,100,100, 0.85);
+
+  p {
+    position: relative;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 33%;
+    width: 33%;
+    color: white;
+    border: 3px solid white;
+    padding: 6px;
+  }
 }
 
 .product-option-selected {
