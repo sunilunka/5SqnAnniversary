@@ -1,6 +1,6 @@
 <a ui-sref="shopProduct({ productId: product.id })">
-  <h4 ng-bind="title"></h4>
+  <header>
+    <h4 ng-bind="title"></h4><span>${{ price }}</span>
+  </header>
   <img src="{{ imageSrc }}"></img>
-  <div class="product-options">
-  </div>
 </a>

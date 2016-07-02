@@ -11,6 +11,12 @@ shop-front-product {
     @include theme-shadow-default;
     margin: 0.5em;
     display: block;
+    header {
+      h4, span {
+        display: inline-table;
+        vertical-align: baseline;
+      }
+    }
   }
 
   img {
@@ -18,6 +24,7 @@ shop-front-product {
     width: auto;
     display: block;
     position: relative;
+    margin: 0 auto;
   }
 }
 
