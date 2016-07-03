@@ -96,6 +96,12 @@ shop-cart {
   }
 }
 
+.product-option {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+}
+
 cart-product {
   background-color: $theme-blue;
   flex-grow: 1;
