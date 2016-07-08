@@ -64,8 +64,12 @@ app.service("ShopifyService", function($rootScope){
     }
   }
 
-  this.updateCartItem = function(){
-
+  this.updateCartItem = function(itemId, newQuantity){
+    return self.cart.updateLineItem(itemId, newQuantity)
+    .then(function(cart){
+      $rootScope.$broadcast("updatedCart", self.cart);
+      return self.cart;
+    })
   }
 
   this.removeCartItem = function(itemId){

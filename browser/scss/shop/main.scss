@@ -112,4 +112,19 @@ cart-product {
   li {
     list-style-type: none;
   }
+  div.flex-container-row {
+    justify-content: space-between;
+    h4 {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.cart-product-variant {
+  padding: 0.25em;
+  margin: 0.25em;
+}
+
+.item-quantity-btn {
+  margin: 0 0 0 0.5em;
 }
