@@ -5,9 +5,9 @@
       <h2 ng-bind="product.title"></h2>
       <a class="sqn-btn" ui-sref="shopFront">Back To Store</a>
     </header>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 product-image">
       <div ng-show="notAvailable" class="item-not-available">
-        <p>Sorry that variant is not available</p>
+        <p>Sorry that product is no longer available</p>
       </div>
       <img src="{{ product.images[0].src }}"></img>
     </div>
