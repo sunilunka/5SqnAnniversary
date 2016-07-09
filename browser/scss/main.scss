@@ -253,6 +253,12 @@ alert {
   text-align: center;
 }
 
+.sqnInputPrice {
+  @extend .sqnInputActive;
+  width: 5em;
+  text-align: center;
+}
+
 
 .sqn-not-available-label {
   @extend .sqnInputError;
@@ -433,3 +439,4 @@ formatted-text {
 @import 'management-users/main';
 @import 'messaging/main';
 @import 'shop/main';
+@import 'management-shop/main';

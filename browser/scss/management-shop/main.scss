@@ -1,0 +1,22 @@
+.management-shop-panel {
+  padding-top: 5em;
+  color: $theme-grey;
+}
+
+
+
+.new-product-form {
+  label, input[type="text"], input[type="file"] {
+    display: block;
+    margin: 0.5em auto;
+  }
+
+  textarea {
+    width: 90%;
+    height: 7.5em;
+    display: block;
+    margin: 0.5em auto;
+    border: 3px solid $theme-grey;
+  }
+
+}
