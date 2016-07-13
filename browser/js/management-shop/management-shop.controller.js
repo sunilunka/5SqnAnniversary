@@ -16,9 +16,7 @@ app.controller("ManagementShopCtrl", function($scope, ShopManagementFactory){
   $scope.newProductOptions = [];
 
   $scope.addNewProduct = function(){
-
-    console.log("SCOPE NEW PRODUCT: ", $scope.newProduct);
-    // ShopManagementFactory.addNewProduct($scope.newProduct);
+    ShopManagementFactory.convertForServer($scope.newProduct, $scope.newProductOptions);
   }
 
   $scope.resetOptionForm = function(event){

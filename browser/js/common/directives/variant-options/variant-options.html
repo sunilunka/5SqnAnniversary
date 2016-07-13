@@ -4,7 +4,6 @@
       <tr>
         <td ng-repeat="option in options">
           <select ng-model="variant.options[option.name]" name="optionsArray" class="" ng-options="choice for choice in option.choicesArray track by choice" ng-disabled="!editInProgress">
-            <!-- <option ng-repeat="choice in option.choicesArray" value="choice" ng-bind="choice"></option> -->
           </select>
         </td>
         <td>

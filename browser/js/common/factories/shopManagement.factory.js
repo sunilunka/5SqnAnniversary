@@ -32,14 +32,15 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
     $http.post("http://127.0.0.1:3000/api/products/new", productData)
     .then(DatabaseFactory.parseHTTPRequest)
   }
-  
+
   ShopManagementFactory.convertForServer = function(newProduct, productOptions){
     var optionsToStore = {}
     productOptions.forEach(function(optionObj){
-      optionsToStore[optionObj.name] = optionObj.choicesArray;
+      optionsToStore[optionName] = optionObj.choicesArray;
     })
     newProduct.options = optionsToStore;
-    return ShopManagementFactory.addNewProduct(newProduct);
+    console.log("PRODUCT TO SEND: ", newProduct);
+    // return ShopManagementFactory.addNewProduct(newProduct);
   }
 
 
