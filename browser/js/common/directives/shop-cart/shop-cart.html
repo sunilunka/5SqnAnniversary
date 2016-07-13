@@ -1,0 +1,17 @@
+<section class="flex-container-row">
+  <h3><span class="glyphicon glyphicon-shopping-cart"></span></h3>
+  <div class="cart-stats">
+    <span ng-bind="itemCount"></span><span class="stats-separator"> items</span>
+    <span>Total: </span><span ng-bind="subTotal | currency "></span>
+  </div>
+  <div class="cart-options">
+    <button class="sqn-btn" ng-click="toggleShowItems()" ng-bind="showItemLabel"></button>
+    <button class="sqn-btn-positive" ng-click="checkoutCart()">Checkout</button>
+  </div>
+</section>
+<section ng-if="showItems">
+  <ul class="flex-container-row">
+    <cart-product class="item-order-mod" lineitem="item" ng-repeat="item in items">
+    </cart-product>
+  </ul>
+</section>

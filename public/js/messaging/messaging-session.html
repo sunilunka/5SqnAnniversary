@@ -71,7 +71,7 @@
             <form class="new-message-group" name="newMessageGroup" ng-submit="createGroup()">
               <input type="text" class="sqnInputActive sqn-input-wide input-inline" ng-model="newGroup.name" placeholder="Add a group name"></input>
               <p ng-if="!newGroup.private">NOTE: Anyone can join a public group. Only Private group members can add others to their chat session.</p>
-              <button class="sqn-btn-danger" ng-class="{'group-private': newGroup.private}" ng-click="makePrivateGroup()" ng-bind="groupPrivate"></button>
+              <button class="sqn-btn-danger" ng-class="{'group-private': newGroup.private}" ng-click="makePrivateGroup($event)" ng-bind="groupPrivate"></button>
               <input class="sqn-btn-positive" type="submit" value="Create Group"></input>
             </form>
           </div>

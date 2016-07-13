@@ -1,0 +1,39 @@
+.management-shop-panel {
+  padding-top: 5em;
+  color: $theme-grey;
+}
+
+.new-product-table {
+  display: block;
+  position: relative;
+  height: auto;
+  width: 90%;
+}
+
+.new-product-number {
+  @extend .sqnInputNumber-wide;
+  margin: 0;
+}
+
+product-options {
+  display: table;
+  input {
+    display: inline-table;
+  }
+}
+
+.new-product-form {
+  label, input[type="file"] {
+    display: block;
+    margin: 0.5em auto;
+  }
+
+  textarea {
+    width: 90%;
+    height: 7.5em;
+    display: block;
+    margin: 0.5em auto;
+    border: 3px solid $theme-grey;
+  }
+
+}

@@ -1,0 +1,152 @@
+.shop-storefront, .shop-product-page {
+  padding-top: 7em;
+  color: $theme-grey;
+}
+
+shop-front-product {
+  a {
+    cursor: pointer;
+    padding: 0.5em;
+    text-decoration: none;
+    @include theme-shadow-default;
+    margin: 0.5em;
+    display: block;
+    header {
+      h4, span {
+        display: inline-table;
+        vertical-align: baseline;
+      }
+    }
+  }
+
+  img {
+    height: 100%;
+    width: auto;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+  }
+}
+
+shop-cart {
+  position: fixed;
+  /*right: 0px;*/
+  left: 0px;
+  display: block;
+  top: 3.5em;
+  width: 100%;
+  height: auto;
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
+  @include theme-shadow-default;
+  padding: 0.5em;
+  align-items: center;
+  z-index: 500;
+  h3 {
+    margin: 0;
+  }
+  h3, span {
+    flex-grow: 1;
+  }
+
+  ul {
+    padding: 0;
+  }
+}
+
+.item-not-available {
+  position: absolute;
+  display: block;
+  z-index: 300;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(214,100,100, 0.85);
+
+  p {
+    position: relative;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 33%;
+    width: 33%;
+    color: white;
+    border: 3px solid white;
+    padding: 6px;
+  }
+}
+
+.product-image {
+  img {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+  }
+}
+
+.product-option-selected {
+  background-color: $theme-green;
+  border-color: $theme-green;
+  color: $theme-tacgrey;
+}
+
+.sqn-btn-product {
+  margin: 0.25em;
+}
+
+.item-order-mod {
+  .sqnInputNumber {
+    color: $theme-grey;
+    &:focus {
+      color: $theme-tacgrey;
+    }
+  }
+}
+
+.product-option {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+}
+
+cart-product {
+  background-color: $theme-blue;
+  flex-grow: 1;
+  display: block;
+  margin: 1em;
+  padding: 1em;
+  width: 20em;
+  li {
+    list-style-type: none;
+  }
+  div.flex-container-row {
+    justify-content: space-between;
+    h4 {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.cart-product-variant {
+  padding: 0.25em;
+  margin: 0.25em;
+}
+
+.item-quantity-btn {
+  margin: 0 0 0 0.5em;
+}
+
+.cart-stats, cart-options {
+  flex-grow: 1;
+}
+
+.cart-stats {
+  font-size: 1.2em;
+  
+}
+
+.stats-separator {
+  padding: 0 0.5em 0 0;
+  border-right: 3px solid $theme-tacgrey;
+}

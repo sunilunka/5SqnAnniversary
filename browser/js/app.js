@@ -7,6 +7,7 @@ window.initializeApp = function(){
     databaseURL: "https://5sqnrnzaf.firebaseio.com",
     storageBucket: "sqnrnzaf.appspot.com",
   };
+
   return firebase.initializeApp(config);
 }
 

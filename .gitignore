@@ -1,13 +1,13 @@
 .idea
 node_modules
 npm-debug.log
-public/images
-public/index.html
-public/favicon.png
+public/scripts
 public/video
+public/images
 public/main.js
 public/style.css
-public/scripts
+public/favicon.png
+public/index.html
 .DS_Store
 coverage
 browser/js/credentials.js

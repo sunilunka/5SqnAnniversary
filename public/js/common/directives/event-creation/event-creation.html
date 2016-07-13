@@ -6,7 +6,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <label>Date</label>
     <div class="date-selector">
-      <button class="sqn-btn" ng-class="{'sqn-btn-positive': activeDate === date }"ng-repeat="date in validDates" ng-click="modifyDate(date)" >{{ date }}</button>
+      <button class="sqn-btn" ng-class="{'sqn-btn-positive': activeDate === date }"ng-repeat="date in validDates" ng-click="modifyDate($event, date)" >{{ date }}</button>
     </div>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -34,6 +34,6 @@
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 event-options">
     <input class="sqn-btn-positive" ng-class="{'sqn-btn-disabled': eventEditForm.$invalid }"type="submit" value="{{ updateLabel }}" ng-disabled="eventEditForm.$invalid"></input>
-    <button class="sqn-btn-inverse" ng-click="cancelEdit()">Cancel Edit</button>
+    <button class="sqn-btn-inverse" ng-click="cancelEdit($event)">Cancel Edit</button>
   </div>
 </form>
