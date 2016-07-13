@@ -79,7 +79,7 @@
             <variant-options ng-repeat="variant in newProduct.variants" variant="variant" options="newProductOptions" ></variant-options>
           </div>
         <div ng-show="!newProductOptions.length && !newProduct.variants.length">
-          <label>Product Stock</label>
+          <label>Product Stock (if no variants are specified)</label>
           <input class="sqnInputNumber-wide" type="number" ng-model="newProduct.stock"></input>
         </div>
         <div>

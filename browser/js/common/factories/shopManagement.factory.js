@@ -12,12 +12,6 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
   }
 
-  productOption.prototype.transformForStorage = function(){
-    var toStore = {};
-    toStore[this.name] = this.choicesArray;
-    return toStore;
-  }
-
   productOption.prototype.transformChoicesToArray = function(){
     this.name = this.name.toLowerCase();
     this.choices = this.choices.toUpperCase();
@@ -34,16 +28,27 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
     return newOption.transformChoicesToArray();
   }
 
+  ShopManagementFactory.addNewProduct = function(productData){
+    $http.post("http://127.0.0.1:3000/api/products/new", productData)
+    .then(DatabaseFactory.parseHTTPRequest)
+  }
+  
+  ShopManagementFactory.convertForServer = function(newProduct, productOptions){
+    var optionsToStore = {}
+    productOptions.forEach(function(optionObj){
+      optionsToStore[optionObj.name] = optionObj.choicesArray;
+    })
+    newProduct.options = optionsToStore;
+    return ShopManagementFactory.addNewProduct(newProduct);
+  }
+
+
   ShopManagementFactory.getAllProducts = function(){
     console.log("GETTING ALL PRODUCTS: ")
     return $http.get("http://127.0.0.1:3000/api/products")
     .then(DatabaseFactory.parseHTTPRequest);
   }
 
-  ShopManagementFactory.addNewProduct = function(productData){
-    $http.post("http://127.0.0.1:3000/api/products/new", productData)
-    .then(DatabaseFactory.parseHTTPRequest)
-  }
 
   ShopManagementFactory.addOptions = function(){
     // $http.get("http://192.168.1.76:3000/api/products")
