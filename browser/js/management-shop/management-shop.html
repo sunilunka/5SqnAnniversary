@@ -12,6 +12,12 @@
           <textarea name="productDescription" ng-model="newProduct.description" placeholder="Describe your product" class="sqnInputActive"></textarea>
           <label for="productPrice">Price / Default Price (variants can be assigned their own price if required)</label>
           <input type="text" class="sqnInputPrice" ng-model="newProduct.price"></input>
+          <div class="checkbox">
+            <label for="deliverable">
+              <input type="checkbox" ng-model="newProduct.deliverable"></input>
+              Product is available to be delivered by courier or post.
+            </label>
+          </div>
           <div>
             <button class="sqn-btn" ng-click="addOptions($event)">Add Options</button>
             <button class="sqn-btn" ng-click="noOptions($event)">Clear All Options</button>
@@ -58,11 +64,10 @@
                 <tr>
                   <td ng-repeat="option in newProductOptions">
                     <select ng-model="newVariant.options[option.name]" name="optionsArray" class="" ng-options="choice for choice in option.choicesArray track by choice">
-                      <!-- <option ng-repeat="choice in option.choicesArray" value="choice" ng-bind="choice"></option> -->
                     </select>
                   </td>
                   <td>
-                    <input type="number" ng-model="newVariant.stock" class="sqnInputNumber-wide"></input>
+                    <input type="number" ng-model="newVariant.stock" class="sqnInputNumber-wide" min="0"></input>
                   </td>
                   <td>
                     <input class="new-product-number" type="text" ng-model="newVariant.price" placeholder="00.00"></input>
@@ -84,7 +89,7 @@
         </div>
         <div>
           <label for="productImage">Image To Upload</label>
-          <input type="file" onchange=""></input>
+          <input file-upload type="file"></input>
         </div>
         <div class="flex-container-row">
           <input type="submit" class="sqn-btn-positive" value="Add Product">

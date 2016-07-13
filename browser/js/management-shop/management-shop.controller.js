@@ -1,4 +1,4 @@
-app.controller("ManagementShopCtrl", function($scope, ShopManagementFactory){
+app.controller("ManagementShopCtrl", function($scope, ShopManagementFactory, FirebaseStorageFactory){
 
   $scope.newProduct = {
     variants: []
@@ -16,6 +16,7 @@ app.controller("ManagementShopCtrl", function($scope, ShopManagementFactory){
   $scope.newProductOptions = [];
 
   $scope.addNewProduct = function(){
+    FirebaseStorageFactory.uploadImage();
     ShopManagementFactory.convertForServer($scope.newProduct, $scope.newProductOptions);
   }
 
