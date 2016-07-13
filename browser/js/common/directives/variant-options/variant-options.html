@@ -1,0 +1,25 @@
+<div class="table-responsive">
+  <table class="table">
+    <tbody>
+      <tr>
+        <td ng-repeat="option in options">
+          <select ng-model="variant.options[option.name]" name="optionsArray" class="" ng-options="choice for choice in option.choicesArray track by choice" ng-disabled="!editInProgress">
+            <!-- <option ng-repeat="choice in option.choicesArray" value="choice" ng-bind="choice"></option> -->
+          </select>
+        </td>
+        <td>
+          <input type="number" ng-model="variant.stock" class="sqnInputNumber-wide" ng-disabled="!editInProgress"></input>
+        </td>
+        <td>
+          <input class="sqnInputNumber-wide" type="text" ng-model="variant.price" placeholder="00.00"></input>
+        </td>
+        <td>
+          <button class="sqn-btn-positive" ng-click="toggleEdit($event)" ng-bind="label"></button>
+        </td>
+        <td>
+          <button class="sqn-btn-danger" ng-click="removeVariant($event)">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -26,7 +26,7 @@ app.directive("eventGuestLimit", function(EventFactory, $rootScope){
 
       }
 
-      scope.cancelEdit = () => {
+      scope.cancelEdit = (event) => {
         event.preventDefault();
         angular.copy(scope.evt.guestLimits, scope.limits);
         scope.$parent.toggleGuestLimits();

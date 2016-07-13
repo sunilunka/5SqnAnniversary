@@ -71,7 +71,7 @@ app.controller("MessagingSessionCtrl", function($scope, $stateParams, $state, lo
     }
   }
 
-  $scope.makePrivateGroup = function(){
+  $scope.makePrivateGroup = function(event){
     event.preventDefault();
     if($scope.creatingNewGroup.display){
       if(!$scope.newGroup.private){

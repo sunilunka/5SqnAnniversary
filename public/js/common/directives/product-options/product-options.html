@@ -5,13 +5,13 @@
         <input type="text" name="optionName" ng-model="option.name" ng-disabled="!editInProgress" class="sqnInputReadonly" ng-class="{'sqnInputActive': editInProgress }"></input>
       </td>
       <td>
-        <input type="text" ng-model="option.choices" name="optionsArray" class="sqnInputReadonly" ng-disabled="!editInProgress" ng-class="{'sqnInputActive': editInProgress }"2></input>
+        <input type="text" ng-model="option.choices" name="optionsArray" class="sqnInputReadonly" ng-disabled="!editInProgress" ng-class="{'sqnInputActive': editInProgress }"></input>
       </td>
       <td>
-        <button class="sqn-btn-positive" ng-click="toggleEdit()" ng-bind="label"></button>
+        <button class="sqn-btn-positive" ng-click="toggleEdit($event)" ng-bind="label"></button>
       </td>
       <td>
-        <button class="sqn-btn-danger">Remove</button>
+        <button class="sqn-btn-danger" ng-click="removeOption($event)">Remove</button>
       </td>
     </tr>
   </table>

@@ -10,6 +10,11 @@
   width: 90%;
 }
 
+.new-product-number {
+  @extend .sqnInputNumber-wide;
+  margin: 0;
+}
+
 product-options {
   display: table;
   input {
@@ -18,7 +23,7 @@ product-options {
 }
 
 .new-product-form {
-  label, input[type="text"], input[type="file"] {
+  label, input[type="file"] {
     display: block;
     margin: 0.5em auto;
   }

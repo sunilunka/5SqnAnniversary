@@ -3,18 +3,18 @@
     <h2>Management - Shop</h2>
   </header>
   <div class="row">
-    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
       <h4>Add new product</h4>
       <form class="new-product-form" name="addNewProductForm" ng-submit="addNewProduct()">
           <label class="" for="productName">Product Name</label>
-          <input type="text" name="productName" ng-model="newProduct.name" class="sqnInputActive sqn-input-wide" placeholder="Enter the name of your product"></input>
+          <input type="text" name="productName" ng-model="newProduct.title" class="sqnInputActive sqn-input-wide" placeholder="Enter the name of your product"></input>
           <label for="productDescription">Description</label>
           <textarea name="productDescription" ng-model="newProduct.description" placeholder="Describe your product" class="sqnInputActive"></textarea>
-          <label for="productPrice">Price</label>
+          <label for="productPrice">Price / Default Price (variants can be assigned their own price if required)</label>
           <input type="text" class="sqnInputPrice" ng-model="newProduct.price"></input>
           <div>
-            <button class="sqn-btn" ng-click="addOptions()">Add Options</button>
-            <button class="sqn-btn" ng-click="noOptions()">No Options</button>
+            <button class="sqn-btn" ng-click="addOptions($event)">Add Options</button>
+            <button class="sqn-btn" ng-click="noOptions($event)">Clear All Options</button>
           </div>
           <div class="table-responsive">
             <table class="table table-hover new-product-table" ng-show="addProductOptions && !noProductOptions">
@@ -27,33 +27,68 @@
               <tbody>
                 <tr>
                   <td>
-                    <input type="text" name="optionName" ng-model="newOption.name" class="sqnInputActive"></input>
+                    <input type="text" name="optionName" ng-model="newOption.name" class="sqnInputActive" placeholder="e.g. Size"></input>
                   </td>
                   <td>
-                    <input type="text" ng-model="newOption.choices" name="optionsArray" class="sqnInputActive"></input>
+                    <input type="text" ng-model="newOption.choices" name="optionsArray" class="sqnInputActive"  placeholder="e.g. XS S M ..."></input>
                   </td>
                   <td>
-                    <button class="sqn-btn-positive" ng-click="populateOptionArray()">Add Option</button>
+                    <button class="sqn-btn-positive" ng-click="populateOptionArray($event)">Add Option</button>
                   </td>
                   <td>
-                    <button class="sqn-btn-danger">Reset</button>
+                    <button class="sqn-btn-danger" ng-click="resetOptionForm($event)">Reset</button>
                   </td>
                 </tr>
               </tbody>
             </table>
             <product-options ng-repeat="option in newProductOptions" option="option"></product-options>
-            <table ng-show="addVariants && !addProductOptions" class="table">
+            <div>
+              <button class="sqn-btn-positive" ng-click="openVariants($event)">Add Variants</button>
+              <button class="sqn-btn-danger" ng-click="clearVariants($event)">Clear All Variants</button>
+            </div>
+            <table ng-show="addVariants && !addProductOptions && !noProductOptions" class="table">
               <thead>
-                <th>Variants</th>
+                <th ng-repeat="option in newProductOptions" ng-bind="option.name"></th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th></th>
+                <th></th>
               </thead>
-
+              <tbody>
+                <tr>
+                  <td ng-repeat="option in newProductOptions">
+                    <select ng-model="newVariant.options[option.name]" name="optionsArray" class="" ng-options="choice for choice in option.choicesArray track by choice">
+                      <!-- <option ng-repeat="choice in option.choicesArray" value="choice" ng-bind="choice"></option> -->
+                    </select>
+                  </td>
+                  <td>
+                    <input type="number" ng-model="newVariant.stock" class="sqnInputNumber-wide"></input>
+                  </td>
+                  <td>
+                    <input class="new-product-number" type="text" ng-model="newVariant.price" placeholder="00.00"></input>
+                  </td>
+                  <td>
+                    <button class="sqn-btn-positive" ng-click="populateVariantArray($event)">Add Variant</button>
+                  </td>
+                  <td>
+                    <button class="sqn-btn-danger" ng-click="resetVariantForm($event)">Reset</button>
+                  </td>
+                </tr>
+              </tbody>
             </table>
+            <variant-options ng-repeat="variant in newProduct.variants" variant="variant" options="newProductOptions" ></variant-options>
           </div>
+        <div ng-show="!newProductOptions.length && !newProduct.variants.length">
+          <label>Product Stock</label>
+          <input class="sqnInputNumber-wide" type="number" ng-model="newProduct.stock"></input>
+        </div>
+        <div>
           <label for="productImage">Image To Upload</label>
           <input type="file" onchange=""></input>
+        </div>
         <div class="flex-container-row">
           <input type="submit" class="sqn-btn-positive" value="Add Product">
-          <button class="sqn-btn" ng-click="resetFormAndClose()">Cancel</button>
+          <button class="sqn-btn" ng-click="resetFormAndClose($event)">Cancel</button>
         </div>
       </form>
     </div>

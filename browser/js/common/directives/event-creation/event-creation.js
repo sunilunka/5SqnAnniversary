@@ -18,7 +18,7 @@ app.directive("eventCreation", function($rootScope, EventFactory, ParsingFactory
          })
        },
 
-       cancelEdit: function() {
+       cancelEdit: function(event) {
          event.preventDefault();
          angular.copy(scope.evt, scope.modifiedEntry);
          scope.activeDate = scope.modifiedEntry.date;
@@ -37,7 +37,7 @@ app.directive("eventCreation", function($rootScope, EventFactory, ParsingFactory
          })
        },
 
-       cancelEdit: function(){
+       cancelEdit: function(event){
          event.preventDefault();
          scope.modifiedEntry = {};
          scope.activeDate = null;
@@ -54,7 +54,7 @@ app.directive("eventCreation", function($rootScope, EventFactory, ParsingFactory
 
      scope.validDates = [ "Fri 23 Sep 2016", "Sat 24 Sep 2016", "Sun 25 Sep 2016" ];
 
-     scope.modifyDate = (value) => {
+     scope.modifyDate = (event, value) => {
        event.preventDefault();
        scope.modifiedEntry.date = value;
        scope.activeDate = value;

@@ -19,13 +19,13 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   }
 
   productOption.prototype.transformChoicesToArray = function(){
-    for(var opt in this){
-      if(!Array.isArray(this[opt]) && this.hasOwnProperty(opt)){
-        this[opt] = this[opt].toUpperCase();
-      }
-    }
-   angular.copy(this.choicesArray, this.choices.split(" "));
-   return this;
+    this.name = this.name.toLowerCase();
+    this.choices = this.choices.toUpperCase();
+    /* Remove any duplicate entries */
+    var toUpdate = _.uniq(this.choices.split(" "));
+    this.choices = toUpdate.join(" ");
+    angular.copy(toUpdate, this.choicesArray);
+    return this;
   }
 
 

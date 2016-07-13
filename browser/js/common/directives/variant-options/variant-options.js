@@ -1,11 +1,13 @@
-app.directive("productOptions", function(){
+app.directive("variantOptions", function(){
   return {
     restrict: "E",
-    templateUrl: "js/common/directives/product-options/product-options.html",
+    templateUrl: "js/common/directives/variant-options/variant-options.html",
     scope: {
-      option: "="
+      variant: "=",
+      options: "="
     },
     link: function(scope, element, attrs){
+      console.log("SCOPE VARIANT: ", scope.variant);
 
       scope.label = "Edit"
 
@@ -13,21 +15,20 @@ app.directive("productOptions", function(){
 
       scope.toggleEdit = function(event){
         event.preventDefault();
+        event.stopPropagation();
         if(!scope.editInProgress){
           scope.editInProgress = true;
           scope.label = "Save";
         } else {
-          scope.option.transformChoicesToArray();
           scope.editInProgress = false;
           scope.label = "Edit";
         }
       }
 
-      scope.removeOption = function(event){
+      scope.removeVariant = function(event){
         event.preventDefault();
-        _.pull(scope.$parent.newProductOptions, scope.option);
+        _.pull(scope.$parent.newProduct.variants, scope.variant);
       }
-
     }
   }
 })
