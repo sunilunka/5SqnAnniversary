@@ -1,0 +1,21 @@
+<section class="management-sub-menu container-fluid announcements">
+  <h2>Management Dashboard - Announcements</h2>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 announcement-form">
+      <form ng-submit="addNew()" name="newAnnouncementForm">
+        <h4>Add a new announcement</h4>
+        <label for="announcementTitle" class="input-form">Title</label>
+        <input class="sqnInputActive sqn-input-wide input-form" type="text" ng-model="newAnnouncement.title" name="announcementTitle" placeholder="What's it about?" ng-required="true"></input>
+        <label class="input-form">Content</label>
+        <textarea ng-model="newAnnouncement.content" name="announcementContent" class="input-form" ng-required="true" placeholder="The nitty gritty goes here. The date of the announcement is automatically tagged on saving, sweet!"></textarea>
+        <div class="block-btn-holder">
+          <input ng-class="{'sqn-btn-disabled': newAnnouncementForm.announcementTitle.$invalid || newAnnouncementForm.announcementContent.$invalid }" ng-disabled="newAnnouncementForm.announcementTitle.$invalid || newAnnouncementForm.announcementContent.$invalid" type="submit" class="sqn-btn-positive" value="Add Announcement">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <announcement-modification class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="announcement in announcements" announcement="announcement"></announcement-modification>
+  </div>
+
+</section>

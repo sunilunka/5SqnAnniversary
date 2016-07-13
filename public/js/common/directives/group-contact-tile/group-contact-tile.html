@@ -1,0 +1,9 @@
+<div ng-class="" class="tile-content group-tile flex-container-row">
+  <p ng-click="goToSession()" ng-bind="session.name"></p>
+  <div class="tile-options">
+    <button ng-if="canLeaveGroup" class="sqn-btn-small" ng-click="leaveGroup()">Leave</button>
+    <div ng-if="missedMsgs" class="missed-msg-counter">
+      <span class="missed-msg-content" ng-bind="missedMsgs"></span>
+    </div>
+  </div>
+</div>

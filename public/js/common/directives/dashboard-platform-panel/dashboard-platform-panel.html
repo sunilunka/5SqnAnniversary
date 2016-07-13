@@ -1,0 +1,22 @@
+<div>
+  <div class="">
+    <div class="event-total-guest">
+      <span ng-bind="platformdata.total"></span>
+    </div>
+    <div class="event-details">
+      <span class="event-name" ng-bind="platformdata.label"></span>
+    </div>
+    <table>
+      <thead>
+        <th>Reg</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="evt in evts">
+          <td ng-bind="platformdata.eventTally[evt.$id]"></td>
+          <td class="event-category-name" ng-bind="evt.name"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

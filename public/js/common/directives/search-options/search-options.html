@@ -1,0 +1,12 @@
+<div class="flex-container-row primary-options">
+  <button ng-repeat="option in userOptions" ng-disabled="{{option.disabledCriteria}}" ng-class="{{option.classCriteria}}" class="sqn-btn" ng-click="option.clickAction()" ng-bind="option.label"></button>
+</div>
+<div ng-if="showEvents" class="flex-container-row search-sub-options">
+  <button ng-class="{'sqn-btn-disabled': loadingData || searchView === evt.$id }" ng-disabled="loadingData || searchView === evt.$id" ng-repeat="evt in evts" class="sqn-btn-inverse" ng-click="executeEventUserQuery(evt.$id)" ng-bind="evt.name"></button>
+</div>
+<div ng-if="showCategories" class="flex-container-row search-sub-options">
+  <button ng-repeat="cat in categories" ng-class="{'sqn-btn-disabled': loadingData || searchView === cat.$id }" ng-disabled="loadingData || searchView === cat.$id" class="sqn-btn-inverse" ng-bind="cat.$value" ng-click="executeCategoryQuery(cat.$id)"></button>
+</div>
+<div ng-if="showPlatforms" class="flex-container-row search-sub-options">
+  <button ng-repeat="plat in platforms" ng-class="{'sqn-btn-disabled': loadingData || searchView === plat.$id }" ng-disabled="loadingData || searchView === plat.$id" class="sqn-btn-inverse" ng-bind="plat.label" ng-click="executePlatformQuery(plat.$id, plat.associatedAttendees)"></button>
+</div>

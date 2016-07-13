@@ -1,0 +1,30 @@
+<active-chat-panel user="user"></active-chat-panel>
+<attendee-event-details></attendee-event-details>
+<section id="user-profile" class="container-fluid">
+  <div class="row">
+    <div class="flex-container-row attendee-header">
+      <h2>Welcome back {{ user.firstName }}</h2>
+      <span>{{ userCat }}</span>
+      <button ui-sref="messaging({id: user.id || user.uid || user.$id })" class="sqn-btn-positive">Chat</button>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <h3>Manage your events</h3>
+      <div class="attendee-event-viewer">
+        <attendee-event ng-repeat="event in events" evt="event" attendee="user"></attendee-event>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 attendee-announcements">
+      <h3>Event Announcements</h3>
+      <div scroll-bottom class="announcement-viewer">
+        <article ng-repeat="announcement in allAnnouncements">
+          <header class="flex-container-row">
+            <h4 ng-bind="announcement.title"></h4>
+            <formatted-date rawdate="announcement.date"></formatted-date>
+          </header>
+          <formatted-text rawtext="announcement.content"></formatted-text>
+          <footer></footer>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

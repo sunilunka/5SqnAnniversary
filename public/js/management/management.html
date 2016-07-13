@@ -1,0 +1,25 @@
+<active-chat-panel user="currentUser"></active-chat-panel>
+<section id="management-panel" class="container">
+  <h2>Management Dashboard</h2>
+  <div class="flex-container-row">
+    <button class="sqn-btn sqn-btn-flex" ui-sref-active="sqn-btn-active" ng-repeat="managementView in areasToManage" ui-sref="{{ managementView.state }}">{{ managementView.title }}</button>
+  </div>
+  <section class="flex-container-row">
+    <header class="stats-header">
+      <h4>Event Stats</h4>
+    </header>
+    <dashboard-event-panel ng-repeat="evt in allEvents" evt="evt" categories="allCategories"></dashboard-event-panel>
+  </section>
+  <section class="flex-container-row overseas-guest-output">
+    <div class="event-total-guest">
+      <span ng-bind="overseasGuests"></span>
+    </div>
+    <h4>Overseas Attendees (not including any family, partners or friends)</h4>
+  </section>
+  <section class="flex-container-row">
+    <header class="stats-header">
+      <h4>Platform Stats</h4>
+    </header>
+    <dashboard-platform-panel ng-repeat="platform in allPlatforms" platformdata="platform" evts="allEvents"></dashboard-platform-panel>
+  </section>
+</section>

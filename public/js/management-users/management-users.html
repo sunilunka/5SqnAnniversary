@@ -1,0 +1,29 @@
+<active-chat-panel user="user"></active-chat-panel>
+<section class="management-sub-menu container-fluid">
+  <header class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h2>Management Dashboard - Users</h2>
+      <h4>Get users by selecting an option below.</h4>
+      <search-options evts="events" categories="categories" platforms="platforms"></search-options>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h5>Filter the results from above by the parameters here.</h5>
+      <form name="userFilterForm" ng-submit="filterUsers()">
+        <div class="flex-container-row">
+          <input type="text" class="sqnInputActive" ng-model="filterParams.firstName" placeholder="First Name"></input>
+          <input type="text" class="sqnInputActive" ng-model="filterParams.lastName" placeholder="Last Name"></input>
+          <input type="text" ng-model="filterParams.email" class="sqnInputActive" placeholder="Email Address">
+        </div>
+        <div class="flex-container-row">
+          <input type="submit" class="sqn-btn-inverse" value="Filter"></input>
+        </div>
+      </form>
+    </div>
+  </header>
+  <div class="flex-container-row">
+    <div ng-if="showMessage">
+      <h3 ng-bind="activity"></h3>
+    </div>
+    <user-management-panel ng-if="!loadingData" ng-repeat="result in searchResults | filter:userFilterParams" user="result"></user-management-panel>
+  </div>
+</section>
