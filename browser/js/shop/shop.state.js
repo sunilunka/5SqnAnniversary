@@ -4,8 +4,8 @@ app.config(function($stateProvider){
     templateUrl: "js/shop/shop.html",
     controller: "ShopCtrl",
     resolve: {
-      collectionProducts: function(ShopifyFactory){
-        return ShopifyFactory.getCollectionProducts(310317511);
+      Products: function(ShopManagementFactory){
+        return ShopManagementFactory.getAllProducts();
       }
     }
   })

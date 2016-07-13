@@ -12,6 +12,11 @@ app.factory('DatabaseFactory', function($firebaseAuth){
 
     authConnection: () => {
       return $firebaseAuth();
+    },
+
+    parseHTTPRequest: (response) => {
+      console.log("RESPONSE FROM ACOA SERVER: ", response);
+      return response.data;
     }
   }
 })

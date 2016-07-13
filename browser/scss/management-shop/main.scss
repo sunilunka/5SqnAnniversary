@@ -3,7 +3,19 @@
   color: $theme-grey;
 }
 
+.new-product-table {
+  display: block;
+  position: relative;
+  height: auto;
+  width: 90%;
+}
 
+product-options {
+  display: table;
+  input {
+    display: inline-table;
+  }
+}
 
 .new-product-form {
   label, input[type="text"], input[type="file"] {

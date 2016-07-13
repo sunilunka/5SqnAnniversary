@@ -1,5 +1,5 @@
-app.controller("ShopCtrl", function($scope, ShopifyService, ShopifyFactory, collectionProducts){
+app.controller("ShopCtrl", function($scope, ShopifyService, ShopifyFactory, Products){
 
-  $scope.collectionProducts = collectionProducts;
+  $scope.products = Products;
 
 })

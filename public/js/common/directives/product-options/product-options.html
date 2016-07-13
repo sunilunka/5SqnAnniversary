@@ -1,0 +1,18 @@
+<div class="table-responsive">
+  <table class="table table-hover">
+    <tr>
+      <td>
+        <input type="text" name="optionName" ng-model="option.name" ng-disabled="!editInProgress" class="sqnInputReadonly" ng-class="{'sqnInputActive': editInProgress }"></input>
+      </td>
+      <td>
+        <input type="text" ng-model="option.choices" name="optionsArray" class="sqnInputReadonly" ng-disabled="!editInProgress" ng-class="{'sqnInputActive': editInProgress }"2></input>
+      </td>
+      <td>
+        <button class="sqn-btn-positive" ng-click="toggleEdit()" ng-bind="label"></button>
+      </td>
+      <td>
+        <button class="sqn-btn-danger">Remove</button>
+      </td>
+    </tr>
+  </table>
+</div>

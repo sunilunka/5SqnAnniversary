@@ -151,7 +151,7 @@ gulp.task('default', function () {
     gulp.watch('server/**/*.js', ['lintJS']);
 
     // Reload when a template (.html) file changes.
-    gulp.watch(['browser/**/*.html', 'server/app/views/*.html'], ['buildHTML', 'reload']);
+    gulp.watch(['browser/js/**/*.html', 'server/app/views/*.html'], ['buildHTML', 'reload']);
 
     // Run server tests when a server file or server test file changes.
     gulp.watch(['tests/server/**/*.js'], ['testServerJS']);
