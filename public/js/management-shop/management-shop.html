@@ -2,7 +2,8 @@
   <header class="row">
     <h2>Management - Shop</h2>
   </header>
-  <div class="row">
+  <product-management></product-management>
+  <!-- <div class="row">
     <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
       <h4>Add new product</h4>
       <form class="new-product-form" name="addNewProductForm" ng-submit="addNewProduct()">
@@ -19,11 +20,11 @@
             </label>
           </div>
           <div>
-            <button class="sqn-btn" ng-click="addOptions($event)">Add Options</button>
-            <button class="sqn-btn" ng-click="noOptions($event)">Clear All Options</button>
+            <button class="sqn-btn-positive" ng-click="toggleAddOptions($event)" ng-bind="optionButtonLabel"></button>
+            <button class="sqn-btn-danger" ng-click="noOptions($event)">Clear All Options</button>
           </div>
           <div class="table-responsive">
-            <table class="table table-hover new-product-table" ng-show="addProductOptions && !noProductOptions">
+            <table class="table table-hover new-product-table" ng-show="addProductOptions && !addVariants">
               <thead>
                 <th>Option Type</th>
                 <th>Options</th>
@@ -49,10 +50,10 @@
             </table>
             <product-options ng-repeat="option in newProductOptions" option="option"></product-options>
             <div>
-              <button class="sqn-btn-positive" ng-click="openVariants($event)">Add Variants</button>
+              <button class="sqn-btn-positive" ng-click="toggleAddVariants($event)" ng-bind="variantButtonLabel"></button>
               <button class="sqn-btn-danger" ng-click="clearVariants($event)">Clear All Variants</button>
             </div>
-            <table ng-show="addVariants && !addProductOptions && !noProductOptions" class="table">
+            <table ng-show="addVariants && !addProductOptions" class="table">
               <thead>
                 <th ng-repeat="option in newProductOptions" ng-bind="option.name"></th>
                 <th>Stock</th>
@@ -90,6 +91,7 @@
         <div>
           <label for="productImage">Image To Upload</label>
           <input file-upload type="file"></input>
+          <button class="sqn-btn-positive" ng-click="uploadAsset($event)">Upload</button><button class="sqn-btn-danger" ng-click="cancelUpload($event)">Cancel</button>
         </div>
         <div class="flex-container-row">
           <input type="submit" class="sqn-btn-positive" value="Add Product">
@@ -97,5 +99,5 @@
         </div>
       </form>
     </div>
-  </div>
+  </div> -->
 </section>

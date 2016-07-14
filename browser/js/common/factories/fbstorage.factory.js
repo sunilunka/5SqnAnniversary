@@ -9,6 +9,10 @@ app.factory("FirebaseStorageFactory", function(){
     console.log("STORE IMAGE REF: ", storeImageRef);
   }
 
+  FirebaseStorageFactory.removeImage = function(){
+    
+  }
+
   return FirebaseStorageFactory;
 
 })

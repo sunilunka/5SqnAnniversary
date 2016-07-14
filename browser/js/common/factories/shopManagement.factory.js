@@ -43,6 +43,11 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
     // return ShopManagementFactory.addNewProduct(newProduct);
   }
 
+  ShopManagementFactory.convertForModification = function(existingProduct){
+    var optionsForModification = []
+    var optionObj = {};
+  }
+
 
   ShopManagementFactory.getAllProducts = function(){
     console.log("GETTING ALL PRODUCTS: ")
