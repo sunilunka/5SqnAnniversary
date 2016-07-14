@@ -36,7 +36,7 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   ShopManagementFactory.convertForServer = function(newProduct, productOptions){
     var optionsToStore = {}
     productOptions.forEach(function(optionObj){
-      optionsToStore[optionName] = optionObj.choicesArray;
+      optionsToStore[optionObj.name] = optionObj.choicesArray;
     })
     newProduct.options = optionsToStore;
     console.log("PRODUCT TO SEND: ", newProduct);

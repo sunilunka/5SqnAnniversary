@@ -80,7 +80,7 @@
                 </tr>
               </tbody>
             </table>
-            <input type="text" class="sqnInputActive table-row-full" ng-model="newVariant.imageUrl" placeholder="Paste your image link here."></input>
+            <input type="text" class="sqnInputActive table-row-full" ng-model="newVariant.imageURL" placeholder="Paste your image link here."></input>
           </div>
           <variant-options ng-repeat="variant in newProduct.variants" variant="variant" options="newProductOptions" ></variant-options>
         </div>
@@ -94,11 +94,11 @@
         </div>
         <label for="productImage">Image To Upload</label>
         <input file-upload type="file"></input>
-        <div class="upload-progress-holder" ng-show="displayUploadState">
-          <span class="upload-progress" width="{{uploadProgress}}%"></span>
-        </div>
         <button class="sqn-btn-positive" ng-click="initiateUpload($event)">Upload</button>
       </div>
+      <!-- <div class="upload-progress-holder" ng-show="displayUploadState">
+        <div class="upload-progress" width="{{uploadProgress}}%">{{uploadProgress}}%</div>
+      </div> -->
       <div>
         <p ng-show="imageAssets.length === 0">No images for product.</p>
         <div ng-hide="imageAssets.length === 0">
@@ -116,11 +116,15 @@
                 </tr>
               </table>
             </div>
+            <image-assign image="image" options="newProductOptions" product="newProduct"></image-assign>
+            <div>
+              <button class="sqn-btn-danger" ng-click="removeImage($event, image.name)">Remove Image</button>
+            </div>
           </div>
         </div>
       </div>
       <div ng-show="!newProductOptions.length && !newProduct.variants.length">
-        <input type="text" class="sqnInputActive table-row-full" ng-model="newProduct.imageUrl" placeholder="Paste your image link here."></input>
+        <input type="text" class="sqnInputActive table-row-full" ng-model="newProduct.imageURL" placeholder="Paste your image link here."></input>
       </div>
       <div class="flex-container-row">
         <input type="submit" class="sqn-btn-positive" value="Add Product">

@@ -13,8 +13,8 @@ app.factory("FirebaseStorageFactory", function(){
     return storeImageRef.child(file.name).put(file, metadata);
   }
 
-  FirebaseStorageFactory.removeImage = function(){
-
+  FirebaseStorageFactory.removeImage = function(filename){
+    return storeImageRef.child(filename).delete()
   }
 
   return FirebaseStorageFactory;

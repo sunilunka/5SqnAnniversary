@@ -59,7 +59,7 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         }
       }
 
-      scope.variantButtonLabel = "Add Variant"
+      scope.variantButtonLabel = "Add Variant";
 
       var clearVariantForm = function(){
         var blankVariant = { options: {} };
@@ -78,7 +78,7 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         if(!scope.addVariants){
           scope.addVariants = true;
           scope.addProductOptions = false;
-          scope.variantButtonLabel = "Close Input"
+          scope.variantButtonLabel = "Close Input";
           closeOptionForm();
         } else {
           closeVariantForm();
@@ -88,6 +88,7 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
       scope.clearVariants = function(event){
         event.preventDefault();
         scope.addVariants = false;
+        scope.variantButtonLabel = "Add Variants";
         angular.copy([], scope.newProduct.variants);
       }
 
@@ -148,11 +149,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
 
       var finalSnap;
 
-      scope.cancelUpload = function(event){
-        event.preventDefault();
-        if(uploadTask) uploadTask.cancel();
-      }
-
       scope.initiateUpload = function(event){
         event.preventDefault(); FirebaseStorageFactory.uploadImage(scope.assetToUpload)
         .on("state_changed",
@@ -195,7 +191,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
           },
           function(){
             /* Upload complete */
-            console.log("THE FUNCTION IS COMING TO YOU LIVE FROM: ", this);
             scope.imageAssets.push({
               url: finalSnap.downloadURL,
               name: scope.assetToUpload.name
@@ -204,8 +199,46 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
           })
       }
 
+      scope.imageTarget = {
 
+      }
 
+      scope.toggleImageAssignment = function(){
+
+      }
+
+      scope.removeImage = function(event, imageName){
+        event.preventDefault();
+        scope.displayUploadState = true;
+        scope.displayOutput = "Removing...";
+        FirebaseStorageFactory.removeImage(imageName)
+        .then(function(){
+          scope.newProduct.variants.forEach(function(variant){
+            if(variant["imageName"] === imageName){
+              delete variant.imageName
+              delete variant.imageURL
+            }
+          })
+          if(scope.newProduct["imageName"] === imageName){
+            delete scope.newProduct.imageName;
+            delete scope.newProduct.imageURL;
+          }
+          _.pullAllBy(scope.imageAssets, [{name: imageName }], 'name');
+          console.log("IS IT REMOVED: ", scope.imageAssets, scope.newProducts.variants);
+          $timeout(function(){
+            scope.displayUploadState = false;
+            scope.displayOutput = "REMOVED!"
+            scope.$apply();
+          }, 2000)
+        })
+        .catch(function(error){
+          console.error("SORRY AN ERROR OCCURED: ", error);
+          $timeout(function(){
+            scope.displayUploadState = false;
+            scope.displayOutput = "SORRY, AN ERROR OCCURED...!"
+          }, 2000)
+        })
+      }
 
       scope.$watch(function(){
         return scope.assetToUpload;

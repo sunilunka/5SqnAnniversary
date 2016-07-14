@@ -31,8 +31,11 @@ product-options {
 }
 
 .upload-progress-holder {
+  position: relative;
+  display: block;
   box-shadow: 0px 5px 10px $theme-grey inset;
   height: 1em;
+  color: $theme-grey;
 }
 
 .upload-progress {
@@ -40,6 +43,7 @@ product-options {
   height: 1em;
   display: block;
   position: absolute;
+  height: 100%;
   left: 0;
   top: 0;
 }
@@ -55,8 +59,9 @@ product-options {
 }
 
 .product-thumbnail {
-  height: 5em;
-  width: auto;
+  height: auto;
+  width: 33%;
+  margin: 0 0 0 33%;
 }
 
 .upload-panel {
