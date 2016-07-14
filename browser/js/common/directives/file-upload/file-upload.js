@@ -5,7 +5,7 @@ app.directive('fileUpload', function($parse, $timeout){
       var fileReader = new FileReader();
       element.bind("change", function(event){
         console.log("ELEMENT HAS CHANGED: ", event.target.files[0]);
-        scope.upload = event.target.files[0];
+        scope.assetToUpload = event.target.files[0];
         fileReader.readAsDataURL(event.target.files[0]);
         fileReader.addEventListener("loadend", function(e){
           console.log("RESULT: ", scope);

@@ -126,9 +126,74 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         angular.copy({ variants: [] }, scope.newProduct);
       }
 
+      var handleUploadError = function(output){
+        scope.displayOutput = output;
+        $timeout(function(){
+          scope.displayUploadState = false;
+          scope.displayOutput = "Uploading";
+          scope.uploadProgress = 0;
+          scope.assetToUpload = null;
+        }, 3000)
+      }
+
+      scope.imageAssets = [];
+
       scope.assetToUpload;
 
       scope.uploadProgress = 0;
+
+      scope.displayUploadState = false;
+      scope.displayOutput = "Uploading...";
+
+      var uploadTask;
+
+      scope.initiateUpload = function(event){
+        event.preventDefault();
+        uploadTask = FirebaseStorageFactory.uploadImage(scope.assetToUpload);
+      }
+
+      scope.cancelUpload = function(event){
+        event.preventDefault();
+        if(uploadTask) uploadTask.cancel();
+      }
+
+      uploadTask.on("state_changed",
+        function(snapshot){
+          scope.uploadProgess = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+          switch(snapshot.state){
+            case "paused":
+              scope.displayUploadState = true;
+              scope.displayOutput = "PAUSED"
+              break;
+            case "running":
+              scope.displayUploadState = true;
+              break;
+          }
+
+        },
+        function(error){
+          switch(error.code){
+            case "storage/unauthorized":
+              handleUploadError("Sorry, you are not authorized to upload.")
+              break;
+            case "storage/canceled":
+              handleUploadError("Upload cancelled");
+              break;
+            case "storage/unknown":
+              handleUploadError("Sorry, a server error occured")
+              break;
+          }
+        },
+        function(){
+          /* Upload complete */
+          scope.imageAssets.push({
+            url: uploadTask.snapshot.downloadURL,
+            name: scope.assetToUpload.name
+          })
+          handleUploadError("COMPLETE!")
+
+        })
 
       scope.$watch(function(){
         return scope.assetToUpload;

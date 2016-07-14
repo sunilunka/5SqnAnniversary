@@ -5,12 +5,16 @@ app.factory("FirebaseStorageFactory", function(){
 
   var FirebaseStorageFactory = {};
 
-  FirebaseStorageFactory.uploadImage = function(){
+  FirebaseStorageFactory.uploadImage = function(file){
+    var metadata = {
+      contentType: file.type
+    }
     console.log("STORE IMAGE REF: ", storeImageRef);
+    return storeImageRef.child(file.name).put(file, metadata);
   }
 
   FirebaseStorageFactory.removeImage = function(){
-    
+
   }
 
   return FirebaseStorageFactory;
