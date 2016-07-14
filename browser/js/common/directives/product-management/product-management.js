@@ -11,9 +11,15 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         variants: []
       };
 
+      scope.existingProduct = {};
+      scope.existingProductOptions = [];
+
       if(scope.product){
         console.log("UPDATING A PRODUCT")
         /* Configure for directive for updating a product */
+        angular.copy(scope.product, scope.existingProduct);
+        var moddedOpts = ShopManagementFactory.convertForModification(scope.existingProduct);
+        angular.copy(moddedOpts, existingProductOptions);
       }
 
       scope.newVariant = {
@@ -25,7 +31,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
       scope.newProductOptions = [];
 
       scope.addNewProduct = function(){
-        FirebaseStorageFactory.uploadImage();
         ShopManagementFactory.convertForServer(scope.newProduct, scope.newProductOptions);
       }
 
@@ -47,8 +52,8 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         if(!scope.addProductOptions){
           scope.optionButtonLabel = "Close Input";
           scope.addProductOptions = true;
-          scope.noProductOptions = false;
           scope.addVariants = false;
+          closeVariantForm();
         } else {
           closeOptionForm();
         }
@@ -74,6 +79,7 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
           scope.addVariants = true;
           scope.addProductOptions = false;
           scope.variantButtonLabel = "Close Input"
+          closeOptionForm();
         } else {
           closeVariantForm();
         }

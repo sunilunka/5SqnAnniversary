@@ -48,35 +48,40 @@
             <button class="sqn-btn-positive" ng-click="toggleAddVariants($event)" ng-bind="variantButtonLabel"></button>
             <button class="sqn-btn-danger" ng-click="clearVariants($event)">Clear All Variants</button>
           </div>
-          <table ng-show="addVariants && !addProductOptions" class="table">
-            <thead>
-              <th ng-repeat="option in newProductOptions" ng-bind="option.name"></th>
-              <th>Stock</th>
-              <th>Price</th>
-              <th></th>
-              <th></th>
-            </thead>
-            <tbody>
-              <tr>
-                <td ng-repeat="option in newProductOptions">
-                  <select ng-model="newVariant.options[option.name]" name="optionsArray" class="" ng-options="choice for choice in option.choicesArray track by choice">
-                  </select>
-                </td>
-                <td>
-                  <input type="number" ng-model="newVariant.stock" class="sqnInputNumber-wide" min="0"></input>
-                </td>
-                <td>
-                  <input class="new-product-number" type="text" ng-model="newVariant.price" placeholder="00.00"></input>
-                </td>
-                <td>
-                  <button class="sqn-btn-positive" ng-click="populateVariantArray($event)">Add Variant</button>
-                </td>
-                <td>
-                  <button class="sqn-btn-danger" ng-click="resetVariantForm($event)">Reset</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div ng-show="addVariants && !addProductOptions">
+            <table class="table variant-form-table">
+              <thead>
+                <th ng-repeat="option in newProductOptions" ng-bind="option.name"></th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th></th>
+                <th></th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td ng-repeat="option in newProductOptions">
+                    <select ng-model="newVariant.options[option.name]" name="optionsArray" class="" ng-options="choice for choice in option.choicesArray track by choice">
+                    </select>
+                  </td>
+                  <td>
+                    <input type="number" ng-model="newVariant.stock" class="sqnInputNumber-wide" min="0"></input>
+                  </td>
+                  <td>
+                    <input class="new-product-number" type="text" ng-model="newVariant.price" placeholder="00.00"></input>
+                  </td>
+                  <td>
+                    <button class="sqn-btn-positive" ng-click="populateVariantArray($event)">Add Variant</button>
+                  </td>
+                  <td>
+                    <button class="sqn-btn-danger" ng-click="resetVariantForm($event)">Reset</button>
+                  </td>
+                </tr>
+                <tr>
+                </tr>
+              </tbody>
+            </table>
+            <input type="text" class="sqnInputActive table-row-full" ng-model="newVariant.imageUrl" placeholder="Paste your image link here."></input>
+          </div>
           <variant-options ng-repeat="variant in newProduct.variants" variant="variant" options="newProductOptions" ></variant-options>
         </div>
       <div ng-show="!newProductOptions.length && !newProduct.variants.length">

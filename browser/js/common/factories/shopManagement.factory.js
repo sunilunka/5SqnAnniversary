@@ -44,8 +44,16 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   }
 
   ShopManagementFactory.convertForModification = function(existingProduct){
-    var optionsForModification = []
-    var optionObj = {};
+    var opts = existingProduct.options;
+    var optsForMod = [];
+    for(opt in opts){
+      optsForMod.push(new productOption({
+        name: opt,
+        choicesArray: opts[opt],
+        choices: opts[opt].join(" ")
+      }))
+    }
+    return optsForMod;
   }
 
 

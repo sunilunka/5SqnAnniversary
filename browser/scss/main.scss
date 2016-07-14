@@ -427,6 +427,14 @@ formatted-text {
   color: $theme-grey;
 }
 
+.table-row-full {
+  width: 100%;
+}
+
+.variant-form-table {
+  margin-bottom: 0.5em;
+}
+
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';
