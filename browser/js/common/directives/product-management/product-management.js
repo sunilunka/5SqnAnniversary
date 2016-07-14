@@ -133,7 +133,8 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
           scope.displayOutput = "Uploading";
           scope.uploadProgress = 0;
           scope.assetToUpload = null;
-        }, 3000)
+          scope.$apply();
+        }, 2000)
       }
 
       scope.imageAssets = [];
@@ -145,55 +146,66 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
       scope.displayUploadState = false;
       scope.displayOutput = "Uploading...";
 
-      var uploadTask;
-
-      scope.initiateUpload = function(event){
-        event.preventDefault();
-        uploadTask = FirebaseStorageFactory.uploadImage(scope.assetToUpload);
-      }
+      var finalSnap;
 
       scope.cancelUpload = function(event){
         event.preventDefault();
         if(uploadTask) uploadTask.cancel();
       }
 
-      uploadTask.on("state_changed",
-        function(snapshot){
-          scope.uploadProgess = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-          switch(snapshot.state){
-            case "paused":
+      scope.initiateUpload = function(event){
+        event.preventDefault(); FirebaseStorageFactory.uploadImage(scope.assetToUpload)
+        .on("state_changed",
+          function(snapshot){
+            finalSnap = snapshot;
+            $timeout(function(){
+              scope.uploadProgess = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("PROGRESS: ", (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
               scope.displayUploadState = true;
-              scope.displayOutput = "PAUSED"
-              break;
-            case "running":
-              scope.displayUploadState = true;
-              break;
-          }
+              scope.$apply();
+            }, 1);
 
-        },
-        function(error){
-          switch(error.code){
-            case "storage/unauthorized":
-              handleUploadError("Sorry, you are not authorized to upload.")
-              break;
-            case "storage/canceled":
-              handleUploadError("Upload cancelled");
-              break;
-            case "storage/unknown":
-              handleUploadError("Sorry, a server error occured")
-              break;
-          }
-        },
-        function(){
-          /* Upload complete */
-          scope.imageAssets.push({
-            url: uploadTask.snapshot.downloadURL,
-            name: scope.assetToUpload.name
+            switch(snapshot.state){
+              case "paused":
+                // scope.displayUploadState = true;
+                scope.displayOutput = "PAUSED"
+                break;
+              case "running":
+                // scope.displayUploadState = true;
+                $timeout(function(){
+                  console.log("UPDATING...");
+                  scope.$apply()
+                },1);
+                break;
+            }
+
+          },
+          function(error){
+            switch(error.code){
+              case "storage/unauthorized":
+                handleUploadError("Sorry, you are not authorized to upload.")
+                break;
+              case "storage/canceled":
+                handleUploadError("Upload cancelled");
+                break;
+              case "storage/unknown":
+                handleUploadError("Sorry, a server error occured")
+                break;
+            }
+          },
+          function(){
+            /* Upload complete */
+            console.log("THE FUNCTION IS COMING TO YOU LIVE FROM: ", this);
+            scope.imageAssets.push({
+              url: finalSnap.downloadURL,
+              name: scope.assetToUpload.name
+            })
+            handleUploadError("COMPLETE!")
           })
-          handleUploadError("COMPLETE!")
+      }
 
-        })
+
+
 
       scope.$watch(function(){
         return scope.assetToUpload;

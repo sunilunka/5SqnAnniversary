@@ -88,23 +88,23 @@
         <label>Product Stock (if no variants are specified)</label>
         <input class="sqnInputNumber-wide" type="number" ng-model="newProduct.stock"></input>
       </div>
-      <div>
-        <div ng-show="" class="upload-status-output">
-          <span></span>
+      <div class="upload-panel">
+        <div ng-show="displayUploadState" class="upload-status-output">
+          <span ng-bind="displayOutput"></span>
         </div>
         <label for="productImage">Image To Upload</label>
         <input file-upload type="file"></input>
-        <div class="upload-progress-holder" ng-show="uploadProgress">
+        <div class="upload-progress-holder" ng-show="displayUploadState">
           <span class="upload-progress" width="{{uploadProgress}}%"></span>
         </div>
-        <button class="sqn-btn-positive" ng-click="initiateUpload($event)">Upload</button><button class="sqn-btn-danger" ng-click="cancelUpload($event)">Cancel</button>
+        <button class="sqn-btn-positive" ng-click="initiateUpload($event)">Upload</button>
       </div>
       <div>
         <p ng-show="imageAssets.length === 0">No images for product.</p>
         <div ng-hide="imageAssets.length === 0">
           <div class="product-image-holder" ng-repeat="image in imageAssets">
-            <img class="product-thumnail" ng-src="{{ image.url }}"></img>
-            <div class="product-image-info table-responsive">
+            <img class="product-thumbnail" ng-src="{{ image.url }}"></img>
+            <div class="product-image-info table-responsive table-condensed">
               <table class="table table-hover">
                 <tr>
                   <td>Image Link: </td>

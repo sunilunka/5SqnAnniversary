@@ -47,6 +47,7 @@ product-options {
 .product-image-holder {
   height: auto;
   @include theme-shadow-default;
+  padding: 1em;
 }
 
 .product-image-info {
@@ -56,6 +57,10 @@ product-options {
 .product-thumbnail {
   height: 5em;
   width: auto;
+}
+
+.upload-panel {
+  position: relative;
 }
 
 .upload-status-output {
