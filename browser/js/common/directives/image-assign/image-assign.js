@@ -10,8 +10,7 @@ app.directive("imageAssign", function($timeout){
     link: function(scope, element, attrs){
       console.log("OPTIONS: ", scope.options);
       console.log("MY IMAGE: ", scope.image)
-      var options;
-      var variants;
+
       scope.selectedOpts = {};
 
       scope.toggleSelected = function(event, key, val){
@@ -29,11 +28,20 @@ app.directive("imageAssign", function($timeout){
         scope.product.imageName = scope.image.name;
       }
 
+      var optionsMatch = function(variantOpts, matchObj){
+        for(var prop in matchObj){
+          if(variantOpts[prop] !== matchObj[prop]){
+            return false;
+          }
+        }
+        return true;
+      }
+
       scope.addToVariants = function(event){
         event.preventDefault();
         scope.product.variants.forEach(function(variant){
-          console.log("MATCHES: ", _.matches(variant.options, scope.selectedOpts), variant.options);
-          if(_.isEqual(variant.options, scope.selectedOpts)){
+          console.log("MATCHES: ", variant.options);
+          if(optionsMatch(variant.options, scope.selectedOpts)){
             variant.imageURL = scope.image.url;
             variant.imageName = scope.image.name;
           }
