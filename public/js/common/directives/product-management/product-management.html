@@ -80,7 +80,6 @@
                 </tr>
               </tbody>
             </table>
-            <input type="text" class="sqnInputActive table-row-full" ng-model="newVariant.imageURL" placeholder="Paste your image link here."></input>
           </div>
           <variant-options ng-repeat="variant in newProduct.variants" variant="variant" options="newProductOptions" ></variant-options>
         </div>
@@ -103,28 +102,32 @@
         <p ng-show="imageAssets.length === 0">No images for product.</p>
         <div ng-hide="imageAssets.length === 0">
           <div class="product-image-holder" ng-repeat="image in imageAssets">
-            <img class="product-thumbnail" ng-src="{{ image.url }}"></img>
+            <img class="product-thumbnail" ng-src="{{ image.imageURL }}"></img>
             <div class="product-image-info table-responsive table-condensed">
               <table class="table table-hover">
                 <tr>
                   <td>Image Link: </td>
-                  <td ng-bind="image.url"></td>
+                  <td ng-bind="image.imageURL"></td>
                 </tr>
                 <tr>
                   <td>File name:</td>
-                  <td ng-bind="image.name"></td>
+                  <td ng-bind="image.imageName"></td>
                 </tr>
               </table>
             </div>
             <image-assign image="image" options="newProductOptions" product="newProduct"></image-assign>
             <div>
-              <button class="sqn-btn-danger" ng-click="removeImage($event, image.name)">Remove Image</button>
+              <button class="sqn-btn-danger" ng-click="removeImage($event, image.imageName)">Remove Image</button>
             </div>
           </div>
         </div>
       </div>
-      <div ng-show="!newProductOptions.length && !newProduct.variants.length">
-        <input type="text" class="sqnInputActive table-row-full" ng-model="newProduct.imageURL" placeholder="Paste your image link here."></input>
+      <div>
+        <p ng-show="!newProduct['imageName'] && !newProduct['imageURL']">Upload then add an image to the product. This will be the default image shown in the shop. Images assigned to variants will be displayed to the user when they select a variant on the product page.</p>
+        <div ng-show="newProduct['imageName'] && newProduct['imageURL']">
+          <span ng-bind="newProduct.imageName"></span>
+          <button class="sqn-btn-danger" ng-click="removeProductImage($event)">Remove Image</button>
+        </div>
       </div>
       <div class="flex-container-row">
         <input type="submit" class="sqn-btn-positive" value="Add Product">

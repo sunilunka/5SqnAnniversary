@@ -24,8 +24,8 @@ app.directive("imageAssign", function($timeout){
 
       scope.addImageToProduct = function(event){
         event.preventDefault();
-        scope.product.imageURL = scope.image.url;
-        scope.product.imageName = scope.image.name;
+        scope.product.imageURL = scope.image.imageURL;
+        scope.product.imageName = scope.image.imageName;
       }
 
       var optionsMatch = function(variantOpts, matchObj){
@@ -42,8 +42,8 @@ app.directive("imageAssign", function($timeout){
         scope.product.variants.forEach(function(variant){
           console.log("MATCHES: ", variant.options);
           if(optionsMatch(variant.options, scope.selectedOpts)){
-            variant.imageURL = scope.image.url;
-            variant.imageName = scope.image.name;
+            variant.imageURL = scope.image.imageURL;
+            variant.imageName = scope.image.imageName;
           }
         })
         console.log("SCOPE PRODUCT VARIANTS: ", scope.product.variants);

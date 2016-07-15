@@ -15,11 +15,10 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
       scope.existingProductOptions = [];
 
       if(scope.product){
-        console.log("UPDATING A PRODUCT")
         /* Configure for directive for updating a product */
-        angular.copy(scope.product, scope.existingProduct);
+        angular.copy(scope.product, scope.newProduct);
         var moddedOpts = ShopManagementFactory.convertForModification(scope.existingProduct);
-        angular.copy(moddedOpts, existingProductOptions);
+        angular.copy(moddedOpts, scope.newProductOptions);
       }
 
       scope.newVariant = {
@@ -122,9 +121,25 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         angular.copy([], scope.newProductOptions)
       }
 
+      var removeAllProductAssetsFromServer = function(assetArray){
+        if(!assetArray || !assetArray.length) return;
+        var toRemove = assetArray.map(function(asset){
+          return FirebaseStorageFactory.removeImage(asset.imageName);
+        })
+        return FirebaseStorageFactory.removeImagesFromServer(toRemove)
+      }
+
       scope.resetFormAndClose = function(event){
         event.preventDefault();
         angular.copy({ variants: [] }, scope.newProduct);
+        angular.copy([], scope.newProductOptions);
+        removeAllProductAssetsFromServer(scope.imageAssets)
+        .then(function(){
+          angular.copy([], scope.imageAssets);
+        })
+        .catch(function(error){
+          console.log("SORRY AN ERROR OCCURED: ", error);
+        })
       }
 
       var handleUploadError = function(output){
@@ -132,7 +147,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         $timeout(function(){
           scope.displayUploadState = false;
           scope.displayOutput = "Uploading";
-          scope.uploadProgress = 0;
           scope.assetToUpload = null;
           scope.$apply();
         }, 2000)
@@ -155,21 +169,16 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
           function(snapshot){
             finalSnap = snapshot;
             $timeout(function(){
-              scope.uploadProgess = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log("PROGRESS: ", (snapshot.bytesTransferred / snapshot.totalBytes) * 100);
               scope.displayUploadState = true;
               scope.$apply();
             }, 1);
 
             switch(snapshot.state){
               case "paused":
-                // scope.displayUploadState = true;
                 scope.displayOutput = "PAUSED"
                 break;
               case "running":
-                // scope.displayUploadState = true;
                 $timeout(function(){
-                  console.log("UPDATING...");
                   scope.$apply()
                 },1);
                 break;
@@ -192,19 +201,18 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
           function(){
             /* Upload complete */
             scope.imageAssets.push({
-              url: finalSnap.downloadURL,
-              name: scope.assetToUpload.name
+              imageURL: finalSnap.downloadURL,
+              imageName: scope.assetToUpload.name
             })
             handleUploadError("COMPLETE!")
           })
       }
 
-      scope.imageTarget = {
 
-      }
-
-      scope.toggleImageAssignment = function(){
-
+      scope.removeProductImage = function(event){
+        event.preventDefault();
+        delete scope.newProduct.imageName;
+        delete scope.newProduct.imageURL;
       }
 
       scope.removeImage = function(event, imageName){

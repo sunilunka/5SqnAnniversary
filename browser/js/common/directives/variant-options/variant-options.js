@@ -29,6 +29,13 @@ app.directive("variantOptions", function(){
         event.preventDefault();
         _.pull(scope.$parent.newProduct.variants, scope.variant);
       }
+
+      scope.removeVariantImage = function(event){
+        event.preventDefault();
+        delete scope.variant.imageURL;
+        delete scope.variant.imageName;
+        console.log("SCOPE VARIANT: ", scope.variant);
+      }
     }
   }
 })

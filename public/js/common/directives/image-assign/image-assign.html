@@ -1,6 +1,6 @@
 <div class="product-image-assign">
   <div class="product-assign-row">
-    <button class="sqn-btn-positive" ng-class="{'product-option-selected': product.imageName === image.name}" ng-click="addImageToProduct($event)">Assign to product</button>
+    <button class="sqn-btn-positive" ng-class="{'product-option-selected': product.imageName === image.imageName}" ng-click="addImageToProduct($event)">Assign to product</button>
   </div>
   <div class="product-assign-row" ng-repeat="option in options">
     <h5 ng-bind="option.name"></h5>

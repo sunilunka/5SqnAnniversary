@@ -17,6 +17,10 @@ app.factory("FirebaseStorageFactory", function(){
     return storeImageRef.child(filename).delete()
   }
 
+  FirebaseStorageFactory.removeImagesFromServer = function(assetPromiseArray){
+    return Promise.all(assetPromiseArray)
+  }
+
   return FirebaseStorageFactory;
 
 })

@@ -21,5 +21,9 @@
       </tr>
     </tbody>
   </table>
-  <input type="text" ng-model="variant.imageUrl" class="sqnInputReadonly table-row-full" ng-class="{'sqnInputActive': editInProgress }" ng-disabled="!editInProgress"></input>
+  <p ng-show="!variant['imageName'] && !variant['imageURL']">Upload an image and add it to the variant to show differences to users.</p>
+  <div ng-show="variant['imageName'] && variant['imageURL']">
+    <span class="variant-image-name" ng-bind="variant.imageName"></span>
+    <button class="sqn-btn-danger" ng-click="removeVariantImage($event)" ng-disabled="!editInProgress">Remove Image</button>
+  </div>
 </div>
