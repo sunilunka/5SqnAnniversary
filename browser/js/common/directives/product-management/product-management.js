@@ -11,16 +11,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         variants: []
       };
 
-      scope.existingProduct = {};
-      scope.existingProductOptions = [];
-
-      if(scope.product){
-        /* Configure for directive for updating a product */
-        angular.copy(scope.product, scope.newProduct);
-        var moddedOpts = ShopManagementFactory.convertForModification(scope.existingProduct);
-        angular.copy(moddedOpts, scope.newProductOptions);
-      }
-
       scope.newVariant = {
         options: {}
       }
@@ -28,6 +18,16 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
       scope.addVariants = false;
       scope.addProductOptions = false;
       scope.newProductOptions = [];
+
+      if(scope.product){
+        /* Configure for directive for updating a product */
+        angular.copy(scope.product, scope.newProduct);
+        var moddedOpts = ShopManagementFactory.convertForModification(scope.existingProduct);
+        angular.copy(moddedOpts, scope.newProductOptions);
+        var productImages = ShopManagementFactory.populateImageAssetsFromProduct(scope.product)
+        angular.copy(productImages, scope.imageAssets);
+      }
+
 
       scope.addNewProduct = function(){
         ShopManagementFactory.convertForServer(scope.newProduct, scope.newProductOptions);

@@ -63,10 +63,28 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
     .then(DatabaseFactory.parseHTTPRequest);
   }
 
+  ShopManagementFactory.populateImageAssetsFromProduct = function(product){
+    var productAssets = [];
+    if(product["imageName"] && product["imageURL"]){
+      productAssets.push({
+        imageName: product.imageName,
+        imageURL: product.imageURL
+      })
+    }
 
-  ShopManagementFactory.addOptions = function(){
-    // $http.get("http://192.168.1.76:3000/api/products")
-    // .then(DatabaseFactory.parseHTTPRequest);
+    if(product.variants.length){
+      product.variants.forEach(function(variant){
+        if(variant["imageName"] && variant["imageURL"]){
+          productAssets.push({
+            imageName: variant.imageName,
+            imageURL: variant.imageURL
+          })
+        }
+      })
+    }
+
+    return productAssets;
+
   }
 
 
