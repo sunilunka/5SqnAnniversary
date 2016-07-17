@@ -15,6 +15,7 @@
           </label>
         </div>
         <div>
+          <label class="field-label">Product Options (e.g. colour: black, blue etc.)</label>
           <button class="sqn-btn-positive" ng-click="toggleAddOptions($event)" ng-bind="optionButtonLabel"></button>
           <button class="sqn-btn-danger" ng-click="noOptions($event)">Clear All Options</button>
         </div>
@@ -45,6 +46,7 @@
           </table>
           <product-options ng-repeat="option in newProductOptions" option="option"></product-options>
           <div>
+            <label class="field-label">Product Variants (combination of options above)</label>
             <button class="sqn-btn-positive" ng-click="toggleAddVariants($event)" ng-bind="variantButtonLabel"></button>
             <button class="sqn-btn-danger" ng-click="clearVariants($event)">Clear All Variants</button>
           </div>
@@ -70,7 +72,7 @@
                     <input class="new-product-number" type="text" ng-model="newVariant.price" placeholder="00.00"></input>
                   </td>
                   <td>
-                    <button class="sqn-btn-positive" ng-click="populateVariantArray($event)">Add Variant</button>
+                    <button class="sqn-btn-positive" ng-click="populateVariantArray($event)" ng-disabled="!newVariant['stock']" ng-class="{'sqn-btn-disabled': !newVariant['stock']}">Add Variant</button>
                   </td>
                   <td>
                     <button class="sqn-btn-danger" ng-click="resetVariantForm($event)">Reset</button>
@@ -91,7 +93,7 @@
         <div ng-show="displayUploadState" class="upload-status-output">
           <span ng-bind="displayOutput"></span>
         </div>
-        <label class="field-label" for="productImage">Image To Upload</label>
+        <label class="field-label" for="productImage">Image To Upload (drag and drop onto below or click browse)</label>
         <input file-upload type="file"></input>
         <button class="sqn-btn-positive" ng-click="initiateUpload($event)">Upload</button>
       </div>
