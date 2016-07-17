@@ -99,9 +99,12 @@ product-options {
 }
 
 .new-product-form {
-  label, input[type="file"] {
+  .field-label {
     display: block;
     margin: 0.5em auto;
+    padding: 0.5em;
+    background-color: $theme-grey;
+    color: $theme-tacgrey;
   }
 
   textarea {

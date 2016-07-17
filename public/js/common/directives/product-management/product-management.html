@@ -2,15 +2,15 @@
   <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
     <h4>Add new product</h4>
     <form class="new-product-form" name="addNewProductForm" ng-submit="addNewProduct()">
-        <label class="" for="productName">Product Name</label>
+        <label class="field-label" for="productName">Product Name</label>
         <input type="text" name="productName" ng-model="newProduct.title" class="sqnInputActive sqn-input-wide" placeholder="Enter the name of your product"></input>
-        <label for="productDescription">Description</label>
+        <label class="field-label" for="productDescription">Description</label>
         <textarea name="productDescription" ng-model="newProduct.description" placeholder="Describe your product" class="sqnInputActive"></textarea>
-        <label for="productPrice">Price / Default Price (variants can be assigned their own price if required)</label>
-        <input type="text" class="sqnInputPrice" ng-model="newProduct.price"></input>
+        <label class="field-label" for="productPrice">Price / Default Price (variants can be assigned their own price if required)</label>
+        $<input type="text" name="productPrice" class="sqnInputPrice" ng-model="newProduct.price"></input>
         <div class="checkbox">
           <label for="deliverable">
-            <input type="checkbox" ng-model="newProduct.deliverable"></input>
+            <input type="checkbox" ng-model="newProduct.deliverable" name="deliverable"></input>
             Product is available to be delivered by courier or post.
           </label>
         </div>
@@ -84,14 +84,14 @@
           <variant-options ng-repeat="variant in newProduct.variants" variant="variant" options="newProductOptions" ></variant-options>
         </div>
       <div ng-show="!newProductOptions.length && !newProduct.variants.length">
-        <label>Product Stock (if no variants are specified)</label>
+        <label class="field-label">Product Stock (if no variants are specified)</label>
         <input class="sqnInputNumber-wide" type="number" ng-model="newProduct.stock"></input>
       </div>
       <div class="upload-panel">
         <div ng-show="displayUploadState" class="upload-status-output">
           <span ng-bind="displayOutput"></span>
         </div>
-        <label for="productImage">Image To Upload</label>
+        <label class="field-label" for="productImage">Image To Upload</label>
         <input file-upload type="file"></input>
         <button class="sqn-btn-positive" ng-click="initiateUpload($event)">Upload</button>
       </div>
