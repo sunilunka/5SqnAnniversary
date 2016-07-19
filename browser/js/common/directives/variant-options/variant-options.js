@@ -34,7 +34,6 @@ app.directive("variantOptions", function(){
         event.preventDefault();
         delete scope.variant.imageURL;
         delete scope.variant.imageName;
-        console.log("SCOPE VARIANT: ", scope.variant);
       }
     }
   }

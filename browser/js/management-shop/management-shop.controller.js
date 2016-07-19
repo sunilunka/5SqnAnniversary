@@ -1,5 +1,5 @@
-app.controller("ManagementShopCtrl", function($scope){
+app.controller("ManagementShopCtrl", function($scope, allProducts){
 
-/* */
+ $scope.products = allProducts;
 
 })

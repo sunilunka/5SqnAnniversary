@@ -427,6 +427,14 @@ formatted-text {
   color: $theme-grey;
 }
 
+.product-image {
+  height: 100%;
+  width: auto;
+  display: block;
+  position: relative;
+  margin: 0 auto;
+}
+
 @import 'directives/main';
 @import 'home/main';
 @import 'login/main';

@@ -4,17 +4,12 @@ app.controller("ShopProductCtrl", function($scope, ShopifyFactory, shopProduct, 
 
   $scope.quantity = 1;
 
-
-  // $scope.optionObject = ShopifyFactory.produceLookUpObject($scope.product);
-
-  // $scope.availableVars = {};
+  $scope.selectedVariant;
 
   $scope.notAvailable = false;
 
-  var getSelectedOption = function(option){
-    return $scope.product.options.filter(function(opt){
-      return opt.name === option.name;
-    })[0];
+  var getSelectedVariant = function(option){
+    
   }
 
   var setSelectedVariantAvailable = function(product){
@@ -46,7 +41,7 @@ app.controller("ShopProductCtrl", function($scope, ShopifyFactory, shopProduct, 
   setSelectedOptionsOnLoad($scope.product);
 
   $scope.addProductToCart = function(){
-    ShopifyService.addToCart({
+    ShopService.addToCart({
       variant: $scope.product.selectedVariant,
       quantity: $scope.quantity
     })

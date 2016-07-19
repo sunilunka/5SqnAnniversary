@@ -1,6 +1,4 @@
-app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $http){
-
-  var shopProductRef = DatabaseFactory.dbConnection("shop/products");
+app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $http, AuthService){
 
   var ShopManagementFactory = {};
 
@@ -10,6 +8,11 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
     this.choices = optionObj.choices;
     this.choicesArray = [];
 
+  }
+
+  var getCurentUserId = function(){
+    var currentUser = AuthService.getCurrentUser();
+    return (currentUser.uid || currentUser.id)
   }
 
   productOption.prototype.transformChoicesToArray = function(){
@@ -29,8 +32,20 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   }
 
   ShopManagementFactory.addNewProduct = function(productData){
-    $http.post("http://127.0.0.1:3000/api/products/new", productData)
+    var userId = getCurentUserId();
+    $http.post("http://127.0.0.1:3000/api/products/new", {
+      user_id: userId,
+      product: productData
+    })
     .then(DatabaseFactory.parseHTTPRequest)
+  }
+
+  ShopManagementFactory.modifyExistingProduct = function(productData){
+    var userId  = getCurrentUserId();
+    $http.put("http://127.0.0.1:3000/api/products/" + productData._id, {
+      user_id: userId,
+      product: productData
+    })
   }
 
   ShopManagementFactory.convertForServer = function(newProduct, productOptions){
