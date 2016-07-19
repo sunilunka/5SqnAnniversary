@@ -7,7 +7,7 @@
         <label class="field-label" for="productDescription">Description</label>
         <textarea name="productDescription" ng-model="newProduct.description" placeholder="Describe your product" class="sqnInputActive"></textarea>
         <label class="field-label" for="productPrice">Price / Default Price (variants can be assigned their own price if required)</label>
-        $<input type="text" name="productPrice" class="sqnInputPrice" ng-model="newProduct.price"></input>
+        $<input type="text" name="productPrice" class="sqnInputPrice" ng-model="newProduct.price" placeholder="00.00"></input>
         <div class="checkbox">
           <label for="deliverable">
             <input type="checkbox" ng-model="newProduct.deliverable" name="deliverable"></input>
@@ -69,7 +69,7 @@
                     <input type="number" ng-model="newVariant.stock" class="sqnInputNumber-wide" min="0"></input>
                   </td>
                   <td>
-                    <input class="new-product-number" type="text" ng-model="newVariant.price" placeholder="00.00"></input>
+                    $<input class="new-product-number" type="text" ng-model="newVariant.price" placeholder="00.00"></input>
                   </td>
                   <td>
                     <button class="sqn-btn-positive" ng-click="populateVariantArray($event)" ng-disabled="!newVariant['stock']" ng-class="{'sqn-btn-disabled': !newVariant['stock']}">Add Variant</button>

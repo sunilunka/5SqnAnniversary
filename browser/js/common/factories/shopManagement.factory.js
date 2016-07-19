@@ -25,6 +25,10 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
     return this;
   }
 
+  ShopManagementFactory.convertPriceToString = function(priceNum){
+    return (priceNum / 100).toFixed(2);
+  }
+
 
   ShopManagementFactory.convertToOptionObj = function(optionObj){
     var newOption  = new productOption(optionObj);
