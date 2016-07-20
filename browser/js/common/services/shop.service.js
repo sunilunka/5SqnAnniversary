@@ -1,4 +1,4 @@
-app.service("ShopifyService", function($rootScope){
+app.service("ShopService", function($rootScope){
   var self = this;
 
   var getLocalCarts = function(){

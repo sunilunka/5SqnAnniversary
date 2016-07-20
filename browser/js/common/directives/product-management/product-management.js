@@ -221,18 +221,28 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         scope.displayOutput = "Removing...";
         FirebaseStorageFactory.removeImage(imageName)
         .then(function(){
-          scope.newProduct.variants.forEach(function(variant){
-            if(variant["imageName"] === imageName){
-              delete variant.imageName
-              delete variant.imageURL
+          if(scope.newProduct['variants']){
+            if(scope.newProduct.variants.length){
+              scope.newProduct.variants.forEach(function(variant){
+                if(variant["imageName"] === imageName){
+                  delete variant.imageName
+                  delete variant.imageURL
+                }
+              })
             }
-          })
+          }
           if(scope.newProduct["imageName"] === imageName){
             delete scope.newProduct.imageName;
             delete scope.newProduct.imageURL;
           }
-          _.pullAllBy(scope.imageAssets, [{name: imageName }], 'name');
-          console.log("IS IT REMOVED: ", scope.imageAssets, scope.newProducts.variants);
+          _.remove(scope.imageAssets, function(asset){
+            return asset.imageName === imageName;
+          });
+          /* UI timeout to remove the image as soon as possible */
+          $timeout(function(){
+            scope.$apply();
+          }, 1)
+          console.log("IS IT REMOVED: ", scope.imageAssets, scope.newProduct.variants);
           $timeout(function(){
             scope.displayUploadState = false;
             scope.displayOutput = "REMOVED!"

@@ -2,6 +2,9 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
   var ShopManagementFactory = {};
 
+  var convertPriceToString = function(priceNum){
+    return (priceNum / 100).toFixed(2);
+  }
   var productOption = function(optionObj){
 
     this.name = optionObj.name;
@@ -25,9 +28,6 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
     return this;
   }
 
-  ShopManagementFactory.convertPriceToString = function(priceNum){
-    return (priceNum / 100).toFixed(2);
-  }
 
 
   ShopManagementFactory.convertToOptionObj = function(optionObj){
@@ -37,11 +37,13 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
   ShopManagementFactory.addNewProduct = function(productData){
     var userId = getCurentUserId();
-    $http.post("http://127.0.0.1:3000/api/products/new", {
+    return $http.post("http://127.0.0.1:3000/api/products/new", {
       user_id: userId,
       product: productData
     })
-    .then(DatabaseFactory.parseHTTPRequest)
+    .then(function(res){
+      console.log("RESPONSE STATUS: ", res.status);
+    })
   }
 
   ShopManagementFactory.modifyExistingProduct = function(productData){
@@ -58,8 +60,7 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
       optionsToStore[optionObj.name] = optionObj.choicesArray;
     })
     newProduct.options = optionsToStore;
-    console.log("PRODUCT TO SEND: ", newProduct);
-    // return ShopManagementFactory.addNewProduct(newProduct);
+    return ShopManagementFactory.addNewProduct(newProduct);
   }
 
   ShopManagementFactory.convertForModification = function(existingProduct){
@@ -79,6 +80,11 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   ShopManagementFactory.getAllProducts = function(){
     console.log("GETTING ALL PRODUCTS: ")
     return $http.get("http://127.0.0.1:3000/api/products")
+    .then(DatabaseFactory.parseHTTPRequest);
+  }
+
+  ShopManagementFactory.getProduct = function(id){
+    return $http.get("http://127.0.0.1:3000/api/products/" + id)
     .then(DatabaseFactory.parseHTTPRequest);
   }
 

@@ -1,4 +1,4 @@
-app.controller("ShopCtrl", function($scope, ShopifyService, ShopifyFactory, Products){
+app.controller("ShopCtrl", function($scope, ShopService, ShopFactory, Products){
 
   $scope.products = Products;
 

@@ -1,14 +1,14 @@
-app.directive("shopCart", function(ShopifyService, $rootScope, $timeout){
+app.directive("shopCart", function(ShopService, $rootScope, $timeout){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/shop-cart/shop-cart.html",
     scope: {},
     link: function(scope, element, attrs){
 
-      var cart = ShopifyService.getCart();
+      var cart = ShopService.getCart();
 
       var updateCart = function(){
-        cart = ShopifyService.getCart();
+        cart = ShopService.getCart();
         scope.itemCount = cart.lineItemCount;
         scope.subTotal = cart.subtotal;
         angular.copy(cart.lineItems, scope.items)
@@ -20,7 +20,7 @@ app.directive("shopCart", function(ShopifyService, $rootScope, $timeout){
 
       scope.showItems = false;
       scope.showItemLabel = "Show/Modify your items"
-      console.log("SHOPPING CART: ", ShopifyService.getCart());
+      console.log("SHOPPING CART: ", ShopService.getCart());
       scope.itemCount = 0;
       scope.items =[];
       scope.subTotal  = "0.00";
@@ -44,7 +44,7 @@ app.directive("shopCart", function(ShopifyService, $rootScope, $timeout){
       }
 
       scope.checkoutCart = function(){
-        window.open(ShopifyService.getCart().checkoutUrl);
+        
       }
     }
   }
