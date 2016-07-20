@@ -4,7 +4,7 @@
   </header>
   <img class="product-image" src="{{ product.imageURL }}"></img>
   <div>
-    <a class="sqn-btn-positive">Modify Product</a>
+    <a class="sqn-btn-positive" ui-sref="managementShopModify({ product_id: product._id })">Modify Product</a>
     <button class="sqn-btn-danger" ng-click="removeProduct($event)">Remove Product</button>
   </div>
 </section>

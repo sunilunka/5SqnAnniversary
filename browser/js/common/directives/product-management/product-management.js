@@ -18,14 +18,18 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
       scope.addVariants = false;
       scope.addProductOptions = false;
       scope.newProductOptions = [];
+      scope.imageAssets = [];
 
       if(scope.product){
         /* Configure for directive for updating a product */
         angular.copy(scope.product, scope.newProduct);
-        var moddedOpts = ShopManagementFactory.convertForModification(scope.existingProduct);
+        var moddedOpts = ShopManagementFactory.convertForModification(scope.product);
         angular.copy(moddedOpts, scope.newProductOptions);
         var productImages = ShopManagementFactory.populateImageAssetsFromProduct(scope.product)
         angular.copy(productImages, scope.imageAssets);
+        $timeout(function(){
+          scope.$apply();
+        }, 1)
       }
 
 
@@ -152,7 +156,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         }, 2000)
       }
 
-      scope.imageAssets = [];
 
       scope.assetToUpload;
 
@@ -242,7 +245,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
           $timeout(function(){
             scope.$apply();
           }, 1)
-          console.log("IS IT REMOVED: ", scope.imageAssets, scope.newProduct.variants);
           $timeout(function(){
             scope.displayUploadState = false;
             scope.displayOutput = "REMOVED!"
@@ -257,12 +259,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
           }, 2000)
         })
       }
-
-      scope.$watch(function(){
-        return scope.assetToUpload;
-      }, function(oldValue, newValue){
-        console.log("SCOPE UPLOAD: ", scope.assetToUpload)
-      })
     }
   }
 })

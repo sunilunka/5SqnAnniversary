@@ -52,28 +52,39 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
       user_id: userId,
       product: productData
     })
+    .then(function(response){
+      console.log("UPDATE RESPONSE: ", response.status);
+    })
   }
 
-  ShopManagementFactory.convertForServer = function(newProduct, productOptions){
+  ShopManagementFactory.convertForServer = function(newProduct, productOptions, newOrUpdate){
     var optionsToStore = {}
     productOptions.forEach(function(optionObj){
       optionsToStore[optionObj.name] = optionObj.choicesArray;
     })
     newProduct.options = optionsToStore;
-    return ShopManagementFactory.addNewProduct(newProduct);
+    if(newOrUpdate){
+      return ShopManagementFactory.addNewProduct(newProduct);
+    } else {
+      return ShopManagementFactory.modifyExistingProduct(newProduct);
+    }
   }
 
   ShopManagementFactory.convertForModification = function(existingProduct){
-    var opts = existingProduct.options;
-    var optsForMod = [];
-    for(opt in opts){
-      optsForMod.push(new productOption({
-        name: opt,
-        choicesArray: opts[opt],
-        choices: opts[opt].join(" ")
-      }))
+    if(existingProduct['options']){
+      var opts = existingProduct.options;
+      var optsForMod = [];
+      for(opt in opts){
+        optsForMod.push(new productOption({
+          name: opt,
+          choicesArray: opts[opt],
+          choices: opts[opt].join(" ")
+        }))
+      }
+      return optsForMod;
+    } else {
+      return;
     }
-    return optsForMod;
   }
 
 
@@ -90,7 +101,6 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
   ShopManagementFactory.removeProduct = function(id){
     var userId  = ShopManagementFactory.getCurrentUserId();
-    console.log("USER ID: ", userId);
     var request = {
       method: "DELETE",
       url: "http://127.0.0.1:3000/api/products/" + id,
@@ -126,7 +136,6 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
         }
       })
     }
-
     return productAssets;
 
   }
