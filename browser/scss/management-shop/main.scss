@@ -3,6 +3,14 @@
   color: $theme-grey;
 }
 
+shop-management-product {
+  .management-product {
+    margin: 1em;
+    @include theme-shadow-default;
+    padding: 1em;
+  }
+}
+
 .new-product-table {
   display: block;
   position: relative;

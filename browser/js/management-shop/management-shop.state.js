@@ -9,7 +9,7 @@ app.config(function($stateProvider){
     },
     resolve: {
       allProducts: function(ShopManagementFactory){
-        return ShopManagementFactory.getAllProducts;
+        return ShopManagementFactory.getAllProducts();
       }
     }
   })

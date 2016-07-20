@@ -1,6 +1,10 @@
-<header>
-  <h4 ng-bind="product.title"></h4>
-</header>
-<img class="product-image"></img>
-<div>
-</div>
+<section class="management-product">
+  <header>
+    <h4 ng-bind="product.title"></h4>
+  </header>
+  <img class="product-image" src="{{ product.imageURL }}"></img>
+  <div>
+    <a class="sqn-btn-positive">Modify Product</a>
+    <button class="sqn-btn-danger" ng-click="removeProduct($event)">Remove Product</button>
+  </div>
+</section>

@@ -13,10 +13,6 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
   }
 
-  var getCurentUserId = function(){
-    var currentUser = AuthService.getCurrentUser();
-    return (currentUser.uid || currentUser.id)
-  }
 
   productOption.prototype.transformChoicesToArray = function(){
     this.name = this.name.toLowerCase();
@@ -29,6 +25,10 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   }
 
 
+  ShopManagementFactory.getCurrentUserId = function(){
+    var currentUser = AuthService.getCurrentUser();
+    return (currentUser.uid || currentUser.id)
+  }
 
   ShopManagementFactory.convertToOptionObj = function(optionObj){
     var newOption  = new productOption(optionObj);
@@ -36,7 +36,7 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   }
 
   ShopManagementFactory.addNewProduct = function(productData){
-    var userId = getCurentUserId();
+    var userId = ShopManagementFactory.getCurrentUserId();
     return $http.post("http://127.0.0.1:3000/api/products/new", {
       user_id: userId,
       product: productData
@@ -47,7 +47,7 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   }
 
   ShopManagementFactory.modifyExistingProduct = function(productData){
-    var userId  = getCurrentUserId();
+    var userId  = ShopManagementFactory.getCurrentUserId();
     $http.put("http://127.0.0.1:3000/api/products/" + productData._id, {
       user_id: userId,
       product: productData
@@ -86,6 +86,25 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   ShopManagementFactory.getProduct = function(id){
     return $http.get("http://127.0.0.1:3000/api/products/" + id)
     .then(DatabaseFactory.parseHTTPRequest);
+  }
+
+  ShopManagementFactory.removeProduct = function(id){
+    var userId  = ShopManagementFactory.getCurrentUserId();
+    console.log("USER ID: ", userId);
+    var request = {
+      method: "DELETE",
+      url: "http://127.0.0.1:3000/api/products/" + id,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: {
+        user_id: userId
+      }
+    }
+    return $http(request)
+    .then(function(response){
+      return response;
+    })
   }
 
   ShopManagementFactory.populateImageAssetsFromProduct = function(product){
