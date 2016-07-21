@@ -1,4 +1,4 @@
-app.directive("productManagement", function(ShopManagementFactory, FirebaseStorageFactory, $timeout){
+app.directive("productManagement", function(ShopManagementFactory, FirebaseStorageFactory, $timeout, $state){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/product-management/product-management.html",
@@ -20,8 +20,11 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
       scope.newProductOptions = [];
       scope.imageAssets = [];
 
+      scope.submitLabel = "Add Product";
+
       if(scope.product){
         /* Configure for directive for updating a product */
+        scope.submitLabel = "Update Product";
         angular.copy(scope.product, scope.newProduct);
         var moddedOpts = ShopManagementFactory.convertForModification(scope.product);
         angular.copy(moddedOpts, scope.newProductOptions);
@@ -34,7 +37,14 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
 
 
       scope.addNewProduct = function(){
-        ShopManagementFactory.convertForServer(scope.newProduct, scope.newProductOptions);
+        ShopManagementFactory.convertForServer(scope.newProduct, scope.newProductOptions)
+        .then(function(status){
+          if(status === 200 || status === 201){
+            $state.go("managementShop");
+          } else {
+            $state.go("login");
+          }
+        })
       }
 
       scope.resetOptionForm = function(event){

@@ -4,8 +4,8 @@ app.config(function($stateProvider){
     templateUrl: "js/shopProduct/shopProduct.html",
     controller: "ShopProductCtrl",
     resolve: {
-      shopProduct: function(ShopifyFactory, $stateParams){
-        return ShopifyFactory.getProduct($stateParams.productId);
+      Product: function(ShopFactory, $stateParams){
+        return ShopFactory.getProduct($stateParams.productId);
       }
     }
   })

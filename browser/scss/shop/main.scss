@@ -69,11 +69,12 @@ shop-cart {
   }
 }
 
-.product-image {
+.shop-product-image-holder {
   img {
     display: block;
     position: relative;
     margin: 0 auto;
+    height: 50vh;
   }
 }
 

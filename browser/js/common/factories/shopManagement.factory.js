@@ -37,7 +37,7 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
   ShopManagementFactory.addNewProduct = function(productData){
     var userId = ShopManagementFactory.getCurrentUserId();
-    return $http.post("http://127.0.0.1:3000/api/products/new", {
+    return $http.post(DatabaseFactory.generateApiRoute("products/new"), {
       user_id: userId,
       product: productData
     })
@@ -48,7 +48,7 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
   ShopManagementFactory.modifyExistingProduct = function(productData){
     var userId  = ShopManagementFactory.getCurrentUserId();
-    $http.put("http://127.0.0.1:3000/api/products/" + productData._id, {
+    $http.put(DatabaseFactory.generateApiRoute("products/" + productData._id), {
       user_id: userId,
       product: productData
     })
@@ -89,13 +89,12 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
 
   ShopManagementFactory.getAllProducts = function(){
-    console.log("GETTING ALL PRODUCTS: ")
-    return $http.get("http://127.0.0.1:3000/api/products")
+    return $http.get(DatabaseFactory.generateApiRoute("products"))
     .then(DatabaseFactory.parseHTTPRequest);
   }
 
   ShopManagementFactory.getProduct = function(id){
-    return $http.get("http://127.0.0.1:3000/api/products/" + id)
+    return $http.get(DatabaseFactory.generateApiRoute("products/" + id))
     .then(DatabaseFactory.parseHTTPRequest);
   }
 
@@ -103,7 +102,7 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
     var userId  = ShopManagementFactory.getCurrentUserId();
     var request = {
       method: "DELETE",
-      url: "http://127.0.0.1:3000/api/products/" + id,
+      url: DatabaseFactory.generateApiRoute("products/" + id),
       headers: {
         "Content-Type": "application/json"
       },

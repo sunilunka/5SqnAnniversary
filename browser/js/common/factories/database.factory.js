@@ -17,6 +17,14 @@ app.factory('DatabaseFactory', function($firebaseAuth){
     parseHTTPRequest: (response) => {
       console.log("RESPONSE DATA: ", response.data);
       return response.data;
+    },
+
+    generateApiRoute: (route) => {
+      if(route){
+        return "http://127.0.0.1:3000/api/" + route;
+      } else {
+        return "http://127.0.0.1:3000/api/"
+      }
     }
   }
 })
