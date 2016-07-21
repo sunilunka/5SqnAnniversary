@@ -42,18 +42,18 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
       product: productData
     })
     .then(function(res){
-      console.log("RESPONSE STATUS: ", res.status);
+      return res.status;
     })
   }
 
   ShopManagementFactory.modifyExistingProduct = function(productData){
     var userId  = ShopManagementFactory.getCurrentUserId();
-    $http.put(DatabaseFactory.generateApiRoute("products/" + productData._id), {
+    return $http.put(DatabaseFactory.generateApiRoute("products/" + productData._id), {
       user_id: userId,
       product: productData
     })
-    .then(function(response){
-      console.log("UPDATE RESPONSE: ", response.status);
+    .then(function(res){
+      return res.status;
     })
   }
 

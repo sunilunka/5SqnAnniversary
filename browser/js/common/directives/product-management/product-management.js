@@ -37,7 +37,15 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
 
 
       scope.addNewProduct = function(){
-        ShopManagementFactory.convertForServer(scope.newProduct, scope.newProductOptions)
+        var addOrModify = function(){
+          if(scope.product){
+            return false;
+          } else {
+            return true;
+          }
+        }
+        
+        ShopManagementFactory.convertForServer(scope.newProduct, scope.newProductOptions, addOrModify())
         .then(function(status){
           if(status === 200 || status === 201){
             $state.go("managementShop");
