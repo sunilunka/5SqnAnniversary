@@ -12,8 +12,8 @@ app.directive("shopCart", function(ShopService, $rootScope, $timeout){
       var updateCart = function(){
         cart = ShopService.getCart();
         scope.itemCount = cart.lineItemCount;
-        scope.subTotal = cart.subtotal;
-        angular.copy(cart.lineItems, scope.items)
+        scope.subTotal = cart.totalPrice;
+        angular.copy(cart.products, scope.items)
         $timeout(function(){
           scope.$apply()
         }, 1);
