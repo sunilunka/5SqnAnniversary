@@ -5,6 +5,8 @@ app.directive("shopCart", function(ShopService, $rootScope, $timeout){
     scope: {},
     link: function(scope, element, attrs){
 
+      ShopService.checkForLocalCartOnInit();
+
       var cart = ShopService.getCart();
 
       var updateCart = function(){
@@ -44,7 +46,7 @@ app.directive("shopCart", function(ShopService, $rootScope, $timeout){
       }
 
       scope.checkoutCart = function(){
-        
+
       }
     }
   }

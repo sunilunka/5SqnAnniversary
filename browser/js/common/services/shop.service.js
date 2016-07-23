@@ -1,67 +1,55 @@
-app.service("ShopService", function($rootScope){
+app.service("ShopService", function($rootScope, ShopFactory){
+
   var self = this;
 
-  var getLocalCarts = function(){
-    /* Check if localStorage has any carts stored to it. */
-    let testExp = new RegExp("carts.shopify-buy.");
-    let storageKeys = Object.keys(localStorage);
-    let cartKeys = storageKeys.filter(function(keyStr){
-      if(testExp.test(keyStr)){
-        return keyStr;
-      }
-    })
-    return cartKeys;
-  }
-
-  var convertLocalCartToObj = function(cartStr){
-    return JSON.parse(cartStr);
-  }
-
-  var removeLocalCarts = function(){
-    let toRemove = getLocalCarts();
-    toRemove.forEach(function(cart){
-      localStorage.remove(cart);
-    })
-  }
-
-  var shopClient = ShopifyBuy.buildClient({
-    apiKey: "726f744d613f29e5d216c147e3bc6770",
-    myShopifyDomain: "5-squadron",
-    appId: "6"
-  });
-
-  this.shopClient = shopClient;
 
   this.cart;
 
-  // this.createCart = function(){
-  //   return self.shopClient.createCart()
-  //   .then(function(newCart){
-  //     self.cart = newCart;
-  //     return self.cart;
-  //   })
-  // }
+  this.lineItemCount = 0;
+
+  this.getItemCount = function(){
+    self.cart.forEach(function(item){
+      self.lineItemCount += item.quantity;
+    })
+    return;
+  }
+
+  this.stringifyCart = function(){
+    if(self.cart){
+      return JSON.stringify(self.cart);
+    }
+  }
+
+  this.parseSessionCart = function(){
+    if(window.sessionStorage["sqnShopCart"]){
+      return JSON.parse(window.sessionStorage["sqnShopCart"]);
+    }
+  }
+
+  this.checkForLocalCartOnInit = function(){
+    if(window.hasOwnProperty("sessionStorage")){
+      if(window.sessionStorage["sqnShopCart"]){
+        angular.copy(self.parseSessionCart(), self.cart);
+        return;
+      } else {
+        self.cart = ShopFactory.generateCart();
+        return;
+      }
+    } else {
+      /* If browser does not allow sessionStorage, then just cache on service with no redundancy. */
+      self.cart = ShopFactory.generateCart();
+      return;
+    }
+  }
 
   this.getCart = function(){
     return self.cart;
   }
 
-  this.addToCart = function(productObj){
+  this.addToCart = function(productObj, quantity){
     console.log("PRODUCT: ", productObj);
-    if(!self.cart){
-      return self.shopClient.createCart()
-      .then(function(newCart){
-        self.cart = angular.copy(newCart, self.cart);
-        self.cart.addVariants(productObj)
-        $rootScope.$broadcast("updatedCart", self.cart);
-        // return self.cart;
-      })
-    } else {
-      self.cart.addVariants(productObj)
-      .then(function(cart){
-        $rootScope.$broadcast("updatedCart", self.cart)
-      })
-    }
+    self.cart.addItemToCart(productObj, quantity);
+    window.sessionStorage.setItem("sqnShopCart", self.stringifyCart())
   }
 
   this.updateCartItem = function(itemId, newQuantity){

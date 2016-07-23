@@ -4,6 +4,8 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
 
   $scope.quantity = 1;
 
+  $scope.selectedOptions = {};
+
   $scope.selectedVariant = {};
 
   $scope.notAvailable = false
@@ -26,5 +28,19 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
 
   setAvailable();
 
+  $scope.updateSelectedVariant = function(option, value){
+    $scope.selectedVariant[option] = value;
+  }
+
+  $scope.addProductToCart = function(){
+    var selectedVariantValid = Object.keys($scope.selectedVariant).length
+    if(!selectedVariantValid){
+      // Convert and add product to cart
+      ShopService.getCart().addItemToCart($scope.product, $scope.quantity)
+    } else {
+      // Convert and add $scope.selectedVariant to cart
+      ShopService.getCart().addItemToCart($scope.selectedVariant, $scope.quantity);
+    }
+  }
 
 })
