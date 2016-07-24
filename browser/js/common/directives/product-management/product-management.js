@@ -22,9 +22,7 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
 
       scope.submitLabel = "Add Product";
 
-      if(scope.product){
-        /* Configure for directive for updating a product */
-        scope.submitLabel = "Update Product";
+      var convertExistingProductToMod = function(){
         angular.copy(scope.product, scope.newProduct);
         var moddedOpts = ShopManagementFactory.convertForModification(scope.product);
         angular.copy(moddedOpts, scope.newProductOptions);
@@ -33,6 +31,12 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         $timeout(function(){
           scope.$apply();
         }, 1)
+      }
+
+      if(scope.product){
+        /* Configure for directive for updating a product */
+        scope.submitLabel = "Update Product";
+        convertExistingProductToMod();
       }
 
 
@@ -44,7 +48,7 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
             return true;
           }
         }
-        
+
         ShopManagementFactory.convertForServer(scope.newProduct, scope.newProductOptions, addOrModify())
         .then(function(status){
           if(status === 200 || status === 201){
@@ -153,15 +157,19 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
 
       scope.resetFormAndClose = function(event){
         event.preventDefault();
-        angular.copy({ variants: [] }, scope.newProduct);
-        angular.copy([], scope.newProductOptions);
-        removeAllProductAssetsFromServer(scope.imageAssets)
-        .then(function(){
-          angular.copy([], scope.imageAssets);
-        })
-        .catch(function(error){
-          console.log("SORRY AN ERROR OCCURED: ", error);
-        })
+        if(scope.product){
+          convertExistingProductToMod();
+        } else {
+          angular.copy({ variants: [] }, scope.newProduct);
+          angular.copy([], scope.newProductOptions);
+          removeAllProductAssetsFromServer(scope.imageAssets)
+          .then(function(){
+            angular.copy([], scope.imageAssets);
+          })
+          .catch(function(error){
+            console.log("SORRY AN ERROR OCCURED: ", error);
+          })
+        }
       }
 
       var handleUploadError = function(output){

@@ -78,6 +78,10 @@ product-options {
 
 .upload-panel {
   position: relative;
+  margin: 0 0 1.5em 0;
+  button {
+    margin: 0 auto;
+  }
 }
 
 .upload-status-output {
@@ -114,6 +118,23 @@ product-options {
   color: #EFEFEF;
   background-color: #68AFC3;
   padding: 0.5em;
+}
+
+.product-image-details {
+  margin: 1.5em 0 0.5em 0;
+  padding-bottom: 1em;
+  border-bottom: 3px solid $theme-grey;
+}
+
+.product-assigned-image {
+  margin: 0 auto;
+  span {
+    margin-right: 2em;
+  }
+}
+
+.product-commit-options {
+  margin: 0.5em 0 3em 0;
 }
 
 .new-product-form {
