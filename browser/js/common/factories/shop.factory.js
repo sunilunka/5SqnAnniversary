@@ -3,8 +3,25 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
 
   var ShopFactory = {};
 
+  var transformProductForDisplay = function(productObj){
+    var opts = [];
+    if(productObj.hasOwnProperty("options")){
+      for(var option in productObj.options){
+        opts.push({
+          name: option,
+          values: productObj.options[option]
+        })
+      }
+    }
+    productObj.options = opts;
+    return productObj;
+  }
+
   ShopFactory.getProduct = function(productId){
-    return ShopManagementFactory.getProduct(productId);
+    return ShopManagementFactory.getProduct(productId)
+    .then(function(product){
+      return transformProductForDisplay(product)
+    })
   }
 
   var shoppingCart = function(){

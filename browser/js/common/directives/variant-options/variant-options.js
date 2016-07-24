@@ -8,7 +8,7 @@ app.directive("variantOptions", function(){
     },
     link: function(scope, element, attrs){
       console.log("SCOPE VARIANT: ", scope.variant);
-
+      console.log("SCOPE OPTIONS: ", scope.options);
       scope.label = "Edit"
 
       scope.editInProgress = false;

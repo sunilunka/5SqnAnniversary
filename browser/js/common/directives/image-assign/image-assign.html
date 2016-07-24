@@ -1,10 +1,10 @@
 <div class="product-image-assign">
   <div class="product-assign-row">
-    <button class="sqn-btn-positive" ng-class="{'product-option-selected': product.imageName === image.imageName}" ng-click="addImageToProduct($event)">Assign to product</button>
+    <span>Click here to </span><button class="sqn-btn-positive" ng-class="{'product-option-selected': product.imageName === image.imageName}" ng-click="addImageToProduct($event)">Assign to product</button>
   </div>
   <div class="product-assign-row" ng-repeat="option in options">
     <h5 ng-bind="option.name"></h5>
     <button ng-repeat="choice in option.choicesArray" class="sqn-btn" ng-class="{'product-option-selected': selectedOpts[option.name] === choice}" ng-click="toggleSelected($event, option.name, choice)" ng-bind="choice"></button>
   </div>
-  <button class="sqn-btn-positive" ng-click="addToVariants($event)">Add To Variants</button>
+  <span>Once you have selected the variant options </span><button class="sqn-btn-positive" ng-click="addToVariants($event)">Add To Variant</button>
 </div>

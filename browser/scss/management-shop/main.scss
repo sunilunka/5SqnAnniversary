@@ -56,12 +56,22 @@ product-options {
   top: 0;
 }
 
+.product-assign-row {
+  margin-bottom: 1em;
+  border-bottom: 1px solid grey;
+
+  button {
+    margin: 0em 1em 1em 0em;
+  }
+}
+
 .product-image-holder {
   height: auto;
   @include theme-shadow-default;
   padding: 1em;
   position: relative;
   display: block;
+  margin-top: 1em;
 }
 
 .product-image-info {

@@ -9,7 +9,7 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
     this.name = optionObj.name;
     this.choices = optionObj.choices;
-    this.choicesArray = [];
+    this.choicesArray = optionObj.choicesArray;
 
   }
 
@@ -71,10 +71,10 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
   }
 
   ShopManagementFactory.convertForModification = function(existingProduct){
-    if(existingProduct['options']){
+    if(existingProduct["options"]){
       var opts = existingProduct.options;
       var optsForMod = [];
-      for(opt in opts){
+      for(var opt in opts){
         optsForMod.push(new productOption({
           name: opt,
           choicesArray: opts[opt],
@@ -128,10 +128,15 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
     if(product.variants.length){
       product.variants.forEach(function(variant){
         if(variant["imageName"] && variant["imageURL"]){
-          productAssets.push({
-            imageName: variant.imageName,
-            imageURL: variant.imageURL
+          var assetIdx = _.findIndex(productAssets, function(asset){
+            return asset.imageName === variant.imageName;
           })
+          if(assetIdx === -1){
+            productAssets.push({
+              imageName: variant.imageName,
+              imageURL: variant.imageURL
+            })
+          }
         }
       })
     }
