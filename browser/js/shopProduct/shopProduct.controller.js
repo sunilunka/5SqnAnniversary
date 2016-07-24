@@ -2,11 +2,18 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
 
   $scope.product = Product;
 
+  if($scope.product.variants.length){
+    $scope.selectedVariant = $scope.products.variants[0];
+    $scope.selectedOptions = $scope.selectedVariant.options;
+  }
+
   $scope.quantity = 1;
 
   $scope.selectedOptions = {};
 
   $scope.selectedVariant = {};
+
+  $scope.stockIndicator = "In Stock"
 
   $scope.notAvailable = false
 
@@ -16,6 +23,7 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
     } else {
       $scope.notAvailable = true;
     }
+    $scope.stockIndicator =  ShopFactory.setStockIndicator(stock)
   }
 
   var setAvailable = function(){
@@ -29,7 +37,8 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
   setAvailable();
 
   $scope.updateSelectedVariant = function(option, value){
-    $scope.selectedVariant[option] = value;
+    $scope.selectedOptions[option] = value;
+    setAvailable()
   }
 
   $scope.addProductToCart = function(){

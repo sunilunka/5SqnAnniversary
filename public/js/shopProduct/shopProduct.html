@@ -2,7 +2,7 @@
 <section class="shop-product-page container-fluid">
   <div class="row">
     <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="flex-container-row flex-vertical-center">
+      <div class="flex-container-row flex-vertical-center product-header">
         <h2 ng-bind="product.title"></h2>
         <a class="sqn-btn" ui-sref="shopFront">Back To Store</a>
       </div>
@@ -22,10 +22,13 @@
         </button>
       </div>
       <footer class="product-option">
+        <div class="product-status">
+          <h5><strong>Price:<strong> ${{ product.price}}</h5>
+          <h5><strong>Stock:</strong> {{ stockIndicator }}</h5>
         <form name="addProductToBuy" ng-submit="addProductToCart()">
           <label>How many would you like?</label>
           <input type="number" name="requestedQuantity" ng-model="quantity" min="0" max="{{ product.stock }}" class="sqnInputNumber-wide"></input>
-          <input type="submit" class="sqn-btn-positive" value="Add To Cart" ng-disabled="notAvailable || quantity > product.stock || addProductToBuy.requestedQuantity.$invalid" ng-class="{'sqn-btn-disabled': notAvailable }"></input>
+          <input type="submit" class="sqn-btn-positive" value="Add To Cart" ng-disabled="notAvailable || addProductToBuy.requestedQuantity.$invalid" ng-class="{'sqn-btn-disabled': notAvailable || addProductToBuy.requestedQuantity.$invalid }"></input>
         </form>
       </footer>
     </div>

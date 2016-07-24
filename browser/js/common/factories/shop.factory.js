@@ -103,6 +103,18 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
     return new shoppingCart();
   }
 
+  ShopFactory.setStockIndicator = function(stock){
+    if(stock === 0){
+      return "Sorry, this has sold out."
+    } else if(stock <= 10){
+      return "Very Low"
+    } else if((stock > 10) && (stock < 20)){
+      return "Low"
+    } else {
+      return "In Stock"
+    }
+  }
+
   return ShopFactory;
 
 })

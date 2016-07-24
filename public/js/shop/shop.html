@@ -1,14 +1,14 @@
 <shop-cart></shop-cart>
 <section class="shop-storefront container-fluid">
   <header class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 shop-header">
       <h2>Welcome to the 5 Squadron Store</h2>
+      <ul class="shop-caveats">
+        <li>All prices are in NZD</li>
+        <li>Unfortuately no overseas ordering or delivery is available.</li>
+      </ul>
     </div>
   </header>
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 shop-products-collection">
-    <h4>All products below are limited edition for the 75th Anniversary.</h4>
-    <h5>Please note: Products are primarily intended for those attending the anniversary event and may not be available for delivery.</h5>
-  </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <shop-front-product product="product" ng-repeat="product in products" class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
     </shop-front-product>

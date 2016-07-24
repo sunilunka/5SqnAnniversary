@@ -1,9 +1,7 @@
-<section class="flex-container-row">
+<section class="flex-container-row cart-flex">
   <h3><span class="glyphicon glyphicon-shopping-cart"></span></h3>
-  <div class="cart-stats">
-    <span ng-bind="itemCount"></span><span class="stats-separator"> items</span>
-    <span>Total: </span><span ng-bind="subTotal | currency "></span>
-  </div>
+  <p class="cart-stats">{{ itemCount }}<span class="stats-separator"> items</span>
+  <span>Total: </span><span ng-bind="subTotal | currency "></span></p>
   <div class="cart-options">
     <button class="sqn-btn" ng-click="toggleShowItems()" ng-bind="showItemLabel"></button>
     <button class="sqn-btn-positive" ng-click="checkoutCart()">Checkout</button>
