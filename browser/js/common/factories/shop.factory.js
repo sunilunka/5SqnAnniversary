@@ -30,16 +30,23 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
     this.totalPrice = "0.00"
   }
 
+  shoppingCart.prototype.calculateLineItemSubtotal = function(product){
+    return (parseFloat(product.price) * product.quantity).toFixed(2);
+  }
+
   shoppingCart.prototype.transformToCartItem = function(product, quantity){
     var cartProduct = {};
     angular.copy(product, cartProduct);
     if(cartProduct.hasOwnProperty("variants")){
       delete cartProduct.variants
+      delete cartProduct.description;
     }
+    /* Mongoose adds the .id field, not required. Duplicate of _id.*/
+    delete cartProduct.id;
     delete cartProduct.stock;
-    delete cartProduct.description;
     delete cartProduct.imageName;
     cartProduct["quantity"] = quantity;
+    cartProduct["subtotal"] = this.calculateLineItemSubtotal(cartProduct);
     return cartProduct;
   }
 
@@ -52,9 +59,10 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
       this.lineItemCount =  this.products[0].quantity;
       return;
     } else {
-      this.lineItemCount = this.products.reduce(function(x,y){
-        return x.quantity + y.quantity
-      })
+      this.lineItemCount = 0;
+      for(var i = 0; i < this.products.length; i++){
+        this.lineItemCount += this.products[i].quantity;
+      }
     }
   }
 
@@ -84,6 +92,7 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
 
     if(cartIndex > -1){
       this.products[cartIndex].quantity += quantity;
+      this.products[cartIndex].subtotal = this.calculateLineItemSubtotal(this.products[cartIndex]);
     } else {
       this.products.push(cartProduct);
     }
@@ -111,6 +120,7 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
       });
     } else {
       productToMod.quantity = newQuantity;
+      productToMod.subtotal = this.calculateLineItemSubtotal(productToMod);
     }
     this.updateCartOnChange();
     callback(this)

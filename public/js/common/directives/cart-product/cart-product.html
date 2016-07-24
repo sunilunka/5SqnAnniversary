@@ -2,7 +2,11 @@
   <div class="flex-container-row">
     <h4 ng-bind="lineitem.title"></h4>  <button class="sqn-btn-danger" ng-click="removeCartItem()">Remove</button>
   </div>
-  <div class="cart-product-variant"><span ng-bind="lineitem.variant_title"></span></div>
-  <input type="number" class="sqnInputNumber-wide sqnInputReadonly" ng-model="lineitem.quantity" ng-disabled="true"></input>
-  <button class="sqn-btn item-quantity-btn" ng-click="updateQuantity('increment')" ng-disabled="processingUpdate"><span class="glyphicon glyphicon-plus"></span></button><button class="sqn-btn item-quantity-btn" ng-click="updateQuantity('decrement')" ng-disabled="processingUpdate"><span class="glyphicon glyphicon-minus"></span></button>
+  <div class="cart-product-variant"><span ng-bind="lineitem.display_options"></span></div>
+  <div class="flex-container-row">
+    <div>
+      <input type="number" class="sqnInputNumber-wide sqnInputReadonly" ng-model="lineitem.quantity" ng-disabled="true"></input>
+      <button class="sqn-btn item-quantity-btn" ng-click="updateQuantity('increment')" ng-disabled="processingUpdate"><span class="glyphicon glyphicon-plus"></span></button><button class="sqn-btn item-quantity-btn" ng-click="updateQuantity('decrement')" ng-disabled="processingUpdate"><span class="glyphicon glyphicon-minus"></span></button>
+    </div>
+    <h4>${{ lineitem.subtotal }}</h4>
 </li>

@@ -19,10 +19,9 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
     angular.copy($scope.selectedVariant.options, $scope.selectedOptions);
     $scope.stock = $scope.selectedVariant.stock;
     $scope.imageToShow = ($scope.selectedVariant.imageURL || $scope.product.imageURL);
-    console.log("SELECTED OPTIONS: ", $scope.selectedVariant)
-    $timeout(function(){
-      $scope.$apply();
-    }, 1)
+  } else {
+    $scope.stock = $scope.product.stock;
+    $scope.imageToShow = $scope.product.imageURL
   }
 
 
@@ -45,6 +44,10 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
 
   setAvailable();
 
+  $timeout(function(){
+    $scope.$apply();
+  }, 1)
+
   var findVariant = function(variantOptionsObj, options){
     for(var opt in variantOptionsObj){
       if(options[opt] !== variantOptionsObj[opt]){
@@ -56,7 +59,6 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
 
   var findAndSelectVariant = function(variantArray, options){
     var results = variantArray.filter(function(variant){
-      console.log("FIND VARIANT: ", findVariant(variant.options, options));
       if(findVariant(variant.options, options)){
         return variant;
       }
@@ -64,7 +66,7 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
     if(results.length){
       return results[0];
     } else {
-    /* If no matching variant is found, populate the selectedVariant with a 'phantom' placeholder with no stock. */
+    /* If no matching variant is found, populate the selectedVariant with a 'phantom' placeholder with no stock. This prevents users from selecting it. Will implement better logic in the future. */
       return {
         options: options,
         stock: 0
@@ -83,14 +85,37 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
     }, 1)
   }
 
+  var stringifyOptions = function(optionObj){
+    var forDisplay = "";
+    for(var opt in optionObj){
+      if(forDisplay.length){
+         var optToString = " / " + _.capitalize(opt) + ": " + optionObj[opt];
+         forDisplay = forDisplay + optToString;
+      } else {
+        forDisplay = forDisplay + _.capitalize(opt) + ": " + optionObj[opt]
+      }
+    }
+    return forDisplay;
+  }
+
+  var convertVariantToCartObject = function(variant){
+    variant.title = $scope.product.title;
+    variant.display_options = stringifyOptions(variant.options);
+    /* Other product/variant agnostic processing done by addItemToCart method on cart object. */
+    return variant;
+  }
+
   $scope.addProductToCart = function(){
     var selectedVariantValid = Object.keys($scope.selectedVariant).length
     if(!selectedVariantValid){
       // Convert and add product to cart
       ShopService.addToCart($scope.product, $scope.quantity)
     } else {
-      // Convert and add $scope.selectedVariant to cart
-      ShopService.addToCart($scope.selectedVariant, $scope.quantity);
+      // Modify variant with details required for order form.
+      var cartObject = {};
+      angular.copy($scope.selectedVariant, cartObject);
+      ShopService.addToCart(convertVariantToCartObject(cartObject), $scope.quantity);
+      $scope.quantity = 1;
     }
   }
 
