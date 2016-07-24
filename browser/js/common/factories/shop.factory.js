@@ -77,7 +77,7 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
     callback(this);
   }
 
-  shoppingCart.prototype.removeItemFromCart = function(productId, callback){
+  shoppingCart.prototype.removeLineItemFromCart = function(productId, callback){
     var productIndex = this.cartItemIndex(productId)
     this.products.splice(productIndex, 1);
     this.updateCartOnChange();

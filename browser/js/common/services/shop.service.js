@@ -68,7 +68,7 @@ app.service("ShopService", function($rootScope, ShopFactory){
   }
 
   this.removeCartItem = function(itemId){
-    self.cart.removeLineItem(itemId, function(updatedCart){
+    self.cart.removeLineItemFromCart(itemId, function(updatedCart){
       self.updateShopCart();
     })
   }
