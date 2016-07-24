@@ -67,7 +67,7 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
   shoppingCart.prototype.calculateTotal = function(){
     var total = 0.00;
     this.products.forEach(function(product){
-      total = (product.quantity * (parseFloat(product.price)))
+      total += (product.quantity * (parseFloat(product.price)))
     })
     return total.toFixed(2);
   }
