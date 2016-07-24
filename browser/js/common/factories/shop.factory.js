@@ -96,10 +96,7 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
     } else {
       this.products.push(cartProduct);
     }
-
     this.updateCartOnChange();
-    console.log("PRODUCT OBJ: ", productObj)
-    console.log("CART: ", this);
     callback(this);
   }
 
