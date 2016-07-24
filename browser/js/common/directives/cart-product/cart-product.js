@@ -1,4 +1,4 @@
-app.directive("cartProduct", function(ShopifyService){
+app.directive("cartProduct", function(ShopService){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/cart-product/cart-product.html",
@@ -9,7 +9,7 @@ app.directive("cartProduct", function(ShopifyService){
       console.log("LINE ITEM: ", scope.lineitem)
       scope.processingUpdate = false;
       scope.removeCartItem = function(){
-        ShopifyService.removeCartItem(scope.lineitem.id);
+        ShopService.removeCartItem(scope.lineitem._id);
       }
 
       scope.updateQuantity = function(quantityModValue){
@@ -21,11 +21,8 @@ app.directive("cartProduct", function(ShopifyService){
         } else if("decrement"){
           newQuantity -= 1;
         }
-        ShopifyService.updateCartItem(scope.lineitem.id, newQuantity)
-        .then(function(updatedCart){
-          console.log("VARIANT UPDATED IN CART: ", updatedCart);
-          scope.processingUpdate = false;
-        })
+        ShopService.updateCartItem(scope.lineitem._id, newQuantity)
+        scope.processingUpdate = false;
       }
     }
   }

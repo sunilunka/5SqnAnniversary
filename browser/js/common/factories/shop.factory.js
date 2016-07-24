@@ -1,4 +1,4 @@
-app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory){
+app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $rootScope){
 
 
   var ShopFactory = {};
@@ -27,9 +27,13 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory){
   }
 
   shoppingCart.prototype.getLineItemCount = function(){
-    if(!this.products.length) this.lineItemCount = 0;
+    if(!this.products.length) {
+      this.lineItemCount = 0;
+      return;
+    }
     if(this.products.length === 1){
       this.lineItemCount =  this.products[0].quantity;
+      return;
     } else {
       this.lineItemCount = this.products.reduce(function(x,y){
         return x.quantity + y.quantity
@@ -51,7 +55,12 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory){
     return total.toFixed(2);
   }
 
-  shoppingCart.prototype.addItemToCart = function(productObj, quantity){
+  shoppingCart.prototype.updateCartOnChange = function(){
+    this.getLineItemCount();
+    this.totalPrice = this.calculateTotal();
+  }
+
+  shoppingCart.prototype.addItemToCart = function(productObj, quantity, callback){
     var cartProduct = this.transformToCartItem(productObj, quantity);
     /* First check if product is a variant or not. */
     var cartIndex = this.cartItemIndex(cartProduct._id);
@@ -62,16 +71,32 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory){
       this.products.push(cartProduct);
     }
 
-    this.getLineItemCount();
-    this.totalPrice = this.calculateTotal();
+    this.updateCartOnChange();
     console.log("PRODUCT OBJ: ", productObj)
     console.log("CART: ", this);
-    
-
+    callback(this);
   }
 
-  shoppingCart.prototype.removeItemFromCart = function(productId){
+  shoppingCart.prototype.removeItemFromCart = function(productId, callback){
+    var productIndex = this.cartItemIndex(productId)
+    this.products.splice(productIndex, 1);
+    this.updateCartOnChange();
+    callback(this);
+  }
 
+  shoppingCart.prototype.updateLineItem = function(productId, newQuantity, callback){
+    var cartIndex = this.cartItemIndex(productId);
+    var productToMod = this.products[cartIndex]
+
+    if(newQuantity <= 0){
+      this.removeItemFromCart(productToMod._id, function(updatedCart){
+        return updatedCart;
+      });
+    } else {
+      productToMod.quantity = newQuantity;
+    }
+    this.updateCartOnChange();
+    callback(this)
   }
 
   ShopFactory.generateCart = function(){

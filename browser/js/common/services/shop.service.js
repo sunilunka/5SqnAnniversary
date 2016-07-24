@@ -29,6 +29,7 @@ app.service("ShopService", function($rootScope, ShopFactory){
   this.checkForLocalCartOnInit = function(){
     if(window.hasOwnProperty("sessionStorage")){
       if(window.sessionStorage["sqnShopCart"]){
+        self.cart = ShopFactory.generateCart();
         angular.copy(self.parseSessionCart(), self.cart);
         return;
       } else {
@@ -46,24 +47,29 @@ app.service("ShopService", function($rootScope, ShopFactory){
     return self.cart;
   }
 
-  this.addToCart = function(productObj, quantity){
-    console.log("PRODUCT: ", productObj);
-    self.cart.addItemToCart(productObj, quantity);
+  this.updateShopCart = function(){
     window.sessionStorage.setItem("sqnShopCart", self.stringifyCart())
+    $rootScope.$broadcast("updatedCart", self.cart);
+  }
+
+  this.addToCart = function(productObj, quantity
+  ){
+    console.log("PRODUCT: ", productObj);
+    self.cart.addItemToCart(productObj, quantity, function(updatedCart){
+      self.updateShopCart();
+    });
   }
 
   this.updateCartItem = function(itemId, newQuantity){
-    return self.cart.updateLineItem(itemId, newQuantity)
-    .then(function(cart){
-      $rootScope.$broadcast("updatedCart", self.cart);
+    return self.cart.updateLineItem(itemId, newQuantity, function(updatedCart){
+      self.updateShopCart();
       return self.cart;
     })
   }
 
   this.removeCartItem = function(itemId){
-    self.cart.removeLineItem(itemId)
-    .then(function(cart){
-      $rootScope.$broadcast("updatedCart", self.cart);
+    self.cart.removeLineItem(itemId, function(updatedCart){
+      self.updateShopCart();
     })
   }
 

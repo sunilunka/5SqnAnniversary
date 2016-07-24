@@ -36,10 +36,10 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
     var selectedVariantValid = Object.keys($scope.selectedVariant).length
     if(!selectedVariantValid){
       // Convert and add product to cart
-      ShopService.getCart().addItemToCart($scope.product, $scope.quantity)
+      ShopService.addToCart($scope.product, $scope.quantity)
     } else {
       // Convert and add $scope.selectedVariant to cart
-      ShopService.getCart().addItemToCart($scope.selectedVariant, $scope.quantity);
+      ShopService.addToCart($scope.selectedVariant, $scope.quantity);
     }
   }
 
