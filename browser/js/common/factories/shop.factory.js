@@ -89,7 +89,7 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
     var productToMod = this.products[cartIndex]
 
     if(newQuantity <= 0){
-      this.removeItemFromCart(productToMod._id, function(updatedCart){
+      this.removeLineItemFromCart(productToMod._id, function(updatedCart){
         return updatedCart;
       });
     } else {

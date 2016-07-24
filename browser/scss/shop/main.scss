@@ -100,7 +100,7 @@ shop-cart {
 .product-option {
   position: relative;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 2em auto;
 }
 
 cart-product {
@@ -136,7 +136,21 @@ cart-product {
 
 .cart-stats {
   font-size: 1.2em;
+}
 
+.product-description {
+  h4 {
+    background-color: $theme-grey;
+    color: $theme-tacgrey;
+    padding: 0.5em;
+    margin: 1em 0 1em 0;
+  }
+
+  formatted-text {
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+    border-bottom: 3px solid $theme-grey;
+  }
 }
 
 .stats-separator {
