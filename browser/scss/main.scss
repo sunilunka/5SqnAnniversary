@@ -432,7 +432,13 @@ formatted-text {
   width: auto;
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 0.5em auto;
+}
+
+.flex-vertical-center {
+  align-items: center;
+  border-bottom: 3px solid $theme-grey;
+  margin: 0 0 1em 0;
 }
 
 @import 'directives/main';

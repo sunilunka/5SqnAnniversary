@@ -162,13 +162,17 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         } else {
           angular.copy({ variants: [] }, scope.newProduct);
           angular.copy([], scope.newProductOptions);
-          removeAllProductAssetsFromServer(scope.imageAssets)
-          .then(function(){
-            angular.copy([], scope.imageAssets);
-          })
-          .catch(function(error){
-            console.log("SORRY AN ERROR OCCURED: ", error);
-          })
+          if(scope.imageAssets.length){
+            removeAllProductAssetsFromServer(scope.imageAssets)
+            .then(function(){
+              angular.copy([], scope.imageAssets);
+            })
+            .catch(function(error){
+              console.log("SORRY AN ERROR OCCURED: ", error);
+            })
+          } else {
+            return;
+          }
         }
       }
 

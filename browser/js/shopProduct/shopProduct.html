@@ -2,8 +2,10 @@
 <section class="shop-product-page container-fluid">
   <div class="row">
     <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h2 ng-bind="product.title"></h2>
-      <a class="sqn-btn" ui-sref="shopFront">Back To Store</a>
+      <div class="flex-container-row flex-vertical-center">
+        <h2 ng-bind="product.title"></h2>
+        <a class="sqn-btn" ui-sref="shopFront">Back To Store</a>
+      </div>
     </header>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 shop-product-image-holder">
       <div ng-show="notAvailable" class="item-not-available">
