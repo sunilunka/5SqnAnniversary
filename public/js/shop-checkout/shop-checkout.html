@@ -20,7 +20,7 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
       <h3 class="checkout-header">Order details:</h3>
       <div class="">
-        <form name="orderDetails" ng-submit="submitOrder()">
+        <form name="orderDetails" ng-submit="submitOrder()" novalidate>
           <label class="checkout-label">Your email: </label>
           <input type="email" class="sqnInputEmail" ng-model="order.email" required></input>
           <div ng-show="deliverable">
@@ -39,11 +39,11 @@
             <h4>Payment method</h4>
             <div class="radio" ng-show="!deliverable">
               <label>
-              <input type="radio" ng-model="order.paymentMethod" value="cash" required></input>Cash on collection</label>
+              <input type="radio" ng-model="order.paymentMethod" value="cash" ng-required="true"></input>Cash on collection</label>
             </div>
             <div class="radio">
               <label>
-              <input type="radio" ng-model="order.paymentMethod" value="deposit" required></input>Bank Deposit</label>
+              <input type="radio" ng-model="order.paymentMethod" value="deposit" ng-required="true"></input>Bank Deposit</label>
             </div>
           </div>
           <h3>Total: <em>${{ order.totalPrice }}</em></h3>
