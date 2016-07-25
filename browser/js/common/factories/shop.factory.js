@@ -127,6 +127,12 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
     return new shoppingCart();
   }
 
+  ShopFactory.checkAllDeliverable = function(productArray){
+    return productArray.every(function(item){
+      return item.deliverable === true;
+    })
+  }
+
   ShopFactory.setStockIndicator = function(stock){
     if(stock === 0){
       return "Sorry, this has sold out."

@@ -1,4 +1,4 @@
-app.directive("modifyPlatforms", function(PlatformsFactory){
+app.directive("modifyPlatforms", function(PlatformsFactory, NotificationService){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/modify-platforms/modify-platforms.html",
@@ -34,10 +34,10 @@ app.directive("modifyPlatforms", function(PlatformsFactory){
         scope.isEditing = !scope.isEditing;
         PlatformsFactory.removePlatform(scope.platform)
         .then(function(ref){
-          console.log("PLATFORM REMOVED: ", ref);
+          NotificationService.notify("success", "Platform removed.");
         })
         .catch(function(error){
-          console.log("SORRY AND ERROR OCCURED: ", error);
+          NotificationService.notify("error", "Sorry, an error occured, platform may not have been removed.");
         })
       }
     }

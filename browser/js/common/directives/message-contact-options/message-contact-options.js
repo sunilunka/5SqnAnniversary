@@ -75,7 +75,6 @@ app.directive("messageContactOptions", function(MessageSessionService, Messaging
 
       scope.removeFromGroup = function(){
         MessageSessionService.removeParticipantFromGroup(userId, function(){
-          console.log("REMOVED FROM GROUP")
           scope.addedToGroup = false;
           $timeout(function(){
             scope.$apply()

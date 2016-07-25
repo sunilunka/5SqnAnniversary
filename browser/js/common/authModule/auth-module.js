@@ -9,7 +9,7 @@
   var app = angular.module('firebaseAuthHandler', ['firebase']);
 
   /* Factory for all user orientated methods. */
-  app.factory('UserAuthFactory', function(DatabaseFactory){
+  app.factory('UserAuthFactory', function(DatabaseFactory, NotificationService){
     var authRef = DatabaseFactory.authConnection();
     return {
       /* Connect to firebase instance and create a new user using email and password as authentication basis. */
@@ -36,7 +36,7 @@
           /* Nothing returned here due to redirect */
         })
         .catch(function(error){
-          console.log("SORRY WE COULDN'T SIGN YOU IN AT THIS TIME")
+          NotificationService.notify("error", "Sorry, we couldn't log you in at this time.");
         })
       },
 

@@ -1,0 +1,59 @@
+<section class="shop-checkout-page container-fluid">
+  <header class="flex-container-row flex-vertical-center product-header">
+    <h2>Shop Checkout</h2>
+    <a class="sqn-btn" ui-sref="shopFront">Back To Store To Modify Order</a>
+  </header>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <h3 class="checkout-header">Your items: </h3>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-repeat="item in order.products">
+        <div class="checkout-item">
+          <div class="flex-container-row checkout-item-flex">
+            <h4 ng-bind="item.title"></h4><h5>${{ item.price }}</h5>
+          </div>
+          <div class="flex-container-row checkout-item-flex">
+            <p ng-bind="item.display_options"></p><h5>Qty: <strong ng-bind="item.quantity"></strong></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <h3 class="checkout-header">Order details:</h3>
+      <div class="">
+        <form name="orderDetails" ng-submit="submitOrder()">
+          <label class="checkout-label">Your email: </label>
+          <input type="email" class="sqnInputEmail" ng-model="order.email" required></input>
+          <div ng-show="deliverable">
+            <label class="checkout-label">Address Line One</label>
+            <input type="text" ng-model="order.address.line_one"></input>
+            <label class="checkout-label">Address Line Two</label>
+            <input type="text" ng-model="order.address.line_two"></input>
+            <label class="checkout-label">City/Town</label>
+            <input type="text" ng-model="order.address.city"></input>
+            <label class="checkout-label">Province/State</label>
+            <input type="text" ng-model="order.address.province"></input>
+            <label class="checkout-label">Postal Code</label>
+            <input type="text" ng-model="order.address.post_code"></input>
+          </div>
+          <div class="checkout-payment">
+            <h4>Payment method</h4>
+            <div class="radio" ng-show="!deliverable">
+              <label>
+              <input type="radio" ng-model="order.paymentMethod" value="cash" required></input>Cash on collection</label>
+            </div>
+            <div class="radio">
+              <label>
+              <input type="radio" ng-model="order.paymentMethod" value="deposit" required></input>Bank Deposit</label>
+            </div>
+          </div>
+          <h3>Total: <em>${{ order.totalPrice }}</em></h3>
+          <div>
+            <button class="sqn-btn-positive" ng-disabled="orderDetails.$invalid" ng-class="{ 'sqn-btn-disabled': orderDetails.$invalid }">Submit Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <footer>
+  </footer>
+</section>

@@ -125,7 +125,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
 
       scope.populateVariantArray = function(event){
         event.preventDefault();
-        console.log("SCOPE NEW VARIANT: ", scope.newVariant, scope.newProduct);
         var toSave = {}
         angular.copy(scope.newVariant, toSave);
         scope.newProduct.variants.push(toSave);
@@ -168,6 +167,7 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
               angular.copy([], scope.imageAssets);
             })
             .catch(function(error){
+              /* Will implement notification in future. */
               console.log("SORRY AN ERROR OCCURED: ", error);
             })
           } else {
@@ -282,7 +282,6 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
           }, 2000)
         })
         .catch(function(error){
-          console.error("SORRY AN ERROR OCCURED: ", error);
           $timeout(function(){
             scope.displayUploadState = false;
             scope.displayOutput = "SORRY, AN ERROR OCCURED...!"

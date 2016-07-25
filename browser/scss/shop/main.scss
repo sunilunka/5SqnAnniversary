@@ -1,4 +1,4 @@
-.shop-storefront, .shop-product-page {
+.shop-storefront, .shop-product-page, .shop-checkout-page {
   padding-top: 7em;
   color: $theme-grey;
 }
@@ -191,4 +191,35 @@ cart-product {
 .stats-separator {
   padding: 0 0.5em 0 0;
   border-right: 3px solid $theme-tacgrey;
+}
+
+.checkout-header {
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
+  padding: 0.5em;
+}
+
+.checkout-payment {
+  padding: 0.5em;
+  margin: 1em 0;
+  border: 3px solid $theme-blue;
+}
+
+.checkout-label {
+  color: $theme-grey;
+  display: block;
+}
+
+.checkout-item {
+  margin: 1em 0em;
+  border-top: 2px solid $theme-blue;
+}
+
+.checkout-item-flex {
+  align-items: center;
+  justify-content: space-between;
+
+  p {
+    margin: 0;
+  }
 }

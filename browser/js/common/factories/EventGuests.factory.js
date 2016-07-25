@@ -13,11 +13,9 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
           }
       })
       .then(function(ref){
-        console.log("DATA WRITTEN: ", ref);
         return ref;
       })
       .catch(function(error){
-        console.log("SORRY, AN ERROR OCCURED!");
         return error;
       })
     },
@@ -26,11 +24,9 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
       return eventGuestRef.child(eventId).child(attendee.$id).remove()
       .then(function(data){
         /* No data is returned on successful (resolved promise) removal using standard Firebase Javscript API methods. */
-        console.log("DATA REMOVED!", data);
         return data;
       })
       .catch(function(error){
-        console.log("EVENT GUESTS ERROR: ", error);
         return error;
       })
     }

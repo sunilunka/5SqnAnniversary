@@ -5,7 +5,7 @@ app.directive("scrollBottom", function($timeout){
       let targetElement = element[0];
       let pastHeight = targetElement.scrollHeight;
 
-      /* This doesn't seem to work on mobile devices. Poop. */
+      /* This doesn't seem to work on mobile devices. Poop. It might be due to using the fat arrow function, and scoping of 'this'. Will look into it later. */
       // let scrollDown = (event) => {
       //   console.log("EVENT FIRED: ", event.animationName);
       //   let currentHeight = targetElement.scrollHeight;

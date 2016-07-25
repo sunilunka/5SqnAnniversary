@@ -8,8 +8,6 @@ app.directive("imageAssign", function($timeout){
       options: "="
     },
     link: function(scope, element, attrs){
-      console.log("OPTIONS: ", scope.options);
-      console.log("MY IMAGE: ", scope.image)
 
       scope.selectedOpts = {};
 
@@ -40,14 +38,11 @@ app.directive("imageAssign", function($timeout){
       scope.addToVariants = function(event){
         event.preventDefault();
         scope.product.variants.forEach(function(variant){
-          console.log("MATCHES: ", variant.options);
           if(optionsMatch(variant.options, scope.selectedOpts)){
             variant.imageURL = scope.image.imageURL;
             variant.imageName = scope.image.imageName;
           }
         })
-        console.log("SCOPE PRODUCT VARIANTS: ", scope.product.variants);
-        console.log("SCOPE SELECTED OPTS: ", scope.selectedOpts);
       }
 
       scope.$watch(function(){

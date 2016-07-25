@@ -1,4 +1,4 @@
-app.directive("shopCart", function(ShopService, $rootScope, $timeout){
+app.directive("shopCart", function(ShopService, $rootScope, $timeout, $state){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/shop-cart/shop-cart.html",
@@ -45,7 +45,7 @@ app.directive("shopCart", function(ShopService, $rootScope, $timeout){
       }
 
       scope.checkoutCart = function(){
-
+        $state.go("shopCheckout")
       }
     }
   }

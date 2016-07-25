@@ -8,7 +8,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     return $q(function(resolve, reject){
       var serverAuthRef = DatabaseFactory.authConnection();
       var serverAuthData = serverAuthRef.$getAuth();
-      console.log("SERVER AUTH DATA: ", serverAuthData);
       if(serverAuthData){
         resolve(serverAuthData);
       } else {
@@ -27,7 +26,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
   /* Change event data to what is required in the schema. Because a user cannot allocate guests until they have registered, the default value will always be 'no guests', a null value removes it from the database. */
   var modifyEventData = (userEventObj, firstName, lastName) => {
-    console.log("USER EVENT OBJECT: ", userEventObj);
     for(var evt in userEventObj){
       /* Covers both null, true and false values that may be returned from form */
       if(userEventObj.hasOwnProperty(evt)){
@@ -60,13 +58,11 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
     var storePrepped = JSON.stringify(toStore);
     if (window.sessionStorage){
       window.sessionStorage.setItem("registerData", storePrepped);
-      console.log("DATA STORED: ", window.sessionStorage)
     }
   }
 
   /* newUser is the parsed data to be saved to the firebase backend */
   var saveUserDetailsToDb = (newUser) => {
-    console.log('NEW USER CREATED: ', newUser);
     if(!newUser) return new Error("No user created!");
 
     var dataStorePromises = [];
@@ -159,8 +155,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       => AuthData also contains all other data the attendee has entered into the form and needs to be included for operations once a new user had successfully been created.
     */
     RegisterFactory.registerNewUser = (method, userData) => {
-      console.log("METHOD: ", method);
-      console.log("DATA: ", userData);
       switch(method){
         case "email":
          /* Create new user in database based on provided email and password */
@@ -222,7 +216,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       let eventObj = userData.events;
       /* Like events (we shall see), the user platform object should all be valid, due to the modifyPlatformsData fn that takes place to parse the data. . */
       let platformKeys = Object.keys(userData.platforms);
-      console.log("PLATFORM KEYS: ", platformKeys)
+
       /* For each object key, check it exists, if so, add to selected event*/
 
       /* Populate array with platforms and guest origin promises */
@@ -231,7 +225,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
       for(var eventId in eventObj){
         /* Use the Event Factory to makes changes to local firebase instance for each key in the events object. If it is true, addAttendeeToEvent */
-        console.log("EVENT TO USE: ", eventId, userData);
         if(eventObj.hasOwnProperty(eventId) && eventObj[eventId]){
           /* Push unresolved adding attendee to event promise to array*/
           recordsToSave.push(EventFactory.addAttendeeToEvent(eventId, userData));
@@ -241,7 +234,6 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
       }
 
       /* Return the result of all resolved promises in array saved event records on resolution or rejection. Using this method means if one promise fails, then all promises will be rejected.  */
-      console.log("EVENTS TO SAVE TO DB: ", recordsToSave);
       return firebase.Promise.all(recordsToSave)
       .then(function(data){
         return data;
