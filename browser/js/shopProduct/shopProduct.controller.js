@@ -53,8 +53,8 @@ app.controller("ShopProductCtrl", function($scope, ShopFactory, Product, ShopSer
       if(options[opt] !== variantOptionsObj[opt]){
         return false;
       }
-      return true;
     }
+    return true;
   }
 
   var findAndSelectVariant = function(variantArray, options){

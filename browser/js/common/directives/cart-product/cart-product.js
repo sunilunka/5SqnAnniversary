@@ -6,7 +6,6 @@ app.directive("cartProduct", function(ShopService){
       lineitem: "="
     },
     link: function(scope, element, attrs){
-      console.log("LINE ITEM: ", scope.lineitem)
       scope.processingUpdate = false;
       scope.removeCartItem = function(){
         ShopService.removeCartItem(scope.lineitem._id);

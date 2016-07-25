@@ -22,7 +22,6 @@ app.directive("shopCart", function(ShopService, $rootScope, $timeout){
 
       scope.showItems = false;
       scope.showItemLabel = "Show/Modify your items"
-      console.log("SHOPPING CART: ", ShopService.getCart());
       scope.itemCount = 0;
       scope.items =[];
       scope.subTotal  = "0.00";
