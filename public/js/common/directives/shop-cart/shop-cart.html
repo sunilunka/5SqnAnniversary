@@ -3,8 +3,8 @@
   <p class="cart-stats">{{ itemCount }}<span class="stats-separator"> items</span>
   <span>Total: </span><span ng-bind="subTotal | currency "></span></p>
   <div class="cart-options">
-    <button class="sqn-btn" ng-click="toggleShowItems()" ng-bind="showItemLabel"></button>
-    <button class="sqn-btn-positive" ng-click="checkoutCart()">Checkout</button>
+    <button class="sqn-btn" ng-click="toggleShowItems()" ng-disabled="itemCount <= 0" ng-class="{'sqn-btn-disabled': itemCount <= 0 }" ng-bind="showItemLabel"></button>
+    <button class="sqn-btn-positive" ng-click="checkoutCart()" ng-disabled="itemCount <= 0" ng-class="{'sqn-btn-disabled': itemCount <= 0 }">Checkout</button>
   </div>
 </section>
 <section ng-if="showItems">
