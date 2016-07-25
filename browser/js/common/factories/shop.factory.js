@@ -37,9 +37,15 @@ app.factory("ShopFactory", function(DatabaseFactory, ShopManagementFactory, $roo
   shoppingCart.prototype.transformToCartItem = function(product, quantity){
     var cartProduct = {};
     angular.copy(product, cartProduct);
+    if(cartProduct.hasOwnProperty("product_id")){
+      cartProduct.variant_id = cartProduct._id;
+    }
     if(cartProduct.hasOwnProperty("variants")){
+      /* All products have 'variants' array and options by default.*/
       delete cartProduct.variants
       delete cartProduct.description;
+      delete cartProduct.options
+      cartProduct.product_id = cartProduct._id;
     }
     /* Mongoose adds the .id field, not required. Duplicate of _id.*/
     delete cartProduct.id;

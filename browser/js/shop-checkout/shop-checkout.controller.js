@@ -7,6 +7,7 @@ app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory){
   $scope.deliverable = false;
 
   $scope.submitOrder = function(){
+    
     console.log("ORDER TO SUBMIT: ", $scope.order);
   }
 
