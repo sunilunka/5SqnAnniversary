@@ -24,6 +24,8 @@
           <label class="checkout-label">Your email: </label>
           <input type="email" class="sqnInputEmail" ng-model="order.email" required></input>
           <div ng-show="deliverable">
+            <label class="checkout-label">Recipient Full Name</label>
+            <input type="text" ng-model="order.recipient"></input>
             <label class="checkout-label">Address Line One</label>
             <input type="text" ng-model="order.address.line_one"></input>
             <label class="checkout-label">Address Line Two</label>
