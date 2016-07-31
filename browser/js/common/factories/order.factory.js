@@ -5,7 +5,6 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
   OrderFactory.submitToServer = function(order){
     return $http.post(DatabaseFactory.generateApiRoute("orders/new"), order)
     .then(function(response){
-      console.log("RESPONSE DATA: ", response.data);
       if(response.status === 200){
         $state.go("shopOrderAmend")
       } else if(response.status === 201){
@@ -50,10 +49,35 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
     })
   }
 
-  OrderFactory.getAllUserOrders = function(userId){
-    return $http.get(DatabaseFactory.generateApiRoute("users/" + userId + "/orders"), {
-      user_id: userId
+  OrderFactory.getAllOrders = function(){
+    var request = {
+      method: "GET",
+      url: Databasefactory.generateApiRoute("orders"),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      params: {
+        "user_id": userId
+      }
+    }
+    return $http(request)
+    .then(function(response){
+      return response.data;
     })
+  }
+
+  OrderFactory.getAllUserOrders = function(userId){
+    var request = {
+      method: "GET",
+      url: DatabaseFactory.generateApiRoute("users/" + userId + "/orders"),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      params: {
+        "user_id": userId
+      }
+    }
+    return $http(request)
     .then(function(orders){
       return orders
     })
