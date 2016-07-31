@@ -19,10 +19,16 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
       <h3 class="checkout-header">Order details:</h3>
-      <div class="">
-        <form name="orderDetails" ng-submit="submitOrder()" novalidate>
+      <div class="" >
+        <form ng-submit="checkUserEmail()" name="validateEmail" novalidate>
           <label class="checkout-label">Your email: </label>
           <input type="email" class="sqnInputEmail" ng-model="order.email" required></input>
+          <input class="sqn-btn-positive" type="submit" value="Confirm Email" ng-disabled="validateEmail.$invalid" ng-class="{'sqn-btn-disabled': validateEmail.$invalid }"></input>
+        </form>
+        <div ng-show="emailValidated" class="checkout-email-validation">
+          <p>Great, you are attending the event. Your details have been added to the order.</p>
+        </div>
+        <form name="orderDetails" ng-submit="submitOrder()" novalidate>
           <div ng-show="deliverable">
             <label class="checkout-label">Recipient Full Name</label>
             <input type="text" ng-model="order.recipient"></input>
@@ -50,7 +56,7 @@
           </div>
           <h3>Total: <em>${{ order.totalPrice }}</em></h3>
           <div>
-            <button class="sqn-btn-positive" ng-disabled="orderDetails.$invalid" ng-class="{ 'sqn-btn-disabled': orderDetails.$invalid }">Submit Order</button>
+            <button class="sqn-btn-positive" ng-disabled="orderDetails.$invalid || !emailValidated" ng-class="{ 'sqn-btn-disabled': orderDetails.$invalid || !emailValidated }">Submit Order</button>
           </div>
         </form>
       </div>

@@ -3,6 +3,12 @@
   color: $theme-grey;
 }
 
+.shop-checkout-success-page {
+  padding-top: 7em;
+  color: $theme-tacgrey;
+  background-color: $theme-green;
+}
+
 .shop-header {
   border-bottom: 3px solid $theme-grey;
 }
@@ -197,6 +203,12 @@ cart-product {
   background-color: $theme-grey;
   color: $theme-tacgrey;
   padding: 0.5em;
+}
+
+.checkout-email-validation {
+  background-color: $theme-green;
+  color: $theme-tacgrey;
+  padding: 1em;
 }
 
 .checkout-payment {
