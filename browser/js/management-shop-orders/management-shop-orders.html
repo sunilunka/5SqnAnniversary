@@ -5,13 +5,16 @@
         <h2>Management - Orders</h2>
         <a class="sqn-btn" ui-sref="management">Back To Management</a>
       </div>
-      <div class="flex-container-row flex-vertical-center">
+      <div class="flex-container-row">
         <label>Filter By Order Number</label>
         <input type="number" ng-model="orderRef"></input>
+      </div>
+      <div class="flex-container-row">
+        <button></button>
       </div>
     </div>
   </header>
   <div class="row">
-    <order-management class="col-xs-12 col-sm-6 col-md-6 col-lg-4" ng-repeat="order in orders" order="order"></order-management>
+    <order-management class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="order in orders" order="order"></order-management>
   </div>
 </section>

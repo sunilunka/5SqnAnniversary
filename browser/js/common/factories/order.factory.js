@@ -84,6 +84,23 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
     .then(DatabaseFactory.parseHTTPRequest);
   }
 
+  OrderFactory.updateOrder = function(orderId, updateObj){
+    var req = {
+      method: "PUT",
+      url: DatabaseFactory.generateApiRoute("orders/" + orderId),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: updateObj
+    }
+    return $http(req)
+    .then(function(response){
+      return response.data;
+    })
+    .catch(function(err){
+      console.error("Sorry an error occured: ", err);
+    })
+  }
 
 
   return OrderFactory;

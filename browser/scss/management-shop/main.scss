@@ -171,3 +171,44 @@ product-options {
   }
 
 }
+
+order-management {
+  margin: 1.5em 0em;
+}
+
+.order-update {
+  position: absolute;
+  display: block;
+  z-index: 300;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(104,175,195, 0.85);
+
+  p {
+    position: relative;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 33%;
+    width: 33%;
+    color: white;
+    border: 3px solid white;
+    padding: 6px;
+  }
+}
+
+.order-management-holder {
+  @include theme-shadow-default;
+  padding: 1em;
+
+  .order-management-table {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1em;
+    th {
+      text-align: center;
+    }
+  }
+}
