@@ -1,6 +1,6 @@
 app.config(function($stateProvider){
-  $stateProvider.state("managementShopOrders", {
-    url: "/management/shop/orders",
+  $stateProvider.state("managementOrders", {
+    url: "/management/orders",
     templateUrl: "js/management-shop-orders/management-shop-orders.html",
     controller: "ManagementShopOrdersCtrl",
     data: {

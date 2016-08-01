@@ -1,0 +1,34 @@
+<header>
+  <h3 ng-bind="order.recipient"></h3>
+  <h2 ng-bind="order.order_ref"></h2>
+  <h3>To be paid by: {{ order.paymentMethod }}</h3>
+</header>
+<div>
+  <table>
+    <thead>
+      <th>Product</th>
+      <th>Variant</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="product in order.products">
+        <td ng-bind="product.title"></td>
+        <td ng-bind="product.display_options"></td>
+        <td ng-bind="product.quantity"></td>
+        <td ng-bind="product.price"></td>
+      </tr>
+    </tbody>
+  </table>
+  <footer>
+    <p>Total Price: {{ order.totalPrice }}</p>
+    <h4>Payment State</h4>
+    <div class="flex-container-row">
+      <button class="sqn-btn" ng-class="{ 'product-option-selected': order.paymentState === 'pending'}">Pending</button><button class="sqn-btn" ng-class="{ 'sqn-btn-positive': order.paymentState === 'paid'}">Paid</button>
+    </div>
+    <h4>Order State</h4>
+    <div class="flex-container-row">
+      <button class="sqn-btn"></button>
+    </div>
+  </footer>
+</div>

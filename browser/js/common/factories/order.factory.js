@@ -1,4 +1,4 @@
-app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService, $state){
+app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService, $state, AuthService){
 
   var OrderFactory = {};
 
@@ -50,20 +50,23 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
   }
 
   OrderFactory.getAllOrders = function(){
-    var request = {
+    var user = AuthService.getCurrentUser();
+    var userId = (user.uid || user.id);
+
+    var req = {
       method: "GET",
-      url: Databasefactory.generateApiRoute("orders"),
+      url: DatabaseFactory.generateApiRoute("orders"),
       headers: {
         "Content-Type": "application/json"
       },
       params: {
-        "user_id": userId
+        user_id: userId
       }
     }
-    return $http(request)
-    .then(function(response){
-      return response.data;
-    })
+
+    return $http(req)
+    .then(DatabaseFactory.parseHTTPRequest);
+
   }
 
   OrderFactory.getAllUserOrders = function(userId){
@@ -78,9 +81,7 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
       }
     }
     return $http(request)
-    .then(function(orders){
-      return orders
-    })
+    .then(DatabaseFactory.parseHTTPRequest);
   }
 
 
