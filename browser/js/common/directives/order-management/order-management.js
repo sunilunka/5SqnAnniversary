@@ -13,19 +13,31 @@ app.directive("orderManagement", function(OrderFactory){
 
       scope.orderState = ["received", "dispatched", "collected"]
 
-      scope.updateOrderStatus = function(stat){
+      var updateOrder = function(orderId, orderObj){
         scope.orderIsUpdating = true;
-        OrderFactory.updateOrder(scope.order._id, {
-          orderStatus: stat
-        })
+        return OrderFactory.updateOrder(orderId, orderObj)
         .then(function(data){
           angular.copy(data, scope.order);
           scope.orderIsUpdating = false;
         })
       }
 
-      scope.updateOrderPayment = function(stat){
+      scope.updateOrderStatus = function(value){
+        updateOrder(scope.order._id, {
+          orderStatus: value
+        })
+      }
 
+      scope.updateOrderPayment = function(value){
+        updateOrder(scope.order._id, {
+          paymentState: value
+        })
+      }
+
+      scope.cancelOrder = function(){
+        updateOrder(scope.order._id, {
+          orderStatus: "cancelled"
+        })
       }
 
     }
