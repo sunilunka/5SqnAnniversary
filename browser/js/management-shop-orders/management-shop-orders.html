@@ -6,15 +6,21 @@
         <a class="sqn-btn" ui-sref="management">Back To Management</a>
       </div>
       <div class="flex-container-row">
-        <label>Filter By Order Number</label>
-        <input type="number" ng-model="orderRef"></input>
+        <label>Find Order Number: </label>
+        <div>
+          <span>5SQN-75-</span><input type="number" class="sqnInputActive order-management-number" ng-model="orderRef"></input>
+        </div>
+        <button class="sqn-btn-positive" ng-click="findOrderNumber()">Find</button>
       </div>
       <div class="flex-container-row">
-        <button></button>
+        <button ng-repeat="view in viewOptions" class="sqn-btn sqn-btn-flex" ng-bind="view.name" ng-class="{ 'sqn-btn-inverse': currentView === view.name } " ng-disabled="currentView === view.name" ng-click="setOrderView(view)"></button>
       </div>
     </div>
   </header>
   <div class="row">
-    <order-management class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="order in orders" order="order"></order-management>
+    <div ng-show="" class="order-output">
+      <p>Getting orders...</p>
+    </div>
+    <order-management class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="order in orders | filter:filterParams" order="order"></order-management>
   </div>
 </section>
