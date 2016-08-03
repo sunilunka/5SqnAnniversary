@@ -49,9 +49,10 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
     })
   }
 
-  OrderFactory.getAllOrders = function(){
+  OrderFactory.getAllOrders = function(query){
     var user = AuthService.getCurrentUser();
     var userId = (user.uid || user.id);
+
 
     var req = {
       method: "GET",
@@ -62,6 +63,10 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
       params: {
         user_id: userId
       }
+    }
+
+    if(query){
+      req.params['search'] = query;
     }
 
     return $http(req)

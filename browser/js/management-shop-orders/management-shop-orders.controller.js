@@ -1,4 +1,4 @@
-app.controller("ManagementShopOrdersCtrl", function($scope, allOrders){
+app.controller("ManagementShopOrdersCtrl", function($scope, allOrders, OrderFactory){
 
   $scope.orders = allOrders;
 
@@ -10,19 +10,37 @@ app.controller("ManagementShopOrdersCtrl", function($scope, allOrders){
 
   $scope.viewOptions = [{
     key: "all",
-    name: "All"
+    name: "All",
+    value: "all"
   },
   {
     key: "paymentState",
-    name: "Paid"
+    name: "Paid",
+    value: "paid"
   },
   {
     key: "paymentState",
-    name: "Payment Pending"
+    name: "Payment Pending",
+    value: "pending"
   }];
 
-  $scope.setOrderView = function(valueObj){
+  var processQueryOutput = function(results){
+    $scope.orders = results;
+    $scope.processingQuery = false;
+  }
+
+  $scope.getQueryOrders = function(valueObj){
+    $scope.processingQuery = true;
     $scope.currentView = valueObj.name;
+    if(valueObj.value === "all"){
+      OrderFactory.getAllOrders()
+      .then(processQueryOutput)
+    } else {
+      var query = {};
+      query[valueObj.key] = valueObj.value;
+      OrderFactory.getAllOrders(query)
+      .then(processQueryOutput)
+    }
   }
 
   $scope.filterParams = {};
@@ -33,8 +51,5 @@ app.controller("ManagementShopOrdersCtrl", function($scope, allOrders){
     }
   }
 
-  $scope.getOrderQueryResults = function(valueObj){
-
-  }
 
 })

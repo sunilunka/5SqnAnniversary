@@ -13,12 +13,12 @@
         <button class="sqn-btn-positive" ng-click="findOrderNumber()">Find</button>
       </div>
       <div class="flex-container-row">
-        <button ng-repeat="view in viewOptions" class="sqn-btn sqn-btn-flex" ng-bind="view.name" ng-class="{ 'sqn-btn-inverse': currentView === view.name } " ng-disabled="currentView === view.name" ng-click="setOrderView(view)"></button>
+        <button ng-repeat="view in viewOptions" class="sqn-btn sqn-btn-flex" ng-bind="view.name" ng-class="{ 'sqn-btn-inverse': currentView === view.name } " ng-disabled="currentView === view.name" ng-click="getQueryOrders(view)"></button>
       </div>
     </div>
   </header>
   <div class="row">
-    <div ng-show="" class="order-output">
+    <div ng-show="processingQuery" class="order-update">
       <p>Getting orders...</p>
     </div>
     <order-management class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="order in orders | filter:filterParams" order="order"></order-management>

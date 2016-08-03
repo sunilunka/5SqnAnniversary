@@ -1,0 +1,13 @@
+<header>
+  <div class="flex-container-row flex-vertical-center">
+    <span ng-bind="item.stock"></span>
+    <button class="sqn-btn-positive" ng-click="toggleModifyStock()">Modify Stock</button>
+  </div>
+</header>
+<div ng-show="editingStock">
+  <form name="modifyStockForm" class="flex-container-row">
+    <input type="number" class="sqnInputNumber-wide" ng-model="modAmount" name="newStockAmount"></input>
+    <button class="sqn-btn-positive" ng-click="addStock($event)" ng-disabled="modifyStockForm.$invalid">Add Stock</button>
+    <button class="sqn-btn-danger" ng-click="removeStock($event)" ng-disabled="modifyStockForm.$invalid">Remove Stock</button>
+  </form>
+</div>
