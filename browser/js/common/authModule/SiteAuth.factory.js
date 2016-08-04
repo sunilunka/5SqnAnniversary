@@ -31,32 +31,6 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
     .catch(function(error){
       return null;
     })
-    /* Change this to firebase query? */
-    // let usersRef = DatabaseFactory.dbConnection('attendees');
-    // let usersObject = usersRef.orderByKey().equalTo(id);
-    // return usersObject.once("value")
-    // .then(function(snapshot){
-    //   let userData = snapshot.val();
-    //   if(userData){
-    //     return userData[id];
-    //   } else {
-    //     return null;
-    //   }
-    // })
-    // return new Promise(function(fulfill, reject){
-    //   usersObject.once("value")
-    //   .then(function(snapshot){
-    //     let userData = snapshot.val();
-    //     if(!userData) {
-    //       fulfill(null);
-    //     } else {
-    //       /* If snapshot returns an object, key is the requested id.*/
-    //       fulfill(userData[id]);
-    //     }
-    //   }, function(err){
-    //     reject(err);
-    //   })
-    // });
   }
 
   return {
@@ -74,8 +48,6 @@ app.factory("SiteAuthFactory", function($firebaseObject, DatabaseFactory, Sessio
         }
       })
       .catch(function(error){
-        console.log("WINDOW STORAGE: ", window.localStorage);
-        console.log("SORRY AN ERROR OCCURED: ", error);
         return error;
       })
     },

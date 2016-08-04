@@ -144,6 +144,48 @@ app.factory("ShopManagementFactory", function(DatabaseFactory, $firebaseArray, $
 
   }
 
+  ShopManagementFactory.modifyProductStock = function(id, operation, amount){
+    var userId  = ShopManagementFactory.getCurrentUserId();
+    var request = {
+      method: "PUT",
+      url: DatabaseFactory.generateApiRoute("products/" + id + "/stock"),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: {
+        user_id: userId,
+        operation: operation,
+        amount: amount
+      }
+    }
+
+    return $http(request)
+    .then(function(response){
+      return response.data;
+    })
+  }
+
+  ShopManagementFactory.modifyVariantStock = function(id, operation, amount){
+      var userId  = ShopManagementFactory.getCurrentUserId();
+      var request = {
+        method: "PUT",
+        url: DatabaseFactory.generateApiRoute("variants/" + id + "/stock"),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: {
+          user_id: userId,
+          operation: operation,
+          amount: amount
+        }
+      }
+
+    return $http(request)
+    .then(function(response){
+      return response.data;
+    })
+  }
+
 
 
   return ShopManagementFactory;
