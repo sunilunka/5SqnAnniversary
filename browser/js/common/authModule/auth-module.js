@@ -107,10 +107,11 @@
 
           }  else {
             /* Find if user has registered data on the site or not and redirect as appropriate */
-
+            console.log("AUTH DATA: ", authData);
             SiteAuthFactory.isUserRegistered(authData)
             .then(function(data){
               /* Promise resolve if user data is returned from firebase instance. Will have key currentUser */
+              console.log("USER IS REGISTERED: ", data);
               if(data.currentUser){
                 /* If the returned firebase object has registered user data */
                 SiteAuthFactory.userIsRegistered(data.currentUser);

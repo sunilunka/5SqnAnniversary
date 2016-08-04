@@ -68,7 +68,6 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
     if(query){
       req.params['search'] = query;
     }
-
     return $http(req)
     .then(DatabaseFactory.parseHTTPRequest);
 
