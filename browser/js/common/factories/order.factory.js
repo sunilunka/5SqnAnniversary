@@ -1,4 +1,4 @@
-app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService, $state, AuthService){
+app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService, $state, AuthService, OrderService){
 
   var OrderFactory = {};
 
@@ -6,15 +6,19 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
     return $http.post(DatabaseFactory.generateApiRoute("orders/new"), order)
     .then(function(response){
       if(response.status === 200){
+        OrderService.initialize(response.data);
         $state.go("shopOrderAmend")
       } else if(response.status === 201){
+        /* Clear shopping cart from sessionStorage */
+        if(window.sessionStorage.hasOwnProperty("sqnShopCart")){
+          window.sessionStorage.removeItem("sqnShopCart");
+        }
         $state.go("shopOrderSuccess", {orderId: response.data._id });
       }
     })
   }
 
   OrderFactory.getOneOrder = function(id){
-    console.log("ID: ", id);
     return $http.get(DatabaseFactory.generateApiRoute("orders/" + id))
     .then(function(response){
         return response.data;

@@ -8,6 +8,8 @@ app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory, Or
 
   $scope.emailValidated = false;
 
+  $scope.processing = false;
+
   $scope.checkUserEmail = function(){
     OrderFactory.checkEmailAgainstAttendees($scope.order.email)
     .then(function(user){
@@ -20,8 +22,7 @@ app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory, Or
   }
 
   $scope.submitOrder = function(){
-
-    console.log("ORDER TO SUBMIT: ", $scope.order);
+    $scope.processing = true;
     OrderFactory.submitToServer($scope.order);
   }
 
@@ -29,9 +30,9 @@ app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory, Or
     ShopService.checkForLocalCartOnInit();
     angular.copy(ShopService.getCart(), $scope.order);
     $scope.deliverable = ShopFactory.checkAllDeliverable($scope.order.products);
+    $scope.processing = false;
     var currentUser = AuthService.getCurrentUser();
     if(currentUser){
-      console.log("CURRENT USER: ", currentUser);
       $scope.order.user_id = (currentUser.uid || currentUser.id);
       $scope.order.recipient = currentUser.firstName + " " + currentUser.lastName;
       $scope.order.email = currentUser.email;

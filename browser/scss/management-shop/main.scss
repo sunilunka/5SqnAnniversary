@@ -176,6 +176,29 @@ order-management {
   margin: 1.5em 0em;
 }
 
+.order-amendment {
+  background-color: $theme-red;
+  color: $theme-tacgrey;
+  padding: 1em;
+}
+
+.order-amendment-product-amounts {
+  color: $theme-tacgrey;
+  padding: 0.25em;
+  margin: 0.25em;
+  width: 100%;
+}
+
+.order-amendment-requested {
+  @extend .order-amendment-product-amounts;
+  background-color: $theme-red;
+}
+
+.order-amendment-actual {
+  @extend .order-amendment-product-amounts;
+  background-color: $theme-green;
+}
+
 .order-update {
   position: absolute;
   display: block;

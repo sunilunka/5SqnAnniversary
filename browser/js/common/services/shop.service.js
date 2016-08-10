@@ -54,7 +54,6 @@ app.service("ShopService", function($rootScope, ShopFactory){
 
   this.addToCart = function(productObj, quantity
   ){
-    console.log("PRODUCT: ", productObj);
     self.cart.addItemToCart(productObj, quantity, function(updatedCart){
       self.updateShopCart();
     });
