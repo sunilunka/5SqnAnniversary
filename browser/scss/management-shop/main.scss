@@ -189,6 +189,11 @@ order-management {
   width: 100%;
 }
 
+.order-amendment-details {
+  width: 100%;
+  padding: 1em;
+}
+
 .order-amendment-requested {
   @extend .order-amendment-product-amounts;
   background-color: $theme-red;

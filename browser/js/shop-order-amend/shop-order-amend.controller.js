@@ -6,10 +6,11 @@ app.controller("ShopOrderAmendCtrl", function($scope, OrderService){
 
   $scope.orderNotValid = true;
 
+  $scope.processing = false;
+
   var refreshScope = function(order){
     angular.merge(order, $scope.order);
     OrderService.checkAllQuantitiesCleared(function(notValid){
-      console.log("NOT VALID: ", notValid)
       $scope.orderNotValid = notValid;
     })
   }
@@ -22,14 +23,21 @@ app.controller("ShopOrderAmendCtrl", function($scope, OrderService){
     OrderService.removeItem(item, refreshScope);
   }
 
+  $scope.cancelOrder = function(){
+    OrderService.cancelOrder();
+  }
+
+  $scope.submitOrder = function(){
+    OrderFactory.submitToServer($scope.order);
+  }
+
 
   var init = function(){
-    var keys = Object.keys(OrderService.getOrder());
+    var keys = Object.keys(OrderService.getOrder()).length;
     if(keys){
       $scope.order = OrderService.getOrder();
-      console.log("SCOPE ORDER: ", $scope.order);
     } else {
-      scope.initFailed = true;
+      $scope.initFailed = true;
     }
   }
 

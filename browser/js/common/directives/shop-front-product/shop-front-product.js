@@ -10,8 +10,15 @@ app.directive("shopFrontProduct", function(ShopService, ShopFactory){
       scope.title = product.title;
       scope.imageSrc = product.imageURL;
       scope.price = (product.price || product.variants[0].price);
-      console.log("PRODUCT DETAILS: ", product);
+      scope.notAvailable = false;
 
+      var init = function(){
+        if(scope.stock <= 0){
+          scope.notAvailable = true;
+        }
+      }
+
+      init();
 
     }
   }
