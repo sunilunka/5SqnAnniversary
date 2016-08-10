@@ -1,4 +1,4 @@
-app.controller("ShopOrderAmendCtrl", function($scope, OrderService){
+app.controller("ShopOrderAmendCtrl", function($scope, OrderService, OrderFactory){
 
   $scope.order;
 

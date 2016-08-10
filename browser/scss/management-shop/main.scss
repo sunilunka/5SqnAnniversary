@@ -182,6 +182,10 @@ order-management {
   padding: 1em;
 }
 
+.order-amendment-actions {
+  margin-top: 0.5em;
+}
+
 .order-amendment-product-amounts {
   color: $theme-tacgrey;
   padding: 0.25em;
@@ -198,6 +202,7 @@ order-management {
   @extend .order-amendment-product-amounts;
   background-color: $theme-red;
 }
+
 
 .order-amendment-actual {
   @extend .order-amendment-product-amounts;

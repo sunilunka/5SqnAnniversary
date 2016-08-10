@@ -12,7 +12,7 @@
   </header>
   <div class="row">
     <div ng-show="initFailed" class="item-not-available">
-      <p>Sorry, an error has occurred with your order. Please click <a ui-sref="shopFront"><strong>here</strong></a> to go back to the store.</p>
+      <p>Sorry, an error has occurred with your order. You are being redirected to the site, or you can click <a ui-sref="shopFront"><strong>here</strong></a> to go back to the store.</p>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
       <h3 class="checkout-header">Your items: </h3>
@@ -34,7 +34,7 @@
             <div class="flex-container-row checkout-item-flex">
               <p class="order-amendment-actual">Available quantity: <span ng-bind="item.amendedQuantity"></span></p>
             </div>
-            <div class="flex-container-row">
+            <div class="flex-container-row order-amendment-actions">
               <button class="sqn-btn-positive" ng-disabled="item.amendedQuantity <= 0" ng-class="{ 'sqn-btn-disabled': item.amendedQuantity <= 0 }" ng-click="acceptNewQuantity(item)">Accept new quantity</button><button class="sqn-btn-danger" ng-click="removeItem(item)">Remove Item</button>
             </div>
           </div>
@@ -58,21 +58,6 @@
             <td ng-bind="order.paymentMethod"></td>
           </tr>
         </table>
-        <form name="orderDetails" ng-submit="submitOrder()" novalidate>
-          <div ng-show="deliverable">
-            <label class="checkout-label">Recipient Full Name</label>
-            <input type="text" ng-model="order.recipient"></input>
-            <label class="checkout-label">Address Line One</label>
-            <input type="text" ng-model="order.address.line_one"></input>
-            <label class="checkout-label">Address Line Two</label>
-            <input type="text" ng-model="order.address.line_two"></input>
-            <label class="checkout-label">City/Town</label>
-            <input type="text" ng-model="order.address.city"></input>
-            <label class="checkout-label">Province/State</label>
-            <input type="text" ng-model="order.address.province"></input>
-            <label class="checkout-label">Postal Code</label>
-            <input type="text" ng-model="order.address.post_code"></input>
-          </div>
           <h3>Total: <em>${{ order.totalPrice }}</em></h3>
           <div>
             <button class="sqn-btn-positive" ng-disabled="orderNotValid" ng-class="{ 'sqn-btn-disabled': orderNotValid }" ng-click="submitOrder()">Submit Order</button>
