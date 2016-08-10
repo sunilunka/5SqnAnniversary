@@ -9,6 +9,9 @@
   </div>
 </header>
 <div class="stock-modifier-actions" ng-show="editingStock">
+  <div ng-show="nostock" class="item-not-available">
+    <p>Sorry, not enough stock.</p>
+  </div>
   <form name="modifyStockForm" class="flex-container-row">
     <label>Amount</label>
     <input type="number" class="sqnInputNumber-wide" ng-model="modAmount" name="newStockAmount" ng-required="true" min="1"></input>

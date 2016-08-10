@@ -1,4 +1,4 @@
-app.directive("stockModifier", function(ShopManagementFactory){
+app.directive("stockModifier", function(ShopManagementFactory, $timeout){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/stock-modifier/stock-modifier.html",
@@ -8,6 +8,8 @@ app.directive("stockModifier", function(ShopManagementFactory){
     link: function(scope, element, attrs){
       scope.editingStock = false;
       scope.editLabel = "Modify Stock"
+
+      scope.nostock = false;
 
       scope.displayOptions;
 
@@ -25,6 +27,13 @@ app.directive("stockModifier", function(ShopManagementFactory){
       var processResult = function(responseData){
         angular.copy(responseData, scope.item);
         scope.modAmount = null;
+        if(responseData["nostock"]){
+          scope.nostock = true;
+          $timeout(function(){
+            scope.nostock = false;
+            delete scope.item.nostock;
+          }, 2000)
+        }
       }
 
       scope.addStock = function(event){
