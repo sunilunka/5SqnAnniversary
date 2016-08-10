@@ -10,6 +10,17 @@ app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory, Or
 
   $scope.processing = false;
 
+  $scope.setShippingPrice = function(value){
+    $scope.order.deliveryMethod = value;
+    if(value === "Post/Courier"){
+      $scope.order.shippingPrice = "10.00";
+      $scope.order.totalPrice = (parseFloat($scope.order.totalPrice) + 10).toFixed(2);
+    } else if ($scope.order.shippingPrice && $scope.order.deliveryMethod){
+      delete $scope.order.shippingPrice;
+      $scope.order.totalPrice = (parseFloat($scope.order.totalPrice) - 10).toFixed(2);
+    }
+  }
+
   $scope.checkUserEmail = function(){
     OrderFactory.checkEmailAgainstAttendees($scope.order.email)
     .then(function(user){
@@ -17,6 +28,8 @@ app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory, Or
         $scope.order.recipient = user.firstName + " " + user.lastName;
         $scope.order.user_id = user.user_id;
         $scope.emailValidated = true;
+      } else {
+        $scope.emailValidated = false;
       }
     })
   }

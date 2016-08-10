@@ -209,9 +209,10 @@ cart-product {
   background-color: $theme-green;
   color: $theme-tacgrey;
   padding: 1em;
+  margin: 0.5em 0 0 0;
 }
 
-.checkout-payment {
+.checkout-options {
   padding: 0.5em;
   margin: 1em 0;
   border: 3px solid $theme-blue;

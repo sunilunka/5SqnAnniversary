@@ -8,10 +8,11 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h3>Order reference number: </h3>
       <h2 ng-bind="order.order_ref"></h2>
-      <p>Please make sure to use this as the reference number, along with your name if you are paying by bank deposit.</p>
-      <p>Please make sure you have your order number on hand when collecting items. We don't want you to miss out on a piece of history!</p>
+      <p>Please make sure to use <strong ng-bind="order.order_ref"></strong> as the reference number, along with your name if you are paying by bank deposit.</p>
+      <p>Ensure you have the order number on hand when collecting items. We don't want you to miss out on a piece of history!</p>
     </div>
   </div>
   <footer>
+    <h4>You should have also receive an email of your purchase. If you have not received on within one day, please email <a href="mailto:sunil.unka@gmail.com?cc=siale.mann@nzdf.mil.nz&subject=Email%20requested%20for%20order%20{{ order.order_ref }}">the committee.</a></h4>
   </footer>
 </section>

@@ -7,6 +7,8 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
     },
     link: function(scope, element, attrs){
 
+      scope.processing = false;
+
       scope.newProduct = {
         variants: []
       };
@@ -41,6 +43,7 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
 
 
       scope.addNewProduct = function(){
+        scope.processing = true;
         var addOrModify = function(){
           if(scope.product){
             return false;
@@ -52,8 +55,10 @@ app.directive("productManagement", function(ShopManagementFactory, FirebaseStora
         ShopManagementFactory.convertForServer(scope.newProduct, scope.newProductOptions, addOrModify())
         .then(function(status){
           if(status === 200 || status === 201){
+            scope.processing = false;
             $state.go("managementShop");
           } else {
+            scope.processing = false;
             $state.go("login");
           }
         })

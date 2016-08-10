@@ -32,21 +32,37 @@
           <p>Great, you are attending the event. Your details have been added to the order.</p>
         </div>
         <form name="orderDetails" ng-submit="submitOrder()" novalidate>
-          <div ng-show="deliverable">
-            <label class="checkout-label">Recipient Full Name</label>
-            <input type="text" ng-model="order.recipient"></input>
-            <label class="checkout-label">Address Line One</label>
-            <input type="text" ng-model="order.address.line_one"></input>
-            <label class="checkout-label">Address Line Two</label>
-            <input type="text" ng-model="order.address.line_two"></input>
-            <label class="checkout-label">City/Town</label>
-            <input type="text" ng-model="order.address.city"></input>
-            <label class="checkout-label">Province/State</label>
-            <input type="text" ng-model="order.address.province"></input>
-            <label class="checkout-label">Postal Code</label>
-            <input type="text" ng-model="order.address.post_code"></input>
+          <p ng-show="!deliverable" class="sqn-not-available-label">Sorry you have items in your cart that are not eligible for delivery. The deliver option is not available.</p>
+          <div class="checkout-options">
+            <h4>Delivery Method</h4>
+            <p><strong>Note: </strong>For deliveries a blanket $10.00 fee is applied.</p>
+            <div class="radio">
+              <label>
+                <input type="radio" ng-required="true" ng-click="setShippingPrice('Pick Up')" ng-model="order.deliveryMethod" value="Pick Up"></input>Pick up at the event(s)
+              </label>
+            </div>
+            <div class="radio">
+              <label ng-class="{'sqn-btn-disabled': !deliverable }">
+                <input type="radio" ng-required="true" ng-disabled="!deliverable" ng-click="setShippingPrice('Post/Courier')" ng-model="order.deliveryMethod" value="Post/Courier"></input>Delivered by post or courier</label>
+            </div>
           </div>
-          <div class="checkout-payment">
+          <div ng-show="order.deliveryMethod === 'Post/Courier'">
+            <div ng-show="deliverable">
+              <label class="checkout-label">Recipient Full Name</label>
+              <input type="text" ng-model="order.recipient" class="sqnInputActive"></input>
+              <label class="checkout-label">Address Line One</label>
+              <input type="text" ng-model="order.address.line_one" class="sqnInputActive"></input>
+              <label class="checkout-label">Address Line Two</label>
+              <input type="text" ng-model="order.address.line_two" class="sqnInputActive"></input>
+              <label class="checkout-label">City/Town</label>
+              <input type="text" ng-model="order.address.city" class="sqnInputActive"></input>
+              <label class="checkout-label">Province/State</label>
+              <input type="text" ng-model="order.address.province" class="sqnInputActive"></input>
+              <label class="checkout-label">Postal Code</label>
+              <input type="text" ng-model="order.address.post_code" class="sqnInputActive"></input>
+            </div>
+          </div>
+          <div class="checkout-options">
             <h4>Payment method</h4>
             <div class="radio" ng-show="!deliverable">
               <label>
@@ -57,6 +73,7 @@
               <input type="radio" ng-model="order.paymentMethod" value="deposit" ng-required="true"></input>Bank Deposit</label>
             </div>
           </div>
+          <h4 ng-show="order['deliveryMethod'] === 'Post/Courier'">Shipping Price: <em>{{ order.shippingPrice }}</em></h4>
           <h3>Total: <em>${{ order.totalPrice }}</em></h3>
           <div>
             <button class="sqn-btn-positive" ng-disabled="orderDetails.$invalid || !emailValidated" ng-class="{ 'sqn-btn-disabled': orderDetails.$invalid || !emailValidated }">Submit Order</button>
