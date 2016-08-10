@@ -7,6 +7,6 @@
     <a class="sqn-btn-positive" ui-sref="managementShopModify({ product_id: product._id })">Modify Product</a>
     <button class="sqn-btn-danger" ng-click="removeProduct($event)">Remove Product</button>
   </div>
-  <stock-modifier ng-if="product.stock > 0" item="product"></stock-modifier>
+  <stock-modifier ng-if="product.stock > 0 || !product.variants.length" item="product"></stock-modifier>
   <stock-modifier ng-repeat="variant in product.variants" item="variant"></stock-modifier>
 </section>

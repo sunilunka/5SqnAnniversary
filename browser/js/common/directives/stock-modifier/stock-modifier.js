@@ -32,7 +32,10 @@ app.directive("stockModifier", function(ShopManagementFactory, $timeout){
           $timeout(function(){
             scope.nostock = false;
             delete scope.item.nostock;
+            scope.toggleModifyStock();
           }, 2000)
+        } else {
+          scope.toggleModifyStock();
         }
       }
 
