@@ -9,10 +9,13 @@ app.directive("stockModifier", function(ShopManagementFactory){
       scope.editingStock = false;
       scope.editLabel = "Modify Stock"
 
+      scope.displayOptions;
+
       scope.toggleModifyStock = function(){
         if(scope.editingStock){
           scope.editingStock = false;
           scope.editLabel = "Modify Stock"
+          scope.modAmount = null;
         } else {
           scope.editingStock = true;
           scope.editLabel = "Cancel"
@@ -20,8 +23,8 @@ app.directive("stockModifier", function(ShopManagementFactory){
       }
 
       var processResult = function(responseData){
-        console.log("RESPONSE DATA: ", responseData)
         angular.copy(responseData, scope.item);
+        scope.modAmount = null;
       }
 
       scope.addStock = function(event){
@@ -46,6 +49,20 @@ app.directive("stockModifier", function(ShopManagementFactory){
         }
       }
 
+      var init = function(){
+        var variantDisplay = [];
+        if(scope.item["options"]){
+          for(var variant in scope.item.options){
+            variantDisplay.push(scope.item.options[variant]);
+          }
+
+          variantDisplay = variantDisplay.join(" / ");
+
+          scope.displayOptions = variantDisplay;
+        }
+      }
+
+      init();
     }
   }
 })

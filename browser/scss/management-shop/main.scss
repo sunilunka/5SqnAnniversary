@@ -221,4 +221,31 @@ stock-modifier {
   position: relative;
   display: block;
   height: auto;
+  border-bottom: 2px solid $theme-grey;
+}
+
+.stock-modifier-status {
+  color: $theme-tacgrey;
+  padding: 0.25em;
+  margin-left: 0.25em;
+}
+
+.stock-modifier-status-low {
+  @extend .stock-modifier-status;
+  background-color: $theme-red;
+}
+
+.stock-modifier-status-ok {
+  @extend .stock-modifier-status;
+  background-color: $theme-green;
+}
+
+.stock-modifier-info {
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+}
+
+.stock-modifier-actions {
+  padding: 0.5em;
 }

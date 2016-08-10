@@ -172,7 +172,7 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
           storeRegisterDataForRedirect(method, userData);
           return UserAuthFactory.loginWithExternalProvider(method)
             .then(function(){
-              /* Nothing will occur here as Firebase OAuthRedirect promise is negated by the site redirect. This is instead captured on when listening for the OAuth event once login is complete.*/
+              /* Nothing will occur here as Firebase OAuthRedirect promise is negated by the site redirect. This is instead captured when listening for the OAuth event once login is complete.*/
             })
             .catch(function(error){
               return error;

@@ -1,12 +1,16 @@
 <header>
-  <div class="flex-container-row flex-vertical-center">
-    <span ng-bind="item.stock"></span>
-    <span ng-bind=""></span>
+  <div class="flex-container-row stock-modifier-info">
+    <div>
+      <span><strong>Stock:</strong></span>
+      <span ng-bind="item.stock" ng-class="{'stock-modifier-status-ok': item.stock >= 10, 'stock-modifier-status-low': item.stock < 10}"></span>
+    </div>
+    <span ng-bind="displayOptions"></span>
     <button class="sqn-btn-positive" ng-click="toggleModifyStock()" ng-bind="editLabel"></button>
   </div>
 </header>
-<div ng-show="editingStock">
+<div class="stock-modifier-actions" ng-show="editingStock">
   <form name="modifyStockForm" class="flex-container-row">
+    <label>Amount</label>
     <input type="number" class="sqnInputNumber-wide" ng-model="modAmount" name="newStockAmount" ng-required="true" min="1"></input>
     <button class="sqn-btn-positive" ng-click="addStock($event)" ng-disabled="modifyStockForm.$invalid" ng-class="{'sqn-btn-disabled': modifyStockForm.$invalid }">Add Stock</button>
     <button class="sqn-btn-danger" ng-click="removeStock($event)" ng-disabled="modifyStockForm.$invalid" ng-class="{'sqn-btn-disabled': modifyStockForm.$invalid }">Remove Stock</button>

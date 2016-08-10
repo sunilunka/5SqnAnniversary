@@ -34,6 +34,7 @@ app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory, Or
       console.log("CURRENT USER: ", currentUser);
       $scope.order.user_id = (currentUser.uid || currentUser.id);
       $scope.order.recipient = currentUser.firstName + " " + currentUser.lastName;
+      $scope.order.email = currentUser.email;
       $scope.emailValidated = true;
     }
 

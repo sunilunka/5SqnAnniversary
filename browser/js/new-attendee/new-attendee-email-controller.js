@@ -12,7 +12,6 @@ app.controller("NewAttendeeEmailCtrl", function($scope, AttendeeFactory, Events,
     var platformsValid = FormValidityFactory.checkPlatforms($scope.newAttendeeData);
     if(eventsValid && platformsValid){
       $scope.checkboxError = false;
-      console.log("FORM DATA: ", $scope.newAttendeeData);
       return AttendeeFactory.createOneAndLogin("email", $scope.newAttendeeData)
       .then(function(data){
         return data;
