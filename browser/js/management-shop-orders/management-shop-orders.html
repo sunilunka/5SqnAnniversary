@@ -6,13 +6,14 @@
         <a class="sqn-btn" ui-sref="management">Back To Management</a>
       </div>
       <div class="flex-container-row">
-        <label>Find Order Number: </label>
+        <label>Find Order Number in current group: </label>
         <div>
           <span>5SQN-75-</span><input type="number" class="sqnInputActive order-management-number" ng-model="orderRef"></input>
         </div>
         <button class="sqn-btn-positive" ng-click="findOrderNumber()">Find</button>
       </div>
       <div class="flex-container-row">
+        <h5 class="order-management-filters-title">View Orders By:</h5>
         <button ng-repeat="view in viewOptions" class="sqn-btn sqn-btn-flex" ng-bind="view.name" ng-class="{ 'sqn-btn-inverse': currentView === view.name } " ng-disabled="currentView === view.name" ng-click="getQueryOrders(view)"></button>
       </div>
     </div>

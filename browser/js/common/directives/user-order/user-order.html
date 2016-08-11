@@ -6,14 +6,17 @@
 </header>
 <div>
   <div class="flex-container-row flex-user-order">
-    <h5>Order Status: <strong class="user-order-status" ng-bind="order.orderStatus"></strong></h5>
     <h5>Total Price: <strong class="user-order-status">${{ order.totalPrice }}</strong></h5>
     <h5>Items: <strong class="user-order-status"ng-bind="order.lineItemCount"></strong></h5>
+  </div>
+  <div class="flex-container-row flex-user-order">
+    <h5>Order Status: <strong class="user-order-status" ng-bind="order.orderStatus"></strong></h5>
+    <h5>Payment Status:<strong class="user-order-status" ng-bind="order.paymentState"></strong></h5>
   </div>
 </div>
 <footer>
   <div class="flex-container-row flex-user-order">
-    <h5>Payment:<strong class="user-order-status" ng-bind="order.paymentState"></strong></h5>
     <h5>Delivery Method:<strong class="user-order-status" ng-bind="order.deliveryMethod"></strong></h5>
+    <h5 ng-if="order.trackingData && order.deliveryMethod === 'Post/Courier'">Tracking Number:<strong class="user-order-status" ng-bind="order.trackingData"></strong></h5>
   </div>
 </footer>

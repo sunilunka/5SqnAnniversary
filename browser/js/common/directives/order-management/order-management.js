@@ -40,6 +40,12 @@ app.directive("orderManagement", function(OrderFactory){
         })
       }
 
+      scope.addTrackingData = function(){
+        updateOrder(scope.order._id, {
+          trackingData: scope.order.trackingData
+        })
+      }
+
     }
   }
 })

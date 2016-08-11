@@ -9,6 +9,7 @@
       <h5 class=""><strong>Payment: </strong>{{ orderDetails.paymentState}}</h5>
       <h5 class=""><strong>Delivery Method: </strong>{{ orderDetails.deliveryMethod}}</h5>
       <h5 class=""><strong>Order Status: </strong>{{ orderDetails.orderStatus }}</h5>
+      <h5 ng-if="orderDetails.trackingData && orderDetails.deliveryMethod ==='Post/Courier'" class=""><strong>Tracking Number: </strong>{{ orderDetails.trackingData }}</h5>
     </div>
     <div class="order-detail-address" ng-if="orderDetails.address">
       <h5><strong>Delivery Address:</strong></h5>

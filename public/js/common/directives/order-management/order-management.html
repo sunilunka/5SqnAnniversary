@@ -6,7 +6,20 @@
     <h3 ng-bind="order.recipient"></h3>
     <h3 ng-bind="order.order_ref"></h3>
   </header>
-  <h4>To be paid by: {{ order.paymentMethod }}</h4>
+  <div class="flex-container-row">
+    <div>
+      <h5><strong>Payment Method:</strong> {{ order.paymentMethod }}</h5>
+      <h5><strong>Delivery Method:</strong> {{ order.deliveryMethod}}</h5>
+    </div>
+    <div class="order-management-address" ng-show="order.deliveryMethod === 'Post/Courier'">
+      <h5><strong>Delivery Address: </strong></h5>
+      <p ng-bind="order.address.line_one"></p>
+      <p ng-bind="order.address.line_two"></p>
+      <p ng-bind="order.address.city"></p>
+      <p ng-bind="order.address.province"></p>
+      <p ng-bind="order.address.post_code"></p>
+    </div>
+  </div>
   <div>
     <table class="order-management-table">
       <thead>
@@ -24,20 +37,32 @@
         </tr>
       </tbody>
     </table>
-    <footer>
-      <h4>Total Order Price: ${{ order.totalPrice }}</h4>
-      <h4>Payment State</h4>
-      <div class="flex-container-row">
-        <button ng-repeat="paystate in paymentState" class="sqn-btn sqn-btn-flex" ng-class="{ 'product-option-selected': order.paymentState === paystate }" ng-bind="paystate" ng-disabled="order.paymentState === paystate || order.orderStatus === 'cancelled'" ng-click="updateOrderPayment(paystate)"></button>
-      </div>
-      <h4>Order State</h4>
-      <div class="flex-container-row">
-        <button class="sqn-btn sqn-btn-flex" ng-repeat="ostate in orderState" ng-class="{'product-option-selected': order.orderStatus === ostate}" ng-disabled="order.orderStatus === ostate || order.orderStatus === 'cancelled'" ng-bind="ostate" ng-click="updateOrderStatus(ostate)"></button>
-      </div>
-      <h4>Cancel Order: This returns all stock and is not reversible</h4>
-      <div class="flex-container-row">
-        <button class="sqn-btn-danger sqn-btn-flex" ng-click="cancelOrder()" ng-disabled="order.orderStatus === 'cancelled'">Cancel Order</button>
-      </div>
-    </footer>
+    <div>
+      <h5 ng-if="order.shippingPrice && order.deliveryMethod === 'Post/Courier'"><strong>Shipping Price: </strong>${{ order.shippingPrice }}</h5>
+      <h5><strong>Total Order Price:</strong> ${{ order.totalPrice }}</h5>
+      <section>
+        <h5>Payment State</h5>
+        <div class="flex-container-row">
+          <button ng-repeat="paystate in paymentState" class="sqn-btn sqn-btn-flex" ng-class="{ 'product-option-selected': order.paymentState === paystate }" ng-bind="paystate" ng-disabled="order.paymentState === paystate || order.orderStatus === 'cancelled'" ng-click="updateOrderPayment(paystate)"></button>
+        </div>
+      </section>
+      <section>
+        <h5>Order State</h5>
+        <div class="flex-container-row">
+          <button class="sqn-btn sqn-btn-flex" ng-repeat="ostate in orderState" ng-class="{'product-option-selected': order.orderStatus === ostate}" ng-disabled="order.orderStatus === ostate || order.orderStatus === 'cancelled'" ng-bind="ostate" ng-click="updateOrderStatus(ostate)"></button>
+        </div>
+        <form class="order-management-tracking" ng-if="(order.orderStatus === 'dispatched') && (order.deliveryMethod === 'Post/Courier')" ng-submit="addTrackingData()" name="orderTrackingForm">
+          <label>Tracking Number:</label>
+          <input type="text" class="sqnInputActive" ng-model="order.trackingData" name="orderTrackingData" ng-required="true"></input>
+          <input class="sqn-btn-positive" type="submit" value="Add Tracking Number" ng-disabled="orderTrackingForm.$invalid" ng-class="{'sqn-btn-disabled': orderTrackingForm.$invalid }"></input>
+        </form>
+      </section>
+      <section>
+        <h5>Cancel Order: <strong>This returns all stock and is not reversible<strong></h5>
+        <div class="flex-container-row">
+          <button class="sqn-btn-danger sqn-btn-flex" ng-click="cancelOrder()" ng-disabled="order.orderStatus === 'cancelled'">Cancel Order</button>
+        </div>
+      <section>
+    </div>
   </div>
 </section>

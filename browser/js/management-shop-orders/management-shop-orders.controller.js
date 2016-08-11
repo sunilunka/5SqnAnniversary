@@ -25,13 +25,18 @@ app.controller("ManagementShopOrdersCtrl", function($scope, allOrders, OrderFact
   },
   {
     key: "deliveryMethod",
-    name: "Pick Up",
+    name: "For Pick Up",
     value: "Pick Up"
   },
   {
     key: "deliveryMethod",
-    name: "Post/Courier",
+    name: "Delivery by Post/Courier",
     value: "Post/Courier"
+  },
+  {
+    key: "orderStatus",
+    name: "Orders Dispatched",
+    value: "dispatched"
   }];
 
   var processQueryOutput = function(results){

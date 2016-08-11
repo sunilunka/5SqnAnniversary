@@ -232,6 +232,24 @@ order-management {
   }
 }
 
+.order-management-filters-title {
+  width: 98%;
+}
+
+.order-management-address {
+  margin: 0.25em 0.25em 1em 0.25em;
+  padding: 0.5em;
+  border: 2px solid $theme-blue;
+  p {
+    margin: 0 0 0.25em 0;
+  }
+}
+
+.order-management-tracking {
+  position: relative;
+  display: block;
+}
+
 .order-management-holder {
   @include theme-shadow-default;
   padding: 1em;
@@ -242,6 +260,10 @@ order-management {
     margin-bottom: 1em;
     th {
       text-align: center;
+    }
+    td {
+      border-top: 2px solid $theme-blue;
+      padding: 0.5em 0.25em;
     }
   }
 }
