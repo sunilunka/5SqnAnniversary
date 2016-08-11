@@ -205,6 +205,11 @@ cart-product {
   padding: 0.5em;
 }
 
+.checkout-email-form {
+  position: relative;
+  display: block;
+}
+
 .checkout-email-validation {
   background-color: $theme-green;
   color: $theme-tacgrey;
@@ -212,10 +217,21 @@ cart-product {
   margin: 0.5em 0 0 0;
 }
 
+.checkout-not-registered {
+  background-color: $theme-blue;
+}
+
 .checkout-options {
   padding: 0.5em;
   margin: 1em 0;
   border: 3px solid $theme-blue;
+}
+
+.checkout-delivery-price {
+  background-color: $theme-red;
+  color: $theme-tacgrey;
+  padding: 0.25em;
+  margin-bottom: 0.5em;
 }
 
 .checkout-label {
@@ -226,6 +242,20 @@ cart-product {
 .checkout-item {
   margin: 1em 0em;
   border-top: 2px solid $theme-blue;
+}
+
+.checkout-address-field {
+  padding: 0.5em;
+  label {
+    background-color: $theme-grey;
+    color: $theme-tacgrey;
+    width: 100%;
+    padding: 0.25em;
+  }
+}
+
+.checkout-input {
+  width: 100%;
 }
 
 .checkout-item-flex {

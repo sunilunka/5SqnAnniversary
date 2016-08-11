@@ -22,21 +22,27 @@
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
       <h3 class="checkout-header">Order details:</h3>
-      <div class="" >
-        <form ng-submit="checkUserEmail()" name="validateEmail" novalidate>
+      <div class="">
+        <form ng-submit="checkUserEmail()" name="validateEmail" novalidate class="checkout-email-form">
+          <div ng-show="emailProcessing" class="order-update">
+            <p>Checking your email...</p>
+          </div>
           <label class="checkout-label">Your email: </label>
           <input type="email" class="sqnInputEmail" ng-model="order.email" required></input>
           <input class="sqn-btn-positive" type="submit" value="Confirm Email" ng-disabled="validateEmail.$invalid" ng-class="{'sqn-btn-disabled': validateEmail.$invalid }"></input>
         </form>
-        <div ng-show="emailValidated" class="checkout-email-validation">
+        <div ng-show="emailValidated && memberValid" class="checkout-email-validation">
           <p>Great, you are attending the event. Your details have been added to the order.</p>
+        </div>
+        <div ng-show="emailValidated && !memberValid" class="checkout-email-validation checkout-not-registered">
+          <p>You are not registered for the events, so we can only deliver your order. Payment is by bank deposit only.</p>
         </div>
         <form name="orderDetails" ng-submit="submitOrder()" novalidate>
           <p ng-show="!deliverable" class="sqn-not-available-label">Sorry you have items in your cart that are not eligible for delivery. The deliver option is not available.</p>
           <div class="checkout-options">
             <h4>Delivery Method</h4>
-            <p><strong>Note: </strong>For deliveries a blanket $10.00 fee is applied.</p>
-            <div class="radio">
+            <p class="checkout-delivery-price"><strong>Note: </strong>For deliveries a blanket $10.00 fee is applied.</p>
+            <div class="radio" ng-hide="!memberValid">
               <label>
                 <input type="radio" ng-required="true" ng-click="setShippingPrice('Pick Up')" ng-model="order.deliveryMethod" value="Pick Up"></input>Pick up at the event(s)
               </label>
@@ -46,25 +52,37 @@
                 <input type="radio" ng-required="true" ng-disabled="!deliverable" ng-click="setShippingPrice('Post/Courier')" ng-model="order.deliveryMethod" value="Post/Courier"></input>Delivered by post or courier</label>
             </div>
           </div>
-          <div ng-show="order.deliveryMethod === 'Post/Courier'">
+          <div ng-show="order.deliveryMethod === 'Post/Courier' || !memberValid">
             <div ng-show="deliverable">
-              <label class="checkout-label">Recipient Full Name</label>
-              <input type="text" ng-model="order.recipient" class="sqnInputActive"></input>
-              <label class="checkout-label">Address Line One</label>
-              <input type="text" ng-model="order.address.line_one" class="sqnInputActive"></input>
-              <label class="checkout-label">Address Line Two</label>
-              <input type="text" ng-model="order.address.line_two" class="sqnInputActive"></input>
-              <label class="checkout-label">City/Town</label>
-              <input type="text" ng-model="order.address.city" class="sqnInputActive"></input>
-              <label class="checkout-label">Province/State</label>
-              <input type="text" ng-model="order.address.province" class="sqnInputActive"></input>
-              <label class="checkout-label">Postal Code</label>
-              <input type="text" ng-model="order.address.post_code" class="sqnInputActive"></input>
+              <div class="flex-container-row checkout-item-flex checkout-address-field">
+                <label class="checkout-label">Recipient Full Name</label>
+                <input type="text" ng-model="order.recipient" class="sqnInputActive checkout-input"></input>
+              </div>
+              <div class="flex-container-row checkout-item-flex checkout-address-field">
+                <label class="checkout-label">Address Line One</label>
+                <input type="text" ng-model="order.address.line_one" class="sqnInputActive checkout-input"></input>
+              </div>
+              <div class="flex-container-row checkout-item-flex checkout-address-field">
+                <label class="checkout-label">Address Line Two</label>
+                <input type="text" ng-model="order.address.line_two" class="sqnInputActive checkout-input"></input>
+              </div>
+              <div class="flex-container-row checkout-item-flex checkout-address-field">
+                <label class="checkout-label">City/Town</label>
+                <input type="text" ng-model="order.address.city" class="sqnInputActive checkout-input"></input>
+              </div>
+              <div class="flex-container-row checkout-item-flex checkout-address-field">
+                <label class="checkout-label">Province/State</label>
+                <input type="text" ng-model="order.address.province" class="sqnInputActive checkout-input"></input>
+              </div>
+              <div class="flex-container-row checkout-item-flex checkout-address-field">
+                <label class="checkout-label">Postal Code</label>
+                <input type="text" ng-model="order.address.post_code" class="sqnInputActive checkout-input"></input>
+              </div>
             </div>
           </div>
           <div class="checkout-options">
             <h4>Payment method</h4>
-            <div class="radio" ng-show="!deliverable">
+            <div class="radio" ng-show="memberValid && order.deliveryMethod !== 'Post/Courier'">
               <label>
               <input type="radio" ng-model="order.paymentMethod" value="cash" ng-required="true"></input>Cash on collection</label>
             </div>

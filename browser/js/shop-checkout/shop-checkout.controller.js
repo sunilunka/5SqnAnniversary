@@ -1,14 +1,16 @@
 app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory, OrderFactory, AuthService){
 
-
-
   $scope.order = {};
 
   $scope.deliverable = false;
 
   $scope.emailValidated = false;
 
+  $scope.memberValid = false;
+
   $scope.processing = false;
+
+  $scope.emailProcessing = false;
 
   $scope.setShippingPrice = function(value){
     $scope.order.deliveryMethod = value;
@@ -22,14 +24,19 @@ app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory, Or
   }
 
   $scope.checkUserEmail = function(){
+    $scope.emailProcessing = true;
     OrderFactory.checkEmailAgainstAttendees($scope.order.email)
     .then(function(user){
       if(user){
         $scope.order.recipient = user.firstName + " " + user.lastName;
         $scope.order.user_id = user.user_id;
         $scope.emailValidated = true;
+        $scope.memberValid = true;
+        $scope.emailProcessing = false;
       } else {
-        $scope.emailValidated = false;
+        $scope.emailValidated = true;
+        $scope.memberValid = false;
+        $scope.emailProcessing = false;
       }
     })
   }
@@ -50,6 +57,7 @@ app.controller("ShopCheckoutCtrl", function($scope, ShopService, ShopFactory, Or
       $scope.order.recipient = currentUser.firstName + " " + currentUser.lastName;
       $scope.order.email = currentUser.email;
       $scope.emailValidated = true;
+      $scope.memberValid = true;
     }
 
   }
