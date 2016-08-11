@@ -24,7 +24,7 @@ app.factory("OrderFactory", function(DatabaseFactory, $http, NotificationService
         return response.data;
     })
     .catch(function(err){
-      NotificationService.notify("error", "Sorry and error occured:\n\n" + err.message)
+      NotificationService.notify("error", "Sorry an error occured:\n\n" + err.message)
     });
   }
 

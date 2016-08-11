@@ -46,8 +46,15 @@
     box-shadow: 0px 10px 20px rgba(109, 109, 109, 0.75) inset;
   }
 
-  .attendee-announcements {
-    .announcement-viewer{
+  .attendee-information {
+
+    .attendee-information-header {
+      padding: 0.33em;
+      margin: 20px 0 2.4px 0;
+      border-top: 3px solid #808080;
+    }
+
+    .attendee-information-viewer{
       overflow-y: auto;
       height: 66vh;
       box-shadow: 0px 10px 20px rgba(109, 109, 109, 0.75) inset;

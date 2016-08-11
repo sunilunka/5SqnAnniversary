@@ -18,6 +18,9 @@ app.config(function($stateProvider){
       },
       Announcements: function(AnnouncementsFactory){
         return AnnouncementsFactory.getAllAnnouncements();
+      },
+      Orders: function(OrderFactory, $stateParams){
+        return OrderFactory.getAllUserOrders($stateParams.id);
       }
     }
   })

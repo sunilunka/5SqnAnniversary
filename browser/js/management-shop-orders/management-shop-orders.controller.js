@@ -22,6 +22,16 @@ app.controller("ManagementShopOrdersCtrl", function($scope, allOrders, OrderFact
     key: "paymentState",
     name: "Payment Pending",
     value: "pending"
+  },
+  {
+    key: "deliveryMethod",
+    name: "Pick Up",
+    value: "Pick Up"
+  },
+  {
+    key: "deliveryMethod",
+    name: "Post/Courier",
+    value: "Post/Courier"
   }];
 
   var processQueryOutput = function(results){

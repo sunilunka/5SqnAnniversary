@@ -1,5 +1,6 @@
 <active-chat-panel user="user"></active-chat-panel>
 <attendee-event-details></attendee-event-details>
+<attendee-order-detail></attendee-order-detail>
 <section id="user-profile" class="container-fluid">
   <div class="row">
     <div class="flex-container-row attendee-header">
@@ -13,10 +14,14 @@
         <attendee-event ng-repeat="event in events" evt="event" attendee="user"></attendee-event>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 attendee-announcements">
-      <h3>Event Announcements</h3>
-      <div scroll-bottom class="announcement-viewer">
-        <article ng-repeat="announcement in allAnnouncements">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 attendee-information">
+      <div class="attendee-information-header">
+        <button class="sqn-btn" ng-class="{'sqn-btn-active': informationDisplay === 'announcements'}" ng-click="setInformationView('announcements')">View Announcements</button>
+        <button class="sqn-btn" ng-click="setInformationView('orders')" ng-class="{'sqn-btn-active': informationDisplay === 'orders'}">View Orders</button>
+      </div>
+      <div scroll-bottom class="attendee-information-viewer">
+        <user-order ng-if="informationDisplay === 'orders'" ng-repeat="order in orders" order="order" ng-class="{'user-order-paid': order.paymentState === 'paid'}"></user-order>
+        <article ng-if="informationDisplay === 'announcements'" ng-repeat="announcement in allAnnouncements">
           <header class="flex-container-row">
             <h4 ng-bind="announcement.title"></h4>
             <formatted-date rawdate="announcement.date"></formatted-date>

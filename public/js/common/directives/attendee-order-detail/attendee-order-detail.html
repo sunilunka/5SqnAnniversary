@@ -1,0 +1,39 @@
+<section>
+  <header class="flex-container-row order-detail-user">
+    <h4>Order {{ orderDetails.order_ref }}</h4>
+    <button ng-click="closeOrderView()" class="sqn-btn-header">Close</button>
+  </header>
+  <div class="flex-container-row">
+    <div>
+      <h5 class=""><strong>Recipient: </strong> {{ orderDetails.recipient }}</h5>
+      <h5 class=""><strong>Payment: </strong>{{ orderDetails.paymentState}}</h5>
+      <h5 class=""><strong>Delivery Method: </strong>{{ orderDetails.deliveryMethod}}</h5>
+      <h5 class=""><strong>Order Status: </strong>{{ orderDetails.orderStatus }}</h5>
+    </div>
+    <div class="order-detail-address" ng-if="orderDetails.address">
+      <h5><strong>Delivery Address:</strong></h5>
+      <p ng-bind="orderDetails.address.line_one"></p>
+      <p ng-bind="orderDetails.address.line_two"></p>
+      <p ng-bind="orderDetails.address.city"></p>
+      <p ng-bind="orderDetails.address.province"></p>
+      <p ng-bind="orderDetails.address.post_code"></p>
+    </div>
+    <div class="flex-container-row order-detail-price">
+      <h5 ng-if="orderDetails.shippingPrice"><strong>Shipping Price: </strong>${{ orderDetails.shippingPrice }}</h5>
+      <h5><strong>Total Order Price: </strong>${{ orderDetails.totalPrice }}</h5>
+    </div>
+  </div>
+  <div class="flex-container-row">
+    <div class="order-detail-item" ng-repeat="item in orderDetails.products">
+      <h5 class="order-detail-item-title" ng-bind="item.title"></h5>
+      <p ng-bind="item.display_options || ''"></p>
+      <div class="flex-container-row order-detail-flex">
+        <span><strong>Quantity: </strong> {{ item.quantity }}</span>
+        <span><strong> Subtotal:</strong> ${{ item.subtotal }}</span>
+      </div>
+    </div>
+  </div>
+  <footer>
+
+  </footer>
+</section>
