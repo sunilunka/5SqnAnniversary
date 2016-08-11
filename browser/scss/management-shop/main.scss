@@ -250,6 +250,35 @@ order-management {
   display: block;
 }
 
+.order-management-subsection {
+  /*border: 3px solid $theme-blue;*/
+  margin: 0.25em;
+  padding: 0.5em;
+
+  h5 {
+    background-color: $theme-blue;
+    color: $theme-tacgrey;
+    padding: 0.25em;
+    margin: 0;
+    font-weight: 700;
+  }
+}
+
+.order-management-prices {
+  border: 3px solid $theme-grey;
+  padding: 0.5em;
+}
+
+
+
+.order-management-cancel-order {
+  border: 3px solid $theme-red;
+  margin: 0.25em;
+  padding: 0.5em;
+  background-color: $theme-red;
+  color: $theme-tacgrey;
+}
+
 .order-management-holder {
   @include theme-shadow-default;
   padding: 1em;
