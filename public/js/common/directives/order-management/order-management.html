@@ -52,12 +52,14 @@
       <section class="order-management-subsection">
         <h5>Order State</h5>
         <div class="flex-container-row">
-          <button class="sqn-btn sqn-btn-flex" ng-repeat="ostate in orderState" ng-class="{'product-option-selected': order.orderStatus === ostate}" ng-disabled="order.orderStatus === ostate || order.orderStatus === 'cancelled'" ng-bind="ostate" ng-click="updateOrderStatus(ostate)"></button>
+          <button class="sqn-btn sqn-btn-flex" ng-repeat="ostate in orderState" ng-class="{'product-option-selected': order.orderStatus === ostate}" ng-disabled="order.orderStatus === ostate || order.orderStatus === 'cancelled'" ng-bind="ostate" ng-click="updateOrderStatus(ostate)" ng-hide="order.deliveryMethod === 'Pick Up' && ostate === 'dispatched'"></button>
         </div>
-        <form class="order-management-tracking" ng-if="(order.orderStatus === 'dispatched') && (order.deliveryMethod === 'Post/Courier') && !order['trackingData']" ng-submit="addTrackingData()" name="orderTrackingForm">
+        <p class="sqn-not-available-label" ng-show="!order['trackingData'] && order.deliveryMethod === 'Post/Courier' && order.orderStatus === 'dispatched'">Add a tracking number to the order to send an email to the order recipient. If no tracking number fill in the field with a description such as 'No tracking, sent by standard Post.'</p>
+        <br>
+        <form class="order-management-tracking" ng-if="(order.orderStatus === 'dispatched') && (order.deliveryMethod === 'Post/Courier')" ng-submit="addTrackingData()" name="orderTrackingForm">
           <label>Tracking Number:</label>
-          <input type="text" class="sqnInputActive" ng-model="order.trackingData" name="orderTrackingData" ng-required="true"></input>
-          <input class="sqn-btn-positive" type="submit" value="Add Tracking Number" ng-disabled="orderTrackingForm.$invalid" ng-class="{'sqn-btn-disabled': orderTrackingForm.$invalid }"></input>
+          <input type="text" class="sqnInputActive" ng-model="order.trackingData" name="orderTrackingData" ng-required="true" ng-readonly="trackingData" ng-class="{'sqnInputReadonly': trackingData }"></input>
+          <input class="sqn-btn-positive" type="submit" value="Add Tracking Number" ng-disabled="orderTrackingForm.$invalid || trackingData" ng-class="{'sqn-btn-disabled': orderTrackingForm.$invalid || trackingData }"></input>
         </form>
       </section>
       <section class="order-management-cancel-order">

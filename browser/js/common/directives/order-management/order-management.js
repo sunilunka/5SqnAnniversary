@@ -9,6 +9,8 @@ app.directive("orderManagement", function(OrderFactory){
 
       scope.orderIsUpdating = false
 
+      scope.trackingData = null;
+
       scope.paymentState = ["pending", "paid"];
 
       scope.orderState = ["received", "dispatched", "collected"]
@@ -45,6 +47,14 @@ app.directive("orderManagement", function(OrderFactory){
           trackingData: scope.order.trackingData
         })
       }
+
+      var init = function(){
+        if(scope.order['trackingData']){
+          scope.trackingData = scope.order.trackingData;
+        }
+      }
+
+      init();
 
     }
   }
