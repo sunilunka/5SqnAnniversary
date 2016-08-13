@@ -25,9 +25,11 @@
         <div class="product-status">
           <h5><strong>Price:<strong> ${{ product.price}}</h5>
           <h5><strong>Stock:</strong> {{ stockIndicator }}</h5>
+          <p class="sqn-not-available-label" ng-show="!product.deliverable">This product is not available for delivery.</p>
+          <br>
         <form name="addProductToBuy" ng-submit="addProductToCart()">
           <label>How many would you like?</label>
-          <input type="number" name="requestedQuantity" ng-model="quantity" min="0" data-product-max="{{ stock }}" class="sqnInputNumber-wide"></input>
+          <input type="number" name="requestedQuantity" ng-model="quantity" min="0" max="{{ stock }}" class="sqnInputNumber-wide"></input>
           <input type="submit" class="sqn-btn-positive" value="Add To Cart" ng-disabled="notAvailable || addProductToBuy.requestedQuantity.$invalid || (quantity === null)" ng-class="{'sqn-btn-disabled': notAvailable || addProductToBuy.requestedQuantity.$invalid || (quantity === null) }"></input>
         </form>
       </footer>
