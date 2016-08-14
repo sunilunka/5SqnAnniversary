@@ -13,6 +13,18 @@ app.factory("EmailFactory", function(DatabaseFactory, $http){
       console.log("Email was not sent");
       return err;
     })
+  },
+
+  EmailFactory.sendGroupEmail = function(emailData){
+    return $http.post(DatabaseFactory.generateApiRoute('emails/group'), emailData)
+    .then(function(status){
+      if((status > 199) && (status < 300)){
+        return;
+      }
+    })
+    .catch(function(err){
+      return err;
+    })
   }
 
 
