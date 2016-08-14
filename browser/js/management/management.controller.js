@@ -42,6 +42,9 @@ app.controller('ManagementCtrl', function($scope, EventFactory, GuestOriginFacto
     {
       title: "Manage Orders",
       state: "managementOrders"
-    }
-  ]
+    },
+    {
+      title: "Email",
+      state: "managementEmail"
+    }]
 })

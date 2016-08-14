@@ -1,4 +1,4 @@
-app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory, GuestCategoryFactory, SiteAuthFactory, GuestOriginFactory, PlatformsFactory, $rootScope){
+app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAuthFactory, DatabaseFactory, RegisterFactory, SessionService, EventFactory, EventGuestFactory, AttendeeEventFactory, GuestCategoryFactory, SiteAuthFactory, GuestOriginFactory, PlatformsFactory, $rootScope, EmailFactory){
 
   var attendeesRef = DatabaseFactory.dbConnection("attendees");
   var attendeeObject = $firebaseObject(attendeesRef);

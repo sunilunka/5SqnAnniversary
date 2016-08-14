@@ -1,0 +1,9 @@
+.management-email-page {
+  @extend .management-shop-panel;
+}
+
+.management-email-form-field {
+  margin: 0 auto;
+  display: block;
+  width: 95%;
+}

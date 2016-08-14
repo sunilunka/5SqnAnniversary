@@ -1,4 +1,4 @@
-app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, EventGuestFactory, GuestOriginFactory, GuestCategoryFactory, PlatformsFactory, $q){
+app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventFactory, DatabaseFactory, EventGuestFactory, GuestOriginFactory, GuestCategoryFactory, PlatformsFactory, $q, EmailFactory){
   var attendeesRef = DatabaseFactory.dbConnection('attendees');
   var attendeeObject = $firebaseObject(attendeesRef);
 
@@ -89,7 +89,11 @@ app.factory("RegisterFactory", function($firebaseObject, UserAuthFactory, EventF
 
     dataStorePromises.push(GuestOriginFactory.addGuestToOriginStore(newUser));
 
-    return firebase.Promise.all(dataStorePromises);
+    return firebase.Promise.all(dataStorePromises)
+    .then(function(savedData){
+      EmailFactory.sendNewRegisterNotification(newUser.uid);
+      return savedData;
+    })
 
   }
 

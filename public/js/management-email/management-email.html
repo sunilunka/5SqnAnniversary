@@ -1,0 +1,23 @@
+<section class="management-email-page container-fluid">
+  <header class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="flex-container-row flex-vertical-center">
+        <h2>Management - Email</h2>
+        <a class="sqn-btn" ui-sref="management">Back To Management</a>
+      </div>
+  </header>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="flex-container-row flex-vertical-center">
+      <button class="sqn-btn sqn-btn-flex" ng-repeat="group in addresses" ng-click="group.action(group.value)" ng-bind="group.title"></button>
+    </div>
+    <div>
+      <form name="newEmailForm" ng-submit="submitNewEmail()" novalidate>
+        <label>Subject:</label>
+        <input ng-model="email.subject" type="text" class="sqnInputActive management-email-form-field" name="emailSubject" required></input>
+        <label>Email Body</label>
+        <textarea ng-model="email.body" type="text" class="sqnInputActive management-email-form-field" name="emailBody" required></textarea>
+        <input type="submit" class="sqn-btn-positive" ng-disabled="newEmailForm.$invalid" ng-class="{'sqn-btn-disabled': newEmailForm.$invalid }"></input>
+      </form>
+    </div>
+  </div>
+</section>
