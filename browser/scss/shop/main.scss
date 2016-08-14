@@ -239,6 +239,12 @@ cart-product {
   display: block;
 }
 
+.checkout-notice {
+  color: $theme-tacgrey;
+  background-color: $theme-blue;
+  padding: 0.5em;
+}
+
 .checkout-item {
   margin: 1em 0em;
   border-top: 2px solid $theme-blue;
@@ -265,4 +271,10 @@ cart-product {
   p {
     margin: 0;
   }
+}
+
+.checkout-success-spam-message {
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
+  padding: 0.5em;
 }

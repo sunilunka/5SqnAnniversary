@@ -23,6 +23,7 @@
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
       <h3 class="checkout-header">Order details:</h3>
       <div class="">
+        <p ng-show="!emailValidated" class="checkout-notice">Please verify your email before continuing your order. If you are registered and not currently logged in, this will log the order against your profile.</p>
         <form ng-submit="checkUserEmail()" name="validateEmail" novalidate class="checkout-email-form">
           <div ng-show="emailProcessing" class="order-update">
             <p>Checking your email...</p>
@@ -37,7 +38,7 @@
         <div ng-show="emailValidated && !memberValid" class="checkout-email-validation checkout-not-registered">
           <p>You are not registered for the events, so we can only deliver your order. Payment is by bank deposit only.</p>
         </div>
-        <form name="orderDetails" ng-submit="submitOrder()" novalidate>
+        <form ng-show="emailValidated" name="orderDetails" ng-submit="submitOrder()" novalidate>
           <p ng-show="!deliverable" class="sqn-not-available-label">Sorry you have items in your cart that are not eligible for delivery. The deliver option is not available.</p>
           <div class="checkout-options">
             <h4>Delivery Method</h4>
@@ -52,7 +53,7 @@
                 <input type="radio" ng-required="true" ng-disabled="!deliverable" ng-click="setShippingPrice('Post/Courier')" ng-model="order.deliveryMethod" value="Post/Courier"></input>Delivered by post or courier</label>
             </div>
           </div>
-          <div ng-show="order.deliveryMethod === 'Post/Courier' || !memberValid">
+          <div ng-show="order.deliveryMethod === 'Post/Courier' || (!memberValid && emailValidated)">
             <div ng-show="deliverable">
               <div class="flex-container-row checkout-item-flex checkout-address-field">
                 <label class="checkout-label">Recipient Full Name</label>
