@@ -1,13 +1,16 @@
-app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents){
+app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $timeout){
 
   $scope.events = allEvents;
 
   $scope.attendees = attendees;
 
+  $scope.addresseesAdded = false;
+
   $scope.email = {};
 
   var designateAddressees = function(value){
     $scope.email.distributionList = value;
+    $scope.addresseesAdded = true;
     console.log("DISTRIBUTION LIST: ", value);
   }
 
@@ -19,7 +22,7 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents){
 
 
   $scope.submitNewEmail = function(){
-    console.log("NEW EMAIL: ")
+    console.log("NEW EMAIL: ", $scope.email)
   }
 
   var init = function(){

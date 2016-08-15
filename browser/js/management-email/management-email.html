@@ -11,6 +11,7 @@
       <button class="sqn-btn sqn-btn-flex" ng-repeat="group in addresses" ng-click="group.action(group.value)" ng-bind="group.title"></button>
     </div>
     <div>
+      <p class="sqn-not-available-label" ng-hide="addressesAdded">Please add an address group (above) to the email</p>
       <form name="newEmailForm" ng-submit="submitNewEmail()" novalidate>
         <label>Subject:</label>
         <input ng-model="email.subject" type="text" class="sqnInputActive management-email-form-field" name="emailSubject" required></input>

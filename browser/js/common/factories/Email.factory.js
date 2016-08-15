@@ -18,7 +18,7 @@ app.factory("EmailFactory", function(DatabaseFactory, $http){
   EmailFactory.sendGroupEmail = function(emailData){
     return $http.post(DatabaseFactory.generateApiRoute('emails/group'), emailData)
     .then(function(status){
-      if((status > 199) && (status < 300)){
+      if((status === 200) || (status === 201)){
         return;
       }
     })
