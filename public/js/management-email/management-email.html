@@ -1,3 +1,6 @@
+<div ng-show="dispatchInProgress" class="management-email-progress">
+  <p ng-bind="dispatchStatus"></p>
+</div>
 <section class="management-email-page container-fluid">
   <header class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -7,11 +10,12 @@
       </div>
   </header>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <h3>Allocate a group to send the email to:</h3>
     <div class="flex-container-row flex-vertical-center">
-      <button class="sqn-btn sqn-btn-flex" ng-repeat="group in addresses" ng-click="group.action(group.value)" ng-bind="group.title"></button>
+      <button class="sqn-btn sqn-btn-flex" ng-repeat="group in addresses" ng-click="group.action(group)" ng-bind="group.title" ng-class="{'product-option-selected': group.ident === email.groupIdent }"></button>
     </div>
     <div>
-      <p class="sqn-not-available-label" ng-hide="addressesAdded">Please add an address group (above) to the email</p>
+      <p class="sqn-not-available-label" ng-hide="addresseesAdded">Please add an address group (above) to the email</p>
       <form name="newEmailForm" ng-submit="submitNewEmail()" novalidate>
         <label>Subject:</label>
         <input ng-model="email.subject" type="text" class="sqnInputActive management-email-form-field" name="emailSubject" required></input>
