@@ -1,4 +1,4 @@
-app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
+app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject, $firebaseArray){
   var eventGuestRef = DatabaseFactory.dbConnection("eventGuests");
   var eventGuestObj = $firebaseObject(eventGuestRef);
 
@@ -28,6 +28,13 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject){
       })
       .catch(function(error){
         return error;
+      })
+    },
+
+    getAllEventAttendees: (eventId) => {
+      return $firebaseArray(eventGuestRef.child(eventId)).$loaded()
+      .then(function(results){
+        return results;
       })
     }
   }

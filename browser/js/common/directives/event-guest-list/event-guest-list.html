@@ -1,0 +1,16 @@
+<section>
+  <header class="flex-container-row flex-vertical-center">
+    <h4 ng-bind="guest.attendeeName"></h4>
+    <button class="sqn-btn-positive">Payment Recieved</button>
+  </header>
+  <div class="flex-container-row flex-vertical-center" ng-repeat="item in guest.guestNames">
+    <p ng-bind="item.name"></p>
+    <button class="sqn-btn-danger" ng-click="removeDuplicate(item)">Remove Duplicate Guest</button>
+  </div>
+  <div>
+    <form name="seatAllocationForm" ng-submit="setTable()">
+      <label>Allocate to table:</label>
+      <input type="number" class="sqnInputNumber" ng-model="tableNumber"></input>
+    </form>
+  </div>
+</section>

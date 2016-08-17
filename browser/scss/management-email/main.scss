@@ -7,3 +7,26 @@
   display: block;
   width: 95%;
 }
+
+.management-email-progress {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(104,175,195, 0.85);
+  z-index: 900;
+}
+
+.management-email-message {
+  text-align: center;
+  padding: 1em;
+  border: 3px solid $theme-tacgrey;
+  position: relative;
+  display: block;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 33%;
+  width: 33%;
+  color: white;
+}

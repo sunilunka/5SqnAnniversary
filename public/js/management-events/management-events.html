@@ -6,7 +6,7 @@
   </div>
   <div class="flex-container-row">
     <button class="sqn-btn" ng-click="toggleEventCreation()" ng-class="{'sqn-btn-disabled': eventCreationActive}" ng-disabled="eventCreationActive">Create Event</button>
-    <button class="sqn-btn">Event Guest List</button>
+    <button class="sqn-btn" ui-sref="eventGuests">Event Guest List</button>
   </div>
   <div class="new-event-creation" ng-show="eventCreationActive">
     <event-creation class=""></event-creation>

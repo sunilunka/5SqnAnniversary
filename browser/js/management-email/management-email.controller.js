@@ -1,4 +1,4 @@
-app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $timeout){
+app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $timeout, EmailFactory){
 
   $scope.events = allEvents;
 
@@ -17,6 +17,7 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
     $scope.email.groupIdent = group.ident;
     $scope.addresseesAdded = true;
     console.log("DISTRIBUTION LIST: ", $scope.email);
+
   }
 
   $scope.addresses = [{
@@ -29,13 +30,24 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
 
 
   $scope.submitNewEmail = function(){
-
-    console.log("NEW EMAIL: ", $scope.email)
+    $scope.dispatchInProgress = true;
+    EmailFactory.sendGroupEmail($scope.email)
+    .then(function(status){
+      $scope.dispatchStatus = "All mail sent!"
+      $timeout(function(){
+        $scope.dispatchInProgress = false;
+      }, 2000)
+    })
+    .catch(function(err){
+      $scope.dispatchStatus = "Sorry and error occured: " + err.message;
+      $timeout(function(){
+        $scope.dispatchInProgress = false;
+      }, 2000)
+    })
   }
 
   var init = function(){
     var eventOptions = allEvents.map(function(evt){
-      console.log("EVT: ", evt);
       return {
         title: evt.name + " Guests",
         value: "eventGuests/" + evt.$id,
