@@ -1,14 +1,24 @@
-app.directive("eventGuestList", function(){
+app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/event-guest-list/event-guest-list.html",
     scope: {
-      guestlist: "="
+      guestlist: "=",
+      evt: "="
     },
     link: function(scope, element, attrs){
       scope.guest = {};
 
-      scope.removeDuplicateGuest = function(guest){};
+      scope.removeDuplicateGuest = function(guest){
+        console.log("SCOPE EVENT: ", scope.evt)
+        console.log("GUEST: ", guest);
+        console.log("SCOPE GUEST LIST: ", scope.guestlist);
+        return AttendeeEventFactory.modifyEventGuestList(scope.evt, scope.guestlist).removeGuest(guest.ref)
+        .then(function(){
+          /* Nothing is returned from a removal */
+          return AttendeeEventFactory.removeGuestFromAttendeeEvent(scope.guestlist.$id, scope.evt, guest.ref)
+        })
+      };
 
       var init = function(){
         for(var key in scope.guestlist){

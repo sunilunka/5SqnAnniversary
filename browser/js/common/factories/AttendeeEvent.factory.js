@@ -37,7 +37,7 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
 
           guestEventRef.remove()
           .then(function(data){
-            EventFactory.removeAttendeeFromEvent(evtId, attendeeData);
+            return EventFactory.removeAttendeeFromEvent(evtId, attendeeData);
           })
           .catch(function(error){
             console.error("Sorry an error occured: ", error)
@@ -66,6 +66,11 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
     /* May not require this, will look at it when testing user data flows. */
     checkSeatsOnLimitChange: (evtId, association, callback) => {
       let limitRef = DatabaseFactory.dbConnection("events/" + evtId);
+    },
+
+    removeGuestFromAttendeeEvent: (attendeeId, evtId, guestId) => {
+      var attendeeGuestRef = DatabaseFactory.dbConnection("attendee/" + attendeeId + "/events/" + evtId + "/" + guestId);
+      return attendeeGuestRef.remove()
     }
 
   }

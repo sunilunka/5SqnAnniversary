@@ -8,3 +8,14 @@
     }
   }
 }
+
+event-guest-list {
+  flex-grow: 1;
+  width: 30em;
+}
+
+.event-guest-list-holder {
+  margin: 1em;
+  @include theme-shadow-default;
+  padding: 1em;
+}
