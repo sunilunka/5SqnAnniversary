@@ -12,7 +12,7 @@
       <button class="sqn-btn sqn-btn-flex" ng-repeat="evt in allEvents" ng-click="loadEventGuests(evt.$id)" ng-bind="evt.name" ng-class="{'product-option-selected': evt.$id === selectedEvent }"></button>
     </div>
     <div>
-      <div class="flex-container-row">
+      <div class="flex-container-row event-guests-output">
         <event-guest-list class="" ng-repeat="list in guests" guestlist="list" evt="selectedEvent"></event-guest-list>
       </div>
     </div>

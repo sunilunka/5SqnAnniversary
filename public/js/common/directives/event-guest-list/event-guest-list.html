@@ -3,9 +3,9 @@
     <h4 ng-bind="guest.attendeeName"></h4>
     <button class="sqn-btn-positive">Payment Recieved</button>
   </header>
-  <div class="flex-container-row flex-vertical-center" ng-repeat="item in guest.guestNames">
+  <div class="flex-container-row event-guest-info" ng-repeat="item in guest.guestNames">
     <p ng-bind="item.name"></p>
-    <button class="sqn-btn-danger" ng-click="removeDuplicateGuest(item)">Remove Duplicate Guest</button>
+    <button class="sqn-btn-danger" ng-click="removeDuplicateGuest(item)" ng-disabled="processingRemoval" ng-class="{'sqn-btn-disabled': processingRemoval }">Remove Duplicate Guest</button>
   </div>
   <div>
     <form name="seatAllocationForm" ng-submit="setTable()">

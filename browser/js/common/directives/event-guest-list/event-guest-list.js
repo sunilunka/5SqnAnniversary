@@ -1,4 +1,4 @@
-app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory){
+app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, AttendeeFactory, $timeout, EventGuestFactory){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/event-guest-list/event-guest-list.html",
@@ -9,16 +9,7 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory){
     link: function(scope, element, attrs){
       scope.guest = {};
 
-      scope.removeDuplicateGuest = function(guest){
-        console.log("SCOPE EVENT: ", scope.evt)
-        console.log("GUEST: ", guest);
-        console.log("SCOPE GUEST LIST: ", scope.guestlist);
-        return AttendeeEventFactory.modifyEventGuestList(scope.evt, scope.guestlist).removeGuest(guest.ref)
-        .then(function(){
-          /* Nothing is returned from a removal */
-          return AttendeeEventFactory.removeGuestFromAttendeeEvent(scope.guestlist.$id, scope.evt, guest.ref)
-        })
-      };
+      scope.processingRemoval = false;
 
       var init = function(){
         for(var key in scope.guestlist){
@@ -44,6 +35,37 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory){
           }
         }
       }
+
+      scope.removeDuplicateGuest = function(guest){
+        scope.processingRemoval = true;
+        return AttendeeFactory.getUserAssociation(scope.guestlist.$id)
+        .then(function(userAssociation){
+          var userData = {
+            $id: scope.guestlist.$id,
+            association: userAssociation
+          }
+          return AttendeeEventFactory.modifyEventGuestList(scope.evt, userData).removeGuest(guest.ref)
+          .then(function(){
+            /* Nothing is returned from a removal */
+            return AttendeeEventFactory.removeGuestFromAttendeeEvent(userData, scope.evt, guest.ref)
+          })
+          .then(function(){
+            EventGuestFactory.getSingleGuestListObject(scope.evt, userData.$id)
+            .then(function(updatedObj){
+              var checkDollar = /\$/g;
+              for(var key in scope.guest){
+                if(!checkDollar.test(key)){
+                  if(!updatedObj.hasOwnProperty(key)){
+                    delete scope.guest[key];
+                  }
+                }
+              }
+              scope.processingRemoval = false;
+            })
+          })
+        })
+      };
+
 
       init();
     }

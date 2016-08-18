@@ -14,8 +14,23 @@ event-guest-list {
   width: 30em;
 }
 
+.event-guests-output {
+  align-items: center;
+}
+
 .event-guest-list-holder {
   margin: 1em;
   @include theme-shadow-default;
   padding: 1em;
+}
+
+.event-guest-info {
+  align-items: center;
+  border-bottom: 1px solid #808080;
+  padding-bottom: 0.5em;
+  margin: 0 0 1em 0;
+}
+
+.event-guest-update {
+
 }

@@ -147,10 +147,18 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
     return attendeesRef.child(userId).child("online").transaction(function(currentVal){
       return false;
     });
-  },
+  }
 
   AttendeeFactory.watchOnlineState = (userId, callback) => {
     return attendeesRef.child(userId).child("online").on("value", callback)
+  }
+
+  AttendeeFactory.getUserAssociation = function(id){
+    return DatabaseFactory.dbConnection("attendees/" + id + "/association")
+    .once("value")
+    .then(function(snapshot){
+      return snapshot.val();
+    })
   }
   return AttendeeFactory;
 

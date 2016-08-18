@@ -36,6 +36,14 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject, $fir
       .then(function(results){
         return results;
       })
+    },
+
+    getSingleGuestListObject: (eventId, attendeeId) => {
+      return $firebaseObject(eventGuestRef.child(eventId).child(attendeeId))
+      .$loaded()
+      .then(function(obj){
+        return obj;
+      })
     }
   }
 
