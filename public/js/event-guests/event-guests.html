@@ -11,9 +11,23 @@
     <div class="flex-container-row flex-vertical-center">
       <button class="sqn-btn sqn-btn-flex" ng-repeat="evt in allEvents" ng-click="loadEventGuests(evt.$id)" ng-bind="evt.name" ng-class="{'product-option-selected': evt.$id === selectedEvent }"></button>
     </div>
+    <div ng-show="!guests.length">
+      <h3>Select an event to view guests.</h3>
+    </div>
+    <div ng-show="guests.length">
+      <h4>Find and Attendee</h4>
+      <form ng-submit="filterAttendees()" name="userSearchForm" class="flex-container-row flex-vertical-center">
+        <div>
+          <label>Registed User name (first, last or both)</label>
+          <input type="text" class="sqnInputActive" ng-model="searchName" ng-required="true"></input>
+          <input type="submit" value="Find Attendee" class="sqn-btn-positive" ng-disabled="userSearchForm.$invalid" ng-class="{'sqn-btn-disabled': userSearchForm.$invalid }"></input>
+          <button class="sqn-btn" ng-click="resetSearch($event)">Reset</button>
+        </div>
+      </form>
+    </div>
     <div>
       <div class="flex-container-row event-guests-output">
-        <event-guest-list class="" ng-repeat="list in guests" guestlist="list" evt="selectedEvent"></event-guest-list>
+        <event-guest-list class="" ng-repeat="list in guests | filter:searchParams" guestlist="list" evt="selectedEvent"></event-guest-list>
       </div>
     </div>
   </div>
