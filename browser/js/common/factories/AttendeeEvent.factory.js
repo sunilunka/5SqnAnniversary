@@ -69,8 +69,18 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
     },
 
     removeGuestFromAttendeeEvent: (attendeeData, evtId, guestId) => {
-      var attendeeEventGuestRef = DatabaseFactory.dbConnection("attendees/" + attendeeData.$id + "/events/" + evtId + "/" + guestId);
-      return attendeeEventGuestRef.remove()
+      var attendeeEventGuestRef = DatabaseFactory.dbConnection("attendees/" + attendeeData.$id + "/events/" + evtId);
+      attendeeEventGuestRef.once("value")
+      .then(function(snapshot){
+        var guestList = snapshot.val();
+        if((Object.keys(guestList).length === 1) && guestList.hasOwnProperty(guestId)){
+          return attendeeEventGuestRef.set("No guests");
+        } else {
+          return attendeeEventGuestRef.update({
+            [guestId]: null
+          })
+        }
+      })
     }
 
   }
