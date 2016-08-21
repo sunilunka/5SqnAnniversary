@@ -21,9 +21,9 @@ app.factory('DatabaseFactory', function($firebaseAuth){
 
     generateApiRoute: (route) => {
       if(route){
-        return "http://127.0.0.1:3000/api/" + route;
+        return "https://stark-island-46136.herokuapp.com/api/" + route;
       } else {
-        return "http://127.0.0.1:3000/api/"
+        return "https://stark-island-46136.herokuapp.com//api/"
       }
     }
   }
