@@ -53,10 +53,12 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
             EventGuestFactory.getSingleGuestListObject(scope.evt, userData.$id)
             .then(function(updatedObj){
               var checkDollar = /\$/g;
-              for(var key in scope.guest){
-                if(!checkDollar.test(key)){
+              for(var key in scope.guestlist){
+                if(!checkDollar.test(key) && (key !== "registeredAttendee") && (key !== "details")){
                   if(!updatedObj.hasOwnProperty(key)){
-                    delete scope.guest[key];
+                    _.remove(scope.guest["guestNames"], function(g){
+                      return g.ref === key;
+                    })
                   }
                 }
               }
@@ -65,7 +67,6 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
           })
         })
       };
-
 
       init();
     }

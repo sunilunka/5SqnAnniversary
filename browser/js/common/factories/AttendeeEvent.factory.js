@@ -69,8 +69,8 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
     },
 
     removeGuestFromAttendeeEvent: (attendeeData, evtId, guestId) => {
-      var attendeeGuestRef = DatabaseFactory.dbConnection("attendee/" + attendeeData.$id + "/events/" + evtId + "/" + guestId);
-      return attendeeGuestRef.remove()
+      var attendeeEventGuestRef = DatabaseFactory.dbConnection("attendees/" + attendeeData.$id + "/events/" + evtId + "/" + guestId);
+      return attendeeEventGuestRef.remove()
     }
 
   }
