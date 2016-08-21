@@ -10,7 +10,7 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
 
   $scope.dispatchInProgress = false;
 
-  $scope.dispatchStatus = "Sending email...this took take a little while..."
+  $scope.dispatchStatus = "Sending emails...this could take a little while..."
 
   var designateAddressees = function(group){
     $scope.email.distributionList = group.value;
