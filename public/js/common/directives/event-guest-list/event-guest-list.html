@@ -1,6 +1,7 @@
 <section class="event-guest-list-holder">
   <header class="flex-container-row flex-vertical-center">
     <h4 ng-bind="guest.attendeeName"></h4>
+    <a class="sqn-btn" href="mailto:{{ email }}" ng-show="email">Send Email</a>
     <button class="sqn-btn-positive">Payment Recieved</button>
   </header>
   <div class="flex-container-row event-guest-info" ng-repeat="item in guest.guestNames">

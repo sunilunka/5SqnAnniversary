@@ -160,6 +160,15 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       return snapshot.val();
     })
   }
+
+  AttendeeFactory.getUserEmail = function(id){
+    var emailRef = DatabaseFactory.dbConnection("attendees/" + id + "/email");
+    return emailRef.once("value")
+    .then(function(snapshot){
+      return snapshot.val();
+    })
+  }
+
   return AttendeeFactory;
 
 })

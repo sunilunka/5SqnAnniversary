@@ -11,6 +11,8 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
 
       scope.processingRemoval = false;
 
+      scope.email = null;
+
       var init = function(){
         for(var key in scope.guestlist){
           var checkDollar = /\$/g;
@@ -34,6 +36,19 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
             }
           }
         }
+
+        var getMailTo = function(userId){
+          return AttendeeFactory.getUserEmail(userId);
+        }
+
+        getMailTo(scope.guestlist.$id)
+        .then(function(email){
+          scope.email = email;
+          $timeout(function(){
+            scope.$apply();
+          },1)
+        })
+
       }
 
       scope.removeDuplicateGuest = function(guest){
