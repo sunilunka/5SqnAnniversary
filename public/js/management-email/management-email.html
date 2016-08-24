@@ -20,7 +20,7 @@
     <div ng-if="selectedUserMode" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <h3>Email Recipients:</h3>
       <div class="flex-container-row flex-vertical-center management-email-selected-users">
-          <button class="sqn-btn-positive" ng-repeat="user in selectedUsers" title="Click to remove the user from the email">{{ user.firstName + ' ' + user.lastName }} <span class="glyphicon glyphicon-remove align-icon-top-text"></span></button>
+          <button class="sqn-btn-positive" ng-repeat="user in selectedUsers" title="Click to remove the user from the email" ng-click="removeUserFromList(user)">{{ user.firstName + ' ' + user.lastName }} <span class="glyphicon glyphicon-remove align-icon-top-text"></span></button>
       </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

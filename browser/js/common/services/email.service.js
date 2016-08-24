@@ -19,4 +19,8 @@ app.service("EmailService", function(){
     })
   }
 
+  this.resetEmailDistributionList = function(){
+    angular.copy([], self.selectedUsersList);
+  }
+
 })

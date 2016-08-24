@@ -38,6 +38,10 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
     EmailFactory.sendGroupEmail($scope.email)
     .then(function(status){
       $scope.dispatchStatus = "All mail sent!"
+      if($scope.selectedUsers){
+        EmailService.resetEmailDistributionList();
+      }
+      angular.copy({}, $scope.email);
       $timeout(function(){
         $scope.dispatchInProgress = false;
       }, 2000)
@@ -48,6 +52,10 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
         $scope.dispatchInProgress = false;
       }, 2000)
     })
+  }
+
+  $scope.removeUserFromList = function(user){
+    EmailService.removeUserFromList(user);
   }
 
   var init = function(){
