@@ -1,4 +1,4 @@
-app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, AttendeeFactory, $timeout, EventGuestFactory){
+app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, AttendeeFactory, $timeout, EventGuestFactory, EmailService, $state){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/event-guest-list/event-guest-list.html",
@@ -11,7 +11,18 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
 
       scope.processingRemoval = false;
 
-      scope.email = null;
+      scope.addedToEmail = false;
+
+      scope.userDetails = null;
+
+
+      scope.addToEmailList = function(){
+        EmailService.addUserToList(scope.userDetails);
+        console.log("USERS ADDED TO EMAIL: ", EmailService.getSelectedUsers())
+        scope.addedToEmail = true;
+        $state.go("managementEmail");
+
+      }
 
       var init = function(){
         for(var key in scope.guestlist){
@@ -37,13 +48,13 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
           }
         }
 
-        var getMailTo = function(userId){
-          return AttendeeFactory.getUserEmail(userId);
+        var getUserDetails = function(userId){
+          return AttendeeFactory.getUserDetails(userId);
         }
 
-        getMailTo(scope.guestlist.$id)
-        .then(function(email){
-          scope.email = email;
+        getUserDetails(scope.guestlist.$id)
+        .then(function(data){
+          scope.userDetails = data;
           $timeout(function(){
             scope.$apply();
           },1)

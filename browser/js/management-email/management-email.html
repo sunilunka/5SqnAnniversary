@@ -6,21 +6,30 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="flex-container-row flex-vertical-center">
         <h2>Management - Email</h2>
+        <a class="sqn-btn" ui-sref="eventGuests">Back To Event Guest Lists</a>
         <a class="sqn-btn" ui-sref="management">Back To Management</a>
       </div>
   </header>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <h3>Allocate a group to send the email to:</h3>
-    <div class="flex-container-row flex-vertical-center">
-      <button class="sqn-btn sqn-btn-flex" ng-repeat="group in addresses" ng-click="group.action(group)" ng-bind="group.title" ng-class="{'product-option-selected': group.ident === email.groupIdent }"></button>
+    <div ng-if="!selectedUserMode">
+      <h3>Allocate a group to send the email to:</h3>
+      <div class="flex-container-row flex-vertical-center">
+        <button class="sqn-btn sqn-btn-flex" ng-repeat="group in addresses" ng-click="group.action(group)" ng-bind="group.title" ng-class="{'product-option-selected': group.ident === email.groupIdent }"></button>
+      </div>
     </div>
-    <div>
+    <div ng-if="selectedUserMode" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <h3>Email Recipients:</h3>
+      <div class="flex-container-row flex-vertical-center management-email-selected-users">
+          <button class="sqn-btn-positive" ng-repeat="user in selectedUsers" title="Click to remove the user from the email">{{ user.firstName + ' ' + user.lastName }} <span class="glyphicon glyphicon-remove align-icon-top-text"></span></button>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <p class="sqn-not-available-label" ng-hide="addresseesAdded">Please add an address group (above) to the email</p>
       <form name="newEmailForm" ng-submit="submitNewEmail()" novalidate>
-        <label>Subject:</label>
+        <label class="management-email-form-label">Subject:</label>
         <input ng-model="email.subject" type="text" class="sqnInputActive management-email-form-field" name="emailSubject" required></input>
-        <label>Email Body</label>
-        <textarea ng-model="email.body" type="text" class="sqnInputActive management-email-form-field" name="emailBody" required></textarea>
+        <label class="management-email-form-label">Email Body</label>
+        <textarea ng-model="email.body" type="text" class="sqnInputActive management-email-form-field management-email-text-area" name="emailBody" required></textarea>
         <input type="submit" class="sqn-btn-positive" ng-disabled="newEmailForm.$invalid" ng-class="{'sqn-btn-disabled': newEmailForm.$invalid }"></input>
       </form>
     </div>

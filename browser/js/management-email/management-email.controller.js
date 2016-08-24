@@ -1,4 +1,4 @@
-app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $timeout, EmailFactory){
+app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $timeout, EmailFactory, EmailService){
 
   $scope.events = allEvents;
 
@@ -10,13 +10,14 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
 
   $scope.dispatchInProgress = false;
 
+  $scope.selectedUserMode = false;
+
   $scope.dispatchStatus = "Sending emails...this could take a little while..."
 
   var designateAddressees = function(group){
     $scope.email.distributionList = group.value;
     $scope.email.groupIdent = group.ident;
     $scope.addresseesAdded = true;
-    console.log("DISTRIBUTION LIST: ", $scope.email);
 
   }
 
@@ -31,6 +32,9 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
 
   $scope.submitNewEmail = function(){
     $scope.dispatchInProgress = true;
+    if($scope.selectedUsers){
+      $scope.email.distributionList = $scope.selectedUsers;
+    }
     EmailFactory.sendGroupEmail($scope.email)
     .then(function(status){
       $scope.dispatchStatus = "All mail sent!"
@@ -39,7 +43,7 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
       }, 2000)
     })
     .catch(function(err){
-      $scope.dispatchStatus = "Sorry and error occured: " + err.message;
+      $scope.dispatchStatus = "Sorry an error occured: " + err.message;
       $timeout(function(){
         $scope.dispatchInProgress = false;
       }, 2000)
@@ -47,6 +51,13 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
   }
 
   var init = function(){
+    var selectedUsers = EmailService.getSelectedUsers();
+    if(selectedUsers.length){
+      $scope.selectedUsers = selectedUsers;
+      $scope.selectedUserMode = true;
+      $scope.addresseesAdded = true;
+    }
+
     var eventOptions = allEvents.map(function(evt){
       return {
         title: evt.name + " Guests",
