@@ -2,7 +2,7 @@
   <header class="flex-container-row flex-vertical-center">
     <h4 ng-bind="guest.attendeeName"></h4>
     <button class="sqn-btn" ng-click="addToEmailList()" ng-show="userDetails['email']" ng-disabled="addedToEmail" ng-class="{'sqn-btn-disabled': addedToEmail }">Send Email</button>
-    <button class="sqn-btn-positive">Payment Recieved</button>
+    <attendee-event-payment></attendee-event-payment>
   </header>
   <div class="flex-container-row event-guest-info" ng-repeat="item in guest.guestNames">
     <p ng-bind="item.name"></p>

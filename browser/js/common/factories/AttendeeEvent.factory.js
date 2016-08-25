@@ -1,6 +1,7 @@
 app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, DatabaseFactory, EventFactory){
 
   var eventGuestLists = DatabaseFactory.dbConnection("eventGuests");
+  var eventPaymentList = DatabaseFactory.dbConnection("eventPayment");
 
   return {
     /* For all methods use path argument, it takes a string denoting the path of the firebase record to use to modify a record*/
@@ -81,6 +82,12 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
           })
         }
       })
+    },
+
+    setAttendeeEventPayementReceived: function(evt, user){
+      var objectToSet = {};
+      objectToSet[evt.$id][user.uid] = true;
+      // return eventPaymentList.update(objectToSet);
     }
 
   }
