@@ -169,6 +169,13 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
       details.uid = id;
       return details;
     })
+  },
+
+  AttendeeFactory.setEventPaid = function(userId, evtId){
+    var userRef = DatabaseFactory.dbConnection("attendees/" + userId)
+    return userRef.child("eventPayments").update({
+      [evtId]: true
+    })
   }
 
   return AttendeeFactory;
