@@ -15,7 +15,6 @@ app.factory('DatabaseFactory', function($firebaseAuth){
     },
 
     parseHTTPRequest: (response) => {
-      console.log("RESPONSE DATA: ", response.data);
       return response.data;
     },
 

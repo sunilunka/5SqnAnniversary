@@ -27,6 +27,23 @@ app.factory("EmailFactory", function(DatabaseFactory, $http){
     })
   }
 
+  EmailFactory.sendEventPaymentReceivedEmail = function(userData, eventData){
+    var dataToSend = {
+      user: userData,
+      evt: eventData
+    }
+
+    return $http.post(DatabaseFactory.generateApiRoute('emails/event-payment-success'), dataToSend)
+    .then(function(status){
+      if(status === 200){
+        return status;
+      }
+    })
+    .catch(function(err){
+      return err;
+    })
+  }
+
 
   return EmailFactory;
 

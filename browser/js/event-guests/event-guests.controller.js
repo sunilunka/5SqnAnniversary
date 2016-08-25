@@ -2,18 +2,21 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory)
 
   $scope.allEvents = allEvents;
 
-  $scope.selectedEvent = null;
+  $scope.selectedEvent = {};
 
   $scope.guests = [];
+
+  $scope.userPaymentDetails = {};
 
   $scope.searchParams = {};
 
   $scope.guestListLoadInProgress = false;
 
-  $scope.loadEventGuests = function(eventId){
-    $scope.selectedEvent = eventId;
+  $scope.loadEventGuests = function(evt){
+    angular.copy(evt, $scope.selectedEvent);
     $scope.guestListLoadInProgress = true;
-    EventGuestFactory.getAllEventAttendees(eventId)
+
+    EventGuestFactory.getAllEventAttendees(evt.$id)
     .then(function(resultArray){
       /* Reset filter params if they have been set. */
       angular.copy({}, $scope.searchParams);

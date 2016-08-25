@@ -8,6 +8,31 @@
   width: 95%;
 }
 
+.management-email-form-label {
+  display: block;
+  padding: 0.5em;
+  background-color: #808080;
+  color: #efefef;
+  width: 95%;
+  margin: 0.5em auto;
+}
+
+.align-icon-top-text {
+  vertical-align: text-top;
+}
+
+.management-email-selected-users {
+  width: 95%;
+  margin: 0.5em auto;
+  border: 3px solid $theme-grey;
+  padding: 0.5em;
+}
+
+.management-email-text-area {
+  height: 30vh;
+  margin-bottom: 1em;
+}
+
 .management-email-progress {
   position: fixed;
   left: 0px;

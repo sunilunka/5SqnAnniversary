@@ -1,4 +1,4 @@
-app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, AttendeeFactory, $timeout, EventGuestFactory){
+app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, AttendeeFactory, $timeout, EventGuestFactory, EmailService, $state){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/event-guest-list/event-guest-list.html",
@@ -11,7 +11,19 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
 
       scope.processingRemoval = false;
 
-      scope.email = null;
+      scope.addedToEmail = false;
+
+      scope.userDetails = null;
+
+      scope.initialized = false;
+
+
+      scope.addToEmailList = function(){
+        EmailService.addUserToList(scope.userDetails);
+        scope.addedToEmail = true;
+        $state.go("managementEmail");
+
+      }
 
       var init = function(){
         for(var key in scope.guestlist){
@@ -37,13 +49,14 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
           }
         }
 
-        var getMailTo = function(userId){
-          return AttendeeFactory.getUserEmail(userId);
+        var getUserDetails = function(userId){
+          return AttendeeFactory.getUserDetails(userId);
         }
 
-        getMailTo(scope.guestlist.$id)
-        .then(function(email){
-          scope.email = email;
+        getUserDetails(scope.guestlist.$id)
+        .then(function(data){
+          scope.userDetails = data;
+          scope.initialized = true;
           $timeout(function(){
             scope.$apply();
           },1)
@@ -59,13 +72,13 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
             $id: scope.guestlist.$id,
             association: userAssociation
           }
-          return AttendeeEventFactory.modifyEventGuestList(scope.evt, userData).removeGuest(guest.ref)
+          return AttendeeEventFactory.modifyEventGuestList(scope.evt.$id, userData).removeGuest(guest.ref)
           .then(function(){
             /* Nothing is returned from a removal */
-            return AttendeeEventFactory.removeGuestFromAttendeeEvent(userData, scope.evt, guest.ref)
+            return AttendeeEventFactory.removeGuestFromAttendeeEvent(userData, scope.evt.$id, guest.ref)
           })
           .then(function(){
-            EventGuestFactory.getSingleGuestListObject(scope.evt, userData.$id)
+            EventGuestFactory.getSingleGuestListObject(scope.evt.$id, userData.$id)
             .then(function(updatedObj){
               var checkDollar = /\$/g;
               for(var key in scope.guestlist){

@@ -161,11 +161,20 @@ app.factory("AttendeeFactory", function($firebaseArray, $firebaseObject, UserAut
     })
   }
 
-  AttendeeFactory.getUserEmail = function(id){
-    var emailRef = DatabaseFactory.dbConnection("attendees/" + id + "/email");
-    return emailRef.once("value")
+  AttendeeFactory.getUserDetails = function(id){
+    var userRef = DatabaseFactory.dbConnection("attendees/" + id);
+    return userRef.once("value")
     .then(function(snapshot){
-      return snapshot.val();
+      var details = snapshot.val();
+      details.uid = id;
+      return details;
+    })
+  },
+
+  AttendeeFactory.setEventPaid = function(userId, evtId){
+    var userRef = DatabaseFactory.dbConnection("attendees/" + userId)
+    return userRef.child("eventPayments").update({
+      [evtId]: true
     })
   }
 

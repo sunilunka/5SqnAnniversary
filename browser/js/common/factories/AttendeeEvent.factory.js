@@ -21,7 +21,6 @@ app.factory("AttendeeEventFactory", function($firebaseObject, $firebaseArray, Da
 
     modifyEventGuestList: (evtId, attendeeData) => {
       /* Capture attendee id in a variable, as firebase does not allow object referencng when finding a route to a db key */
-      console.log("ATTENDEE DATA: ", attendeeData)
       let attendeeId = attendeeData.$id || attendeeData.uid;
       let eventList = eventGuestLists.child(evtId).child(attendeeId);
       return {
