@@ -17,9 +17,13 @@
     <div ng-show="!guests.length">
       <h3>Select an event to view guests.</h3>
     </div>
+    <div ng-show="guests.length" class="flex-container-row">
+      <button ng-click="downloadEventGuestList()" class="sqn-btn-flex sqn-btn-positive" ng-bind="printLabel" ng-disabled="creatingPrintableList" ng-class="{'sqn-btn-disabled': creatingPrintableList}"></button>
+      <a ng-show="fileGenerated" ng-href="{{ fileDownloadLink }}" class="sqn-btn-positive" target="_self">Download Guest List</a>
+    </div>
     <div ng-show="guests.length">
       <h4>Find an Attendee</h4>
-      <form ng-submit="filterAttendees()" name="userSearchForm" class="flex-container-row flex-vertical-center">
+      <form ng-submit="filterAttendees()" name="userSearchForm" class="flex-container-row flex-vertical-center find-attendee-form">
         <div>
           <label>Registed User name (first, last or both)</label>
           <input type="text" class="sqnInputActive" ng-model="searchName" ng-required="true"></input>

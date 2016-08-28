@@ -1,4 +1,4 @@
-app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory){
+app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory, $window){
 
   $scope.allEvents = allEvents;
 
@@ -11,6 +11,14 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory)
   $scope.searchParams = {};
 
   $scope.guestListLoadInProgress = false;
+
+  $scope.creatingPrintableList = false;
+
+  $scope.fileDownloadLink = null;
+
+  $scope.fileGenerated = false;
+
+  $scope.printLabel = "Create Printable Guest List";
 
   $scope.loadEventGuests = function(evt){
     angular.copy(evt, $scope.selectedEvent);
@@ -32,6 +40,15 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory)
   $scope.resetSearch = function(event){
     event.preventDefault();
     angular.copy({}, $scope.searchParams);
+  }
+
+  $scope.downloadEventGuestList = function(){
+    $scope.creatingPrintableList = true;
+    return EventGuestFactory.getEventGuestList($scope.selectedEvent.$id)
+    .then(function(data){
+      $scope.fileDownloadLink = data.assetPath;
+      $scope.fileGenerated = true;
+    })
   }
 
 })
