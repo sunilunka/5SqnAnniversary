@@ -30,6 +30,9 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory,
       angular.copy({}, $scope.searchParams);
       angular.copy(resultArray, $scope.guests);
       $scope.guestListLoadInProgress = false;
+      $scope.fileGenerated = false;
+      $scope.fileDownloadLink = null;
+      $scope.creatingPrintableList = false;
     })
   }
 
@@ -48,6 +51,7 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory,
     .then(function(data){
       $scope.fileDownloadLink = data.assetPath;
       $scope.fileGenerated = true;
+      // $window.location.assign(data.assetPath);
     })
   }
 
