@@ -1,4 +1,4 @@
-app.controller("AttendeeCtrl", function($scope, AuthService, AttendeeFactory, User, Events, Orders, Announcements, EventFactory, Categories, $state){
+app.controller("AttendeeCtrl", function($scope, AuthService, AttendeeFactory, User, Events, Orders, Announcements, EventFactory, Categories, $state, $rootScope){
 
   $scope.user = User;
 
@@ -26,6 +26,7 @@ app.controller("AttendeeCtrl", function($scope, AuthService, AttendeeFactory, Us
     } else {
       $scope.informationDisplay = "announcements";
     }
+    $rootScope.$broadcast("authComplete");
   }
 
   init();

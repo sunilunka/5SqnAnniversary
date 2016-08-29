@@ -47,11 +47,12 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory,
 
   $scope.downloadEventGuestList = function(){
     $scope.creatingPrintableList = true;
+    $scope.printLabel = "GENERATING GUEST LIST PLEASE WAIT..."
     return EventGuestFactory.getEventGuestList($scope.selectedEvent.$id)
     .then(function(data){
       $scope.fileDownloadLink = data.assetPath;
       $scope.fileGenerated = true;
-      // $window.location.assign(data.assetPath);
+      $scope.printLabel = "Guest List Generation Complete, please click the link to opposite to download."
     })
   }
 

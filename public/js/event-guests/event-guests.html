@@ -19,7 +19,7 @@
     </div>
     <div ng-show="guests.length" class="flex-container-row">
       <button ng-click="downloadEventGuestList()" class="sqn-btn-flex sqn-btn-positive" ng-bind="printLabel" ng-disabled="creatingPrintableList" ng-class="{'sqn-btn-disabled': creatingPrintableList}"></button>
-      <a ng-show="fileGenerated" ng-href="{{ fileDownloadLink }}" class="sqn-btn-positive" target="_self">Download Guest List</a>
+      <a ng-show="fileGenerated" ng-href="{{ fileDownloadLink }}" class="sqn-btn-positive sqn-btn-flex" target="_self">Download Guest List</a>
     </div>
     <div ng-show="guests.length">
       <h4>Find an Attendee</h4>
