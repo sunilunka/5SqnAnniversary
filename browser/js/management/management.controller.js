@@ -1,4 +1,4 @@
-app.controller('ManagementCtrl', function($scope, EventFactory, GuestOriginFactory, attendees, allEvents, allCategories, allPlatforms, categoryObject, SessionService, ParsingFactory, $timeout){
+app.controller('ManagementCtrl', function($scope, EventFactory, GuestOriginFactory, attendees, allEvents, allCategories, allPlatforms, categoryObject, SessionService, ParsingFactory, $timeout, $rootScope){
 
   $scope.currentUser = SessionService.user;
 
@@ -47,4 +47,6 @@ app.controller('ManagementCtrl', function($scope, EventFactory, GuestOriginFacto
       title: "Email",
       state: "managementEmail"
     }]
+
+    $rootScope.$broadcast("authComplete");
 })

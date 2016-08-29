@@ -59,6 +59,10 @@ app.run(function ($rootScope, $state, $firebaseObject, AuthService, SessionServi
       }
     }
 
+    if(toState.name === "shopFront"){
+      $rootScope.$broadcast("shopLoading");
+    }
+
   })
 
 });

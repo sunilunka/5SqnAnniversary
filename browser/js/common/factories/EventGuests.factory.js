@@ -1,4 +1,4 @@
-app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject, $firebaseArray){
+app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject, $firebaseArray, $http){
   var eventGuestRef = DatabaseFactory.dbConnection("eventGuests");
   var eventGuestObj = $firebaseObject(eventGuestRef);
 
@@ -44,7 +44,16 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject, $fir
       .then(function(obj){
         return obj;
       })
+    },
+
+    getEventGuestList: (eventId) => {
+      return $http.get(DatabaseFactory.generateApiRoute('generated-files/guest-list/' + eventId))
+      .then(function(response){
+        console.log("RESPONSE: ", response);
+        return response.data;
+      })
     }
+
   }
 
 })

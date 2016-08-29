@@ -1,4 +1,4 @@
-app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory){
+app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory, $window){
 
   $scope.allEvents = allEvents;
 
@@ -12,6 +12,14 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory)
 
   $scope.guestListLoadInProgress = false;
 
+  $scope.creatingPrintableList = false;
+
+  $scope.fileDownloadLink = null;
+
+  $scope.fileGenerated = false;
+
+  $scope.printLabel = "Create Printable Guest List";
+
   $scope.loadEventGuests = function(evt){
     angular.copy(evt, $scope.selectedEvent);
     $scope.guestListLoadInProgress = true;
@@ -22,6 +30,9 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory)
       angular.copy({}, $scope.searchParams);
       angular.copy(resultArray, $scope.guests);
       $scope.guestListLoadInProgress = false;
+      $scope.fileGenerated = false;
+      $scope.fileDownloadLink = null;
+      $scope.creatingPrintableList = false;
     })
   }
 
@@ -32,6 +43,17 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory)
   $scope.resetSearch = function(event){
     event.preventDefault();
     angular.copy({}, $scope.searchParams);
+  }
+
+  $scope.downloadEventGuestList = function(){
+    $scope.creatingPrintableList = true;
+    $scope.printLabel = "GENERATING GUEST LIST PLEASE WAIT..."
+    return EventGuestFactory.getEventGuestList($scope.selectedEvent.$id)
+    .then(function(data){
+      $scope.fileDownloadLink = data.assetPath;
+      $scope.fileGenerated = true;
+      $scope.printLabel = "Guest List Generation Complete, please click the link to opposite to download."
+    })
   }
 
 })
