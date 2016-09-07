@@ -34,9 +34,9 @@ app.factory("EmailFactory", function(DatabaseFactory, $http){
     }
 
     return $http.post(DatabaseFactory.generateApiRoute('emails/event-payment-success'), dataToSend)
-    .then(function(status){
-      if(status === 200){
-        return status;
+    .then(function(data){
+      if((data.status > 199) || (data.status < 300)){
+        return data.status;
       }
     })
     .catch(function(err){

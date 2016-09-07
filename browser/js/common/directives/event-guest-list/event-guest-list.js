@@ -7,7 +7,7 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
       evt: "="
     },
     link: function(scope, element, attrs){
-      scope.guest = {};
+      scope.guest = scope.guestlist;
 
       scope.processingRemoval = false;
 
@@ -26,41 +26,6 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
       }
 
       var init = function(){
-        for(var key in scope.guestlist){
-          var checkDollar = /\$/g;
-          if(key !== "details" && !checkDollar.test(key)){
-            if(key === "registeredAttendee"){
-              scope.guest["attendeeName"] = scope.guestlist[key]
-            } else {
-              if(scope.guest["guestNames"]){
-                if(scope.guest["guestNames"].indexOf(scope.guestlist[key]) === -1){
-                  scope.guest["guestNames"].push({
-                    ref: key,
-                    name: scope.guestlist[key]
-                  });
-                }
-              } else {
-                scope.guest["guestNames"] = [{
-                  ref: key,
-                  name: scope.guestlist[key]
-                }];
-              }
-            }
-          }
-        }
-
-        var getUserDetails = function(userId){
-          return AttendeeFactory.getUserDetails(userId);
-        }
-
-        getUserDetails(scope.guestlist.$id)
-        .then(function(data){
-          scope.userDetails = data;
-          scope.initialized = true;
-          $timeout(function(){
-            scope.$apply();
-          },1)
-        })
 
       }
 
@@ -96,7 +61,6 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
         })
       };
 
-      init();
     }
   }
 })

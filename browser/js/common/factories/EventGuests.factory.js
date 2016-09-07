@@ -1,6 +1,7 @@
 app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject, $firebaseArray, $http){
   var eventGuestRef = DatabaseFactory.dbConnection("eventGuests");
   var eventGuestObj = $firebaseObject(eventGuestRef);
+  var attendeesRef = DatabaseFactory.dbConnection("attendees");
 
   return {
     /* When adding an attendee or guest to event, the attendee id is used as the key */
@@ -32,9 +33,27 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject, $fir
     },
 
     getAllEventAttendees: (eventId) => {
-      return $firebaseArray(eventGuestRef.child(eventId)).$loaded()
-      .then(function(results){
-        return results;
+      return eventGuestRef.child(eventId).once("value")
+      .then(function(snapshot){
+        var guestDetails = [];
+        snapshot.forEach(function(childSnap){
+          var guests = [];
+          var guestListEntry = childSnap.val();
+          for(var personId in guestListEntry){
+            if(personId !== "registeredAttendee"){
+              guests.push(guestListEntry[personId]);
+            }
+          }
+          guestDetails.push(attendeesRef.child(childSnap.key).once("value")
+          .then(function(attendeeSnap){
+            var attendeeInfo = attendeeSnap.val();
+            attendeeInfo.$id = childSnap.key;
+            attendeeInfo["eventGuestList"] = {};
+            attendeeInfo["eventGuestList"][eventId] = guests;
+            return attendeeInfo;
+          }));
+        })
+        return firebase.Promise.all(guestDetails);
       })
     },
 
