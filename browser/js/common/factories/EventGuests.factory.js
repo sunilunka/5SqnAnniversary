@@ -41,7 +41,10 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject, $fir
           var guestListEntry = childSnap.val();
           for(var personId in guestListEntry){
             if(personId !== "registeredAttendee"){
-              guests.push(guestListEntry[personId]);
+              guests.push({
+                name: guestListEntry[personId],
+                ref: personId
+              });
             }
           }
           guestDetails.push(attendeesRef.child(childSnap.key).once("value")

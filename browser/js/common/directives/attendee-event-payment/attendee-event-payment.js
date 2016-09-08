@@ -2,8 +2,11 @@ app.directive("attendeeEventPayment", function(AttendeeFactory, EmailFactory, $t
   return {
     restrict: "E",
     templateUrl: "js/common/directives/attendee-event-payment/attendee-event-payment.html",
+    scope: {
+      details: "=",
+      evt: "="
+    },
     link: function(scope, element, attrs){
-
       scope.processingLabel = "Awaiting Payment";
       scope.processing = false;
       scope.paymentReceived = false;
@@ -13,7 +16,7 @@ app.directive("attendeeEventPayment", function(AttendeeFactory, EmailFactory, $t
         element.addClass("sqn-btn-disabled")
         scope.processing = true;
 
-        return AttendeeFactory.setEventPaid(scope.userDetails.uid, scope.evt.$id)
+        return AttendeeFactory.setEventPaid(scope.details.$id, scope.evt.$id)
         .then(function(){
           return EmailFactory.sendEventPaymentReceivedEmail(scope.userDetails, scope.evt)
         })
@@ -34,21 +37,17 @@ app.directive("attendeeEventPayment", function(AttendeeFactory, EmailFactory, $t
       }
 
       var init = function(){
-        if(scope.initialized){
-          console.log("HIT INIT: ", scope)
-          if(scope.userDetails.hasOwnProperty("eventPayments")){
-            if(scope.userDetails["eventPayments"][scope.evt.$id]){
-              console.log("SCOPE PAYMENTS: ", scope.userDetails["eventPayments"][scope.evt.$id])
-              scope.processingLabel = "Payment Received";
-              scope.paymentReceived = true;
-              scope.processing = false;
-              element.addClass("product-option-selected");
-            }
-          } else {
-            scope.processingLabel = "Awaiting Payment";
+        if(scope.details.hasOwnProperty("eventPayments")){
+          if(scope.details["eventPayments"][scope.evt.$id]){
+            scope.processingLabel = "Payment Received";
+            scope.paymentReceived = true;
             scope.processing = false;
-            scope.paymentReceived = false;
+            element.addClass("product-option-selected");
           }
+        } else {
+          scope.processingLabel = "Awaiting Payment";
+          scope.processing = false;
+          scope.paymentReceived = false;
         }
       }
 

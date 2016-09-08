@@ -1,4 +1,4 @@
-app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory, $window){
+app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory, $window, $timeout){
 
   $scope.allEvents = allEvents;
 
@@ -45,19 +45,22 @@ app.controller("EventGuestsCtrl", function($scope, allEvents, EventGuestFactory,
     EventGuestFactory.getAllEventAttendees(evt.$id)
     .then(function(resultArray){
       /* Reset filter params if they have been set. */
-      $scope.pages = paginateList(resultArray);
+      // $scope.pages = paginateList(resultArray);
       angular.copy({}, $scope.searchParams);
-      angular.copy($scope.pages[0], $scope.guests);
-      // console.log("$scope guests: ", $scope.guests);
+      angular.copy(resultArray, $scope.guests);
       $scope.guestListLoadInProgress = false;
       $scope.fileGenerated = false;
       $scope.fileDownloadLink = null;
-      $scope.creatingPrintableList = false;
+      $scope.creatingPrintableList = false
+      $timeout(function(){
+        $scope.$apply();
+      });
     })
   }
 
   $scope.filterAttendees = function(){
-      $scope.searchParams["registeredAttendee"] = $scope.searchName;
+    $scope.searchParams["firstName"] = $scope.search.firstName;
+    $scope.searchParams["lastName"] = $scope.search.lastName;
   }
 
   $scope.resetSearch = function(event){
