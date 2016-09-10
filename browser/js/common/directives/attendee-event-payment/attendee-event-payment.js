@@ -13,15 +13,13 @@ app.directive("attendeeEventPayment", function(AttendeeFactory, EmailFactory, $t
 
       scope.attendeePaymentReceived = function(){
         scope.processingLabel = "Processing...";
-        element.addClass("sqn-btn-disabled")
         scope.processing = true;
 
         return AttendeeFactory.setEventPaid(scope.details.$id, scope.evt.$id)
         .then(function(){
-          return EmailFactory.sendEventPaymentReceivedEmail(scope.userDetails, scope.evt)
+          return EmailFactory.sendEventPaymentReceivedEmail(scope.details, scope.evt)
         })
         .then(function(status){
-          element.addClass("product-option-selected");
           scope.processingLabel = "Payment Received"
           scope.processing = false;
           scope.paymentReceived = true;

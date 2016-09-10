@@ -20,7 +20,6 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
       scope.addToEmailList = function(){
         EmailService.addUserToList(scope.details);
         scope.addedToEmail = true;
-        console.log("SCOPE DETAILS: ", scope.details);
         $state.go("managementEmail");
 
       }
@@ -41,13 +40,12 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
           .then(function(){
             EventGuestFactory.getSingleGuestListObject(scope.evt.$id, scope.details.$id)
             .then(function(updatedObj){
-              console.log("UPDATED OBJ: ", updatedObj);
               var checkDollar = /\$/g;
               scope.details.eventGuestList[scope.evt.$id]
               .forEach(function(guest){
-                console.log("GUEST: ", guest);
+                // Check if guest id is in updated object.
+                // If not, remove guestObj from array.
                 if(!updatedObj.hasOwnProperty(guest.ref)){
-                  console.log("GUEST NOT FOUND IN NEW OBJ!")
                   _.remove(scope.details.eventGuestList[scope.evt.$id], function(g){
                     return g.ref === guest.ref;
                   })
