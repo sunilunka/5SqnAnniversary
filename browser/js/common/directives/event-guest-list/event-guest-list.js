@@ -46,16 +46,11 @@ app.directive("eventGuestList", function(AttendeeEventFactory, EventFactory, Att
               scope.details.eventGuestList[scope.evt.$id]
               .forEach(function(guest){
                 console.log("GUEST: ", guest);
-                for(var key in updatedObj){
-                  console.info("KEY: ", key);
-                  if(!checkDollar.test(key) && (key !== "registeredAttendee")){
-                    if(!updatedObj.hasOwnProperty(guest.ref)){
-                      console.log("GUEST NOT FOUND IN NEW OBJ!")
-                      _.remove(scope.details.eventGuestList[scope.evt.$id], function(g){
-                        return g.ref === key;
-                      })
-                    }
-                  }
+                if(!updatedObj.hasOwnProperty(guest.ref)){
+                  console.log("GUEST NOT FOUND IN NEW OBJ!")
+                  _.remove(scope.details.eventGuestList[scope.evt.$id], function(g){
+                    return g.ref === guest.ref;
+                  })
                 }
               })
               scope.processingRemoval = false;

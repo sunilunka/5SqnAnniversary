@@ -61,10 +61,10 @@ app.factory("EventGuestFactory", function(DatabaseFactory, $firebaseObject, $fir
     },
 
     getSingleGuestListObject: (eventId, attendeeId) => {
-      return $firebaseObject(eventGuestRef.child(eventId).child(attendeeId))
-      .$loaded()
-      .then(function(obj){
-        return obj;
+      return eventGuestRef.child(eventId).child(attendeeId)
+      .once('value')
+      .then(function(snapshot){
+        return snapshot.val();
       })
     },
 
