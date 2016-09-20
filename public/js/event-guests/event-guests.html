@@ -25,7 +25,7 @@
       <h4>Find an Attendee</h4>
       <form ng-submit="filterAttendees()" name="userSearchForm" class="flex-container-row flex-vertical-center find-attendee-form">
         <div>
-          <label class="l">Registed User name (first, last or both, at least one)</label>
+          <label>Registed User name (first, last or both, at least one)</label>
           <input type="text" class="sqnInputActive" ng-model="search.firstName" ng-required="!search.lastName" placeholder="First Name"></input>
           <input type="text" class="sqnInputActive" ng-model="search.lastName" placeholder="Last Name" ng-required="!search.firstName"></input>
           <input type="submit" value="Find Attendee" class="sqn-btn-positive" ng-disabled="userSearchForm.$invalid" ng-class="{'sqn-btn-disabled': userSearchForm.$invalid }"></input>
