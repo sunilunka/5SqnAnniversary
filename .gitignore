@@ -15,3 +15,4 @@ raw_media
 .firebaserc
 database.rules.json
 firebase.json
+**/*.swp
