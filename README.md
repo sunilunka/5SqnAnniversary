@@ -1,30 +1,19 @@
 ## 5 SQN ANNIVERSARY PROJECT
 ----------------------------
-#### 75 Years of serving New Zealand
-
-#### 50 Years of P-3 Orion Operations
+#### 75 Years of serving New Zealand & 50 Years of P-3 Orion Operations
 
 > "Keitou Kalawaca Na Wasaliwa."
 
------------------------------
-##### Introduction
+### Introduction
 
- This is a small project to create an landing and registration page for the 5 Squadron, Royal New Zealand Air Force Anniversary event in 2016.
+ This is a small project to create an landing and registration page for the 5 Squadron, Royal New Zealand Air Force 75th Anniversary of serving New Zealand and 50 years of operating the venerable Lockheed P-3 Orion. 
+ 
+### Overview
 
- ##### Objectives
+Built with AngularJS 1.5.X on the front end, with Firebase and corresponding AngularFire API providing core registration and authentication functionality. 
 
- To create a page that:
+Another corresponding repo is '5SqnAnniversaryServer', that was used to facilitate email, guestlist printing and shop functionality. The technologies used for this were MongoDB, using the Mongoose ORM on NodeJS, Firebase (for authentication and generating guestlists from Firebase DB data), Jade templating (for building guestlist HTML for printing) and the Sendgrid API (v3) for enabling the distribution of bulk email.
 
- 1. Provides potential users with an app to register their interest in attending event(s) associated with these milestones.
+A reasonably extensive 'Shop' functionality (minus Credit Card/Paypal transactions) was implemented, however ultimately was not used due to time constraints. 
 
- 2. Provides a space for organizers to update registered users about the events.
-
- 3. Allows organizers to engage with registered users, without necessarily using email.
-
- 4. Provide a platform for future public interaction between the squadron and general public.
-
- More to follow...
-
- #### Architecture
-
- Making use of firebase and AngularJS (AngularFire). This is due to the short time frame for building the site.
+This was a challenging project due to time constraints and other competing priorities. An excellent learning opportunity though. To view the landing page, go to https://5sqnrnzaf.firebaseapp.com.
