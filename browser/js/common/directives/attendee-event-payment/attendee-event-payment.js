@@ -1,33 +1,31 @@
-app.directive("attendeeEventPayment", function(AttendeeFactory, EmailFactory){
+app.directive("attendeeEventPayment", function(AttendeeFactory, EmailFactory, $timeout){
   return {
     restrict: "E",
     templateUrl: "js/common/directives/attendee-event-payment/attendee-event-payment.html",
     scope: {
-      evt: "=",
-      user: "=",
-      init: "="
+      details: "=",
+      evt: "="
     },
     link: function(scope, element, attrs){
-
       scope.processingLabel = "Awaiting Payment";
-
       scope.processing = false;
-
       scope.paymentReceived = false;
 
       scope.attendeePaymentReceived = function(){
         scope.processingLabel = "Processing...";
         scope.processing = true;
 
-        return AttendeeFactory.setEventPaid(scope.user.uid, scope.evt.$id)
+        return AttendeeFactory.setEventPaid(scope.details.$id, scope.evt.$id)
         .then(function(){
-          return EmailFactory.sendEventPaymentReceivedEmail(scope.user, scope.evt)
+          return EmailFactory.sendEventPaymentReceivedEmail(scope.details, scope.evt)
         })
         .then(function(status){
           scope.processingLabel = "Payment Received"
           scope.processing = false;
           scope.paymentReceived = true;
-
+          $timeout(function(){
+            scope.$apply();
+          },1)
         })
         .catch(function(err){
           console.log("ERROR: ", err);
@@ -37,13 +35,17 @@ app.directive("attendeeEventPayment", function(AttendeeFactory, EmailFactory){
       }
 
       var init = function(){
-        if(scope.init){
-          if(scope.user.hasOwnProperty("eventPayments")){
-            if(scope.user["eventPayments"][scope.evt.$id]){
-              scope.processingLabel = "Payment Received";
-              scope.paymentReceived = true;
-            }
+        if(scope.details.hasOwnProperty("eventPayments")){
+          if(scope.details["eventPayments"][scope.evt.$id]){
+            scope.processingLabel = "Payment Received";
+            scope.paymentReceived = true;
+            scope.processing = false;
+            element.addClass("product-option-selected");
           }
+        } else {
+          scope.processingLabel = "Awaiting Payment";
+          scope.processing = false;
+          scope.paymentReceived = false;
         }
       }
 

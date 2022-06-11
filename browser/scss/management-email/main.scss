@@ -55,3 +55,26 @@
   width: 33%;
   color: white;
 }
+
+input[type="file"] {
+  border: 3px solid $theme-grey;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+.email-field-label {
+  display: block;
+  margin: 0.5em auto;
+  padding: 0.5em;
+  background-color: $theme-grey;
+  color: $theme-tacgrey;
+}
+
+.email-asset-upload {
+  margin: 1em 0em;
+}
+
+.uploaded-assets {
+  padding: 1em;
+  @include theme-shadow-default;
+}

@@ -30,6 +30,21 @@
         <input ng-model="email.subject" type="text" class="sqnInputActive management-email-form-field" name="emailSubject" required></input>
         <label class="management-email-form-label">Email Body</label>
         <textarea ng-model="email.body" type="text" class="sqnInputActive management-email-form-field management-email-text-area" name="emailBody" required></textarea>
+        <div ng-show="displayUploadState" class="upload-status-output">
+          <span ng-bind="displayOutput"></span>
+        </div>
+        <div class="email-asset-upload">
+          <label class="email-field-label" for="productImage">File To Upload (drag and drop onto the field below or click 'Choose File'.)</label>
+          <input file-upload type="file"></input>
+          <button class="sqn-btn-positive" ng-click="initiateUpload($event)">Upload File To Link</button>
+        </div>
+        <div class="flex-container-row">
+          <div class="uploaded-assets" ng-repeat="asset in emailAssets">
+            <p><strong>File Name: </strong><span ng-bind="asset.fileName"></span></p>
+            <p><strong>Paste the link below into the email to enable user download:</strong></p>
+            <p ng-bind="asset.downloadURL"></p>
+          </div>
+        </div>
         <input type="submit" class="sqn-btn-positive" ng-disabled="newEmailForm.$invalid" ng-class="{'sqn-btn-disabled': newEmailForm.$invalid }"></input>
       </form>
     </div>

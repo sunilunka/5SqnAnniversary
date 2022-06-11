@@ -25,8 +25,9 @@
       <h4>Find an Attendee</h4>
       <form ng-submit="filterAttendees()" name="userSearchForm" class="flex-container-row flex-vertical-center find-attendee-form">
         <div>
-          <label>Registed User name (first, last or both)</label>
-          <input type="text" class="sqnInputActive" ng-model="searchName" ng-required="true"></input>
+          <label>Registed User name (first, last or both, at least one)</label>
+          <input type="text" class="sqnInputActive" ng-model="search.firstName" ng-required="!search.lastName" placeholder="First Name"></input>
+          <input type="text" class="sqnInputActive" ng-model="search.lastName" placeholder="Last Name" ng-required="!search.firstName"></input>
           <input type="submit" value="Find Attendee" class="sqn-btn-positive" ng-disabled="userSearchForm.$invalid" ng-class="{'sqn-btn-disabled': userSearchForm.$invalid }"></input>
           <button class="sqn-btn" ng-click="resetSearch($event)">Reset</button>
         </div>
@@ -34,7 +35,7 @@
     </div>
     <div>
       <div class="flex-container-row event-guests-output">
-        <event-guest-list class="" ng-repeat="list in guests | filter:searchParams" guestlist="list" evt="selectedEvent"></event-guest-list>
+        <event-guest-list class="" ng-repeat="details in guests | filter:searchParams" details="details" evt="selectedEvent"></event-guest-list>
       </div>
     </div>
   </div>

@@ -7,7 +7,6 @@ public/images
 public/main.js
 public/style.css
 public/favicon.png
-public/index.html
 .DS_Store
 coverage
 browser/js/credentials.js
@@ -15,3 +14,4 @@ raw_media
 .firebaserc
 database.rules.json
 firebase.json
+**/*.swp

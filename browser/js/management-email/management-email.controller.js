@@ -1,4 +1,4 @@
-app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $timeout, EmailFactory, EmailService){
+app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $timeout, EmailFactory, EmailService, FirebaseStorageFactory){
 
   $scope.events = allEvents;
 
@@ -57,6 +57,79 @@ app.controller("ManagementEmailCtrl", function($scope, attendees, allEvents, $ti
   $scope.removeUserFromList = function(user){
     EmailService.removeUserFromList(user);
   }
+
+  $scope.initiateUpload = function(event){
+
+  }
+
+  var handleUploadError = function(output){
+    $scope.displayOutput = output;
+    $timeout(function(){
+      $scope.displayUploadState = false;
+      $scope.displayOutput = "Uploading";
+      $scope.assetToUpload = null;
+      $scope.$apply();
+    }, 2000)
+  }
+
+
+  $scope.assetToUpload;
+
+  $scope.uploadProgress = 0;
+
+  $scope.emailAssets = [];
+  $scope.assetToUpload = null;
+
+  $scope.displayUploadState = false;
+  $scope.displayOutput = "Uploading...";
+
+  var finalSnap;
+
+  $scope.initiateUpload = function(event){
+    event.preventDefault(); FirebaseStorageFactory.uploadEmailAttachment($scope.assetToUpload)
+    .on("state_changed",
+      function(snapshot){
+        finalSnap = snapshot;
+        $timeout(function(){
+          $scope.displayUploadState = true;
+          $scope.$apply();
+        }, 1);
+
+        switch(snapshot.state){
+          case "paused":
+            $scope.displayOutput = "PAUSED"
+            break;
+          case "running":
+            $timeout(function(){
+              $scope.$apply()
+            },1);
+            break;
+        }
+
+      },
+      function(error){
+        switch(error.code){
+          case "storage/unauthorized":
+            handleUploadError("Sorry, you are not authorized to upload.")
+            break;
+          case "storage/canceled":
+            handleUploadError("Upload cancelled");
+            break;
+          case "storage/unknown":
+            handleUploadError("Sorry, a server error occured")
+            break;
+        }
+      },
+      function(){
+        /* Upload complete */
+        $scope.emailAssets.push({
+          downloadURL: finalSnap.downloadURL,
+          fileName: $scope.assetToUpload.name
+        })
+        handleUploadError("COMPLETE!")
+      })
+  }
+
 
   var init = function(){
     var selectedUsers = EmailService.getSelectedUsers();

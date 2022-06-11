@@ -22,7 +22,7 @@ app.factory('DatabaseFactory', function($firebaseAuth){
       if(route){
         return "https://stark-island-46136.herokuapp.com/api/" + route;
       } else {
-        return "https://stark-island-46136.herokuapp.com//api/"
+        return "https://stark-island-46136.herokuapp.com/api/"
       }
     }
   }
