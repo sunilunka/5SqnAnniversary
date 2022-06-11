@@ -12,6 +12,7 @@ coverage
 browser/js/credentials.js
 raw_media
 .firebaserc
+.firebase
 database.rules.json
 firebase.json
 **/*.swp
